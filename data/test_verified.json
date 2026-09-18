@@ -1,0 +1,383 @@
+[
+ {
+  "cand": {
+   "key": "t1",
+   "title": "Low-Latency Scheduling in MPTCP"
+  },
+  "match": {
+   "title": "Low-Latency Scheduling in MPTCP",
+   "year": 2019,
+   "venue": "IEEE/ACM Transactions on Networking",
+   "doi": "10.1109/tnet.2018.2884791",
+   "type": "journal-article",
+   "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+   "authors": [
+    "Per Hurtig",
+    "Karl-Johan Grinnemo",
+    "Anna Brunstrom",
+    "Simone Ferlin",
+    "Ozgu Alay",
+    "Nicolas Kuhn"
+   ],
+   "event": null
+  },
+  "score": 1.0,
+  "source": "crossref",
+  "alternatives": []
+ },
+ {
+  "cand": {
+   "key": "t2",
+   "title": "Experimental evaluation of multipath TCP schedulers"
+  },
+  "match": {
+   "title": "Experimental evaluation of multipath TCP schedulers",
+   "year": 2014,
+   "venue": "Proceedings of the 2014 ACM SIGCOMM workshop on Capacity sharing workshop",
+   "doi": "10.1145/2630088.2631977",
+   "type": "proceedings-article",
+   "publisher": "ACM",
+   "authors": [
+    "Christoph Paasch",
+    "Simone Ferlin",
+    "Ozgu Alay",
+    "Olivier Bonaventure"
+   ],
+   "event": "SIGCOMM'14: ACM SIGCOMM 2014 Conference"
+  },
+  "score": 1.0,
+  "source": "crossref",
+  "alternatives": []
+ },
+ {
+  "cand": {
+   "key": "t3",
+   "title": "Multipath QUIC: Design and Evaluation"
+  },
+  "match": {
+   "title": "Multipath QUIC",
+   "year": 2017,
+   "venue": "Proceedings of the 13th International Conference on emerging Networking EXperiments and Technologies",
+   "doi": "10.1145/3143361.3143370",
+   "type": "proceedings-article",
+   "publisher": "ACM",
+   "authors": [
+    "Quentin De Coninck",
+    "Olivier Bonaventure"
+   ],
+   "event": "CoNEXT '17: The 13th International Conference on emerging Networking EXperiments and Technologies"
+  },
+  "score": 0.549,
+  "source": "crossref",
+  "alternatives": []
+ },
+ {
+  "cand": {
+   "key": "t4",
+   "title": "The QUIC Transport Protocol: Design and Internet-Scale Deployment"
+  },
+  "match": {
+   "title": "The QUIC Transport Protocol",
+   "year": 2017,
+   "venue": "Proceedings of the Conference of the ACM Special Interest Group on Data Communication",
+   "doi": "10.1145/3098822.3098842",
+   "type": "proceedings-article",
+   "publisher": "ACM",
+   "authors": [
+    "Adam Langley",
+    "Alistair Riddoch",
+    "Alyssa Wilk",
+    "Antonio Vicente",
+    "Charles Krasic",
+    "Dan Zhang",
+    "Fan Yang",
+    "Fedor Kouranov",
+    "Ian Swett",
+    "Janardhan Iyengar",
+    "Jeff Bailey",
+    "Jeremy Dorfman"
+   ],
+   "event": "SIGCOMM '17: ACM SIGCOMM 2017 Conference"
+  },
+  "score": 0.587,
+  "source": "crossref",
+  "alternatives": []
+ },
+ {
+  "cand": {
+   "key": "t5",
+   "title": "ReLeS: A Neural Adaptive Multipath Scheduler based on Deep Reinforcement Learning"
+  },
+  "match": {
+   "title": "ReLeS: A Neural Adaptive Multipath Scheduler based on Deep Reinforcement Learning",
+   "year": 2019,
+   "venue": "IEEE INFOCOM 2019 - IEEE Conference on Computer Communications",
+   "doi": "10.1109/infocom.2019.8737649",
+   "type": "proceedings-article",
+   "publisher": "IEEE",
+   "authors": [
+    "Han Zhang",
+    "Wenzhong Li",
+    "Shaohua Gao",
+    "Xiaoliang Wang",
+    "Baoliu Ye"
+   ],
+   "event": "IEEE INFOCOM 2019 - IEEE Conference on Computer Communications"
+  },
+  "score": 1.0,
+  "source": "crossref",
+  "alternatives": []
+ },
+ {
+  "cand": {
+   "key": "t6",
+   "title": "DeepCC: Multi-Agent Deep Reinforcement Learning Congestion Control for Multi-Path TCP Based on Self-Attention"
+  },
+  "match": {
+   "title": "DeepCC: Multi-Agent Deep Reinforcement Learning Congestion Control for Multi-Path TCP Based on Self-Attention",
+   "year": 2021,
+   "venue": "IEEE Transactions on Network and Service Management",
+   "doi": "10.1109/tnsm.2021.3093302",
+   "type": "journal-article",
+   "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+   "authors": [
+    "Bo He",
+    "Jingyu Wang",
+    "Qi Qi",
+    "Haifeng Sun",
+    "Jianxin Liao",
+    "Chunning Du",
+    "Xiang Yang",
+    "Zhu Han"
+   ],
+   "event": null
+  },
+  "score": 1.0,
+  "source": "crossref",
+  "alternatives": []
+ },
+ {
+  "cand": {
+   "key": "t7",
+   "title": "Deep Reinforcement Learning for Dynamic Uplink/Downlink Resource Allocation in High Mobility 5G HetNet"
+  },
+  "match": {
+   "title": "Deep Reinforcement Learning for Dynamic Uplink/Downlink Resource Allocation in High Mobility 5G HetNet",
+   "year": 2020,
+   "venue": "IEEE Journal on Selected Areas in Communications",
+   "doi": "10.1109/jsac.2020.3005495",
+   "type": "journal-article",
+   "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+   "authors": [
+    "Fengxiao Tang",
+    "Yibo Zhou",
+    "Nei Kato"
+   ],
+   "event": null
+  },
+  "score": 1.0,
+  "source": "crossref",
+  "alternatives": []
+ },
+ {
+  "cand": {
+   "key": "t8",
+   "title": "Traffic Steering in Multi-Domain Networks"
+  },
+  "match": {
+   "title": "Dynamic traffic steering based on fuzzy Q-Learning approach in a multi-RAT multi-layer wireless network",
+   "year": 2014,
+   "venue": "Computer Networks",
+   "doi": "10.1016/j.comnet.2014.06.003",
+   "type": "journal-article",
+   "publisher": "Elsevier BV",
+   "authors": [
+    "P. Mu\u00f1oz",
+    "D. Laselva",
+    "R. Barco",
+    "P. Mogensen"
+   ],
+   "event": null
+  },
+  "score": 0.514,
+  "source": "crossref",
+  "alternatives": []
+ },
+ {
+  "cand": {
+   "key": "t9",
+   "title": "ColO-RAN: Developing Machine Learning-Based xApps for Open RAN Closed-Loop Control on Programmable Experimental Platforms"
+  },
+  "match": {
+   "title": "ColO-RAN: Developing Machine Learning-Based xApps for Open RAN Closed-Loop Control on Programmable Experimental Platforms",
+   "year": 2023,
+   "venue": "IEEE Transactions on Mobile Computing",
+   "doi": "10.1109/tmc.2022.3188013",
+   "type": "journal-article",
+   "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+   "authors": [
+    "Michele Polese",
+    "Leonardo Bonati",
+    "Salvatore D'Oro",
+    "Stefano Basagni",
+    "Tommaso Melodia"
+   ],
+   "event": null
+  },
+  "score": 1.0,
+  "source": "crossref",
+  "alternatives": []
+ },
+ {
+  "cand": {
+   "key": "t10",
+   "title": "NetConfEval: Can LLMs Facilitate Network Configuration?"
+  },
+  "match": {
+   "title": "NetConfEval: Can LLMs Facilitate Network Configuration?",
+   "year": 2024,
+   "venue": "Proceedings of the ACM on Networking",
+   "doi": "10.1145/3656296",
+   "type": "journal-article",
+   "publisher": "Association for Computing Machinery (ACM)",
+   "authors": [
+    "Changjie Wang",
+    "Mariano Scazzariello",
+    "Alireza Farshin",
+    "Simone Ferlin",
+    "Dejan Kosti\u0107",
+    "Marco Chiesa"
+   ],
+   "event": null
+  },
+  "score": 1.0,
+  "source": "crossref",
+  "alternatives": []
+ },
+ {
+  "cand": {
+   "key": "t11",
+   "title": "TelecomGPT: A Framework to Build Telecom-Specific Large Language Models"
+  },
+  "match": {
+   "title": "TelecomGPT: A Framework to Build Telecom-Specific Large Language Models",
+   "year": 2025,
+   "venue": "IEEE Transactions on Machine Learning in Communications and Networking",
+   "doi": "10.1109/tmlcn.2025.3593184",
+   "type": "journal-article",
+   "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+   "authors": [
+    "Hang Zou",
+    "Qiyang Zhao",
+    "Yu Tian",
+    "Lina Bariah",
+    "Faouzi Bader",
+    "Thierry Lestable",
+    "Merouane Debbah"
+   ],
+   "event": null
+  },
+  "score": 1.0,
+  "source": "crossref",
+  "alternatives": []
+ },
+ {
+  "cand": {
+   "key": "t12",
+   "title": "Large Language Models for Networking: Applications, Enabling Techniques, and Challenges"
+  },
+  "match": {
+   "title": "Large Language Models for Networking: Applications, Enabling Techniques, and Challenges",
+   "year": 2025,
+   "venue": "IEEE Network",
+   "doi": "10.1109/mnet.2024.3435752",
+   "type": "journal-article",
+   "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+   "authors": [
+    "Yudong Huang",
+    "Hongyang Du",
+    "Xinyuan Zhang",
+    "Dusit Niyato",
+    "Jiawen Kang",
+    "Zehui Xiong",
+    "Shuo Wang",
+    "Tao Huang"
+   ],
+   "event": null
+  },
+  "score": 1.0,
+  "source": "crossref",
+  "alternatives": []
+ },
+ {
+  "cand": {
+   "key": "t13",
+   "title": "Intent-Based Management of Next-Generation Networks: an LLM-Centric Approach"
+  },
+  "match": {
+   "title": "Intent-Based Management of Next-Generation Networks: an LLM-Centric Approach",
+   "year": 2024,
+   "venue": "IEEE Network",
+   "doi": "10.1109/mnet.2024.3420120",
+   "type": "journal-article",
+   "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+   "authors": [
+    "Abdelkader Mekrache",
+    "Adlen Ksentini",
+    "Christos Verikoukis"
+   ],
+   "event": null
+  },
+  "score": 1.0,
+  "source": "crossref",
+  "alternatives": []
+ },
+ {
+  "cand": {
+   "key": "t14",
+   "title": "RouteNet: Leveraging Graph Neural Networks for Network Modeling and Optimization in SDN"
+  },
+  "match": {
+   "title": "RouteNet: Leveraging Graph Neural Networks for Network Modeling and Optimization in SDN",
+   "year": 2020,
+   "venue": "IEEE Journal on Selected Areas in Communications",
+   "doi": "10.1109/jsac.2020.3000405",
+   "type": "journal-article",
+   "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+   "authors": [
+    "Krzysztof Rusek",
+    "Jose Suarez-Varela",
+    "Paul Almasan",
+    "Pere Barlet-Ros",
+    "Albert Cabellos-Aparicio"
+   ],
+   "event": null
+  },
+  "score": 1.0,
+  "source": "crossref",
+  "alternatives": []
+ },
+ {
+  "cand": {
+   "key": "t15",
+   "title": "Scaling UPF Instances in 5G/6G Core With Deep Reinforcement Learning"
+  },
+  "match": {
+   "title": "Scaling UPF Instances in 5G/6G Core With Deep Reinforcement Learning",
+   "year": 2021,
+   "venue": "IEEE Access",
+   "doi": "10.1109/access.2021.3135315",
+   "type": "journal-article",
+   "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+   "authors": [
+    "Hai T. Nguyen",
+    "Tien Van Do",
+    "Csaba Rotter"
+   ],
+   "event": null
+  },
+  "score": 1.0,
+  "source": "crossref",
+  "alternatives": []
+ }
+]

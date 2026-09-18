@@ -1,0 +1,7 @@
+ITBench Evaluating AI Agents across Diverse Real-World IT Automation Tasks
+NetArena Dynamic Benchmarks for AI Agents in Network Automation
+FaulT-Bench Towards Benchmarking Network Troubleshooting LLM Agents under Unreliable User Tickets
+WirelessOpsAgent A Benchmark and Agent Design for Action Assurance in Wireless Networks
+IBNBench Intent-Based SDN Automation benchmarking LLM
+Benchmarking AI Agents for IT Automation Tasks with ITBench
+AIOpsLab Enabling Holistic Evaluation of AIOps Agents root cause

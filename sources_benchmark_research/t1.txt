@@ -1,0 +1,9 @@
+TeleQnA A Benchmark Dataset to Assess Large Language Models Telecommunications Knowledge
+Tele-LLMs A Series of Specialized Large Language Models for Telecommunications
+TelecomGPT A Framework to Build Telecom-Specific Large Language Models
+Mobile-LLaMA Instruction Fine-Tuning Open-Source LLM for Network Analysis in 5G Networks
+TSpec-LLM An Open-source Dataset for LLM Understanding of 3GPP Specifications
+ORAN-Bench-13K An Open Source Benchmark for Assessing LLMs in Open Radio Access Networks
+PeeringLLM-Bench Evaluating LLMs for BGP Configuration Tasks
+SADE Symptom-Aware Diagnostic Escalation for LLM-Based Network Troubleshooting
+ConfAgent Towards Intelligent Network Configuration Via LLM Agent

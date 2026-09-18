@@ -1,0 +1,1064 @@
+ 
+ [2407.09424] TelecomGPT: A Framework to Build Telecom-Specfic Large Language Models 
+ TelecomGPT: A Framework to Build Telecom-Specfic Large Language Models 
+ Hang Zou
+ Affiliation:  Technology Innovation Institute, 9639 Masdar City, Abu Dhabi, UAE 
+ Qiyang Zhao
+ Affiliation:  Technology Innovation Institute, 9639 Masdar City, Abu Dhabi, UAE 
+ Yu Tian
+ Affiliation:  Technology Innovation Institute, 9639 Masdar City, Abu Dhabi, UAE 
+ Lina Bariah
+ Affiliation:  Khalifa University, Abu Dhabi 127788, UAE
+ Faouzi Bader
+ Affiliation:  Technology Innovation Institute, 9639 Masdar City, Abu Dhabi, UAE 
+ Thierry Lestable
+ Affiliation:  Technology Innovation Institute, 9639 Masdar City, Abu Dhabi, UAE 
+ Merouane Debbah
+ Affiliation:  Technology Innovation Institute, 9639 Masdar City, Abu Dhabi, UAE 
+ Affiliation:  Khalifa University, Abu Dhabi 127788, UAE
+ Abstract 
+ llm ( llm ) have the potential to revolutionize the 6g ( 6g ) communication networks. However, current mainstream llm generally lack the specialized knowledge in telecom domain. In this paper, for the first time, we propose a pipeline to adapt any general purpose llm to a telecom-specific llm . We collect and build telecom-specific pre-train dataset, instruction dataset, preference dataset to perform continual pre-training, instruct tuning and alignment tuning respectively. Besides, due to the lack of widely accepted evaluation benchmarks in telecom domain, we extend existing evaluation benchmarks and proposed three new benchmarks, namely, Telecom Math Modeling, Telecom Open QnA and Telecom Code Tasks. These new benchmarks provide a holistic evaluation of the capabilities of llm including math modeling, Open-Ended question answering, code generation, infilling, summarization and analysis in telecom domain. Our fine-tuned llm TelecomGPT outperforms sota ( sota ) llm including GPT-4, Llama-3 and Mistral in Telecom Math Modeling benchmark significantly and achieve comparable performance in various evaluation benchmarks such as TeleQnA, 3GPP technical documents classification, telecom code summary and generation and infilling. 
+ Index Terms:  Generative AI, Large Language Models, 3GPP, Telecom Foundation Models
+ I Introduction 
+ Recent advances of llm ( llm ) have attracted significant attention across different domains including telecommunications community. llm , such as GPT-4 [ 1 ] , the Llama series [ 2 , 3 , 4 ] , the Mistral series [ 5 , 6 ] , and the Falcon series [ 7 ] , have demonstrated remarkable capabilities in both natural language understanding and generation tasks. These llm have the potential to revolutionize the 6G communication systems. Unlike conventional dl ( dl ) techniques which are already widely applied in telecom domain, llm offer enhanced generalization capabilities and the emerging abilities, making them suitable tools for applications such as rrm ( rrm ) in oran ( oran ). Additionally, LLMs can facilitate more sophisticated and adaptive communication protocols, thereby enhancing the efficiency and resilience of telecom networks. 
+ However, integrating mainstream llm into current telecom systems presents various challenges. Firstly, mainstream llm possess a large model size, hindering their direct deployment in wireless networks. Model compression techniques such as LLM-QAT [ 8 ] , one bit quantization in BitNet [ 9 ] makes it possible to deploy mainstream llm on edge devices, e.g., mobile phones. Second, the long inference time of llm is unbearable to meet the requirement of urllc ( urllc ) in beyond 5G networks. Taking the example of v2x ( v2x ) communication networks, it would be impossible for autonomous vehicles to wait for the generation completion of llm when taking crucial decision or transmitting important information to surrounding vehicles. Inference acceleration techniques and architectures on both system level and algorithm level [ 10 ] e.g., KV caching [ 11 ] , FlashAttention [ 12 ] and moe ( moe ) [ 13 ] could largely increase the throughput of llm (tokens per second) to alleviate this issue. Finally, even physical challenges such as insufficient memory and low high latency are mitigated by the combination of various techniques, it remains a fundamental difficulty for llm to accomplish telecom-specific tasks in wireless networks due to a general lack of knowledge in telecom domain. Therefore, it would be natural to anticipate the existence of telecom-specialized or telecom-specfic llm , which is exactly the core problem this paper tries to tackle with. Before diving into the technical details of our proposed methods, we briefly review the recent advances including domain-specific llm , applications of llm in telecom and the the challenge of building telecom-specific llm . 
+ I-A Related Works 
+ Domain-Specific llm : Although general-purpose llm demonstrate considerable capabilities in various tasks, their performance degenerates seriously for tasks which necessitates domain-specific knowledge, e.g., math, finance and Telecom. Therefore, domain-specification will be mandatory to enhance llm ’s performance in these domains. For instance, BloombergGPT [ 14 ] is the first financial llm which is pre-trained on massive mixed data of financial and general corpora. Due to the high cost of pre-training llm from the scratch, FinGPT was proposed by fine-tuning general-purpose llm on 34 online curated data sources and through rag ( rag ) [ 15 , 16 , 17 , 18 , 19 ] . To enhance math problem solving capabilities of llm , rleif ( rleif ) is proposed in [ 20 ] to train WizardMath which outperforms various general purpose llm and math-specialized llm in GSM8k [ 21 ] and MATH [ 22 ] . Other examples of domain-specific llm include MedPalM2 in medical domian, ChatLaw [ 23 ] and SaulLM [ 24 ] in legal domain, and Code Llama [ 25 ] in code generations. For more details of domain-specific llm such as training dataset and training methods, see examples in Table I . 
+ llm 
+ Domain 
+ Data 
+ Training Method 
+ MedPaLM2 [ 26 ] 
+ Medical 
+ Multiple Med QnA Datasets 
+ sft ( sft ) 
+ ChemLLM [ 27 ] 
+ Chemistry 
+ Scientific Publications 
+ Two-stage sft 
+ BloombergGPT [ 28 ] 
+ Finance 
+ Financial + General 
+ Pre-training 
+ FinGPT [ 15 , 16 , 17 , 18 , 19 , 29 ] 
+ Finance 
+ Financial 
+ sft + rag 
+ Xuanyuan [ 30 ] 
+ Finance 
+ Finance + General 
+ Continue Pretrain + Hybird Tuning 
+ BioGPT [ 31 ] 
+ Biology 
+ PubMed 
+ Pre-training 
+ BioMistral [ 32 ] 
+ Biology 
+ PMC Open Access Subset 
+ Continue Pretrain + sft 
+ ChatLaw [ 23 ] 
+ Legal 
+ Chinese Legal Documents 
+ sft + rag 
+ SaulLM [ 24 ] 
+ Legal 
+ Legal Documents 
+ Continue Pretrain + sft 
+ Galactica [ 33 ] 
+ Science 
+ Scientific Documents 
+ Prompt Pre-training 
+ Mozi [ 34 ] 
+ Science 
+ RedPajama [ 35 ] Arxiv 
+ sft + RAG 
+ Llema [ 36 ] 
+ Math 
+ Proof-Pile-2 
+ Continue Pretrain 
+ WizardMath [ 20 ] 
+ Math 
+ GSM8k [ 21 ] + MATH [ 22 ] 
+ sft + RLEIF [ 20 ] 
+ DeepSeek Math [ 37 ] 
+ Math 
+ DeepSeek Math Corpus 
+ Continue Pretrain + sft + RLHF 
+ StarCoder 2 [ 38 ] 
+ Code 
+ The Stack 2 [ 38 ] 
+ fim ( fim ) [ 39 ] 
+ Code Llama [ 25 ] 
+ Code 
+ Proprietary 
+ Continue Pretrain + FIM + SFT 
+ Codestral [ 40 ] 
+ Code 
+ Proprietary 
+ Pre-training 
+ TelecomGPT 
+ Telecom 
+ Public Telecom Documents 
+ Continue Pretrain + SFT + DPO [ 41 ] 
+ TABLE I : Domain Specific LLMs: domains, data or datasets and training methods. 
+ llm in Telecom :
+ llm has gathered a lot of attentions in telecom domain recently. It is not surprising that llm can perform nlp ( nlp ) tasks such as fault analysis [ 42 ] and tdoc ( tdoc ) classifications [ 43 ] within the context of telecom. In [ 44 ] , it is shown that two distinct nodes interact seamlessly for enhanced network optimization, demonstrating the potential of llm in varied telecom-relevant scenarios. Other examples of applying general purposed llm to use cases such as generating network configuration [ 45 , 46 ] and assisting FPGA-based wireless hardware development [ 47 ] showcase the versatility of llm in tackling domain-specific tasks within the telecommunications sector. Apart from existing applications, llm are envisioned to be key enabling techniques such as semantic communications [ 48 , 49 , 50 ] , intent-driven networks and self-evolving networks [ 51 ] . In [ 52 ] , llm can be effectively deployed in end user and vicinity thorough edge training and edge inference.
+ rag is used in [ 53 ] to align the math and reasoning capabilities of multi-modal llm to wireless system design. A semantic-native llm -based network is proposed in [ 54 ] , where Telecom agents use llm to extract semantic information from raw data (observations), learn reasoning path towards decisions (responses), distillate knowledge from memory and exchange in a network to reduce the overall energy consumption of the system. These early explorations demonstrate an obvious paradigm shift compared to conventional dnn ( dnn ) approaches. 
+ Challenges of building Telecom-specific llm : Despite the promising benefits of deploying llm in a centralized or decentralized manner in different networks, mainstream llm lack seriously knowledge and know how of telecom domain. Practical telecom networks operates in protocols and standards in pre-defined in sdo ( sdo ) such as 3gpp ( 3gpp ), ieee ( ieee ) and itu ( itu ). However, sota models such as GPT-4 fails almost half part of the specification-related problem in TeleQnA [ 55 ] , hindering the potential deployment in networks. Therefore, it is crucial to enhance current llm telecom knowledge in all aspects to be integrated into current networks seamlessly. To achive this taraget, there are (not limited to) several main challenges to build a Telecom-specific llm : 
+ • 
+ Missing of Telecom text datasets: despite various amount of textual documents available in telecom domain, there are almost no open-source dataset available for pre-training or fine-tuning a telecom-specific llm . 
+ • 
+ Technical documents dominance: tdoc , specifications and research papers written in a professional manner dominates the overall text files, making the training of llm challenging. 
+ • 
+ Multi-modality contents: important concepts, scenarios and methods are usually explained and represented in different formats, e.g., figures, tables in standards and patents. 
+ • 
+ Frequent knowledge updating: regular release announcement from sdo ( sdo ) and the rapid advancement of research publications make it difficult for llm , with their high training cost and long training time, to be updated in a timely manner. 
+ Therefore, instead of pre-training a Telecom llm from scratch which is expensive and unprepared for the time being, it would be efficient and reasonable to consider adapting general-purpose llm to telecom domain under acceptable cost and training time, which is exactly the target of this paper. 
+ I-B Contributions 
+ Our main contributions are summarized as follows: 
+ • 
+ We collect and build a telecom-specific pre-training dataset to build a telecom-specific llm . 
+ • 
+ We construct a high quality telecom-specific instruction dataset with instructions for diverse tasks in telecom domain. 
+ • 
+ We propose effective benchmarks to evaluate crucial capabilities of llm such as such as knowledge query, math modeling, tdoc classification, code generation and analysis in telecom context. 
+ • 
+ We propose a pipeline to adapt a general purpose llm to a telecom-specific llm which consists of continual pretraining, instruction tuning and alignment tuning within the context of telecom. 
+ • 
+ We train a telecom-specific llm which can be used for multiple downstream tasks in telecom domain. 
+ The remaining of the paper is organized as follows. Firstly the methodology of adapting a general purpose llm to a telecom-specific llm is detailed in Sec. II . In Sec. III , we present our pipeline of building datasets for different stages of training. After that, we present the evaluation benchmarks to evaluate the key capabilities of an llm for telecom-relevant tasks in Sec. IV . Then, our training setting and the main results obtained are in Sec. V and Sec. VI . Finally, we conclude the paper in Sec. VII . 
+ II Methodology 
+ Our method of building telecom-specific llm consists of three standard stages, namely, domain specific continual pre-training, instruction tuning and alignment tuning. 
+ II-A Telecom-Specific Continual Pre-training 
+ Different from pre-training from the scratch for domain-specific llm such as BloombergGPT for finance and Galactica [ 33 ] for scientific domain, continual pre-training [ 56 , 57 ] offers an alternative approach in contrast which requires considerably less cost to specialize general-purpose llm , e.g., Code Llama [ 25 ] Deepseek Math [ 37 ] and SaulLM [ 24 ] . Similar to pre-training stage, the training objective is the causal language modeling, i.e., predicting the next token conditioned on previous tokens. Denote x = ( x 1 , … , x T ) x=\left(x_{1},\dots,x_{T}\right) a sequence of tokens representing a text input and θ \theta the parameter of an llm , the causal language modeling task is to minimize the negative log-likelihood loss expressed as: 
+ ℒ ( x , θ ) = − ∑ t = 1 T log ℙ ( x t | x < t ) , \mathcal{L}\left(x,\theta\right)=-\sum_{t=1}^{T}\log\mathds{P}\left(x_{t}\middle|x_{<t}\right), 
+ (1) 
+ where x < t x_{<t} denotes the token sequence before token x t x_{t} . 
+ II-B Telecom-Specific Instruct Tuning 
+ During (domain-specific) pre-training, llm learn and acquire general knowledge but might not not excel in user interactions. Therefore, pre-trained llm should be further instruct tuned to follow instructions to interact with users and other llm through sft ( sft ). With instruct tuning, llm are capable to follow instructions even for unseen tasks without explicit examples. Instruct tuned llm generally have better performance in zero-shot or few-shot scenarios and fewer refusals when responding to users’ requests. For a given instruction dataset consisting of multiple instruction-response pairs: I = { x ( i ) , y ( i ) } i = 1 N \mathrm{I}=\left\{x^{(i)},y^{(i)}\right\}_{i=1}^{N} with instruction x ( i ) x^{(i)} and corresponding response y ( i ) y^{(i)} , the training objective is to minimize the negative log-likelihood of a response conditioned on its instruction: 
+ ℒ ( y ( i ) , θ ) = − ∑ t = 1 | y ( i ) | log ℙ ( y t ( i ) | y < t ( i ) , x ( i ) ) \mathcal{L}\left(y^{(i)},\theta\right)=-\sum^{|y^{(i)}|}_{t=1}\log\mathds{P}\left(y^{(i)}_{t}\middle|y^{(i)}_{<t},x^{(i)}\right) 
+ (2) 
+ II-C Telecom-Specific Alignment Tuning 
+ After supervised fine-tuning of pre-trained llm , then we need to further align the model with human preference. rlhf ( rlhf ) is proposed in InstructGPT to improve the helpfulness of llm [ 58 ] . However, RLHF requires preference data collected from human labeler and building reward model which is both costly and unstable during the reinforcement learning due to the existence of kl ( kl ) divergence in the training objective and discrete nature of language generation. Instead, dpo ( dpo ) [ 41 ] is proposed to mitigate the difficulty in rlhf . Instead of constructing an explicit reward function, a Bradley-Terry model [ 59 ] is applied to reparameterize the reward so that the probability of preference of the ground truth and the generated answer is independent of the reward model, significantly simplying the training procedure. For dpo , only a simple binary preference dataset consisting of pairs of chosen and rejected samples, is required. The objective of dpo is formulated as: 
+ ℒ DPO ​ ( π θ , π ref ) \displaystyle\mathcal{L}_{\text{DPO}}(\pi_{\theta};\pi_{\text{ref}}) 
+ = \displaystyle= 
+ − 𝔼 ( x , y w , y l ) ​ [ log ⁡ σ ⁡ ( β ​ log ⁡ π θ ​ ( y w | x ) π ref ​ ( y w | x ) − β ​ log ⁡ π θ ​ ( y l | x ) π ref ​ ( y l | x ) ) ] , \displaystyle-\mathbb{E}_{(x,y_{w},y_{l})}\Bigg[\log\sigma\Bigg(\beta\log\frac{\pi_{\theta}(y_{w}|x)}{\pi_{\text{ref}}(y_{w}|x)}-\beta\log\frac{\pi_{\theta}(y_{l}|x)}{\pi_{\text{ref}}(y_{l}|x)}\Bigg)\Bigg], 
+ (3) 
+ where ( x , y w , y l ) (x,y_{w},y_{l}) denotes a preference pair, with x x being the prompt. In this pair, y w y_{w} is the response preferred by the human labeler or LLM judge, and y l y_{l} is the less preferred response; β \beta is a parameter controlling the deviation from the base reference policy π ref \pi_{\text{ref}} ; σ ⁡ ( ⋅ ) \sigma\left(\cdot\right) stands for the logistic function. We select the reference model π ref \pi_{\text{ref}} as the sft model we obtained in previous stage. 
+ Fig. 1 : The training pipeline of our TelecomGPT framework. The full pipeline consist of three training stage, namely, continual pretraining on telecom domain, instruct tuning ( sft ) and alignment tuning. 
+ III Dataset 
+ Following our training method, we need to build three datasets, namely the pre-training dataset for continual pre-training, the instruction dataset for instruction tuning and the preference dataset for alignment tuning. 
+ III-A Pre-training Dataset - OpenTelecom 
+ The pre-training dataset is collected mainly from web, which includes Telecom standards, research papers, books, patents, qa , wiki, and codes, as detailed in Table II . We developed the following two preprocessing pipelines according to the source of these data. 
+ Telecom Standards :
+ 3gpp is the main sdo in the area of Telecommunication. The universal standards for 3G, 4G and 5G have been developed by 3gpp since 1999. 3gpp works with tdoc contributed by companies during the development phase and produces technical specifications as a final output. The specification work is carried out in Technical Specification Groups (TSGs). There are three Technical Specifications Groups: ran ( ran ), sa ( sa ), and ct ( ct ). Each TSG consists of multiple wg focused on specific areas, ranging from radio access network specifications, core network specifications, service requirements and specifications, and architecture and protocols for mobile communication systems, to qos ( qos ) and performance requirements, security and privacy in mobile communication systems, interoperability and compatibility requirements, network management and operation, and testing and certification procedures. We scrap the technical specifications, reports, and documents from release 8 to 19 on 3GPP FTP site. IEEE is another important sdo developing popular Telecom standards, such as WiFi and Ethernet. We scrap the standard documents of IEEE 802.11, 802.3, 802.15, and C95.1 series from IEEE Get program. 
+ We utilize similar methods in [ 43 ] to preprocess the raw standard documents, including: 1) Parse the HTML tags in the text and return the text content without any HTML tags using BeautifulSoup ; 2) Remove any URLs (web links) from the text: identify the regex pattern that matches URLs starting with either ”http” or ”https” and may include alphanumeric characters, special characters, and encoded characters. 3) Remove tables from the parsed HTML document using BeautifulSoup . 4) Divide each document into multiple text segments with different number of words extracted from natural language toolkit (NLTK). This allows us to evaluate the model’s capability of understanding technical descriptions in different lengths. 5) Remove headers, footers, captions, and pseudo codes. Also, we eliminate the references section and all the text afterward. 6) Remove cr , drafts, templates due to their limited technical information. 
+ Telecom Content Filtering from General Dataset : Despite the fact that no open-sourced telecom-specific pre-training dataset exists, there are gigantic amount of telecom content in general purpose pre-training dataset such as C4 [ 60 ] , RefinedWeb [ 61 ] and Redpajama [ 35 ] . We select Rejama-1T to demonstrate how to filter telecom-relevant content from general dataset to take advantage of its categorical structure and also due to our hardware limits. RedPajama-1T is an open pre-training dataset consisting 7 subsets: Commoncrawl, C4, Github, Books, Arxiv, Wikipedia and StackExchange. The entire dataset contains 1.2 1.2 billion text tokens. In order to filter all telecom-relevant contents from open dataset, there are two steps in our framework: keyword filtering and deduplication. 
+ To select Telecom-specific data from a general-purpose dataset, we collect and select a non-exhaustive 700 700 keywords from telecom textbook, section of definitions and abbreviations from open 3GPP technical specifications and etc. We propose 6 criteria for selecting a keyword so that it can effectively help us to filter telecom-specific content: 
+ • 
+ Domain Specificity: Keywords are closely associated with the telecommunications industry and theory. Positive Examples: “5G”, “VoIP”, “MIMO” and “LTE Advanced”; Negative Examples: “Network”, “Service” and “Platform”. 
+ • 
+ Frequency in Telecom Discourse: Keywords frequently appearing in telecom discussions and publications. Positive Examples: “Broadband”, “LTE”, “Roaming” and “Signal strength”; Negative Examples: “Connection”, “Speed” and “Improvement”. 
+ • 
+ Distinctiveness within Telecom: Keywords uniquely identifying telecom technologies or services. Positive Examples: “Spectrum allocation”, “Fiber optic”, “Beamforming”, “Cellular handoff”; Negative Examples: “Data transmission”, “Wireless”, “Communication system” 
+ • 
+ Authority and Standards: Keywords from telecom standards and regulatory documents. Positive Examples: “3GPP”, “IEEE 802.11”, “ITU-T”, “E.164”; Negative Examples: “Software update”, “User interface design” 
+ • 
+ Timeliness and Emerging Technologies: Keywords reflecting the latest advancements in telecom. Positive Examples: “Network slicing”, “Semantic communication”, “Quantum cryptography”, ”5G NR (New Radio)”; Negative Examples: Technologies no longer at the forefront like “2G”, “PSTN”, “ISDN”. 
+ • 
+ Clarity and Avoidance of Ambiguity: Avoid vague or broadly used terms. Positive Examples: “VoLTE”, “Wi-Fi 6”, “SD-WAN”, “IPv6 adoption”; Negative Examples: Broad or ambiguous terms like “Transformation”, “Efficiency”, “Fourier Transform”, “Convex Optimization”. 
+ Most keywords in our keyword list satisfy more than 4 criteria out of 6. Both the keywords and their abbreviations is included in the keywords list. However, to avoid introducing irrelevant content due to the potential polysemy of abbreviations, we test our keyword list on a small portion of the entire dataset, and remove those abbreviations frequently introducing noise, e.g., DL (deep learning v.s. downlink) and SAP (Service Access Point v.s. Systems Applications and Products). For each data sample, we introduce two quantities to evaluate its relevance to telecom domain: number of telecom keywords (same keyword will only be counted once) and telecom keyword density. The density for a text of N N words with a total number of M M telecom keywords matches is M / log ⁡ ( N + 1 ) M/\log(N+1) . The reason for using the logarithm of the number of total words rather itself is to compensate those long documents. For example, a long text of 1000 words with 30 telecom keywords would be considered to be less relevant to telecom compare to a short text of only 100 words with only 1 telecom keyword which is an absurd. Besides, the number of total keywords is also an effective metric to avoid obtain false positive data samples in the final dataset. 
+ Deduplication refers to the process of removing redundant or repeated contents in a dataset. Deduplication is crucial for improving efficiency of pre-training [ 62 ] and for mitigating diversity decreasing [ 63 ] .
+For telecom-specific llm , this process is unavoidable since most standards or protocols are generally approved by multiple sdo ( sdo ), e.g., technical specification of 3gpp and esti ( esti ). Moreover, multiple releases of some topics introduces redundant contents naturally. For the sake of simplicity, we directly apply existing deduplication tool in xorbits [ 64 ] . 
+ Category 
+ Training 
+ Validation 
+ Percentage (%) 
+ 3GPP Standard 
+ 193 
+ 1.9 
+ 11.49 
+ IEEE Standard 
+ 7.5 
+ 0.07 
+ 0.45 
+ Paper (arxiv) 
+ 893 
+ 9 
+ 53.17 
+ Books 
+ 1.9 
+ 0.02 
+ 0.11 
+ Patent (C4) 
+ 253.2 
+ 2.6 
+ 15.08 
+ StackExchange 
+ 51.9 
+ 0.5 
+ 3.09 
+ Wikipedia 
+ 18.9 
+ 0.2 
+ 1.13 
+ Code (Github) 
+ 260.1 
+ 2.6 
+ 15.49 
+ Total 
+ 1679.5 
+ 16.89 
+ — 
+ TABLE II : OpenTelecom dataset for Continual Pre-training (in million tokens) 
+ III-B Instruct Tuning Dataset - TelecomInstruct 
+ To build an effective instruction dataset, it is widely shown that the diversity of different tasks in the dataset is more important than the number of instructions of same type. Our instruction dataset, referred as Telecom Instruct in what follows consists of different critical tasks in telecom domain: 
+ • 
+ mcq ( mcq ) Answering : Select all correct answers from a mcq . 
+ • 
+ Open-ended Question Answering : Answer telecom-relevant question from standards, research papers or patents in an open-ended manner. 
+ • 
+ Technical documents classification : Classify text from different Tdocs into the related working group as documented in the library of sdo . 
+ • 
+ Math Modeling : Generate accurate math equation such as channel models for given text description of system model and problem formulation in the context of telecom with predefined notations. 
+ • 
+ Code Generation : Generate script/function for a given task/functionality in telecom domain such as sending signal indicator and extracting MAC address from a frame. 
+ • 
+ Code Infilling : Infill incomplete script based on the context and the targeted functionality. This task is also known as fim ( fim ) [ 39 ] task which is beneficial for developers or researchers to improve efficiency when generating telecom-relevant scripts. 
+ • 
+ Code Summary : Summarize the core functionality of a given script, including identifying if the script is telecom-relevant or not. 
+ • 
+ Code Analysis : Detail the operational logic behind the function, emphasizing the knowledge and principles in telecom domain. 
+ • 
+ General Instruction : Explain concepts, describe specifications, identify problems, propose solutions, summarize content in Telecom standards, patents, and papers. 
+ • 
+ Protocol Instruction : Generate the protocol workflows in Telecom standard following a human prompt. 
+ Instructions such as tdoc classification, math modeling and code infilling can be easily built for raw text, papers and codes. For the remaining tasks, we utilize large sota models, i.e., GPT3.5 or GPT4 to generate instructions with well-designed prompts, plus expert filtering and validation. The details of how these instructions are generated will be demonstrated and explained in Sec. IV for following the same methodology as building corresponding benchmarks. 
+ III-C Alignment Tuning Dataset - TelecomAlign 
+ After sft on our telecom instruction dataset, we found that the SFT models have learned how to perform telecom-relevant tasks in general. However, we can still observe undesired response such as repeated generation, too short response and telecom-irrelevant content generation. Rather than collecting real human preference data which is costly and inefficient, we simply define our preference as to provide concise and accurate answer with minimum amount of information unless requested especially . Such preference is reasonable to reduce the latency introduced in a llm -based communication system and aligns with concepts such as semantic communication in a naive sense. Other response preferences are also possible. Here we just demonstrate how to align llm ’s response with human preference for telecom-relevant tasks. Besides, such preference can be easily measured by comparing metrics like Rouge scores and length of the ground truth and llm ’ response. Therefore, our preference dataset is obtained by selecting instructions with low performance metrics. Pre-trained llm can be utilized to select preferred response when provided with clear preference description. 
+ IV Evaluation Benchmarks 
+ After continual pre-training, instruct and alignment tuning, a general purpose llm is adapted to telecom domain. We would like to evaluate the performance of obtained telecom-specific llm in some critical tasks in telecom domain including both the academic and industrial applications. Unfortunately, there are few telecom-specific evaluation benchmarks available, e.g., TeleQnA [ 55 ] . Moreover, we believe that an llm with extremely high accuracy in mcq alone might not meet the requirements of practical applications such as the tasks we mentioned in the instruct tuning phase. Therefore, it would be mandatory to construct reasonable benchmarks to evaluate the capabilities of a telecom-specific llm in various downstream tasks. 
+ IV-A Telecom Question Answering 
+ Multiple-Choice qa : Based on the pipeline of creating TeleQnA dataset, we utilize GPT-4 to generate the questions. We first clean the raw telecom-relevant texts such as ArXiv paper, Wikipedia pages, patents and textbooks by removing the references in case that the generated questions are related to any specific literature. After that we use two llm agents to automate the generation process. The cleaned text is given to the first GPT-4 agent with the prompt illustrated in Fig. 2 . After that, we feed the original text and the generated question into the second GPT-3.5 agent to validate the correctness of the generated question. If a correct answer is obtained, we will keep the question-answer pair, otherwise it is removed. Finally, we conduct human validation to ensure the correctness of generated question-answer pairs. 
+ Open-ended qa : We utilize the same method to create an evaluation dataset of non-contextual qa , where all options are removed. In this benchmark, an llm generates open-ended answer to a question, which is evaluated over the ground-truth answer using Rouge scores. It makes the evaluation close to the real qa use cases. The dataset is also used to align llm with Telecom preferred responses during instruct and alignment tuning. 
+ Prompt Template for Telecom Question Answering   
+ Instruction: Please create several multiple-choice questions based on the provided texts. These created questions must be generated in this form: 
+ • 
+ Question: XXXX 
+ • 
+ Option 1: XXXX 
+ • 
+ Option 2: XXXX 
+ • 
+ … 
+ • 
+ Answer: Option X 
+ • 
+ Explanation: explain why the correct answer is Option X. 
+ These questions should not refer to any equation. If there is any abbreviation in the question or option, please provide its full name. The “Answer” must be in the format of “Option X”. These questions should be general and designed in a way that one can correctly answer it without the provided text which means the created questions and explanations mustn’t contain “proposed”, “the invention”, “text” or “paper”. 
+ TEXT :
+ { text } \left\{\text{text}\right\} 
+ Fig. 2 : Prompt template for creating mcq . Clear instructions are given to llm to avoid references. 
+ IV-B Telecom Standard Documents Classification 
+ One key capability of a telecom-specific llm is to understand and manage technical documents. There are three aspects why such knowledge is vital. Firstly, when envisaging an llm (agent) acting as a decision maker for the network management, it is mandatory for an llm to understand understand the specific scenario it is facing within the established standards and protocols. Second, the knowledge of the valid range of an action is essential. For example, the uplink transmit power control (TPC) command filed with reference to certain accumulated and absolute power tuning as defined in 3GPP TS38.213. Lastly, the knowledge of standards and protocols allows an llm to predict the impact of its action and the reaction of other entities. In summary it is difficult for any llm to operate in practical networks if a deep and accurate understanding of the technical documents is missing. To evaluate these capabilities, a simple but efficient way to evaluate the basic knowledge of llm is to first identify the relevance of any text to a given tdoc . Therefore we follow the same methodology in our previous work [ 43 ] to classify a random text extracted from a tdoc into one unique working group of 3gpp : CT1, CT3, CT4, CT6, RAN1, RAN2, RAN3, RAN4, RAN5, SA1, SA2, SA3, SA4, SA5 and SA6. No context information will be further provided to llm . Despite the extreme simplicity of this task, as we will show later in numerical results, it is difficult for most mainstream general purpose llm to predict accurately working group in zero-shot setting. 
+ IV-C Telecom Math Modeling 
+ To undertake a telecom-related task, a critical capability for a telecom-specific llm is to accurately model the pertinent environment or problem using telecom terminology and to formulate the task as rigorously defined problems expressed through precise mathematical equations. Requesting an llm to perform system modeling and problem formulation requires both in-depth telecom knowledge and factual reasoning capability. Therefore, we believe a benchmark capable of evaluating the math modeling capabilities of llm within the context of telecom provides an indispensable perspective to a comprehensive evaluation of a telecom-specific llm . Nevertheless, due to the flexibility of modeling (considering the myriad potential assumptions and extensive variety of existing models in the literature), it is challenging to directly evaluate the effectiveness of a system model or the problem formulation generated by llm . Hence, building a simple-but-effective benchmark is crucial to evaluate the problem modeling and formulation capabilities of an llm . 
+ Therefore, we propose the following masked equations infilling task for llm : for a research paper or any technical document, we first extract those paragraphs relevant to the system modeling and problem formulation. Then we mask some crucial equations for the modeling and problem formulation process, e.g., system model, channel model, coding and decoding schemes. This type of masked language modeling task is widely used for language understanding task, e.g., in BERT [ 65 ] and its variants and has been proven to be useful while equations are masked entirely here. A masked equation will be replaced by a special placeholder < MASK > <\text{MASK}> to indicate that there is a missing equation. In the meantime, due to the uncountable possibilities of different notations, we try to avoid mask those equations related to definitions, referring other documents (typically defined inline). Finally, an llm will be asked to recover these equations and the predicted equation would be compared to the ground-truth to obtain a score based on the quality of prediction. To further simplify the task, an LLM is merely asked to predict one equation at a time. The context, along with the ground-truth equations (rather than the predicted equations from previous rounds), is provided before the equation to be predicted. 
+ Prompt Template for Telecom Code Generation   
+ Instruction: As a distinguished expert in telecommunications software, you are skilled in developing and optimizing programs within the telecom domain, using languages like C++, C, Python, and Matlab. When provided with a script or function, your task is to craft a concise yet comprehensive request that can guide the generation of the script, if it is telecom-relevant. Refer to the examples provided below and tailor your request accordingly: 
+ • 
+ Example 1: Write a Python function to convert an IPv6 address from string format to an integer. 
+ • 
+ Example 2: Develop a C function that updates the decrypt status flag based on the decryption result for a received 802.11 frame. 
+ Your request should satisfy the following requirements: 
+ • 
+ Clearly identify the programming language of the script; 
+ • 
+ Describe the script’s functionality in telecom domain. 
+ • 
+ If necessary, describe the scenario or environment where the script operates. 
+ Should the script is telecom-relevant, please respond with “response”: “content of your request”. If the script lacks strong relevance to telecommunications or seems to be an incomplete function, your response should be “response”: “irrelevant”. Please ensure your request directly pertains to the script’s utility in the telecom sector, omitting any unnecessary details or commentary. 
+ SCRIPT :
+ { script } \left\{\text{script}\right\} 
+ Fig. 3 : Prompt template for creating code generation instruction. Clear instructions and examples are given to llm to filter telecom-irrelevant functions or avoid generating meaningless request. 
+ It remains how to evaluate a predicted equation to its ground truth. We utilize MathBERT [ 66 ] , a variant of BERT fine-tuned on a large dataset of math equations, to evaluate the average cosine similarity between the embeddings of the predicted equation and the ground truth. The cosine similarity of MathBERT is adapted to the operation trees of the equations and thus can be used as a semantic similarity in the sense of math structure. For a given equation represented by y y and a predicted equation y ^ \widehat{y} given by an llm , we define the MathBERT score as: 
+ score ​ ( y , y ^ ) \displaystyle\text{score}\left(y,\widehat{y}\right) 
+ = \displaystyle= 
+ max ⁡ { cos ⁡ ( e ⁡ ( y ) , e ⁡ ( y ^ ) ) − cos ⁡ ( e ⁡ ( y ) , e ⁡ ( ∅ ) ) 1 − cos ⁡ ( e ⁡ ( y ) , e ⁡ ( ∅ ) ) , 0 } × 100 % \displaystyle\max\left\{\frac{\cos\left(e\left(y\right),e\left(\widehat{y}\right)\right)-\cos\left(e\left(y\right),e\left(\varnothing\right)\right)}{1-\cos\left(e\left(y\right),e\left(\varnothing\right)\right)},0\right\}\times 100\% 
+ (4) 
+ where e ⁡ ( ⋅ ) e\left(\cdot\right) is the embedding output of the MathBERT; cos \cos denotes the cosine similarity between two embedding vectors; ∅ \varnothing represents an empty equation, i.e., an llm returns nothing. The MathBERT is actually a normalized cosine similarity of range [ 0,100 % ] \left[0,100\%\right] w.r.t. the difference between the ground truth and the “empty” answer. This normalization is introduced since the cosine similarity between the ground truth and an empty answer is usually greater than 0.7 0.7 . During our tests, a random generated equation can easily achieve a cosine similarity greater than 0.8 0.8 . Therefore, we believe the raw cosine similarity metric of MathBERT is not aligned with common sense of human. See appendices for example demonstrations with fundamental equations in telecom domain. 
+ IV-D Telecom Code Understanding and Generation 
+ Practical telecom systems operate in codes written in different languages. To understand and generate codes for a well-defined telecom task given in standards or protocols are vital for telecom-specific llm . Besides, code analysis and generation capabilities are important for an llm to interact with existing simulators. To start with, we consider four common programming languages used in telecom domain: C, C++, Python and Matlab. Our Code evaluation benchmark include four tasks mentioned in our instruction dataset. 
+ Other standard code-relevant task, e.g., code fixing/editing is not included for lack of relevant open-sourced dataset. The data samples used to build our benchmark are selected following the same logic in the telecom content filtering process for pre-training dataset. We further select those code files with larger number of telecom keywords, number of copies and keyword density to ensure the quality of data and the relevance to telecom domain. Then we extract telecom-relevant function blocks from these files. For code generation, we prompt GPT-4o to generate corresponding generation requests using the prompt illustrated in Fig. 3 . The summary and analysis instructions can be obtained using similar prompts and we omit them here to avoid repetitions. For code infilling task, several successive lines in the middle of a code file are randomly replaced with a special placeholder < FILL > <\text{FILL}> , the missing part of code is considered to be ground truth. Due to the complexity of telecom-relevant script, it is difficult to directly evaluate the effectiveness of the script similar to common benchmark such as HumanEval [ 67 ] . Instead, we utilize Rouge score to compare the similarity between generated script and the ground truth. Although being hard to judge the quality of generating code lines for code generation and infilling tasks, it provides a reasonable metric on the relevance of generating scripts in telecom domain rather the true effectiveness. 
+ IV-E Telecom Instruct Following 
+ Using llm to improve the productivity of Telecom system research, design, and development is a key application in Telecom industry. For example, it can help researchers to find solutions in the literature for a Telecom problem, or guide engineers to identify the key steps to implement a Telecom feature in the standard. In order to enhance TelecomGPT’s instruct following capabilities preferred by Telecom users, we further develop the following two benchmarks: 
+ • 
+ General Instruction : We utilize GPT models to create a number of instruction tasks from standard documents, specifications, research papers, and patents. Example tasks include identify issues in a specified scenario, explain a technical feature in standard, find possible solutions of a research problem, and so on. The prompt used to generate the data comprises: 1) Description of the task, formats and rules to avoid referring to specific figures, tables, sections, etc.; 2) Some examples of the instruction tasks; 3) Text segments from the pre-train dataset. The output includes instruction of the task, input of context information such as scenario description, and response of the expected answer. 
+ • 
+ Protocol Instruction : We create a dataset to produce the protocol workflows defined in telecom standards following a human instruction. For example, an instruction of “Identify the different types of APN/DNN supportedm for UE implementation capabilities.”, the expected response created from standard is “1. Verify the default APN/DNN setup; 2. Validate APN IDs for different purposes; 3. Align APN/DNN configurations; 4. Submit APN/DNN IDs”. 
+ We further conduct model and human validation over the created telecom instruct following datasets. This includes rephrasing or removing ambiguous information referring context in the original pre-train data or not in the input filed. 
+ Prompt Template for Telecom Instruction Following   
+ Instruction: You are specialized in Telecommunication domain. You are familiar with topics like 5G, RAN, wireless communication, etc., as well as technical Telecom standards, specifications from 3GPP. You are given a text in a 3GPP document. Your task is to transform it into an instruction as follows: {“instruction”: “…”, “output”: “…”}. Instruction types could be planning subtasks according to the 3GPP procedure to complete the main tasks or achieve a goal. The instruction/output must be clear. They must contain relevant context/passages in the target text needed to interpret them. Ensure that they do not mention implicit information, such as figures, tables, annexes, other sections in the document, etc. 
+ Example : {“instruction”: “Initiate event based charging with decentralized and centralized unit determination, centralized rating”, “output”: “1. Request for resource usage. 2. Units Determination. 3. Charging Data Request. 4. Account, Rating Control. 5. Create CDR. 6. Charging Data Response. 7. Granted Units Supervision. 8. Content/Service Delivery.”} 
+ TEXT :
+ { text } \left\{\text{text}\right\} 
+ Fig. 4 : Prompt template for creating task completion or planning. Clear instructions are given to llm to avoid references, implicit contents and guide llm to generate sequential steps. 
+ V Training Detail 
+ Due to the constraint of available GPU resources, we limit the model size of base model to be less or equal than 8B. Our selected base model includes Llama2-7B, Mistral-7B and Llama3-8B and some corresponding instruct models. 
+ Domain-Specific Continual Pretraining : We continue pretrain a general-purpose llm with the OpenTelecom dataset on 8 AWS ml.p4d.24xlarge instances with a training time of approximately 6 hours. For Llama3-8B, we choose to not further pre-train it for two main reasons: i) the pre-trained dataset of Llama-3 series contains 15 TB tokens, our pre-training dataset is largely built on open documents on the web, it is uncertain to determine if our dataset is already used to train Llama3-8B; ii) our hardware limit us to efficiently continue pre-train in a reasonable batch size. 
+ Instruct Tuning : We use QLoRA [ 68 ] to instruct tune a pre-trained llm . The reasons for selecting QLoRA are as follows: i) QLoRA is applied as a regularizer to avoid the catastrophic forgetting of fine-tuned llm ; ii) Due to the rapid advance of the telecom domain, our framework should keep flexible to fit the potential update of new standards and research achievements. The rank of the adapter is selected as r = 512 r=512 with α = 256 \alpha=256 and a dropout rate of 0.05 0.05 . For the training setting, we train the model with a constant learning rate 2.0 × 10 − 4 2.0\times 10^{-4} for 3 3 epochs with AdamW optimizer [ 69 ] without weight decay. Furthermore, we use FSDP [ 70 ] to speed up the train with 8 GPUs with 32GB memory on one ml.p4d.24xlarge instance. The whole training took approximately 1.5 1.5 hours. 
+ Alignment Tuning : Similar to instruction tuning stage, we utilize QLoRA to regularize the model so that the aligned model is not deviated too far from the sft model. We utilize an AdamW optimizer with a cosine learning rate scheduler with 5.0 × 10 − 6 5.0\times 10^{-6} as an initial learning rate. The rank of QLoRA adapter is r = 256 r=256 with α = 128 \alpha=128 with a dropout rate 0.1 0.1 . For DPO setting, β = 0.1 \beta=0.1 is selected. We train the SFT model for one full epoch with FSDP as well. 
+ In what follows, We will the models obtained after continual pretraining, instruct tuning and alignment tuning with the suffixes “TP,” “TI,” and “TA”, respectively. Finally, the best model obtained by combining different stages of our training pipeline, i.e., continual pre-training, instruct tuning and alignment tuning with DPO will be referred as TelecomGPT. As our simulation will show, the best model obtained is actually a fine-tuned Llama3-8B with instruct tuning then followed by alignment tuning. 
+ VI Results 
+ In this section, we demonstrate the performance of our telecom-specific llm for multiple benchmarks. Qualitative examples of different benchmarks can be found in appendices. 
+ VI-A Traning Performance 
+ Continual Pretraining : Fig. 5 shows the training and evaluation loss during continual pre-training on LlaMA2-7B. The evaluation loss first drop significantly then saturates gradually, suggesting a better domain adaptation in Telecom. 
+ Fig. 5 : Training and evaluation loss during continue pretraining (LlaMA2-7B-TP). 
+ Instruct Tuning : Fig. 6 shows the training and evaluation loss during instruct tuning on LlaMA3-8B. The notable evaluation loss shows that base model gradually learn all types of instructions in our instruction dataset. 
+ Fig. 6 : Training and evaluation loss during instruct tuning (LlaMA3-8B-TI). 
+ Alignment Tuning : Fig. 7 shows the reward margin (difference of reward) of chosen and rejected answers during alignment tuning on LlaMA3-8B, demonstrating clearly a tendency that responses similar to chosen samples are preferred than those similar to rejected samples. 
+ Fig. 7 : Reward margin of chosen and rejected answer during alignment tuning (LlaMA3-8B-TI-TA). 
+ VI-B Evaluation Benchmark Performance 
+ Telecom mcq :
+In table III , the accuracies of SOTA llm and our llm in different training stage are demonstrated in different categories of TeleQnA benchmark. After instruct tuning of our Telecom Instruct dataset, there is an obvious increase of accuracy for all base models. Moreover, our telecom-specific models outpeforms the instruct tuned version of the base models and achieve a comparable performance compare to GPT-4 while the model size is notably smaller. After the alignment tuning stage, there is a slight accuracy drop as well. This decrease might be caused by the selection strategy of alignment dataset (both correct and wrong option follow the same format of response). Moreover, for each category, there exist models with significant accuracy increase showing the impact of fine-tuning. Nevertheless, the average accuracy for standard specifications is still limited for all tested llm since questions related to standard specifications contains techinical details such as the precise value of important qualities, the procedure of a defined scenario. For Llama2-7B, before instruct tuning, we add the one more continual pretraining stage. The effectiveness of continual pretraining is confirmed by an increase of accuracy by approximately 4 % 4\% . 
+ llm 
+ Lexicon 
+ Research 
+ Overview 
+ Research 
+ Publications 
+ Standards 
+ Overview 
+ Standards 
+ Specifications 
+ Overall 
+ GPT-4o 
+ 92 
+ 81.73 
+ 79.54 
+ 83.87 
+ 62.77 
+ 78 
+ GPT-4 
+ 92 
+ 77 
+ 78 
+ 79 
+ 60 
+ 75 
+ GPT-3.5 
+ 96 
+ 66.35 
+ 66.98 
+ 64.52 
+ 56.38 
+ 66 
+ Llama3-8B 
+ 72 
+ 51.92 
+ 65.11 
+ 56.45 
+ 36.17 
+ 56.20 
+ Llama3-8B-Instruct 
+ 80 
+ 67.31 
+ 69.77 
+ 59.68 
+ 50 
+ 64.80 
+ Llama3-8B-TI 
+ 96 
+ 69.23 
+ 74.88 
+ 74.19 
+ 56.38 
+ 71.20 
+ Llama3-8B-TI-TA 
+ 92 
+ 73.08 
+ 71.63 
+ 72.58 
+ 58.51 
+ 70.60 
+ Mistral-7B 
+ 72 
+ 49.04 
+ 51.16 
+ 50 
+ 34.04 
+ 48.40 
+ Mistral-7B-Instruct 
+ 84 
+ 64 
+ 65 
+ 56 
+ 51 
+ 62 
+ Mistral-7B-TI 
+ 84 
+ 67.3 
+ 70.69 
+ 56.45 
+ 51.06 
+ 65.2 
+ Mistral-7B-TI-TA 
+ 84 
+ 70.19 
+ 73.95 
+ 61.29 
+ 48.94 
+ 64 
+ LlaMA-2-7B 
+ 62.5 
+ 52.24 
+ 49.18 
+ 48.28 
+ 40 
+ 48.94 
+ LlaMA-2-7B-TI 
+ 84 
+ 57.69 
+ 63.26 
+ 56.45 
+ 50 
+ 59.80 
+ LlaMA-2-7B-TP-TI 
+ 81.82 
+ 63.92 
+ 67 
+ 70 
+ 47.48 
+ 63.79 
+ TABLE III : Performance Comparison of Telecom mcq (TeleQnA) of mainstream llm 
+ and different telecom-specific llm obtained during different stages of our training pipeline. 
+ llm 
+ Paper 
+ Book 
+ Patent 
+ Wiki 
+ Overall 
+ GPT-4o 
+ 98 
+ 94 
+ 84 
+ 98 
+ 93 
+ GPT-3.5 
+ 95 
+ 89 
+ 83 
+ 91 
+ 89 
+ LlaMA3-8B-Instruct 
+ 97.92 
+ 89.81 
+ 80.65 
+ 87.21 
+ 88.49 
+ LlaMA3-8B-TI 
+ 92.52 
+ 97.17 
+ 92.16 
+ 94.12 
+ 94 
+ Mistral-7B-Instruct 
+ 78.5 
+ 76.42 
+ 65.69 
+ 71.64 
+ 73.25 
+ Mistral-7B-TI 
+ 80.37 
+ 82.08 
+ 82.35 
+ 81.18 
+ 81.5 
+ TABLE IV : Performance Comparison of Telecom mcq on extended dataset 
+ Telecom Standard Classification : Table V summarizes the average accuracy of classifying 3GP Tdocs using sota llm and our telecom-specific llm on a test dataset with 2000 texts of all 16 working groups. With only 1000 data samples per working group used during instruct tuning stage, most telecom-specific llm achieve an average accuracy near 70 % \% while the accuracy of GPT-4o and GPT-4 is less than 40 % \% . Moreover, the accuracy of classification for each TSG is slightly different (the accuracy of RAN is significantly higher than SA), demonstrating an imbalanced understanding of the 3GPP tdoc . 
+ llm 
+ RAN 
+ SA 
+ CT 
+ Overall 
+ GPT-4o 
+ 44.12 
+ 47.59 
+ 17.28 
+ 38.94 
+ GPT-3.5 
+ 42.93 
+ 48.59 
+ 16.26 
+ 38.54 
+ LlaMA3-8B-Instruct 
+ 39.13 
+ 38.66 
+ 16.19 
+ 33.35 
+ LlaMA3-8B-TI 
+ 82.76 
+ 68.8 
+ 73.61 
+ 75.30 
+ Mistral-7B-Instruct 
+ 29.59 
+ 33.20 
+ 16.87 
+ 27.84 
+ Mistral-7B-TI 
+ 76.62 
+ 76.90 
+ 49.89 
+ 70.83 
+ TABLE V : Performance Comparison of Telecom tdoc Classification Benchmark of SOTA llm 
+ and our models 
+ Telecom Math Modeling : we compare the performance of mainstream llm and our telecom-specific llm obtained during different training stages here. In Table VI , the average MathBERT score and the portion of predicted equations with MathBERT score greater than 90 % 90\% and 50 % 50\% are illustrated. Due to the difficulty of the task and the long context general required, we test the equation infilling capabilities on around 600 equations randomly extracted from 170 research papers which is never seen during training stage. One can observe that after SFT, the average MathBERT score outperform all mainstream llm such as Llama3-8B-Instruct and Mistral-7B-Instruct with similar model size and GPT-3.5 and Mistral-8x7B with significant large model size. Besides, after SFT, our model achives a comparable portion of 50 % 50\% and a significant increase of portion of equations with 90 % 90\% representing that the predicted equation have almost the same operation tree as the ground truth and might be different in details such as operators, exponent, order of operations and etc. The increase of average score after SFT shows that our telecom-specific instruction dataset. Moreover, after the alignment with human preference with the DPO algorithm, we observe a slight increase of score outperforming significantly SOTA llm such as GPT-4 and GPT-4o with extremely larger model size and amount of pre-training data. Besides, the portion of predicted equations with score higher than 50 % 50\% is improved to be slightly better than SOTA llm . The cdf ( cdf ) of the MathBERT score is illustrated in Fig. 8 . The cdf curve of TelecomGPT outperforms most sota models and dominates the one of GPT-4 starting from a MathBERT score larger than 60 % 60\% , showing the best math modeling capabilities when provided with clear context of the system model. Finally, the average score for all llm are close to 50 % 50\% entails the math modeling capabilities of current models are still relatively weak which demonstrates the hardness of proposed math modeling benchmark. 
+ llm 
+ Average Score 
+ ≥ 90 % \geq 90\% 
+ ≥ 50 % \geq 50\% 
+ GPT-4 
+ 49.38 
+ 3.77 
+ 50.35 
+ GPT-3.5 
+ 43.53 
+ 1.81 
+ 40.44 
+ Llama3-8B-Instruct 
+ 40.78 
+ 2.51 
+ 34.45 
+ Llama3-8B-TI 
+ 46.16 
+ 9.69 
+ 46.80 
+ Llama3-8B-TI-TA 
+ 49.45 
+ 9.52 
+ 50.73 
+ Mistral-7B-Instruct 
+ 35.54 
+ 1.53 
+ 29.43 
+ Mistral-7B-TI 
+ 47.66 
+ 8.04 
+ 48.77 
+ Mistral-7B-TI-TA 
+ 48.11 
+ 7.22 
+ 49.26 
+ TABLE VI : Performance Comparison of Telecom Math Modeling Benchmark of SOTA llm 
+ Fig. 8 : Cumulative Density Function v.s. MathBERT score of Telecom Math Modeling Benchmark for SOTA llm and our llm obtained during different stages of training. Compared to GPT-4, our telecom-specific llm achieve a better portion of high quality telecom-relevant equations. 
+ Telecom Code Benchmark : In Table VII , we compare the performance of llm for four code tasks proposed in our benchmark. Compared to general-purpose llm , the sft models and the aligned models both possess significantly higher Rouge scores which demonstrate an obvious improvement on the relevance of telecom contents. For code summary, analysis the Rouge scores of sft models and aligned models are close. However, as our examples demonstrated in appendices, responses of the aligned models follow the concise style of the ground truth which is always selected as the “chosen” sample of the dpo algorithm. Besides, the responses provided by general-purpose llm are detailed comprehensive but complicated (even irrelevant sometimes). Despite the fact that our telecom-specific models still hallucinates for in some requests, obtained telecom-specific llm align with the preference we desire. 
+ llm 
+ Code Summary 
+ Code Analysis 
+ Code Infilling 
+ Code Generation 
+ Rouge1 
+ RougeL 
+ Rouge1 
+ RougeL 
+ Rouge1 
+ RougeL 
+ Rouge1 
+ RougeL 
+ Llama-3-8B-Instruct 
+ 0.3202 
+ 0.2120 
+ 0.3336 
+ 0.2092 
+ 0.1125 
+ 0.0974 
+ 0.1914 
+ 0.1247 
+ Llama3-8B-TI 
+ 0.5192 
+ 0.3772 
+ 0.3533 
+ 0.2378 
+ 0.4169 
+ 0.3743 
+ 0.2255 
+ 0.1730 
+ Llama3-8B-TI-TA 
+ 0.5167 
+ 0.3706 
+ 0.4048 
+ 0.2720 
+ 0.4336 
+ 0.3903 
+ 0.2712 
+ 0.2022 
+ Mistral-7B-Instruct 
+ 0.3639 
+ 0.2342 
+ 0.3979 
+ 0.2411 
+ 0.1058 
+ 0.0882 
+ 0.1938 
+ 0.1264 
+ Mistral-7B-TI 
+ 0.5701 
+ 0.3954 
+ 0.5459 
+ 0.3601 
+ 0.4347 
+ 0.3867 
+ 0.2513 
+ 0.1959 
+ Mistral-7B-TI-TA 
+ 0.5751 
+ 0.3912 
+ 0.5473 
+ 0.3547 
+ 0.4394 
+ 0.3885 
+ 0.2602 
+ 0.2001 
+ TABLE VII : Average F-measure of Rouge1 and RougeL scores for different code tasks in telecom domain. 
+ Telecom qa and instruct following : Table VIII presents the Rouge scores of different llm with TelecomGPT in the tasks of Telecom domain open-ended qa , general and protocol instruct following. The observation similar to code tasks still holds for these tasks. The instruct tuning significantly improves the Rouge scores of Llama-3 and Mistral in all tasks, and the alignment tuning improves open-ended qa and general instruction tasks. Examples from Table IX to XIII show that instruct tuning can make llm ’s responses more precise and concise compared to the references in patents, research papers, and standards. Furthermore, the alignment tuning eliminates the confusion of llm in responding to general and protocol instructions. Moreover, results from Table XIV to XVII show the fine-tuning stages make llm ’s answer better aligned with preferred answers. 
+ llm 
+ Open-ended qa 
+ General Instruction 
+ Protocol Instruction 
+ Rouge1 
+ RougeL 
+ Rouge1 
+ RougeL 
+ Rouge1 
+ RougeL 
+ Llama-3-8B-Instruct 
+ 0.0552 
+ 0.0496 
+ 0.1881 
+ 0.1430 
+ 0.2039 
+ 0.1303 
+ Llama-3-8B-TI 
+ 0.3339 
+ 0.3233 
+ 0.3819 
+ 0.2908 
+ 0.3505 
+ 0.2449 
+ Llama-3-8B-TI-TA 
+ 0.4168 
+ 0.4054 
+ 0.4142 
+ 0.3142 
+ 0.3530 
+ 0.2438 
+ Mistral-7B-Instruct 
+ 0.0595 
+ 0.0509 
+ 0.2055 
+ 0.1504 
+ 0.2188 
+ 0.1342 
+ Mistral-7B-TI 
+ 0.2287 
+ 0.2190 
+ 0.4189 
+ 0.3219 
+ 0.3529 
+ 0.2483 
+ Mistral-7B-TI-TA 
+ 0.2826 
+ 0.2695 
+ 0.4661 
+ 0.3651 
+ 0.3629 
+ 0.2375 
+ TABLE VIII : Average F-measure of Rouge1 and RougeL scores of open qa and instruct following. 
+ VII Conclusion 
+ In this paper, we propose a full pipeline to build telecom-specific llm . Our data processing pipeline can effectively select telecom-relevant contents from general pretraining dataset. Then we can build instruction dataset and preference dataset to further instruct tune llm to perform various downstream tasks and align with human preference. Besides, effective benchmarks to evaluate llm ’s capabilities in telecom context were proposed and verified with experimental results. Models obtained by telecom-specific fine-tuning pipeline outperform the corresponding base models and the start of the art models with significantly larger model size. Due to the resource limits, our experiments remain in small scale. Pre-training from scratch with even larger dataset looks promising to build
+better telecom-specific llm . Moreover, our models can only treat textual data which limit the potential of current framework. One promising future direction is to integrate other data modalities, especially radio signal. 
+ References 
+ [1] 
+O. J. Achiam et al. , “Gpt-4 technical report,” 2023.
+ [2] 
+H. Touvron, T. Lavril, G. Izacard, X. Martinet, M.-A. Lachaux, T. Lacroix, B. Rozière, N. Goyal, E. Hambro, F. Azhar, A. Rodriguez, A. Joulin, E. Grave, and G. Lample, “Llama: Open and efficient foundation language models,” arXiv preprint arXiv:2302.13971 , 2023.
+ [3] 
+H. Touvron et al. , “Llama 2: Open foundation and fine-tuned chat models,” arXiv preprint arXiv:2307.09288 , 2023.
+ [4] 
+Meta llama 3. https://llama.meta.com/llama3/ .
+ [5] 
+A. Q. Jiang et al. , “Mistral 7b,” arXiv preprint arXiv:2310.06825 , 2023.
+ [6] 
+——, “Mixtral of experts,” arXiv preprint arXiv:2401.04088 , 2024.
+ [7] 
+E. Almazrouei, H. Alobeidli, A. Alshamsi, A. Cappelli, R.-A. Cojocaru, D. Hesslow, J. Launay, Q. Malartic, D. Mazzotta, B. Noune, B. Pannier, and G. Penedo, “The falcon series of open language models,” ArXiv , vol. abs/2311.16867, 2023.
+ [8] 
+Z. Liu, B. Oguz, C. Zhao, E. Chang, P. Stock, Y. Mehdad, Y. Shi, R. Krishnamoorthi, and V. Chandra, “Llm-qat: Data-free quantization aware training for large language models,” arXiv preprint arXiv:2305.17888 , 2023.
+ [9] 
+H. Wang, S. Ma, L. Dong, S. Huang, H. Wang, L. Ma, F. Yang, R. Wang, Y. Wu, and F. Wei, “Bitnet: Scaling 1-bit transformers for large language models,” arXiv preprint arXiv:2310.11453 , 2023.
+ [10] 
+Z. Wan, X. Wang, C. Liu, S. Alam, Y. Zheng, J. Liu, Z. Qu, S. Yan, Y. Zhu, Q. Zhang, M. Chowdhury, and M. Zhang, “Efficient large language models: A survey,” arXiv preprint arXiv:2312.03863 , 2023.
+ [11] 
+Z. Zhang, Y. Sheng, T. Zhou, T. Chen, L. Zheng, R. Cai, Z. Song, Y. Tian, C. Ré, C. Barrett et al. , “H2o: Heavy-hitter oracle for efficient generative inference of large language models,” Advances in Neural Information Processing Systems , vol. 36, 2024.
+ [12] 
+T. Dao, D. Fu, S. Ermon, A. Rudra, and C. Ré, “Flashattention: Fast and memory-efficient exact attention with io-awareness,” Advances in Neural Information Processing Systems , vol. 35, pp. 16 344–16 359, 2022.
+ [13] 
+N. Shazeer, A. Mirhoseini, K. Maziarz, A. Davis, Q. Le, G. Hinton, and J. Dean, “Outrageously large neural networks: The sparsely-gated mixture-of-experts layer,” arXiv preprint arXiv:1701.06538 , 2017.
+ [14] 
+S. Wu, O. Irsoy, S. Lu, V. Dabravolski, M. Dredze, S. Gehrmann, P. Kambadur, D. Rosenberg, and G. Mann, “BloombergGPT: A large language model for finance,” arXiv preprint arXiv:2303.17564 , 2023.
+ [15] 
+H. Yang, X.-Y. Liu, and C. D. Wang, “FinGPT: Open-source financial large language models,” arXiv preprint arXiv:2306.06031 , 2023.
+ [16] 
+B. Zhang, H. Yang, and X.-Y. Liu, “Instruct-finGPT: Financial sentiment analysis by instruction tuning of general-purpose large language models,” arXiv preprint arXiv:2306.12659 , 2023.
+ [17] 
+N. Wang, H. Yang, and C. D. Wang, “FinGPT: Instruction tuning benchmark for open-source large language models in financial datasets,” arXiv preprint arXiv:2310.04793 , 2023.
+ [18] 
+X.-Y. Liu, G. Wang, and D. Zha, “FinGPT: Democratizing internet-scale data for financial large language models,” arXiv preprint arXiv:2307.10485 , 2023.
+ [19] 
+B. Zhang, H. Yang, T. Zhou, M. Ali Babar, and X.-Y. Liu, “Enhancing financial sentiment analysis via retrieval augmented large language models,” in Proceedings of the Fourth ACM International Conference on AI in Finance , 2023, pp. 349–356.
+ [20] 
+H. Luo, Q. Sun, C. Xu, P. Zhao, J. Lou, C. Tao, X. Geng, Q. Lin, S. Chen, and D. Zhang, “Wizardmath: Empowering mathematical reasoning for large language models via reinforced evol-instruct,” arXiv preprint arXiv:2308.09583 , 2023.
+ [21] 
+K. Cobbe, V. Kosaraju, M. Bavarian, M. Chen, H. Jun, L. Kaiser, M. Plappert, J. Tworek, J. Hilton, R. Nakano et al. , “Training verifiers to solve math word problems,” arXiv preprint arXiv:2110.14168 , 2021.
+ [22] 
+D. Hendrycks, C. Burns, S. Kadavath, A. Arora, S. Basart, E. Tang, D. Song, and J. Steinhardt, “Measuring mathematical problem solving with the math dataset,” arXiv preprint arXiv:2103.03874 , 2021.
+ [23] 
+J. Cui, Z. Li, Y. Yan, B. Chen, and L. Yuan, “Chatlaw: Open-source legal large language model with integrated external knowledge bases,” arXiv preprint arXiv:2306.16092 , 2023.
+ [24] 
+P. Colombo, T. P. Pires, M. Boudiaf, D. Culver, R. Melo, C. Corro, A. F. Martins, F. Esposito, V. L. Raposo, S. Morgado et al. , “Saullm-7b: A pioneering large language model for law,” arXiv preprint arXiv:2403.03883 , 2024.
+ [25] 
+B. Rozière, J. Gehring, F. Gloeckle, S. Sootla, I. Gat, X. Tan, Y. Adi, J. Liu, T. Remez, J. Rapin, A. Kozhevnikov, I. Evtimov, J. Bitton, M. P. Bhatt, C. C. Ferrer, A. Grattafiori, W. Xiong, A. D’efossez, J. Copet, F. Azhar, H. Touvron, L. Martin, N. Usunier, T. Scialom, and G. Synnaeve, “Code llama: Open foundation models for code,” arXiv preprint arXiv:2308.12950 , 2023.
+ [26] 
+K. Singhal, T. Tu, J. Gottweis, R. Sayres, E. Wulczyn, L. Hou, K. Clark, S. Pfohl, H. Cole-Lewis, D. Neal et al. , “Towards expert-level medical question answering with large language models,” arXiv preprint arXiv:2305.09617 , 2023.
+ [27] 
+D. Zhang, W. Liu, Q. Tan, J. Chen, H. Yan, Y. Yan, J. Li, W. Huang, X. Yue, D. Zhou et al. , “ChemLLM: A chemical large language model,” arXiv preprint arXiv:2402.06852 , 2024.
+ [28] 
+R. Puri and B. Catanzaro, “Zero-shot text classification with generative language models,” arXiv preprint arXiv:1912.10165 , 2019.
+ [29] 
+B. Zhang, H. Yang, t. Zhou, A. Babar, and X.-Y. Liu, “Enhancing financial sentiment analysis via retrieval augmented large language models,” ACM International Conference on AI in Finance (ICAIF) , 2023.
+ [30] 
+X. Zhang and Q. Yang, “Xuanyuan 2.0: A large chinese financial chat model with hundreds of billions parameters,” in Proceedings of the 32nd ACM International Conference on Information and Knowledge Management , 2023, pp. 4435–4439.
+ [31] 
+R. Luo, L. Sun, Y. Xia, T. Qin, S. Zhang, H. Poon, and T.-Y. Liu, “Biogpt: generative pre-trained transformer for biomedical text generation and mining,” Briefings in bioinformatics , vol. 23, no. 6, p. bbac409, 2022.
+ [32] 
+Y. Labrak, A. Bazoge, E. Morin, P.-A. Gourraud, M. Rouvier, and R. Dufour, “Biomistral: A collection of open-source pretrained large language models for medical domains,” arXiv preprint arXiv:2402.10373 , 2024.
+ [33] 
+R. Taylor, M. Kardas, G. Cucurull, T. Scialom, A. Hartshorn, E. Saravia, A. Poulton, V. Kerkez, and R. Stojnic, “Galactica: A large language model for science,” arXiv preprint arXiv:2211.09085 , 2022.
+ [34] 
+S. Ni, M. Tan, Y. Bai, F. Niu, M. Yang, B. Zhang, R. Xu, X. Chen, C. Li, X. Hu et al. , “Mozip: A multilingual benchmark to evaluate large language models in intellectual property,” arXiv preprint arXiv:2402.16389 , 2024.
+ [35] 
+Redpajama: An open source recipe to reproduce llama training dataset. https://github.com/togethercomputer/RedPajama-Data .
+ [36] 
+Z. Azerbayev, H. Schoelkopf, K. Paster, M. D. Santos, S. McAleer, A. Q. Jiang, J. Deng, S. Biderman, and S. Welleck, “Llemma: An open language model for mathematics,” arXiv preprint arXiv:2310.10631 , 2023.
+ [37] 
+Z. Shao, P. Wang, Q. Zhu, R. Xu, J. Song, M. Zhang, Y. Li, Y. Wu, and D. Guo, “DeepSeek Math: Pushing the limits of mathematical reasoning in open language models,” arXiv preprint arXiv:2402.03300 , 2024.
+ [38] 
+A. Lozhkov et al. , “Starcoder 2 and the stack v2: The next generation,” arXiv preprint arXiv:2402.19173 , 2024.
+ [39] 
+M. Bavarian, H. Jun, N. Tezak, J. Schulman, C. McLeavey, J. Tworek, and M. Chen, “Efficient training of language models to fill in the middle,” arXiv preprint arXiv:2207.14255 , 2022.
+ [40] 
+Codestral. https://mistral.ai/news/codestral/ .
+ [41] 
+R. Rafailov, A. Sharma, E. Mitchell, C. D. Manning, S. Ermon, and C. Finn, “Direct preference optimization: Your language model is secretly a reward model,” Advances in Neural Information Processing Systems , vol. 36, 2024.
+ [42] 
+Z. Chen, W. Zhang, Y. Huang, M. Chen, Y. Geng, H. Yu, Z. Bi, Y. Zhang, Z. Yao, W. Song et al. , “Tele-knowledge pre-training for fault analysis,” in 2023 IEEE 39th International Conference on Data Engineering (ICDE) . IEEE, 2023, pp. 3453–3466.
+ [43] 
+L. Bariah, H. Zou, Q. Zhao, B. Mouhouche, F. Bader, and M. Debbah, “Understanding telecom language through large language models,” in GLOBECOM 2023-2023 IEEE Global Communications Conference . IEEE, 2023, pp. 6542–6547.
+ [44] 
+S. Tarkoma, R. Morabito, and J. Sauvola, “Ai-native interconnect framework for integration of large language model technologies in 6g systems,” arXiv preprint arXiv:2311.05842 , 2023.
+ [45] 
+C. Wang, M. Scazzariello, A. Farshin, D. Kostic, and M. Chiesa, “Making network configuration human friendly,” arXiv preprint arXiv:2309.06342 , 2023.
+ [46] 
+R. Mondal, A. Tang, R. Beckett, T. Millstein, and G. Varghese, “What do llms need to synthesize correct router configurations?” in Proceedings of the 22nd ACM Workshop on Hot Topics in Networks , 2023, pp. 189–195.
+ [47] 
+Y. Du, S. C. Liew, K. Chen, and Y. Shao, “The power of large language models for wireless communication system development: A case study on fpga platforms,” arXiv preprint arXiv:2307.07319 , 2023.
+ [48] 
+H. Zou, Q. Zhao, L. Bariah, M. Bennis, and M. Debbah, “Wireless multi-agent generative ai: From connected intelligence to collective intelligence,” arXiv preprint arXiv:2307.02757 , 2023.
+ [49] 
+J. Park, S.-W. Ko, J. Choi, S.-L. Kim, and M. Bennis, “Towards semantic communication protocols for 6g: From protocol learning to language-oriented approaches,” arXiv preprint arXiv:2310.09506 , 2023.
+ [50] 
+F. Jiang, Y. Peng, L. Dong, K. Wang, K. Yang, C. Pan, and X. You, “Large ai model empowered multimodal semantic communications,” arXiv preprint arXiv:2309.01249 , 2023.
+ [51] 
+L. Bariah, Q. Zhao, H. Zou, Y. Tian, F. Bader, and M. Debbah, “Large generative ai models for telecom: The next big thing?” IEEE Communications Magazine , pp. 1–7, 2024.
+ [52] 
+Z. Lin, G. Qu, Q. Chen, X. Chen, Z. Chen, and K. Huang, “Pushing large language models to the 6g edge: Vision, challenges, and opportunities,” arXiv preprint arXiv:2309.16739 , 2023.
+ [53] 
+S. Xu, C. K. Thomas, O. Hashash, N. Muralidhar, W. Saad, and N. Ramakrishnan, “Large multi-modal models (lmms) as universal foundation models for ai-native wireless systems,” arXiv preprint arXiv:2402.01748 , 2024.
+ [54] 
+H. Zou, Q. Zhao, L. Bariah, Y. Tian, M. Bennis, S. Lasaulce, M. Debbah, and F. Bader, “Genainet: Enabling wireless collective intelligence via knowledge transfer and reasoning,” arXiv preprint arXiv:2402.16631 , 2024.
+ [55] 
+A. Maatouk, F. Ayed, N. Piovesan, A. D. Domenico, M. Debbah, and Z.-Q. Luo, “Teleqna: A benchmark dataset to assess large language models telecommunications knowledge,” ArXiv , 2023.
+ [56] 
+S. Gururangan, A. Marasović, S. Swayamdipta, K. Lo, I. Beltagy, D. Downey, and N. A. Smith, “Don’t stop pretraining: Adapt language models to domains and tasks,” arXiv preprint arXiv:2004.10964 , 2020.
+ [57] 
+Z. Ke, Y. Shao, H. Lin, T. Konishi, G. Kim, and B. Liu, “Continual pre-training of language models,” arXiv preprint arXiv:2302.03241 , 2023.
+ [58] 
+L. Ouyang et al. , “Training language models to follow instructions with human feedback,” arXiv preprint arXiv:2203.02155 , 2022.
+ [59] 
+R. A. Bradley and M. E. Terry, “Rank analysis of incomplete block designs: I. the method of paired comparisons,” Biometrika , vol. 39, p. 324, 1952.
+ [60] 
+C. Raffel, N. Shazeer, A. Roberts, K. Lee, S. Narang, M. Matena, Y. Zhou, W. Li, and P. J. Liu, “Exploring the limits of transfer learning with a unified text-to-text transformer,” Journal of Machine Learning Research , vol. 21, no. 140, pp. 1–67, 2020.
+ [61] 
+G. Penedo, Q. Malartic, D. Hesslow, R.-A. Cojocaru, A. Cappelli, H. Alobeidli, B. Pannier, E. Almazrouei, and J. Launay, “The refinedweb dataset for falcon llm: Outperforming curated corpora with web data, and web data only,” arXiv preprint arXiv:2306.01116 , 2023.
+ [62] 
+K. Lee, D. Ippolito, A. Nystrom, C. Zhang, D. Eck, C. Callison-Burch, and N. Carlini, “Deduplicating training data makes language models better,” arXiv preprint arXiv:2107.06499 , 2021.
+ [63] 
+D. Hernandez, T. Brown, T. Conerly, N. DasSarma, D. Drain, S. El-Showk, N. Elhage, Z. Hatfield-Dodds, T. Henighan, T. Hume et al. , “Scaling laws and interpretability of learning from repeated data,” arXiv preprint arXiv:2205.10487 , 2022.
+ [64] 
+xorbits. https://xorbits.io .
+ [65] 
+J. Devlin, M.-W. Chang, K. Lee, and K. Toutanova, “BERT: Pre-training of deep bidirectional transformers for language understanding,” arXiv preprint arXiv:1810.04805 , 2018.
+ [66] 
+J. T. Shen, M. Yamashita, E. Prihar, N. Heffernan, X. Wu, B. Graff, and D. Lee, “Mathbert: A pre-trained language model for general nlp tasks in mathematics education,” arXiv preprint arXiv:2106.07340 , 2021.
+ [67] 
+M. Chen, J. Tworek, H. Jun, Q. Yuan, H. P. d. O. Pinto, J. Kaplan, H. Edwards, Y. Burda, N. Joseph, G. Brockman et al. , “Evaluating large language models trained on code,” arXiv preprint arXiv:2107.03374 , 2021.
+ [68] 
+T. Dettmers, A. Pagnoni, A. Holtzman, and L. Zettlemoyer, “Qlora: Efficient finetuning of quantized llms,” Advances in Neural Information Processing Systems , vol. 36, 2024.
+ [69] 
+I. Loshchilov and F. Hutter, “Decoupled weight decay regularization,” arXiv preprint arXiv:1711.05101 , 2017.
+ [70] 
+Y. Zhao, A. Gu, R. Varma, L. Luo, C. chin Huang, M. Xu, L. Wright, H. Shojanazeri, M. Ott, S. Shleifer, A. Desmaison, C. Balioglu, B. Nguyen, G. Chauhan, Y. Hao, and S. Li, “Pytorch fsdp: Experiences on scaling fully sharded data parallel,” Proc. VLDB Endow. , vol. 16, pp. 3848–3860, 2023.
+ [71] 
+T. D. Stojanovski and N. Marina, “Secure wireless communications via cooperative transmitting,” The Scientific World Journal , vol. 2014, 2013.
+ [72] 
+M. Dörpinghaus, A. Ispas, and H. Meyr, “On the gain of joint processing of pilot and data symbols in stationary rayleigh fading channels,” IEEE Transactions on Information Theory , vol. 58, pp. 2963–2982, 2011.
+ Prompt 
+ Describe the process of providing authorization to a mobile device for a pending transaction request. 
+ Category 
+ Patent 
+ Ground Truth 
+ To provide authorization to a mobile device for a pending transaction request, the system searches the database for the mobile device’s phone number, generates and sends an authorization request message to the mobile device, and awaits a reply message indicating approval or denial of the transaction from the user. 
+ Llama3-8B-Instruct 
+ When a mobile device receives a pending transaction request, the process of providing authorization involves several steps to ensure the security and integrity of the transaction. Here’s an overview of the process: 1. **Transaction Request**: The merchant’s server sends a transaction request to the mobile device, which includes the transaction details such as the amount, merchant name, and transaction type (e.g., purchase, payment, etc.). 2. **Authentication**: The mobile device checks if the user is authenticated and logged in to the device. If not, the user is prompted to log in or authenticate using biometric authentication (e.g., fingerprint, facial recognition), password, or PIN. 3. **Transaction Verification**: The mobile device verifies the transaction request by checking the transaction details, such as the amount, merchant name, and transaction type, to ensure it’s a legitimate request. 4. **Authorization Request**: The mobile device sends an authorization request to the user, which includes the transaction details and a prompt to authorize or decline the transaction. 5. **User Response**: The user reviews the transaction details and responds to the authorization request by selecting ”Authorize” or ”Decline”. 6. **Authorization Response**: The mobile device sends the user’s response (authorize or decline) back to the merchant’s server. 7. **Transaction Completion**: If the user authorizes the transaction, the merchant’s server completes the transaction and sends a confirmation to the mobile device. If the user declines the transaction, the transaction is cancelled, and the merchant’s server is notified. 8. **Transaction Logging**: The mobile device logs the transaction, including the transaction details, user response, and outcome (authorized or declined), for auditing and security purposes. Throughout this process, the mobile device ensures that the transaction is secure by using encryption, digital signatures, and other security measures to protect sensitive information. Additionally, the mobile device may also perform additional checks, such as verifying the user’s account balance or available funds, before authorizing the transaction. 
+ Llama3-8B-TI 
+ 1. The user of the mobile device receives a notification about a pending transaction request. 
+ 2. The user provides a PIN or biometric to the mobile device to authorize the transaction. 
+ 3. The mobile device communicates the authorization to the payment network, which then communicates the authorization to the merchant. 
+ Llama3-8B-TI-TA 
+ To provide authorization for a pending transaction request on a mobile device, the user must input an authorization code received on the mobile device or at a separate device associated with the mobile device within a specified time period, such as three minutes. If the authorization code is not input within the time period, the pending transaction request will be automatically declined. 
+ TABLE IX : Comparison of generated response for instruction task of describing telecom specific process in the patent. After instruct and alignment tuning with telecom-specific data, our models provide concise and high-quality description of a telecom specific process compared to the general purpose llm . 
+ Prompt 
+ Explain the difference between Shared VLAN Learning (SVL) database and Independent VLAN Learning (IVL) database designs in terms of distinguishing multiple VLANs for routing purposes. 
+ Category 
+ Patent 
+ Ground Truth 
+ The Shared VLAN Learning (SVL) database design does not distinguish among multiple VLANs in a set of VLANs for routing purposes, whereas the Independent VLAN Learning (IVL) database design distinguishes among VLANs for routing purposes. 
+ Llama3-8B-Instruct 
+ In a network, VLANs (Virtual Local Area Networks) are used to segment devices into separate broadcast domains. When it comes to routing, there are two common database designs used to manage VLANs: Shared VLAN Learning (SVL) and Independent VLAN Learning (IVL). 
+ **Shared VLAN Learning (SVL) Database: ** In an SVL database, all VLANs share the same MAC-VLAN table. This means that when a device learns a MAC address, it is stored in the table along with the corresponding VLAN ID. When a packet is received, the switch checks the MAC-VLAN table to determine the VLAN ID and then forwards the packet accordingly. Pros: * Simplifies configuration and management * Reduces memory usage Cons: * Limited scalability, as the MAC-VLAN table can become large and unwieldy * Can lead to VLAN ID conflicts if multiple VLANs share the same MAC address **Independent VLAN Learning (IVL) Database: ** In an IVL database, each VLAN has its own separate MAC-VLAN table. This means that each VLAN has its own set of learned MAC addresses, and the tables are not shared between VLANs. Pros: * Scalability, as each VLAN has its own table and can handle a large number of MAC addresses * Reduced risk of VLAN ID conflicts. Cons: * More complex configuration and management * Requires more memory to store multiple tables In terms of distinguishing multiple VLANs for routing purposes, IVL databases are generally more effective. Since each VLAN has its own table, the switch can accurately determine the VLAN ID and forward packets accordingly. In contrast, SVL databases may require additional processing and lookup tables to determine the correct VLAN ID. In summary, SVL databases are simpler and more memory-efficient, but may struggle with scalability and VLAN ID conflicts. IVL databases are more scalable and reduce the risk of VLAN ID conflicts, but require more complex configuration and management. The choice between SVL and IVL ultimately depends on the specific needs and requirements of the network. 
+ Llama3-8B-TI 
+ 1. Shared VLAN Learning (SVL) database design allows a switch to distinguish multiple VLANs for routing purposes by associating a single MAC address with multiple CVIDs in the database. 
+ 2. Independent VLAN Learning (IVL) database design, on the other hand, allows a switch to associate a separate MAC address for each CVID in the database, providing a unique MAC address for each VLAN. 
+ Llama3-8B-TI-TA 
+ In terms of distinguishing multiple VLANs for routing purposes, the Shared VLAN Learning (SVL) database design allows a single database to hold information about all ports participating in VLANs, while the Independent VLAN Learning (IVL) database design requires each port to maintain its own database for VLAN-to-MAC address mapping. 
+ TABLE X : Comparison of generated response for instruction task in telecom patent. After instruct and alignment tuning with telecom-specific data, our model provides concise and high-quality explanation of a telecom specific concept compared to the general purpose llm . 
+ Prompt 
+ Summarize the challenges and solutions in the field of CSI feedback in massive MIMO systems utilizing DL-based methods. 
+ Category 
+ Research Paper 
+ Ground Truth 
+ The challenges in CSI feedback in massive MIMO systems include the vast CSI matrix, compressed sensing inefficiency, and lack of standard CSI dataset collection. DL-based solutions involve using end-to-end Auto-Encoder architecture for compression and reconstruction, as well as considering factors like sampling range and network complexity in practical deployment. 
+ Llama3-8B-Instruct 
+ A very specific and technical question! CSI (Channel State Information) feedback is a crucial aspect in massive MIMO (Multiple-Input Multiple-Output) systems, as it enables the base station to adapt to the changing wireless channel conditions. However, in massive MIMO systems, the number of antennas and users increases, making CSI feedback a challenging task. Deep Learning (DL) based methods have been proposed to address these challenges. Here’s a summary: **Challenges:**1. **Feedback overhead**: With a large number of antennas and users, the amount of CSI feedback data increases exponentially, leading to significant overhead and potential interference. 2. **Feedback delay**: The delay in receiving CSI feedback can result in outdated channel information, affecting the performance of the system. 3. **Channel estimation errors**: The accuracy of channel estimation is crucial, but errors can occur due to limited feedback resources and noisy measurements. **Solutions using DL-based methods:**1. **Compressive sensing**: DL-based compressive sensing methods can reduce the feedback overhead by compressing the CSI data while preserving its essential information. 2. **Feedback reduction**: DL-based methods can learn to reduce the feedback data by identifying the most important CSI information and discarding the rest. 3. **Feedback prediction**: DL-based feedback prediction methods can predict the CSI feedback based on historical data, reducing the feedback delay and overhead. 4. **Channel estimation**: DL-based channel estimation methods can improve the accuracy of channel estimation by learning from the available CSI feedback data and other system information. 5. **Hybrid beamforming**: DL-based hybrid beamforming methods can optimize the beamforming weights by learning from the CSI feedback data and other system information, improving the system performance. 
+ Some popular DL-based methods for CSI feedback in massive MIMO systems include: 
+ 1. Convolutional Neural Networks (CNNs) 2. Recurrent Neural Networks (RNNs) 3. Long Short-Term Memory (LSTM) networks 4. Autoencoders 5. Generative Adversarial Networks (GANs) 
+ These DL-based methods have shown promising results in reducing the feedback overhead, delay, and errors, while improving the system performance in massive MIMO systems. 
+ Llama3-8B-TI 
+ 1. Challenges in CSI feedback for massive MIMO systems include the need for accurate channel estimation, efficient compression methods, and the ability to handle distributed data. 
+ 2. Solutions involve DL-based methods for channel estimation, such as CNN and DNN approaches, as well as DL-based feedback strategies for efficient compression and handling of distributed data. 
+ Llama3-8B-TI-TA 
+ Challenges in CSI feedback for massive MIMO systems using DL-based methods include the need for efficient compression strategies and robustness against channel variations. Solutions involve developing lightweight DL architectures for channel estimation and feedback, as well as exploring quantization techniques to reduce the overhead of transmitting CSI to the baseband unit. 
+ TABLE XI : Comparison of generated response for instruction task in telecom research paper. After instruct and alignment tuning with telecom-specific data, our model provides concise and high-quality summaries of telecom techniques compared to the general purpose llm . 
+ Prompt 
+ Explain the purpose of Test Tolerances in the context of 3GPP radiated tests defined for FR2, and how they affect the minimum requirements for testing. 
+ Category 
+ 3GPP 
+ Ground Truth 
+ Test Tolerances in the context of 3GPP radiated tests defined for FR2 are used to relax the minimum requirements to create test requirements when a test requirement differs from the corresponding minimum requirement. The Test Tolerance for a test is non-zero, and it explains how the minimum requirement has been relaxed for that specific test by the Test Tolerance. 
+ Llama3-8B-Instruct 
+ In the context of 3GPP radiated tests defined for FR2 (Frequency Range 2), test tolerances play a crucial role in ensuring the reliability and consistency of test results. Test tolerances are the allowed variations in the measurement results, which account for the inherent uncertainties and limitations of the testing equipment, measurement procedures, and environmental conditions. The purpose of test tolerances is to: 1. Define the acceptable range of measurement uncertainty: By specifying the test tolerances, the 3GPP standards ensure that the measurement results are within a certain range of the actual values, taking into account the limitations of the testing equipment and procedures. 2. Ensure consistency and comparability: Test tolerances enable the comparison of measurement results from different testing laboratories, equipment, and procedures, by providing a common framework for evaluating the performance of devices under test (DUTs). 3. Allow for reasonable variations in testing conditions: Test tolerances account for variations in environmental conditions, such as temperature, humidity, and noise, which can affect the measurement results. In the context of FR2 radiated tests, test tolerances are particularly important due to the following reasons: 1. Increased complexity: FR2 tests involve more complex measurement procedures and equipment, which can introduce additional sources of uncertainty. 2. Higher frequency: FR2 operates at higher frequencies (24.25 GHz to 52.6 GHz), which can be more challenging to measure accurately due to the increased noise and interference. 3. Increased sensitivity: FR2 devices are designed to operate at higher frequencies, which requires more precise measurements to ensure compliance with the standards. The test tolerances defined in the 3GPP standards for FR2 radiated tests typically include: 1. Frequency tolerance: The allowed deviation from the nominal frequency. 2. Power tolerance: The allowed deviation from the nominal power level. 3. Phase tolerance: The allowed deviation from the nominal phase angle. 4. Amplitude tolerance: The allowed deviation from the nominal amplitude. By considering these test tolerances, the minimum requirements for testing are affected in the following ways: 1. Increased measurement uncertainty: The test tolerances account for the increased uncertainty in measurement results, which can lead to more conservative testing requirements. 2. More stringent testing conditions: To ensure compliance with the standards, testing conditions may need to be more stringent, such as using more precise equipment or more controlled environmental conditions. 3. Increased testing time: The test tolerances may require more testing time to ensure that the measurement results are within the allowed tolerances. 
+ Llama3-8B-TI 
+ 3GPP radiated tests defined for FR2 include Test Tolerances that allow a test requirement to be relaxed by a specific value, resulting in a Test Requirement after Tolerance (TRaT). The minimum requirements for testing are derived by applying Test Tolerances to the nominal requirements, ensuring that the TRaT is achievable by a wide range of UE types. 
+ Llama3-8B-TI-TA 
+ 3GPP radiated tests defined for FR2 specify Test Tolerances that allow relaxing the minimum requirements when testing. These tolerances are based on the measurement uncertainty of the test method, ensuring that the minimum requirements can be tested successfully within the specified limits. 
+ TABLE XII : Comparison of generated response for instruction task in telecom standard. After instruct and alignment tuning with telecom-specific data, our model provides precise concise and high-quality explanation of telecom standard features compared to the general purpose llm . 
+ Prompt 
+ Identify the relationship between the channel bandwidth specified for NR V2X licensed band in Rel-16 and the potential introduction of new channel bandwidths for NR V2X licensed bands in Rel-17. 
+ Category 
+ 3GPP 
+ Ground Truth 
+ The channel bandwidths defined for NR V2X licensed band in Rel-16 should be a subset of UE channel bandwidths for the same licensed band. If operators request new channel bandwidths for NR V2X licensed bands, it can be considered in the enhanced sidelink WI for defining additional RF requirements in Rel-17. 
+ Llama3-8B-Instruct 
+ A technical question! In Rel-16, the channel bandwidth for NR V2X (Vehicle-to-Everything) licensed band is specified as 10 MHz, 20 MHz, and 40 MHz. This is defined in 3GPP TS 38.104. For Rel-17, there is a potential introduction of new channel bandwidths for NR V2X licensed bands. Specifically, 3GPP is considering the addition of 80 MHz and 160 MHz channel bandwidths for NR V2X in the licensed bands. The relationship between the channel bandwidth specified in Rel-16 and the potential introduction of new channel bandwidths in Rel-17 is that the new bandwidths will provide improved spectral efficiency and capacity for NR V2X applications. The increased bandwidths will enable more devices to be supported, and higher data rates can be achieved, which is beneficial for applications such as vehicle-to-vehicle (V2V) and vehicle-to-infrastructure (V2I) communication. In summary, the introduction of new channel bandwidths in Rel-17 builds upon the foundation established in Rel-16, providing a more robust and efficient NR V2X system that can support a wider range of use cases and applications. 
+ Llama3-8B-TI 
+ 1. The channel bandwidth specified for NR V2X licensed band in Rel-16 is 100 MHz. 2. The potential introduction of new channel bandwidths for NR V2X licensed bands in Rel-17 is 20 MHz and 40 MHz, in addition to the existing 100 MHz. 
+ Llama3-8B-TI-TA 
+ The channel bandwidth specified for NR V2X licensed band in Rel-16 is aligned with existing NR FR1 bands defined in Rel-15. The potential introduction of new channel bandwidths for NR V2X licensed bands in Rel-17 is being considered to support additional use cases and requirements. 
+ TABLE XIII : Comparison of generated response for instruction task in telecom standard. After instruct and alignment tuning with telecom-specific data, our model provides precise concise and high-quality explanation of telecom standard features compared to the general purpose llm . 
+ Prompt 
+ Which version of SNMP provides authentication and privacy? [TCP/IP] 
+ Category 
+ Standards overview [TeleQnA] 
+ Ground Truth 
+ SNMPv3 
+ Llama3-8B-Instruct 
+ SNMPv3 (Version 3) provides authentication and privacy. It was introduced in 2002 and is the latest version of the SNMP protocol. SNMPv3 includes features such as:
+* Authentication: Ensures that the SNMP messages are coming from a trusted source and have not been tampered with. 
+ * Encryption: Encrypts the SNMP messages to prevent eavesdropping and unauthorized access. 
+ * Message integrity: Verifies that the SNMP messages have not been altered during transmission. SNMPv3 is considered a more secure version of SNMP compared to earlier versions, which did not have built-in authentication and encryption mechanisms. 
+ Llama3-8B-TI 
+ 2 
+ Llama3-8B-TI-TA 
+ SNMPv3 
+ TABLE XIV : Comparison of generated answers for questions in telecom domain. After DPO, the inaccurate answer of instruct tuned model is corrected. 
+ Prompt 
+ What is the definition of Active communication? 
+ Category 
+ Lexicon [TeleQnA] 
+ Ground Truth 
+ A UE is in active communication when it has a CS connection established. 
+ Llama3-8B-Instruct 
+ In telecommunications, active communication refers to a type of communication where the sender and receiver are actively involved in the communication process. This means that both parties are actively transmitting and receiving information, and are able to respond to each other in real-time. In other words, active communication is a two-way communication process where both parties are actively participating, sending and receiving information, and are able to respond to each other’s messages. This is in contrast to passive communication, where one party is simply receiving information without actively participating in the communication process. Examples of active communication include: 
+ * Real-time voice or video calls 
+ * Instant messaging or chat sessions 
+ * Online conferencing or webinars 
+ * Interactive online forums or discussion boards 
+ Active communication is often used in situations where immediate feedback or response is required, such as in business meetings, customer service, or emergency situations. It allows for a more dynamic and interactive exchange of information, and can help to build stronger relationships and improve communication outcomes. 
+ Llama3-8B-TI 
+ 1. A PLMN where the UE has found a cell that satisfies certain conditions for active communication. 
+ 2. A PLMN where the UE has found a cell that satisfies certain conditions for camping on a cell. 
+ Llama3-8B-TI-TA 
+ A UE is in active communication when it has a CS connection established or when it has one or more Activated PDP contexts. 
+ TABLE XV : Comparison of generated answers for questions in telecom domain. After instruct tuning with telecom-specific tasks, the answer generated by our model provides precise answer compared to the general purpose llm . After DPO, TelecomGPT is capable of providing concise and relatively accurate answer. 
+ Prompt 
+ What is a broadcast channel? 
+ Category 
+ Research publications [TeleQnA] 
+ Ground Truth 
+ A channel where multiple receivers communicate with a common sender 
+ Llama3-8B-Instruct 
+ In telecommunications, a broadcast channel is a communication channel that allows a single sender to transmit information to multiple receivers simultaneously. In other words, it’s a one-to-many communication channel. In a broadcast channel, the sender (also known as the broadcaster) transmits a signal or data to a large number of receivers, such as a television station broadcasting a program to a wide audience, a radio station broadcasting music to listeners, or a mobile network broadcasting a message to multiple mobile devices. The key characteristics of a broadcast channel are: 
+ 1. One-to-many communication: The sender transmits information to multiple receivers. 
+ 2. Unidirectional transmission: The sender transmits information in one direction, from the sender to the receivers. 
+ 3. No feedback: The receivers do not send information back to the sender. 
+ 4. Shared medium: The broadcast channel uses a shared medium, such as the airwaves, to transmit the information. 
+ Examples of broadcast channels include: 
+ * Television broadcasting: A TV station broadcasts a program to a wide audience. 
+ * Radio broadcasting: A radio station broadcasts music or talk shows to listeners. 
+ * Mobile broadcasting: A mobile network broadcasts a message or data to multiple mobile devices. 
+ * Satellite broadcasting: A satellite broadcasts a signal to a wide audience, such as a satellite TV channel. 
+ In contrast, a point-to-point channel is a communication channel that allows two devices to communicate with each other directly, whereas a broadcast channel allows a single sender to transmit information to multiple receivers. 
+ Llama3-8B-TI 
+ A channel where one transmitter communicates with multiple receivers 
+ Llama3-8B-TI-TA 
+ A channel where one transmitter communicates with multiple receivers 
+ TABLE XVI : Comparison of generated answers for questions in telecom domain. The answer provided by the base model is wordy while both our instruct tuned model and alignment tuned model provide the same answer which is accurate and concise.
+ Prompt 
+ What is a network slice according to 3GPP? 
+ Category 
+ Research publications [TeleQnA] 
+ Ground Truth 
+ A logical network with specific characteristics and capabilities 
+ Llama3-8B-Instruct 
+ According to 3GPP (3rd Generation Partnership Project), a network slice is a logical partitioning of a network infrastructure to provide a specific set of network functions and resources to support a particular service or application. It is a key concept in 5G networks, enabling multiple independent networks to coexist on the same physical infrastructure. A network slice is a customized and isolated environment that provides a specific set of network functions, such as radio access, core network, and edge computing, tailored to meet the requirements of a particular service or application. This allows multiple services or applications to share the same physical infrastructure, while maintaining isolation and ensuring that each service or application receives the necessary resources and network functions to operate effectively. Network slices can be created and managed using software-defined networking (SDN) and network function virtualization (NFV) technologies, which enable the creation of virtual networks and network functions that can be dynamically provisioned and managed. In 3GPP, network slices are defined as a set of network functions and resources that are provisioned and managed as a single entity, and are designed to support specific use cases, such as: 
+ * IoT (Internet of Things) 
+ * Mission-critical communications 
+ * Ultra-reliable low-latency communications (URLLC) 
+ * Massive machine-type communications (mMTC) 
+ * Enhanced mobile broadband (eMBB) 
+ By providing a flexible and customizable network infrastructure, network slices enable service providers to offer a wide range of services and applications on the same physical infrastructure, while also reducing costs and improving network efficiency. 
+ Llama3-8B-TI 
+ A set of virtual network functions (VNFs) that run on cloud infrastructure. 
+ Llama3-8B-TI-TA 
+ A logical network built on virtualization technology to provide specific services 
+ TABLE XVII : Comparison of generated answers for questions in telecom domain. There is a repeated definition on network slices in the response of the base model while the telecom-specific models provide two equivalent concise answers.
+ Prompt 
+ Please fill in the missing mathematical equation represented by < MASK > <\text{MASK}> placeholder in the provided sections of a telecom-relevant research paper that discuss the system model or problem formulation. 
+ Network model: We consider two-dimensional wireless networks with the following communication nodes: A network of L T L_{T} cooperating transmitters, a single receiver,
+and a network of L E L_{E} passive eavesdroppers.
+The passive eavesdroppers do not transmit any signal, and try to intercept the information that is transmitted between the pairs of legitimate
+nodes, hence reducing the secrecy capability of the network.
+Their locations are unknown to the transmitters.
+Each transmitter is equipped with only a single omni-directional antenna. 
+ In the sequel, we use the following notation: 
+ L ⁡ ( A ) L(A) 
+ The area of a region A ∈ R 2 A\in R^{2} ; 
+ L T L_{T} 
+ A random variable which denotes the number of transmitters in a region A A ; 
+ L E L_{E} 
+ A random variable which denotes the number of eavesdroppers in a region A A ; 
+ b | | c b||c 
+ A concatenation of two data blocks b b and c c ; 
+ V , V e V,V_{e} 
+ The additive noise at receiver and eavesdropper, which are independent zero mean Gaussian random variables with variance σ 2 \sigma^{2} ; 
+ C t , r C_{t,r} 
+ Capacity of the communication channel between transmitter t t and receiver r r ; 
+ C s : t , r C_{s:t,r} 
+ Secrecy capacity between transmitter t t and receiver r r ; 
+ C s C_{s} 
+ Secrecy capacity between a set of cooperating transmitters and a receiver; 
+ d j , i d_{j,i} 
+ The distance between nodes i i and j j . 
+ We use the additive white Gaussian noise model.
+Then, the received signal at the receiver r r from the transmitter t t is 
+ Y = d t , r − β / 2 X + V . \displaystyle Y=d_{t,r}^{-\beta/2}X+V. 
+ where X X is the transmitted signal from the transmitter t t , and β \beta is the path-loss coefficient [Rappaport:book].
+The received signal at the eavesdropper e e from the transmitter t t equals 
+ < MASK > <\text{MASK}> 
+ The point to point capacities between transmitter t t and receiver r r , and between transmitter t t and eavesdropper e e are given by [Hellman:1978]. 
+ Ground Truth 
+ Z e = d t , e − β / 2 X + V e . \displaystyle Z_{e}=d_{t,e}^{-\beta/2}X+V_{e}. 
+ Llama3-8B-Instruct 
+ C e = d t , e − β / 2 X + V e [93.23%] \displaystyle C_{e}=d_{t,e}^{-\beta/2}X+V_{e}\quad\text{[93.23\%]} 
+ Llama3-8B-TI 
+ Y e = d t , e − β / 2 X + V e . [95.66%] \displaystyle Y_{e}=d_{t,e}^{-\beta/2}X+V_{e}.\quad\text{[95.66\%]} 
+ Llama3-8B-TI-TA 
+ Z = d t , e − β / 2 X + V e . [93.59%] \displaystyle Z=d_{t,e}^{-\beta/2}X+V_{e}.\quad\text{[93.59\%]} 
+ TABLE XVIII : Comparison of math modeling for system model extracted from [ 71 ] . Our telecom-specfic llm provide an accurate math modeling of the received signal (notice that no notation is predefined.) while general purpose llm fail to follow the notation introduced earlier. 
+ Prompt 
+ Please fill in the missing mathematical equation represented by < MASK > <\text{MASK}> placeholder in the provided sections of a telecom-relevant research paper that discuss the system model or problem formulation. 
+ System Model : We consider a discrete-time zero-mean jointly proper Gaussian flat-fading channel with the following input-output relation 
+ < MASK > <\text{MASK}> 
+ with the diagonal matrices 𝐇 = diag ​ ( 𝐡 ) \mathbf{H}=\textrm{diag}(\mathbf{h}) and 𝐗 = diag ​ ( 𝐱 ) \mathbf{X}=\textrm{diag}(\mathbf{x}) . Here the diag ​ ( ⋅ ) \textrm{diag}(\cdot) operator generates a diagonal matrix whose diagonal elements are given by the argument vector. The vector 𝐲 = [ y 1 , … , y N ] T \mathbf{y}=\left[y_{1},\ldots,y_{N}\right]^{T} contains the channel output symbols in temporal order. Analogous, 𝐱 = [ x 1 , … , x N ] T \mathbf{x}=\left[x_{1},\ldots,x_{N}\right]^{T} , 𝐧 = [ n 1 , … , n N ] T \mathbf{n}=\left[n_{1},\ldots,n_{N}\right]^{T} , and 𝐡 = [ h 1 , … , h N ] T \mathbf{h}=\left[h_{1},\ldots,h_{N}\right]^{T} contain the channel input symbols, the additive noise samples and the channel fading weights. All vectors are of length N N . The samples of the additive noise process are assumed to be i.i.d. zero-mean jointly proper Gaussian with variance σ n 2 \sigma_{n}^{2} and, thus, 𝐑 n = E ⁡ [ 𝐧𝐧 H ] = σ n 2 ​ 𝐈 N \mathbf{R}_{n}=\mathrm{E}\left[\mathbf{n}\mathbf{n}^{H}\right]=\sigma_{n}^{2}\mathbf{I}_{N} , with 𝐈 N \mathbf{I}_{N} being the identity matrix of size N × N N\times N .
+The channel fading process is zero-mean jointly proper Gaussian with the temporal correlation characterized by 
+ < MASK > <\text{MASK}> 
+ Its variance is given by r h ​ ( 0 ) = σ h 2 r_{h}(0)=\sigma_{h}^{2} . For mathematical reasons we assume that the autocorrelation function r h ​ ( l ) r_{h}(l) is absolutely summable, i.e., 
+ < MASK > <\text{MASK}> 
+ Ground Truth 
+ 𝐲 = 𝐇𝐱 + 𝐧 = 𝐗𝐡 + 𝐧 \mathbf{y}=\mathbf{H}\mathbf{x}+\mathbf{n}=\mathbf{X}\mathbf{h}+\mathbf{n} 
+ r h ​ ( l ) = E ⁡ [ h k + l ⋅ h k ∗ ] . r_{h}(l)=\mathrm{E}[h_{k+l}\cdot h_{k}^{*}]. 
+ ∑ l = − ∞ ∞ | r h ​ ( l ) | < ∞ . \sum_{l=-\infty}^{\infty}|r_{h}(l)|<\infty. 
+ Llama3-8B-Instruct 
+ 𝐲 ⁡ [ n ] = 𝐇𝐱 ⁡ [ n ] [70.72%] \mathbf{y}[n]=\mathbf{H}\mathbf{x}[n]\quad\text{[70.72\%]} 
+ 𝐑 h = σ h 2 ​ 𝐈 N + ( 𝐑 h ⊗ 𝐑 h ) 1 / 2 [48.33%] \mathbf{R}_{h}=\sigma_{h}^{2}\mathbf{I}_{N}+(\mathbf{R}_{h}\otimes\mathbf{R}_{h})^{1/2}\quad\text{[48.33\%]} 
+ ∑ l = − ∞ ∞ | r h ​ ( l ) | < ∞ [97.65%] \sum_{l=-\infty}^{\infty}|r_{h}(l)|<\infty\quad\text{[97.65\%]} 
+ Llama3-8B-TI 
+ 𝐲 = P n t ​ 𝐇𝐱 + 𝐰 [54.48%] \mathbf{y}=\sqrt{\frac{P}{n_{t}}}\mathbf{H}\mathbf{x}+\mathbf{w}\quad\text{[54.48\%]} 
+ E [ h i h j ] = r h ( i − j ) , for i ≥ j . [54.94%] \mathrm{E}\left[h_{i}h_{j}\right]=r_{h}(i-j)\>,\>\text{for}\>i\geq j\>.\quad\text{[54.94\%]} 
+ ∑ l = − ∞ ∞ r h ​ ( l ) < ∞ . [96.20%] \sum_{l=-\infty}^{\infty}r_{h}(l)<\infty.\quad\text{[96.20\%]} 
+ Llama3-8B-TI-TA 
+ 𝐲 = γ ​ 𝐇𝐱 + 𝐧 [74.45%] \mathbf{y}=\sqrt{\gamma}\mathbf{H}\mathbf{x}+\mathbf{n}\quad\text{[74.45\%]} 
+ E [ h i h j ∗ ] = r h ( | i − j | ) , i ≥ j . [56.51%] \mathrm{E}\left[h_{i}h_{j}^{*}\right]=r_{h}\left(\left|i-j\right|\right),\quad i\geq j.\quad\text{[56.51\%]} 
+ ∑ l = − ∞ ∞ | r h ​ ( l ) | < ∞ . [99.32%] \sum_{l=-\infty}^{\infty}|r_{h}(l)|<\infty.\quad\text{[99.32\%]} 
+ TABLE XIX : Comparison of math modeling for problem formulation extracted from [ 72 ] . For better readability, we display three generated equations together while the equations are generated sequentially. Our telecom-specfic llm provide a better math modeling of the channel while the general-purose llm misses the channel noise and introduces a time-varying modeling which is not mentioned in the context. 
+ Prompt 
+ Identify and infill the missing lines indicated by a placeholder < FILL > <\text{FILL}> required to complete this function’s operation within its telecommunications context. 
+Get MTU value in host OS.
+ Args:
+ iface(str): Interface for getting MTU in host OS
+ <fill>
+ ifr = struct.pack(’16sH’, iface.encode("utf-8"), 0)
+ mtu = struct.unpack(’16sH’, ioctl(soc, self.SIOCGIFMTU, ifr))[1]
+ except Exception as err:
+ raise PypackerException("ERROR: Getting MTU failed; {}".format(err))
+ return mtu 
+ Ground Truth 
+ ◄ 
+ Feeling lucky? 
+ Conversion report 
+ Report an issue 
+ View original on arXiv ► 
+ Copyright 
+ Privacy Policy 
+ Generated by L a T e XML oxide 

@@ -1,0 +1,784 @@
+                                         JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2015                                                                                       1
+
+
+
+
+                                                   Chat-Driven Optimal Management for Virtual
+                                                                Network Services
+                                                                          Yuya Miyaoka, Masaki Inoue, Kengo Urata, and Shigeaki Harada
+
+
+
+
+                                            Abstract—This paper proposes a chat-driven network man-                       deploy their services without building or maintaining physical
+                                         agement framework that integrates natural language processing                    infrastructure, thereby enhancing their development efficiency.
+                                         (NLP) with optimization-based virtual network allocation, en-                       The process of providing such virtual network services can
+                                         abling intuitive and reliable reconfiguration of virtual network
+                                         services. Conventional intent-based networking (IBN) methods                     be broadly divided into two stages. The first stage is to define
+arXiv:2512.24614v1 [cs.NI] 31 Dec 2025
+
+
+
+
+                                         depend on statistical language models to interpret user intent                   network requirements based on user demands (intents), in-
+                                         but cannot guarantee the feasibility of generated configurations.                cluding resource capacity, bandwidth, and latency. The second
+                                         To overcome this, we develop a two-stage framework consisting                    stage is to appropriately control the placement of VMs across
+                                         of an Interpreter, which extracts intent from natural language                   data centers and the transmission paths between users and
+                                         prompts using NLP, and an Optimizer, which computes feasible
+                                         virtual machine (VM) placement and routing via an integer linear                 VMs so as to satisfy the defined requirements. While many
+                                         programming. In particular, the Interpreter translates user chats                studies have addressed the latter stage by proposing control
+                                         into update directions, i.e., whether to increase, decrease, or                  methods that ensure optimality and efficiency [4], [5], the
+                                         maintain parameters such as CPU demand and latency bounds,                       former stage of requirement specification still relies heavily
+                                         thereby enabling iterative refinement of the network configura-                  on manual effort. In practice, this stage can account for more
+                                         tion. In this paper, two intent extractors, which are a Sentence-
+                                         BERT model with support vector machine (SVM) classifiers and                     than half of the total service provisioning time. Therefore,
+                                         a large language model (LLM), are introduced. Experiments                        the automation of the requirements specification process is a
+                                         in single-user and multi-user settings show that the framework                   critical challenge for realizing rapid provisioning of virtual
+                                         dynamically updates VM placement and routing while preserving                    network services.
+                                         feasibility. The LLM-based extractor achieves higher accuracy                       To address this challenge, Intent-Based Networking (IBN)
+                                         with fewer labeled samples, whereas the Sentence-BERT with
+                                         SVM classifiers provides significantly lower latency suitable for                has recently attracted increasing attention as a promising
+                                         real-time operation. These results underscore the effectiveness                  technology for end-to-end network operations, driven by user
+                                         of combining NLP-driven intent extraction with optimization-                     intent [6]–[9]. Specifically, it automates the process from
+                                         based allocation for safe, interpretable, and user-friendly virtual              defining network requirements based on user-intent infor-
+                                         network management.                                                              mation expressed in natural language to executing network
+                                           Index Terms—Natural language processing, Intent-based net-                     control. This comprehensive automation significantly reduces
+                                         working, Virtual network allocation, Optimization.                               the time from receiving user-intent information to executing
+                                                                                                                          control, thereby accelerating service provisioning. Since users
+                                                                   I. I NTRODUCTION                                       can obtain optimal network services simply by communicating
+                                              ERVER virtualization technology enables the construction                    their desired outcomes in natural language, the IBN also
+                                         S    of multiple virtual machines (VMs) on a single physical
+                                         server, thereby achieving efficient utilization of computing re-
+                                                                                                                          provides intuitive operability and high reliability, ultimately
+                                                                                                                          enhancing user satisfaction. From the perspectives of au-
+                                         sources and flexible server operation [1]. In addition, Network                  tomation, accelerated service provisioning, and assurance of
+                                         Function Virtualization (NFV) allows network functions such                      overall system reliability, we need to incorporate user-intent
+                                         as routers, firewalls, and load balancers to be virtualized as                   information into network operations.
+                                         software running on general-purpose servers [2]. With these                         In conventional IBN, statistical approaches have been in-
+                                         developments, network configurations including the setup of                      troduced to flexibly interpret diverse user intents, thereby ex-
+                                         routing paths and the placement of VMs can be flexibly                           panding the possibilities of virtual machine services. However,
+                                         controlled, allowing for the provision of various types of                       purely statistical methods may fail to ensure the feasibility of
+                                         virtual network services. A representative service model is                      the resulting network configurations, raising concerns about
+                                         Infrastructure as a Service (IaaS [3]), which provides not                       safety and reliability. To guarantee feasibility, model-based
+                                         only computing resources such as servers and storage but                         (e.g., optimization-based) methods, such as those proposed in
+                                         also a virtual network infrastructure. This enables users to                     [4], [5], [10]–[12], remain desirable. This paper aims to inte-
+                                                                                                                          grate the strengths of both paradigms—statistical and model-
+                                            Yuya Miyaoka and Masaki Inoue are with the Department of Applied              based approaches. Building on natural language processing
+                                         Physics and Physico-Informatics, Keio University, Kanagawa 223-8522, Japan
+                                         (e-mail: miyaoka.yuya@keio.jp; minoue@appi.keio.ac.jp). Kengo Urata is           (NLP) techniques, we develop a novel framework that not only
+                                         with Network Service Laboratories, NTT, Inc., Tokyo 180-8585, Japan.             accommodates diverse user instructions but also guarantees the
+                                         Shigeaki Harada is with IOWN Product Design Center, NTT, Inc., Tokyo             feasibility of the resulting network configurations.
+                                         180-8585, Japan. (e-mail: kengo.urata@ntt.com; shigeaki.harada@ntt.com)
+                                            This research was conducted while the fourth author (Harada) was affiliated      This paper presents a framework that leverages NLP to
+                                         with the Network Service System Laboratories.                                    enhance the accessibility and intuitiveness of virtual network
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2015                                                                                     2
+
+
+
+
+                                             Virtual Network         User                                                        Experience
+             Experience
+                                                                                      Prompt 𝑝
+                                                                                                                 Environmental
+                                                                     Interpreter                                 information
+                                                      Datacenter        Intent Extractor
+                          User                                                                                            Virtual
+                                                                                      Update marker Δ𝜃
+      User input in
+                                                                                                                         Network
+                                                                        Parameter Updater                                Service
+ natural language
+                                                     User’s
+                                                      VM                              Updated parameter 𝜃
+        Interface
+                                                       Datacenter    Optimizer min 𝐽𝜃 (𝑥, 𝑦)
+ (Optimizer & Interpreter)                                                          (𝑥,𝑦)                                 VM placement 𝑥,
+                                                                                    s.t. 𝑥, 𝑦 ∈ 𝒵𝜃                        Route 𝑦
+
+Fig. 1. Conceptual structure of proposed framework                  Fig. 2. Detailed structure of the overall system
+
+
+
+services. Building on our previous research [13], we design                arrive simultaneously and may conflict with one another.
+an interface that bridges user interactions and the virtual            •   Quantitative evaluation of the Interpreter: We quantita-
+network allocation process, as illustrated in Fig. 1. Through              tively compare the Sentence-BERT + SVM Interpreter
+this interface, the system receives user instructions expressed            and the LLM-based Interpreter in terms of intent extrac-
+in natural language and incorporates them into VM placement                tion accuracy, the amount of training data required, and
+and routing decisions. As shown in Fig. 2, the interface con-              computational time.
+sists of two key components: an Interpreter and an Optimizer.          The rest of the paper is organized as follows. A comparison
+The Interpreter analyzes user chat using NLP models and             to related works is presented in Section II. In Section III,
+converts linguistic expressions into structured specification       we propose a novel end-to-end VM allocation framework
+parameters such as CPU demand and latency requirements              driven by user intent expressed in natural language form,
+that drive the network allocation problem. To accommodate           which is constructed from the Interpreter and the Optimizer.
+diverse user expressions, we develop two Interpreter archi-         In Section III-A, Optimizer is formulated as an ILP and in
+tectures: one combining Sentence-BERT models with Support           Section III-B, two types of Interpreter are introduced based
+Vector Machine (SVM) classifiers and another leveraging a           on a Sentence-BERT model with SVM classifiers and LLM
+large language model (LLM). These implementations differ            models. In Section IV, experiments are conducted. Finally, the
+in computational cost and interpretive flexibility, enabling a      paper is concluded in Section V.
+trade-off between accuracy and operational efficiency. The             Notation: For a ∈ Rn , ||a||1 denotes the L1 norm of a.
+Optimizer then solves an integer linear programming (ILP)
+formulation of the virtual network allocation problem using
+the Interpreter-derived specifications. By computing feasible                               II. R ELATED W ORKS
+VM placement and routing that satisfy resource, latency, and           Several prior studies have formulated the virtual network
+capacity constraints, the Optimizer ensures that user intent        allocation problem as a numerical optimization problem to
+is reflected safely and optimally in the resulting network          automatically determine the optimal placement of VMs [4],
+configuration. This paper also validates the effectiveness of       [5], [10]–[12], [15]. For instance, the study in [5] formulates
+the proposed framework through two experiments. The first           the VM placement problem as an ILP problem, whereas
+experiment demonstrates the system’s ability to iteratively         the studies in [10] and [11] formulate it as a mixed-integer
+adjust VM allocation and routing in response to natural             linear programming (MILP) problem. Moreover, certain works
+language prompts, showing how the parameter update mech-            incorporate uncertainties that arise in practical environments
+anism influences the final network configuration. The second        into their formulations. Specifically, [10] considers the network
+experiment provides a performance comparison of different           system powered by renewable energy sources and proposes a
+intent extractor implementations in the Interpreter.                robust virtual network allocation method that handles uncertain
+   This paper is an extended version of our previous conference     power availability. Furthermore, the paper [15] assumes a
+paper [14]. The differences from the conference version are         Gaussian distribution of traffic demands and presents a method
+summarized as follows:                                              that constrains the probability of congestion below a given
+   • LLM-based Interpreter: In addition to the Sentence-BERT        threshold.
+     model with an SVM-based classifier used in the confer-            Although these studies address the virtual network allo-
+     ence version, we implement an LLM-based Interpreter,           cation problem, they operate under the implicit assumption
+     which offers higher expressiveness and better adaptability     that specification parameters such as CPU resources and
+     with limited labeled data.                                     latency bounds are provided. In practice, however, specifying
+   • Arbitration for the multi-user case: We introduce an           these parameters can be difficult for users, particularly those
+     arbitration mechanism that accepts the largest possible        without professional expertise. Furthermore, updating such
+     number of user requests when multiple chat prompts             specifications in real time during service operation remains
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2015                                                                             3
+
+
+
+challenging, even for users with prior experience in virtual          • By employing ILP as the control-execution module (re-
+network services.                                                       ferred to as the Optimizer in this paper), we compute
+   Several works have investigated the utilization of NLP               optimal VM placement and routing under the specified
+for network operation and management aiming for enhanced                constraints while faithfully reflecting user intent. In con-
+accessibility and intuitiveness for users [16]–[21]. The pa-            trast, prior studies rely on reinforcement learning, which
+per [16] proposes a cloud–edge collaborative approach to                provides no guarantees of strict optimality.
+leveraging LLMs and designs a multi-agent reinforcement               • In this paper, we solve an optimization problem under the
+learning–based decision mechanism that dynamically selects              network constraints, which are parametrized by specifi-
+whether to query a cloud-hosted LLM or return an edge-                  cation values obtained by translating user intents via an
+cached LLM response. This mechanism reduces both latency                Interpreter. Under the proposed framework, the feasibility
+and computational cost in LLM operations. The paper [17]                of the control actions required to satisfy user intents
+proposes an LLM-based method for forecasting the demand of              can be rigorously guaranteed through an optimization-
+virtual network function resources, such as CPU, memory, and            theoretic approach. Since feasibility is guaranteed by
+storage, and demonstrates higher accuracy than probability-             the Optimizer, the proposed framework provides inherent
+based models. The papers [18], [19] leverage LLMs for fault             robustness to LLM hallucinations even without an intent-
+and anomaly detection. In particular, [18] employs an LLM to            validation module, as employed in conventional works
+generate natural-language explanations of detection outcomes            [23], [24].
+with explicit evidential support, thereby enhancing reliability
+and explainability of the detection system. The papers [20],                             III. M ETHODOLOGY
+[21] employ the in-context learning of LLMs for operating              This section formulates the overall system design, including
+network systems. In particular, the study [21] utilizes LLMs        the Optimizer and the Interpreter. The Optimizer formulates
+to perform wireless symbol demodulation in limited-data sce-        the virtual network allocation problem as an ILP, which deter-
+narios. It also demonstrates that calibrated prompting, which       mines VM placement and routing. The objective function and
+refines LLM inputs, enables LLMs to outperform traditional          the constraints of the optimization problem are parametrized
+DNNs. Across these studies, NLP/LLM components are di-              by θ, which represents the updateable specification of the
+rectly utilized for enhancing network operation. This paper         virtual network allocation problem. The Interpreter estimates
+proposes an approach that employs NLP/LLMs to extract user          the user’s requirements based on their chat text in natural
+intents into the specification of the virtual network allocation.   language format, referred to as the “prompt”. The examples of
+This indirect approach contributes to enhancing the feasibility     Interpreter implementations are described in Subsection III-C.
+and explainability of the resulting network configuration.          The iterative process of parameter update is performed to align
+   Some conventional works [6]–[9], [22]–[24] employ an             network services with user preferences and requirements. The
+indirect approach that leverages NLP/LLMs for translating           chat steps are denoted by k = 0, 1, . . .. The updatable parame-
+user intents expressed in natural language into network control     ter θ(k) and decision variables (x(k), y(k)) are dependent on
+specifications.. For instance, the paper [22] does not use          the chat step k, which are often denoted as (x, y). Symbols
+LLM outputs to excuse the slicing control for open radio            used in this paper are shown in Table I.
+access networks. Instead, it uses LLMs to argue the state
+representations of the multi-agent deep reinforcement learning
+                                                                    A. Optimizer
+with semantic features. The papers leverage LLMs to extract
+user intents expressed in natural language into network control        We establish a simplified setting of the virtual network
+specifications [6]–[9]. For instance, the paper [6] introduces      service and the virtual network allocation problem. In the
+semantic routing as a pre-processing step to enhance the            problem, each user rents a single VM. The network topology
+translation of user intent to reduce hallucinations as compared     is a directed graph where routers and links are represented as
+with standard LLMs. In addition, the paper [7] proposes             nodes and edges, respectively. Datacenters (DCs) are a special
+an intent-translation system comprising two components: an          type of router that places VMs and have substantial compute
+Intent Engine and an AI Engine. The latter complements              resources like CPUs and memory. Each user needs to rent a
+the original intent with missing low-level context. Two prior       VM within a DC and to communicate with the VM through
+studies [23], [24] propose IBN with a three-stage strategy          the links.
+consisting of intent translation, intent validation, and control       The decision variables of the virtual network allocation
+execution, and this strategy is conceptually similar to this        problem are x and y, representing VM placement and routing,
+paper. Here, intent validation indicates a mechanism that           respectively. We define three objective functions to be mini-
+determines whether the extracted intent is applicable under         mized:
+current network conditions. In both studies, LLMs are utilized      • J1 (x, y) = maxl∈L (ysl ϕs )/ϕ̄l : This function represents the
+for intent translation and reinforcement learning is employed          maximum link usage in the network. Minimizing J1 aims
+for control execution; the first study [23] employs a validation       to distributePthe traffic
+                                                                                           P load of each link.
+method based on k-nearest neighbor algorithm, whereas the           • J2 (x, y) =     s∈S     l∈L ysl Tl : This function represents the
+second study [24] proposes a Transformer-based approach.               total network latency. Minimizing J2 prevents the occur-
+As compared with conventional indirect approaches, the key             rence of undesirable routes, such as unnecessarily long
+contributions of this paper are outlined as follows:                   routes.
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2015                                                                                          4
+
+
+
+                                                                      TABLE I
+                                                                      S YMBOLS
+
+     Symbol                    Meaning
+     k                         The chat step and denoted by k = 0, 1, . . ..
+     N, N                      Number of routers, and set of the router index, i.e., N = {1, . . . , N }.
+     L, L                      Number of links, and set of the link index, i.e., L = {1, . . . , L}.
+     D                         Number of datacenters (DCs).
+     S, S                      Number of users, and set of the user index, i.e., S = {1, . . . , S}.
+     ϕ̄l                       Bandwidth, a maximum traffic amount, of Link l ∈ L.
+     ϕs                        Traffic volume generated by User s.
+     Tl                        Latency, the time delay that occurs when transmitting the data through Link l ∈ L.
+     θ ∈ R2
+     θsCPU (k) ∈ R             Updateable parameter. The minimum CPU resource of the VM that User s ∈ S desires to use.
+     θsLB (k) ∈ R              Updatable parameter. The latency bound, the maximum latency time for communication from User s ∈ S to its VM.
+     ηCPU , ηLB                Hyperparameters of the Interpreter. Determine the magnitude of the update range. The ranges are ηCPU > 1 and
+                               ηLB > 1.
+     ∆θ ∈ {−1, 0, +1}2         Called “update marker”. Values ∆θ = [∆θCPU ∆θLB ]⊤ indicate direction of update from the current parameter
+                               values, θCPU and θLB , respectively.
+     x(k) ∈ {0, 1}S×D          Decision variable. Represents the VM placement. The element xsd takes 1 if the VM of User s is allocated into the
+                               DC d and otherwise 0.
+     y(k) ∈ {0, 1}S×L          Decision variable. Represents the routing. The element ysl takes 1 if the communication between User s and the VM
+                               is passed through Link l and otherwise 0.
+
+
+
+•  J3 (x, y) = ||x − x− ||1 : This function measures the change              (1g) is for creating a one-stroke route from each user to the
+   in VM placement between chat steps. The constant x−                       DC that allocates the user’s VM, ensuring the incoming and
+   is the VM placement solution x from the previous chat                     outgoing data balance for each router.
+   step, and x− at k = 0 is given, such as x− = 0.                           Remark 1. Problem (1) is formulated in a simplified setting
+   Minimizing J3 discourages significant and sudden changes                  and can be further extended. Extensions include considering
+   to VM placements, thereby maintaining the stability and                   storage capacity constraints or integrating the power consump-
+   usability of the virtual network service during the chat steps.           tion for data transmission accross links into the objective
+   The virtual network allocation problem is formulated as the               function.
+following ILP:                                                                  Note that Problem (1) involves the parameter, θsCPU and
+                                                                               LB
+                                                                             θs for each users s ∈ S. The parameter of User s is denoted
+         min ω1 J1 (x, y) + ω2 J2 (x, y) + ω3 J3 (x, y),             (1a)
+          x,y                                                                as θs := [θsCPU θsLB ]⊤ .
+           s.t. x ∈ {0, 1}S×D , y ∈ {0, 1}S×L ,                      (1b)
+                X                                                            B. Interpreter
+                    ysl ϕs ≤ ϕ̄l , ∀l ∈ L,                           (1c)
+                s∈S                                                             An Interpreter is the key component of the presented service
+                X                                                            system, which is illustrated in Fig. 2. The architecture of an
+                      xsd θsCPU ≤ vCPUd , ∀d ∈ D,                    (1d)
+                                                                             Interpreter consists of a cascaded structure with two units: an
+                s∈S
+                X                                                            intent extractor and a parameter updater.
+                      ysl Tl ≤ θsLB , ∀s ∈ S,                        (1e)       In an intent extractor, the user-provided prompt p is ana-
+                l∈L
+                X                                                            lyzed to output the update marker ∆θ = [∆θCPU ∆θLB ]⊤ ∈
+                      xsd = 1, ∀s ∈ S,                               (1f)    {−1, 0, +1}2 . The values ∆θCPU ∈ {−1, 0, +1} and ∆θLB ∈
+                d∈D                                                          {−1, 0, +1} indicate the direction of update from the cur-
+                                                                             rent parameter value: −1 indicates to reduce the value, +1
+                       
+                        +1,
+                                    n = ns , n is not DC,
+                Π⊤                                                           indicates to increase the value, and 0 indicates to maintain
+                   y
+                 n s =   −1,         n ̸= ns , n is DC,              (1g)
+                                                                            the value. The symbol ∆θ is called “update marker”. An
+                         0,          else,
+                       
+                                                                             intent extractor is responsible for analyzing the prompt to
+                ∀n ∈ N , ∀s ∈ S.                                             determine whether each topic should be increased, decreased,
+                                                                             or maintained. Specifically, it outputs +1 / −1 if the prompt
+                                                                             contains a request to increase/decrease the value, 0 if the topic
+   Symbols ω1 , ω2 , and ω3 are weighting constants for the                  is irrelevant or the prompt is uninterpretable. Two implementa-
+objective functions. Constraint (1c) ensures to prevent the                  tions of the intent extractor are presented in Subsection III-C.
+congestion on each link l ∈ L. Constraint (1d) ensures to                       In parameter update, the parameter θ(k) is updated based
+limit the total CPU resources on each DC d ∈ D, satisfying                   on the determined update marker ∆θ, as follows:
+the user requirements on CPU resources, θCPU . Constraint (1e)                   
+ensures to satisfy user requirements on the latency bound θLB .                      CPU               ∆θ CPU (k) CPU
+                                                                                 
+                                                                                 
+                                                                                  θ s    (k + 1) =  η CPU       z                        (2a)
+Constraint (1f) ensures that each user owns only one instance
+                                                                                 
+                                                                                                    
+                                                                                                             LB         LB
+of VM. In constraint (1g), Πn is the incidence matrix of the                                          ηLB θs (k), ∆θ (k) = +1,
+                                                                                                     
+                                                                                       LB                 LB
+network topology at n-th row, and ys is the decision variable
+                                                                                 
+                                                                                 
+                                                                                    θs (k + 1) = θs (k),             ∆θLB (k) = 0,       (2b)
+                                                                                                     −1 LB
+                                                                                                                        LB
+at s-th row, indicating the link usage of the user s. Constraint                                        ηLB zs (k), ∆θ (k) = −1,
+                                                                                 
+                                                                                 
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2015                                                                            5
+
+
+
+The actual values z CPU and z LB must be measured from a
+                                                                                Router
+real-world network system.
+                                                                                Router with User
+                                                                                                                             1
+Remark 2. In this problem addressed in this section, it is
+                                                                                DC                         3
+assumed that two specification parameters related to CPU
+resource and latency bound are configurable. The problem                                                                      2
+                                                                                                                             DC 1
+can be extended to include other specifications as parameters,                            5
+such as storage volume, memory volume, and maximum power
+consumption. The additional parameters are also updated in a                                                       4
+manner similar to the parameter update rule (2) with appro-                 7
+                                                                           DC 2
+priate markers.
+Remark 3. When the Interpreter indicates no change to the
+                                                                                                         6
+latency bound, i.e., ∆θLB = 0, we maintain the previous                           9
+parameter value: θsLB (k + 1) = θsLB (k). This means that the
+system only updates the latency-bound parameter when the                                                 8
+                                                                                                        DC 3
+user explicitly prompts it. This “non-interfering strategy” is
+applied to prevent the service from inadvertently narrowing
+                                                                      Fig. 3. Network setting in the experiments
+the feasible solution space for the virtual network allocation
+problem without explicit user intent.
+                                                                         The second architecture employs an LLM to perform the
+C. Intent Extractor Implementations                                   intent analysis and to generate the update marker ∆θ. In this
+   This subsection shows two distinct architectures for imple-        paper, the Meta Llama 3-8b-Instruct model [26] is applied. The
+menting an intent extractor. The first architecture combines          process is as follows: The provided prompt is inserted into a
+a high-performance natural language model with classical              template text that can also insert several pre-labeled training
+machine learning classifiers. The second architecture leverages       samples for few-shot learning. The pre-labeled training sam-
+the capabilities of a modern LLM.                                     ples are detailed in Section IV. The combined text is then fed
+   The first architecture consists of a BERT model1 and SVM           into the LLM model to generate a response text. Since the
+models (BERT+SVM). The BERT model is one of the natural               LLM is instructed to format the update marker information
+language processing foundation models that takes a text to            in JSON, we then perform JSON parsing to make the update
+output the embedding vector es ∈ Rm . The embedding vector            marker ∆θ. The LLM architecture is expected to require less
+es is in high-dimensional space, where m ≈ 1000, and it               training data to adapt to the domain. The template text of the
+expresses the intent of the text through its direction [25].          LLM input is shown in Appendix B.
+The embedding vector es is then fed into the following two               The performance comparison of two implementations is
+Support Vector Machine (SVM) classifiers to determine the             demonstrated in Section IV.
+update marker ∆θ output.
+• The intent classifier for CPU resource C
+                                                CPU
+                                                       : Rm →                                  IV. E XPERIMENTS
+   {−1, 0, +1} classifies the embedding vector es to select             This section outlines the entire flow of our proposed net-
+   an operation for the CPU resource requirement parameter            work, which involves sending prompts, solving the virtual
+   θCPU . The classifier outputs C CPU (es ) = −1 represents the      network allocation problem, and subsequently serving virtual
+   decrease of the CPU resource, C CPU (es ) = +1 represents          network services to users. The first two subsections outline
+   the increase, and C CPU (es ) = 0 represents that the prompt       the whole process, from processing user prompts to serving
+   has no claims about CPU.                                           the virtual network services. The final subsection provides a
+                                                  LB
+• The intent classifier for latency bound C           : Rm →          performance comparison of different intent extractor imple-
+   {−1, 0, +1} classifies the embedding vector es to select and       mentations in the Interpreter.
+   operation for latency bound requirement parameter θLB . The
+   classifier outputs C LB (es ) = −1 represents the decrease of      A. Network Operation : Single-User Case
+   the latency bound, C LB (es ) = +1 represents the increase,
+                                                                         The first example demonstrates the network operation in a
+   and C LB (es ) = 0 represents that the prompt has no claims
+                                                                      single-user case.
+   about the latency bound.
+                                                                         We assume a single user who rents a VM from the presented
+Both SVM classifiers are trained on pre-labeled train-                virtual network, as shown in Fig. 3. The topology used in this
+ing samples. The final output, the update maker ∆θ, is                experiment is based on the IP network in Internet2 [27]. The
+obtained by combining the classification results: ∆θ =                network has L = 26 links. The bandwidth of each link, ϕ̄l ,
+[C CPU (es ) C LB (es )]. The BERT+SVM architecture is ex-            is set to 1.0 Gbps, l ∈ L and the latency of each link, Tl ,
+pected to require fewer computational resources and to pro-           is set to 1.0 ms. The user is located at Router 3, and traffic
+duce formed outputs.                                                  volume, ϕ, is 0.5 Gbps. The service provider offers solutions
+  1 A Sentence-BERT model sentence-transformers/all-MiniLM-L6-v2 on   (x, y) that update the user’s network service in response to the
+HuggingFace [25] is applied in this paper.                            prompts. The initial parameters are set to a CPU resource of
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2015                                                                         6
+
+
+
+θCPU (0) = 2 core and a latency bound of θLB (0) = 3 ms. The
+hyperparameters of the Interpreter, as defined in (2), are set
+                                                                          max     ||a||1                                      (3a)
+to [ηCPU , ηLB ] = [2, 1.5]. The weights in the virtual network        a∈{0,1}M
+allocation problem (1) are set to ω1 = 1, ω2 = 0.01, and                     s.t. The virtual network allocation problem
+ω3 = 0.05. We applied the LLM in the intent extractor of
+                                                                                  with (2) and ∆θ = [∆θ1 · · · ∆θM ]a         (3b)
+the Interpreter, as presented in III-C. To perform the few-shot
+learning, 30 pre-labeled examples are included in the LLM                         is feasible.
+input text. The detail is shown in Subsection IV-C.
+   The user provided prompts in the following order:                   The users provided the following prompts:
+                                                                       • k = 0 User 1 says “I want to have more CPUs!” and
+   • k = 0 “I no longer need such as plenty CPU”
+   • k = 1 “I would like to have lower latency network”
+                                                                         User 3 says “Please reduce the latency, please”.
+                                                                       • k = 1 User 1 says “Get more CPUs, please.”
+   • k = 2 “Get more CPUs, please.”
+                                                                       • k = 2 User 1 says “I no longer need much CPU. Sorry!”,
+   The solution y, representing the routing, is illustrated in
+                                                                         User 2 says “May I use more CPUs, please? Thank you.”,
+Fig. 4. This figure displays the DC assignment and routing.
+                                                                         and User 3 says “Could I use more CPUs, please”.
+Note that the actual CPU resource assigned is equivalent to
+the CPU resource parameter, i.e., z CPU = θCPU . The latency-          The resulting solution x, which represents the VM assign-
+bound parameter θLB and resulting actual latency time z LB at       ment, is illustrated in Fig. 5. This figure displays the CPU
+each chat step k is shown in Table II.                              usage of each DC. The figure illustrates how the system
+   At the initial step k = 0, the VM is placed in DC 2,             dynamically reallocates VMs to accommodate the multiple
+connected to Router 7. At step k = 1, the CPU usage                 user requirements.
+declined, as intended by the prompt. At step k = 2, the                At chat step k = 0, both User 1 and User 3’s requirements
+VM is moved to DC 1, connected to Router 2, as expected.            are accepted. User 1’s VM is moved to a DC with a larger
+Since the prompt is related to a latency-bound topic, the           available CPU capacity, and User 3’s VM is moved from DC
+latency-bound parameter was set to θLB (2) = 1.3 ms, which          2 to DC 1 for less latency. User 1’s requirement at chat step
+is derived from the parameter update rule (2), specifically         k = 1 is also accepted. At chat step k = 2, the arbitration
+θLB (2) = ηLB−1 LB
+                 z (1) = 1.5−1 × 2.0 ms. At the final step          is performed: User 1 and User 2 are accepted, and User 3 is
+k = 3, the optimization problem is infeasible, meaning that         rejected.
+the virtual network problem under the parameter θ(3) is not            By introducing an arbitration mechanism for simultaneously
+executable and the system cannot align with the user request.       submitted user prompts, the network integrity is preserved.
+Unlike an end-to-end approach, our proposed framework,              Various methods for forming an arbitration exist; in this
+through the cascaded connection of the Interpreter and the          experiment, we search for the combination that accepts the
+Optimizer, successfully detects the infeasibility beforehand,       largest number of users, but a scheme to distribute resources
+which contributes to the preservation of network integrity.         among all users can also be valid.
+
+                                                                    C. Intent Extractor Comparison
+B. Network Operation : Multi-User Case
+                                                                       This subsection evaluates the performance of the proposed
+   This subsection extends the single-user case, presented in
+                                                                    intent extractor implementations. We compare the performance
+Subsection IV-A, to a multi-user case, where three users
+                                                                    of different architectures: BERT+SVM and LLM. We also
+interact with the system. Users 1, 2, and 3 are located in Router
+                                                                    investigate the influence of the number of pre-labeled training
+1, 3, and 4, respectively. The network’s link configuration,
+                                                                    samples on the intent extractor accuracy in each architecture.
+DCs, and topology remain the same as in the single-user case.
+                                                                       We used Intel(R) Xeon(R) w5-2445 CPU and NVIDIA RTX
+   In this scenario, multiple users may send their prompts at
+                                                                    A5000 GPU to perform the experiments.
+the same chat step. This setup models cases where the order of
+                                                                       A pre-labeled sample consists of a prompt and its expected
+prompts is ambiguous, i.e., multiple users send prompts almost
+                                                                    update markers [∆θCPU ∆θLB ]. A few samples are shown as
+simultaneously, or the Optimizer’s execution time is long,
+                                                                    follows:
+leading to a backlog of multiple prompts accumulated before                                                            CPU
+                                                                       • “Could you upgrade the CPU resource?”, ∆θ           = +1,
+the next optimization execution. In such cases, the parameter                LB
+update rule (2) is iteratively applied for each accumulated              ∆θ = 0,
+                                                                                                          CPU
+prompt within a single chat step. Furthermore, when reflect-           • “My latency is too reduced”, ∆θ        = 0, ∆θLB = −1,
+                                                                                                           CPU
+ing all accumulated prompts leads to an infeasible solution,           • “I want to clean the system.”, ∆θ      = 0, ∆θLB = 0.
+the Interpreter in this experiment performs arbitration to          Note that there are irrelevant prompts, and their expected
+accept the largest possible number of user prompts. Let M           update markers are [∆θCPU ∆θLB ] = [0 0]. The other samples
+prompts be received at the chat step k, and further let ∆θm         are shown in Appendix A.
+be the update marker corresponding to the received prompt              We evaluate the intent-extraction performance from the
+pm , m ∈ {1, . . . , M }. We introduce a binary decision vector     following perspectives:
+a ∈ {0, 1}M , where am = 1 indicates acceptance of the m-th         Change/No-Change Sensitivity We treat ∆θCPU = 0 and
+prompt and am = 0 indicates rejection. Then, the arbitration           ∆θLB = 0 as negative labels and ∆θCPU = −1, +1
+is expressed as:                                                       and ∆θLB = −1, +1 as positive labels, and measure
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2015                                                                                             7
+
+
+
+                                                                            TABLE II
+                                                               R ESULTS IN THE SINGLE - USER CASE
+
+                       Chat step k    Parameter θLB (k) [ms]         Actual latency z LB [ms]        Actual CPU usage z CPU (k) [core]
+                            0                   3.0                             2.0                                2.0
+                            1                   3.0                             2.0                                1.0
+                            2                   1.3                             1.0                                1.0
+                            3                   1.3                        (Infeasible)                            2.0
+
+
+                                         1                                                  1                                                1
+                        3                                                  3                                                 3
+                                          2
+                                         DC 1
+                                                                                             2
+                                                                                            DC 1
+                                                                                                                                              2
+                                                                                                                                             DC 1
+               5                                                 5                                                   5
+                               4                                                  4                                                4
+     7
+    DC 2
+                                                     7
+                                                    DC 2
+                                                                                                          7
+                                                                                                         DC 2
+                      6        Router                                    6        Router                                   6       Router
+                               Router with User                                   Router with User                                 Router with User
+           9                                               9                                                    9
+                               DC                                                 DC                                               DC
+                       8
+                      DC 3
+                               DC (assigned)                              8
+                                                                         DC 3
+                                                                                  DC (assigned)                             8
+                                                                                                                           DC 3
+                                                                                                                                   DC (assigned)
+
+
+
+ (a) VM placement and routing at time k = 0       (b) VM placement and routing at time k = 1           (c) VM placement and routing at time k = 2
+
+Fig. 4. VM placement and routing in the single-user case
+
+
+
+  the precision and recall metrics. This evaluation reflects                     not mention anything about latency, so we cannot determine
+  how sensitively the interpreter reacts to prompts that imply                   the intent regarding the latency bound. Therefore, we set it
+  parameter changes. As shown in Table III, the results                          to **none**./n/nHere is the JSON code block that represents
+  indicate that both BERT+SVM and LLM tend to have high                          the user intent:/n“‘/n{/n”cpu”: ”increase”,/n”latencybound”:
+  recall but low precision. This suggests that the Interpreter                   ”none”/n}/n“‘
+  is successful at capturing prompts that actually require                          The response is parsed to ∆θ = [+1 0], which is correct.
+  a parameter change, but tends to over-interpret unrelated                      Example 2 (Incorrect Intent Extraction). The prompt is “I
+  prompts as if they imply parameter changes.                                    want to shutdown the virtual machine. How shold I do?”. The
+Accuracy in Change Detection We measure the balanced                             response is as follows:
+  accuracy for ∆θCPU = −1 and ∆θCPU = +1 in the CPU                                 **Step-by-step thinking:**/n/nThe prompt is about shutting
+  topic, and ∆θLB = −1 and ∆θLB = +1 in the latency                              down a virtual machine, which is not directly related to CPU
+  bound topic. This evaluation focuses on how accurately                         resources or latency bounds. However, we can infer some
+  the Interpreter distinguishes between different directions of                  information from the context./n/nThe user is asking about how
+  parameter changes. As shown in Table III, the LLM demon-                       to shut down the virtual machine, which implies that they might
+  strates higher classification performance than BERT+SVM                        be experiencing some issues or problems with the virtual ma-
+  with a small sample size (10 samples for the LLM), which                       chine. This could be related to performance or resource utiliza-
+  suggests the LLM’s adaptability to the domain. We also                         tion./n/n**Raw-text interpretation:**/n/nBased on the prompt,
+  observe that classification accuracy can be extremely low                      I’m going to assume that the user might be experiencing some
+  under conditions with a small sample size (less than 10 for                    performance issues with the virtual machine, which could be
+  BERT+SVM and less than 5 for LLM).                                             related to CPU resources. Since the user is asking about
+   As also shown in Table III, the LLM exhibited syntax errors,                  shutting down the virtual machine, it’s likely that they want
+such as failing to produce an accurate JSON format in its                        to free up resources./n/n**JSON response:**/n“‘/n{/n”cpu”:
+response. Furthermore, we can see that BERT+SVM requires                         ”decrease”,/n”latencybound”: ”none”/n}/n“‘/nIn this case,
+an extremely shorter inference time compared to LLM, due to                      I’m assuming that the user wants to decrease CPU resources,
+its smaller model size.                                                          as they’re shutting down the virtual machine. The latency
+   The following illustrates specific examples of the LLM                        bound is set to ”none” since the prompt doesn’t provide any
+intent extractor’s response.                                                     information about latency or network performance.
+Example 1 (Correct Intent Extraction). The prompt is “I want                        The response is parsed to ∆θ = [−1 0], which is incorrect.
+to have more CPUs !”. The response is as follows:                                The expected result is ∆θ = [0 0].
+   Here’s the step-by-step thinking:/n/nThe prompt is ”I want
+to have more CPUs!”. This sentence is straightforward and                                                           V. C ONCLUSION
+clearly indicates that the user wants to increase the number
+of CPUs./n/nNow, let’s analyze the intent:/n/n1. **Whether                          We proposed a chat-driven network management framework
+we should increase, decrease, or do nothing to allocate CPU                      that integrates an NLP-based interpreter with a conventional
+resources.** The prompt explicitly states that the user wants                    optimizer to enable chat-driven casual network reconfigura-
+to have more CPUs, so the intent is to **increase** the CPU                      tion. This framework offers an iterative, loop process where
+resources./n2. **Whether we should ease (increase), decrease,                    user feedback in natural language updates the virtual network
+or do nothing to set the latency bound.** The prompt does                        parameters.
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2015                                                                                                 8
+
+
+
+
+                                           Capacity                                                                     Capacity
+             5                                                                                 5
+                                           User 1                                                                       User 1
+             4                             User 2                                              4                        User 2
+ CPU Usage
+
+
+
+
+                                                                                   CPU Usage
+                                           User 3                                                                       User 3
+             3                                                                                 3
+
+             2                                                                                 2
+                                            User 3
+             1                                                                                 1                                             User 1
+                       User 1               User 2                                                 User 3                User 2
+             0                                                                                 0
+                          1                     2                   3                                  1                      2                   3
+                                               DC                                                                            DC
+                                (a) CPU usage at time k = 0                                                   (b) CPU usage at time k = 1
+
+                                           Capacity                                                                     Capacity
+             5                                                                                 5
+                                           User 1                                                                       User 1
+             4                             User 2                                              4                        User 2
+ CPU Usage
+
+
+
+
+                                                                                   CPU Usage
+                                           User 3                                                                       User 3
+             3                                                                                 3
+
+             2                                                  User 1                         2
+
+             1                                                                                 1                         User 2              User 1
+                       User 3               User 2                                                 User 3
+             0                                                                                 0
+                          1                     2                   3                                  1                      2                   3
+                                               DC                                                                            DC
+                                (c) CPU usage at time k = 2                                                   (d) CPU usage at time k = 3
+
+Fig. 5. CPU usage in the multi-user case
+
+                                                                         TABLE III
+                                               I NTENT E XTRACTOR P ERFORMANCE OF CPU/L ATENCY- BOUND TOPIC
+
+                 Architecture    Training sample size   Computation time [s]         Precision     Recall      Balanced Accuracy    Syntax error [%]
+                 BERT+SVM        30                     5.40 × 10−3 /4.40 × 10−3     0.71/0.86     1.0/1.0     0.7/0.7              0/0
+                                 20                     8.81 × 10−3 /5.12 × 10−3     0.67/0.86     1.0/1.0     0.93/0.7             0/0
+                                 10                     5.10 × 10−3 /3.91 × 10−3     0.59/0.62     1.0/0.83    0/0.75               0/0
+                                 5                      5.63 × 10−3 /4.64 × 10−3     0.59/0.5      1.0/1.0     0/0.9                0/0
+                                 3                      4.92 × 10−3 /4.31 × 10−3     0.5/0.6       1.0/1.0     0.31/0               0/0
+                 LLM             30                     8.18                         0.91/0.6      1.0/1.0     1/1                  0/0
+                                 20                     7.7                          0.77/0.67     1.0/1.0     1/0.75               0/0
+                                 10                     8.48                         0.59/0.6      1.0/1.0     1/0.75               7.1/7.1
+                                 5                      8.38                         0.67/0.42     1.0/0.83    0.9/0                3.6/3.6
+                                 3                      8.2                          0.62/0.42     1.0/0.83    1/0.75               3.6/3.6
+                                 0 (zero-shot)          8.55                         0.67/0.4      1.0/1.0     0.9/0                3.6/3.6
+
+
+
+   The experimental results show that the proposed system                          feasibility boundary, where conflicting requests led to infeasi-
+effectively interprets linguistic requests into structural network                 bility. Therefore, the next step is to design a communication
+adjustments, reallocating VMs and routing paths in both single                     mechanism to ensure that limited resources are shared fairly
+and multi-user scenarios. Performance evaluation of the intent                     and to the user’s satisfaction.
+extractor of the Interpreter is also performed. In this evalu-                     Disclosure statement: No potential conflict or interest was
+ation, the LLM exhibited superior accuracy in distinguishing                       reported by the author(s).
+change direction and adapting to the domain, while the lighter
+BERT+SVM model maintained a significantly shorter infer-
+ence time, an important factor for real-time network operation.                                                   R EFERENCES
+   The future works include the development of a conflict
+                                                                                    [1] J. Daniels, “Server virtualization architecture and implementation,”
+resolution and negotiation mechanism. Our multi-user scenario                           XRDS: Crossroads, The ACM Magazine for Students, vol. 16, no. 1,
+experiment demonstrated the system’s ability to operate at the                          pp. 8–12, 2009.
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2015                                                                                                9
+
+
+
+ [2] B. Yi, X. Wang, K. Li, M. Huang, et al., “A comprehensive survey of                                       TABLE IV
+     network function virtualization,” Computer Networks, vol. 133, pp. 212–                       P RE - LABELED TRAINING SAMPLES
+     262, 2018.
+ [3] M. Whaiduzzaman, M. Sookhak, A. Gani, and R. Buyya, “A survey                Prompt                                             ∆θCPU       ∆θLB
+     on vehicular cloud computing,” Journal of Network and Computer               Could you upgrade the CPU resource?                +1          0
+     Applications, vol. 40, pp. 325–344, 2014.                                    Upgrade my CPU resource, please                    +1          0
+ [4] F. Schardong, I. Nunes, and A. Schaeffer-Filho, “NFV resource allo-          I want more CPU                                    +1          0
+     cation: A systematic review and taxonomy of vnf forwarding graph             I need more CPUs                                   +1          0
+     embedding,” Computer Networks, vol. 185, p. 107726, 2021.                    The current CPU is not sufficient                  +1          0
+ [5] N. Huin, B. Jaumard, and F. Giroire, “Optimization of network service        My CPU is underperforming                          +1          0
+     chain provisioning,” in Proceedings of 2017 IEEE International Confer-       The user needs a CPU upgrade                       +1          0
+     ence on Communications (ICC), pp. 1–7, 2017.                                 Could you reduce the number of CPUs?               −1          0
+ [6] D. M. Manias, A. Chouman, and A. Shami, “Semantic Routing for                I’m requesting a decrease in CPU resource          −1          0
+     Enhanced Performance of LLM-Assisted Intent-Based 5G Core Network            It is ok to decrease the CPU.                      −1          0
+     Management and Orchestration,” in GLOBECOM 2024-2024 IEEE                    I want less CPU.                                   −1          0
+     Global Communications Conference, pp. 2924–2929, IEEE, 2024.                 The number of CPUs is more than I can afford.      −1          0
+                                                                                  Could you offer fewer CPUs?                        −1          0
+ [7] J. Mcnamara, D. Camps-Mur, M. Goodarzi, H. Frank, L. Chinchilla-
+                                                                                  The user need to free up some CPU capacity.        −1          0
+     Romero, F. Cañellas, A. Fernández-Fernández, and S. Yan, “NLP
+     powered intent based network management for private 5G networks,”            Could you reduce the latency of my network?        0           −1
+     IEEE Access, vol. 11, pp. 36642–36657, 2023.                                 Reduce the latency of my network, please           0           −1
+                                                                                  I need less latency                                0           −1
+ [8] A. S. Jacobs, R. J. Pfitscher, R. H. Ribeiro, R. A. Ferreira, L. Z.
+                                                                                  I need lower latency network                       0           −1
+     Granville, W. Willinger, and S. G. Rao, “Hey, Lumi! Using Natural
+                                                                                  My network speed is so late                        0           −1
+     Language for Intent-Based Network Management,” in 2021 USENIX
+                                                                                  My network is too late                             0           −1
+     Annual Technical Conference (USENIX ATC 21), pp. 625–639, USENIX
+                                                                                  The user’s latency is late                         0           −1
+     Association, July 2021.
+                                                                                  I don’t want such a low latency network            0           +1
+ [9] N. Tu, S. Nam, and J. W.-K. Hong, “Intent-based network configuration        I don’t need such a low latency network            0           +1
+     using large language models,” International Journal of Network Man-          My latency is too reduced                          0           +1
+     agement, vol. 35, no. 1, p. e2313, 2025.                                     The user do not need less latency                  0           +1
+[10] K. Urata, R. Nakamura, and S. Harada, “Distributionally robust virtual       The user’s latency is too reduced                  0           +1
+     network allocation under uncertainty of renewable energy power with          It is ok to ease the latency bound                 0           +1
+     wasserstein metric,” in Proceedings of 2024 IEEE International Confer-       Could you tell me what time the party starts?      0           0
+     ence on Communications (ICC2024), pp. 2859–2864, 2024.                       I want to clean the system.                        0           0
+[11] H. A. Alameddine, L. Qu, and C. Assi, “Scheduling service function           My cat prefers walking rather than running.        0           0
+     chains for ultra-low latency network services,” in Proceedings of 13th       No one would comes.                                0           0
+     international conference on network and service management (CNSM),           May I come in?                                     0           0
+     pp. 1–9, 2017.                                                               How do I know the sudo password?                   0           0
+[12] F. Carpio, S. Dhahri, and A. Jukan, “Vnf placement with replication
+     for loac balancing in nfv networks,” in Proceedings of 2017 IEEE
+     international conference on communications (ICC), pp. 1–6, 2017.
+[13] Y. Miyaoka, M. Inoue, and T. Nii, “ChatMPC: Natural language based         [23] M. Asif, T. A. Khan, and W.-C. Song, “R-IBN: a reinforcement learning-
+     mpc personalization,” in Proceedings of 2024 IEEE American Control              based intent-driven framework for end-to-end service orchestration and
+     Conference (ACC), pp. 3598–3603, IEEE, 2024.                                    optimization,” Computer Networks, p. 111564, 2025.
+[14] Y. Miyaoka, M. Inoue, K. Urata, and S. Harada, “Chat-driven interface      [24] M. A. Habib, P. E. I. Rivera, Y. Ozcan, M. Elsayed, M. Bavand,
+     for virtual network reallocation,” in Proceedings of 2025 IEEE Inter-           R. Gaigalas, and M. Erol-Kantarci, “LLM-based intent processing and
+     national Conference on Communications (ICC2025), pp. 1608–1613,                 network optimization using attention-based hierarchical reinforcement
+     IEEE, 2025.                                                                     learning,” in Proceedings of 2025 IEEE Wireless Communications and
+[15] F. Hosseini, A. James, and M. Ghaderi, “Probabilistic virtual link              Networking Conference (WCNC), pp. 1–6, 2025.
+     embedding under demand uncertainty,” IEEE Transactions on Network          [25] N. Reimers and I. Gurevych, “Sentence-BERT: Sentence Embeddings
+     and Service Management, vol. 16, no. 4, pp. 1552–1566, 2019.                    using Siamese BERT-Networks,” in Proceedings of the 2019 Conference
+[16] Z. Yao, Z. Tang, J. Lou, P. Shen, and W. Jia, “Velo: A vector database-         on Empirical Methods in Natural Language Processing, Association for
+     assisted cloud-edge collaborative LLM qoS optimization framework,”              Computational Linguistics, 11 2019.
+     in Proceedings of 2024 IEEE International Conference on Web Services       [26] A. Dubey et al., “The Llama 3 Herd of Models,” arXiv preprint
+     (ICWS), pp. 865–876, 2024.                                                      arXiv:2407.21783, 2024.
+[17] J. Su, S. Nair, and L. Popokh, “Leveraging Large Language Models           [27] R. Summerhill, “The New Internet2 Network,” in 6th Annual Global
+     for VNF Resource Forecasting,” in Proceedings of 2024 IEEE 10th                 LambdaGrid Workshop, 2006.
+     International Conference on Network Softwarization (NetSoft), pp. 258–
+     262, 2024.
+[18] P. R. Houssel, P. Singh, S. Layeghy, and M. Portmann, “Towards                                           A PPENDIX
+     explainable network intrusion detection using large language models,” in
+     Proceedings of 2024 IEEE/ACM International Conference on Big Data          A. Pre-labeled Training Samples
+     Computing, Applications and Technologies (BDCAT), pp. 67–72, 2024.
+[19] H. Rezaei, R. Taheri, and M. Shojafar, “FedLLMGuard: A federated              Table IV shows the prompts and their expected update
+     large language model for anomaly detection in 5g networks,” Computer
+     Networks, p. 111473, 2025.
+                                                                                markers [∆θCPU ∆θLB ] used as pre-labeled training samples
+[20] N. Van Tu, J.-H. Yoo, and J. W.-K. Hong, “Towards intent-based con-        in Section IV.
+     figuration for network function virtualization using in-context learning
+     in large language models,” in Proceedings of 2024 IEEE Network
+     Operations and Management Symposium (NOMS), pp. 1–8, 2024.
+                                                                                B. LLM Input Template
+[21] M. Abbas, K. Kar, and T. Chen, “Leveraging Large Language Models
+     for Wireless Symbol Detection via In-Context Learning,” in Proceedings
+     of 2024 IEEE Global Communications Conference (GLOBECOM),                  ### I n s t r u c t i o n
+     pp. 5217–5222, 2024.
+[22] F. Lotfi, H. Rajoli, and F. Afghah, “LLM-augmented deep reinforcement
+     learning for dynamic O-RAN network slicing,” in Proceedings of 2025        You a r e an o p e r a t o r o f a n e t w o r k
+     IEEE International Conference on Communications (ICC), 2025.                   infrastructure service .
+JOURNAL OF LATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2015                                    10
+
+
+
+You n e e d t o e x t r a c t t h e u s e r ' s i n t e n t            {{ e x a m p l e }}
+      from t h e p r o m p t t h e y p r o v i d e . The               {% e n d i f %}
+       i n t e n t d a ta i s used to adapt the                        ### Prompt
+       network s e t t i n g s to the user ' s                         {{ p r o m p t }}
+       preference .
+P l e a s e i n t e r p r e t t h e p r o m p t from two
+       aspects :
+
+1 . ** Whether we s h o u l d i n c r e a s e , d e c r e a s e
+     , o r do n o t h i n g t o a l l o c a t e CPU
+     resources .**
+2 . ** Whether we s h o u l d e a s e ( i n c r e a s e ) ,
+    d e c r e a s e , o r do n o t h i n g t o s e t t h e
+     l a t e n c y bound . * *
+The l a t e n c y bound i s t h e c o n s t r a i n t t h a t
+     s e t s t h e maximum l a t e n c y t i m e o f t h e
+    network communication .
+The l o w e r t h e l a t e n c y bound , t h e f a s t e r
+    the user e x p e r i e n c e s the network .
+The more l a t e n c y bound i s e a s e d ( r e l a x e d
+    o r m i t i g a t e d ) , t h e r e a s o n a b l e and
+     f l e x i b l e ( w i t h more room t o e n f o r c e
+     o t h e r r e q u i r e m e n t s more s t r i c t l y ) t h e
+    u s e r c a n a f f o r d t o be .
+
+Please note t h a t
+* The p r o m p t may be u n i n t e r p r e t a b l e : i t
+   may n o t i n c l u d e any CPU− r e l a t e d t o p i c s
+     o r l a t e n c y − bound t o p i c s .
+* The    p r o m p t may n o t g i v e a d i r e c t
+   s t a t e m e n t o f u s e r i n t e n t , and we may
+   h a v e t o i n t e r p r e t t h e i n t e n t s t e p −by −
+   step .
+* Your     r e s p o n s e n e e d s t o i n c l u d e a JSON
+   code block t h a t r e p r e s e n t s t h e u s e r
+    intent .
+
+### R e s p o n s e F o r m a t
+You c a n i n c l u d e t h e s t e p −by − s t e p t h i n k i n g
+          i n raw − t e x t f o r m a t .
+A f t e r t h a t , you must i n c l u d e t h e
+       f o l l o w i n g JSON f o r m a t :
+```
+{
+         " cpu " : " i n c r e a s e " ,
+         " latencybound " : " ease "
+}
+```
+* The ` cpu ` v a l u e must be s e t t o "
+       i n c r e a s e " , " d e c r e a s e " , o r " none " .
+      Choose " none " i f t h e p r o m p t i s
+       uninterpretable .
+*  The       ` l a t e n c y b o u n d ` v a l u e must be s e t t o
+         " r e d u c e " , " e a s e " , o r " none " . Choose "
+      none " i f t h e p r o m p t i s u n i n t e r p r e t a b l e
+       .
+{% i f e x a m p l e %}
+### Example
+

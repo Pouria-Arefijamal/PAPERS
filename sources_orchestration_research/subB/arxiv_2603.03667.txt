@@ -1,0 +1,1086 @@
+                                        DRAFT - DO NOT DISTRIBUTE                                                                                                                    1
+
+
+
+
+                                          ORION: Intent-Aware Orchestration in Open RAN
+                                              for SLA-Driven Network Management
+                                                Gabriela da Silva Machado, Gustavo Z. Bruno , Alexandre Huff , José Marcos Camara Brito , and
+                                                                                      Cristiano B. Both
+
+
+                                           Abstract—The disaggregation of the Radio Access Network                      Intent-Based Network (IBN) has emerged to bridge high-
+                                        (RAN) introduces unprecedented flexibility but significant oper-             level business goals and low-level network actions by offering
+                                        ational complexity, necessitating automated management frame-                formalism to capture desired outcomes and automating the
+                                        works. However, current Open RAN (O-RAN) orchestration
+                                        relies on fragmented manual policies, lacking end-to-end intent              translation into enforceable policies [3], [4]. Telecom bod-
+                                        assurance from high-level requirements to low-level configura-               ies such as 3rd Generation Partnership Project (3GPP) and
+arXiv:2603.03667v1 [cs.NI] 4 Mar 2026
+
+
+
+
+                                        tions. In this paper, we propose ORION, an O-RAN compliant                   European Telecommunications Standards Institute (ETSI) now
+                                        intent orchestration framework that integrates Large Language                specify intent-driven management hooks for RAN automation.
+                                        Models (LLMs) via the Model Context Protocol (MCP) to trans-                 Industry proposals extend IBN with data-driven and Large
+                                        late natural language intents into enforceable network policies.
+                                        ORION leverages a hierarchical agent architecture, combining an              Language Model (LLM)-based assistants [5], [6], [7]. How-
+                                        MCP-based Service Management and Orchestration (SMO) layer                   ever, current IBN efforts focus either on cloud-native infras-
+                                        for semantic translation with a Non-Real-Time RIC rApp and                   tructure abstractions or on intent-to-policy translation detached
+                                        Near-Real-Time RIC xApp for closed-loop enforcement. Exten-                  from O-RAN’s dual-controller pipeline, delivering limited
+                                        sive evaluations using GPT-5, Gemini 3 Pro, and Claude Opus                  guarantees on SLA preservation and lacking an integrated
+                                        demonstrate a 100% policy generation success rate for high-
+                                        capacity models, highlighting significant trade-offs in reasoning            lifecycle that spans clarification, validation, deployment, and
+                                        efficiency. We show that ORION reduces provisioning complexity               continuous adaptation [8], [9], [10].
+                                        by automating the complete intent lifecycle, from ingestion to E2-              These gaps motivate our investigation of intent-aware or-
+                                        level enforcement, paving the way for autonomous 6G networks.                chestration tailored to O-RAN. We study how to couple LLM-
+                                                                                                                     assisted interfaces with O-RAN-compliant control loops so
+                                           Index Terms—O-RAN, Intent-Based Networking, Large Lan-                    that operator intents become deployable, monitorable policies
+                                        guage Models, Service Management and Orchestration, Network                  without compromising latency, throughput, or reliability com-
+                                        Slicing.                                                                     mitments. The research question guiding this work is: How
+                                                                                                                     can O-RAN management be enabled using intents without
+                                                              I. I NTRODUCTION                                       compromising network quality and SLA compliance?
+                                           The Fifth Generation (5G) mobile communications ecosys-                      This paper makes the following contributions:
+                                        tem has embraced disaggregation and openness to unlock                          • We introduce ORION, an intent-aware orchestration
+                                        flexible service delivery, yet these same properties amplify                       pipeline that aligns LLM-assisted intent capture with the
+                                        the operational burden on Radio Access Network (RAN)                               SMO, Non-RT RIC, and Near-RT RIC roles, structur-
+                                        operators [1]. The Open Radio Access Network (O-RAN)                               ing slice-related requests through Common API Mobile
+                                        architecture formalizes this transition by splitting control                       And Routing Access (CAMARA)’s NetworkSliceBooking
+                                        across the Service Management and Orchestration (SMO)                              schema to ground translations in telecom semantics.
+                                        framework and the Non-Real-Time (Non-RT) and Near-Real-                         • We design validation and composition flows that span
+                                        Time (Near-RT) RAN Intelligent Controllers (RICs), each                            SMO applications, rApps, and xApps, ensuring intents
+                                        exposing programmatic interfaces for policy-driven control.                        progress through schema checks and policy generation
+                                        In practice, operators must coordinate a growing catalog of                        before enforcement via A1 Interface (A1) and E2 Inter-
+                                        Non-real-time RIC applications (rApps) and Near-real-time                          face (E2) interfaces, establishing the architectural foun-
+                                        RIC applications (xApps) and reconcile the pace of software                        dation for Closed-Loop Assurance (CLA) loops.
+                                        updates with strict Service Level Agreements (SLAs) and                         • We implement a prototype combining Model Context
+                                        Service Level Objectives (SLOs). They must also maintain                           Protocol (MCP) services and O-RAN-compliant control
+                                        end-to-end observability across disaggregated components [2].                      functions that operationalizes the provisioning and acti-
+                                                                                                                           vation phases of the proposed pipeline.
+                                           Manuscript received April XX, 2025. The research leading to this paper
+                                        received support from the Program OpenRAN@Brasil. This work also                • We provide a dataset of 100 natural language intents
+                                        received support from the Commonwealth Cyber Initiative, an investment in          mapped to standard telecom slice types (Enhanced Mo-
+                                        the advancement of cyber R&D, innovation, and workforce development.               bile Broadband (eMBB), Ultra-Reliable Low-Latency
+                                           Gustavo Zanatta Bruno and José Marcos Camara Brito are
+                                        with the National Telecommunications Institute (INATEL). E-mail:                   Communications (URLLC), Massive Machine Type
+                                        gustavo.zanatta@posdoc.inatel.br, brito@inatel.br.                                 Communications (mMTC)) and Quality of Service (QoS)
+                                           Gabriela da Silva Machado and Cristiano B. Both are with the University         parameters to benchmark translation fidelity in O-RAN
+                                        of Vale do Rio dos Sinos (UNISINOS). E-mail: cbboth@unisinos.br.
+                                           Alexandre Huff is with the Federal Technological University of Paraná          contexts.
+                                        (UFTPR). E-mail: alexandrehuff@utfpr.edu.br.                                    • We conduct a comprehensive evaluation analyzing the
+DRAFT - DO NOT DISTRIBUTE                                                                                                                       2
+
+
+
+     cost-performance trade-offs, policy creation success rates,   (e.g., load balancing or QoS objectives) across scoped entities
+     and tool-use reliability of six state-of-the-art LLMs. Ad-    (cells, slices, User Equipment (UE) groups) via A1-defined
+     ditionally, we assess the resource overhead and end-to-       JavaScript Object Notation (JSON) policy types [1]. They
+     end latency of the proposed architecture, demonstrating       express “if/when → do” logic without explicitly declaring end-
+     its viability for resource-constrained edge deployments.      state semantics. Intents, by contrast, declare desired outcomes
+   We evaluate ORION by examining translation fidelity, or-        or operational goals (the what), omitting the procedural how
+chestration overhead, and the correctness of generated policies    [5]. A single intent may decompose into multiple policies
+for representative slicing scenarios.                              across domains (optimization, assurance, resource allocation)
+   The remainder of the paper is organized as follows. Sec-        [3].
+tion II reviews O-RAN orchestration and intent-based net-             Abstraction boundary: policies bind directly to enforcement
+working foundations. Section III surveys prior art on intent-      interfaces (A1 toward the Near-RT RIC, O1 for management
+driven RAN management. Section IV details the ORION                operations, and, indirectly, E2 control via xApps) [1]. In con-
+architecture, and Section V summarizes the prototype. Sec-         trast, intents act as a contract specifying KPIs (e.g., “average
+tion VI presents the evaluation and experimental analysis,         cell-edge throughput ≥ X Mbps within latency constraint Y”)
+while Section VII concludes the paper.                             [5]. Translation engines map such KPI-oriented statements
+                                                                   into one or more concrete policy objects plus monitoring
+                      II. BACKGROUND                               queries. Policies are evaluated reactively on triggers; intents
+   This section establishes the foundational concepts required     are continuously assured, with fulfillment engines monitoring
+to understand the proposed intent-driven architecture. We first    KPIs against target states and adapting underlying policies
+review the O-RAN control loops and interfaces, followed by         [12].
+the critical distinction between declarative intents and impera-      Challenges include conflict detection (e.g., two intents driv-
+tive policies. We then outline the standard intent lifecycle and   ing contradictory Physical Resource Block (PRB) allocation
+the management roles responsible for its execution. Finally,       goals), measurability (ensuring each intent has observable suc-
+we introduce the MCP, which underpins the LLM-based                cess metrics), and drift handling (environmental changes inval-
+translation engine.                                                idating earlier translations) [3]. Effective frameworks therefore
+                                                                   (i) capture goals and constraints, (ii) validate feasibility against
+A. O-RAN Architectural Elements                                    current topology and resources, (iii) translate into minimal,
+                                                                   consistent policy sets, and (iv) maintain CLA adjustments to
+   O-RAN disaggregates the 3GPP gNodeB (gNB) into vir-
+                                                                   preserve declared outcomes [5], [12].
+tualized Central Unit (CU) and Distributed Unit (DU) plus
+Radio Unit (RU) [1]. Two intelligent controllers, the Non-RT
+RIC (within the SMO) and the Near-RT RIC (edge), enable            C. Intent Lifecycle
+policy- and Machine Learning (ML)-driven optimization at
+complementary time scales (Non-RT: > 1 s; Near-RT: 10 ms–             The lifecycle comprises: Create (register goals, scope, con-
+1 s) [11]. The SMO hosts modular management functions and          straints), Activate (begin fulfillment), Monitor/Assure (observe
+rApps (service-level analytics and optimization), while the        KPIs, detect deviation), Modify (adjust goals or suspend state),
+Near-RT RIC hosts xApps that execute near-real-time control        Suspend (temporarily halt fulfillment), and Terminate (cease
+loops over radio resources.                                        monitoring). Each state transition is auditable and can emit
+   Data and control traverse distinct open interfaces: A1 con-     events that feed higher-level orchestration.
+veys guidance from the Non-RT RIC to the Near-RT RIC; E2
+streams telemetry upward and distributes fine-grained control          1
+actions downward to CU/DU; and O1 Interface (O1) sup-                                                                      Activate /
+                                                                                 Create                2
+ports Fault, Configuration, Accounting, Performance, Security                                                               Deploy
+(FCAPS) management between the SMO and RAN elements
+[1]. This layering separates long-horizon optimization in the                                                                  3
+Non-RT domain from sub-second adaptation in the Near-RT                                                  8
+edge domain.                                                                                                               Monitor /
+   The openness that enables innovation also creates coordina-                   Modify                           7
+                                                                                                                           Assure
+tion challenges: (i) heterogeneous vendor data models must be
+normalized; (ii) timing alignment between A1 and E2 control
+loops must avoid oscillations; and (iii) intent translation must
+                                                                                                                               4
+ensure consistency when multiple rApps/xApps manipulate
+overlapping Key Performance Indicators (KPIs) [8]. These
+                                                                                                              5
+                                                                               Terminate                                   Suspend
+issues motivate the structured abstractions described next.
+                                                                             Default Flow                     Alternatives Flows
+B. Policies vs. Intents
+  In O-RAN, policies are structured rules: when events and         Fig. 1. Intent lifecycle states and transitions with default flow (1–6) and CLA
+conditions hold, specified actions execute to steer performance    feedback loops (7–8).
+DRAFT - DO NOT DISTRIBUTE                                                                                                             3
+
+
+
+   Fig. 1 illustrates these states. Solid arrows (1–6) depict the    available tools and capabilities. The Server executes operations
+nominal flow from creation through activation and assurance to       on external systems. When a Host needs to perform an action,
+termination. Dashed arrows highlight the CLA feedback loops          it queries the Server via the Client to discover tools, selects
+essential for O-RAN: arrow 7 represents corrective actions           the appropriate one, and requests execution. The Server then
+triggered when KPIs deviate during monitoring, while arrow 8         performs the operation and returns the result [15].
+captures re-translation or rollback following modifications.
+CLA evaluates whether observed state matches the declared                                  III. R ELATED W ORK
+outcome; deviations trigger re-translation (e.g., updated A1            This section surveys intent-driven management for
+policies) or operator notification, per 3GPP TS 28.312 [5].          RAN/O-RAN. We first review the evolving standards
+This adaptive cycle ensures continuous alignment with de-            landscape that establishes foundational definitions and
+clared goals under dynamic network conditions.                       operational roles for intent handling. Subsequently, we
+                                                                     analyze recent research proposals across five architectural
+D. Roles in Intent-Driven RAN                                        dimensions that dictate practical deployment: (i) intent
+                                                                     representation, concerning how declarative goals and
+   Within SMO-based handling, the RAN Management Intent
+                                                                     constraints are formally captured; (ii) translation and
+Owner (RMIO) formulates intents (goals, constraints, KPI
+                                                                     interpretation, covering the algorithmic mechanisms used to
+targets, reporting cadence), owns lifecycle authority (mod-
+                                                                     map high-level objectives into machine-executable policies;
+ify, suspend, terminate), and defines assurance requirements.
+                                                                     (iii) lifecycle and assurance, reflecting the capabilities for
+The RAN Management Intent Handler (RMIH) advertises
+                                                                     continuous monitoring, closed-loop validation, and conflict
+supported intent classes, interprets RMIO submissions, de-
+                                                                     resolution; (iv) network slicing scope, detailing how intents
+composes them into actionable policies/configurations (A1
+                                                                     govern the orchestration of dedicated resources; and (v)
+guidance, O1 management actions), orchestrates deployment,
+                                                                     O-RAN alignment, indicating native integration with standard
+resolves alternative fulfillment strategies (optionally consulting
+                                                                     SMO and RIC control loops. Table I summarizes the surveyed
+the RMIO), and performs continuous assurance.
+                                                                     literature against these five evaluation dimensions.
+   Operationally, the RMIO queries capability advertisements,
+                                                                        Standards landscape. The treatment of intent has matured
+submits a validated intent, and receives an identifier with a
+                                                                     across Standards Development Organizations (SDOs). TM
+reporting schedule. Subsequently, the RMIO is asynchronously
+                                                                     Forum (TMF)’s TMF921 Intent Management API (v5.0.0)
+notified of assurance status or required decisions (e.g., se-
+                                                                     binds explicitly to the TMF Intent Ontology, clarifying val-
+lecting among alternative resource trade-offs). The RMIH
+                                                                     idation, capabilities, and exchange of machine-tractable intent
+maintains a dependency graph mapping intents to generated
+                                                                     objects [27], [28]. In 3GPP, TS 28.312 (Rel-18 v18.8.0)
+policies and underlying xApp/rApp actions, enabling targeted
+                                                                     formalizes quantifiable intents, feasibility and fulfillment re-
+updates rather than wholesale recomputation when only one
+                                                                     ports, and priority/conflict semantics; it also details discovery
+KPI threshold changes.
+                                                                     of handler capabilities and aligns SMO/Non-RT roles with
+   The RMIH manages conflicts across coexisting intents
+                                                                     lifecycle hooks [5], [29]. ETSI Zero touch network and
+(priority-based arbitration or multi-objective optimization) [3],
+                                                                     Service Management (ZSM) provides the reference model
+adapts policies upon KPI drift, and issues status/fulfillment
+                                                                     for owner/handler roles and closed-loop operations [30], and
+reports [12]. This separation clarifies accountability (owner-
+                                                                     ZSM 016 adds a three-level conflict taxonomy with concrete
+ship vs. operational realization) and supports scalable multi-
+                                                                     detect-report-judge-fulfill interactions [6]. From the O-RAN
+tenant automation in O-RAN, while providing clear hooks for
+                                                                     angle, ETSI TS 103 985 (PAS) captures O-RAN WG2 A1
+auditing, rollback, and intent evolution.
+                                                                     policy/Enrichment Information (EI) jobs and status flows [31],
+   Despite architectural openness, consistent and explainable
+                                                                     while Request for Comments (RFC) 9315 standardizes IBN
+translation from high-level intents to coherent multi-interface
+                                                                     terminology and separates fulfillment from assurance [4].
+policies (A1, O1, E2), while assuring outcomes under dynamic
+                                                                     Together, these specifications define the contract for intent han-
+traffic, remains non-trivial. This motivates the related work and
+                                                                     dling but stop short of an end-to-end, O-RAN-native reference
+the proposed architecture that follow.
+                                                                     instantiation.
+                                                                        Intent representation. Prior work spans natural-language
+E. Model Context Protocol                                            interfaces, structured templates, and standards-based models.
+   The MCP is an open standard protocol for connecting               Natural-language inputs with operator-facing portals appear
+Artificial Intelligence (AI) assistants to external data sources     in [19], [17], [8], often coupled to guided forms to constrain
+and tools, enabling models to produce context-aware responses        ambiguity (e.g., specifying a desired KPI improvement like
+[13]. MCP follows a client-server architecture where a host          “increase throughput by 10%” [8]). Template- or rule-oriented
+(e.g., an LLM application) establishes a connection with a           forms are used in [12], [3], where operators describe goals in
+server that provides access to external systems, databases, and      predefined fields that map to policy rules. A standards-aligned
+specialized workflows [14].                                          approach adopts the TMF intent model, technology-agnostic
+   The architecture comprises an MCP Host, MCP Client, and           goals with explicit semantics, as in [18], [21], which reduces
+MCP Server. The Host manages the Client and provides the             interpretation ambiguity and eases decomposition into policies.
+execution environment. The Client acts as an intermediary,              Translation and interpretation. Mapping high-level goals
+initiating requests to the Server and retrieving descriptions of     to concrete policies/configurations is handled via rule
+DRAFT - DO NOT DISTRIBUTE                                                                                                                         4
+
+
+
+                                                            TABLE I
+   R ELATED WORK ON I NTENT FOR RAN/O-RAN: REPRESENTATION , TRANSLATION , LIFECYCLE / ASSURANCE , SLICING , AND O-RAN ALIGNMENT
+
+ Year                              Paper                              Intent Rep.    Translation   Lifecycle/Assurance   Slicing   O-RAN Align.
+ 2020   [16]        Graph-based RAN slice orchestration
+ 2021   [12]        Rule-pipeline intent to KPI commands
+ 2021   [3]         End-to-end IBN (standardized model)
+ 2021   [17]        Intent-driven slice mgmt (power grid)
+ 2022   [18]        TMF-aligned intent for E2E slicing
+ 2023   [19]        NLP-powered private 5G management
+ 2023   [8]         Hierarchical DRL for O-RAN xApp orchestration
+ 2023   [20]        Intent-driven RAN slice orchestration (MARL)
+ 2024   [21]        Intent-aware RRS for RAN slicing (RL)
+ 2024   [2]         AI/ML-driven SMO framework in O-RAN
+ 2024   [7]         INA-Infra: open intent-driven slicing stack
+ 2024   [22]        AdapShare: RL-based intent spectrum sharing
+ 2024   [23]        PACIFISTA: O-RAN conflict characterization
+ 2025   [24]        LLM-hRIC: LLM-guided Non-RT + RL Near-RT
+ 2025   [10]        LLM-xApp: NL-to-slice translation at Near-RT
+ 2025   [9]         FEACI: translation quality scoring (RAN+Core)
+ 2025   [25]        RSLAQ: SLA-driven QoS with A1/E2 loops
+ 2025   [26]        Intent APIs for lifecycle control
+ 2026   This Work   E2E Intent Orchestration
+                                                                Yes   Partial   No
+
+
+pipelines, graph-based reasoning, or Natural Language Pro-                underscore this by specifying report subscription mechanisms
+cessing (NLP)/AI-assisted engines. [12] validates admissi-                for SMO/Non-RT handlers [5], [29]. Research on runtime as-
+bility (KPI/control-parameter scope), classifies content, then            surance and conflicts includes RSLAQ’s SLA→KPI mapping
+emits commands. Graph-based translators in [16], [20] consult             with A1/E2 monitoring [25] and PACIFISTA’s rApp/xApp
+topology/resource/policy repositories to build intent–resource            profiling with graph reasoning to predict conflict severity and
+graphs and generate domain-specific RAN policies. [19] sep-               Key Performance Metric (KPM) impact [23]. Many prototypes
+arates an Intent Engine (NLP interface, Application Pro-                  still emphasize ingestion/initial fulfillment over long-horizon
+gramming Interface (API) intent matching, interpretation to               assurance, conflict reconciliation, and rollback.
+API calls) from an AI Engine hosting ML models for low-                      Alignment with O-RAN. Only a subset explicitly instan-
+level context, while TMF-aligned handling in [18] follows                 tiates O-RAN’s Non-RT/Near-RT split with open interfaces.
+capability-driven translation. Several works mention valida-              [3] places long-term policy/ML in the Non-RT RIC and
+tion/translation steps without full detail [3]. Recently, LLMs            real-time control in the Near-RT RIC via A1/O1, while [8]
+have been placed directly in the control loop: LLM-xApp                   uses hierarchical Deep Reinforcement Learning (DRL) with
+translates dynamic UE QoS intents into slice configurations               Non-RT rApps issuing goals over A1 to Near-RT xApps. [19]
+at Near-RT timescales [10]; LLM-hRIC organizes transla-                   integrates an intelligence layer adjacent to RAN, borrowing
+tion hierarchically with LLM-guided Non-RT guidance and                   O-RAN concepts without a native end-to-end loop. Newer
+Reinforcement Learning (RL)-based Near-RT enforcement                     materials underscore native treatment of intent and conflicts
+[24]; Orange proposes FEACI to score translation quality                  in Non-RT/Near-RT loops, ETSI TS 103 985 captures A1
+across RAN+5G Core (5GC) [9]; and INA-Infra demonstrates                  policy/EI jobs and status [31], and the O-RAN Alliance
+an open O-RAN-based stack (Nephio+rApp+xApp) that opera-                  published an SMO Intent-driven Management TR (v5.0) and
+tionalizes intent-to-slice flows [7]. Overall, a common pattern           an A1 Policy Conflict Mitigation Study (v1.00) [32]. RL-
+is feasibility checking, capability matching, construction of             based, O-RAN-consistent enforcement pipelines also appear
+minimal consistent policy sets, and continuous feedback.                  (AdapShare; AI/ML-driven SMO) [22], [2].
+   Lifecycle, assurance. Lifecycle operations (create, modify,               Slicing scope and use cases. Objectives range from
+suspend, terminate) and handler interfaces appear in [18], and            KPI/control-parameter tuning [12] to performance steering
+Parashar proposes a framework for automated provisioning                  via rApp/xApp orchestration [3], [8], with slicing-focused
+and lifecycle control via intent-based APIs [26], while [17]              frameworks optimizing SLA satisfaction and resource alloca-
+maintains CLA by monitoring performance and adapting poli-                tion across RAN and sometimes 5GC [20], [16], [18], [21].
+cies. These notions align with ETSI ZSM’s owner/handler                   Private 5G management with intent-driven slice provisioning
+roles and declarative outcomes [30], 3GPP TS 28.312’s intent              is explored in [19], while [17] maps intents to slice instances
+semantics and lifecycle hooks [5], and RFC 9315’s distinc-                in a power-grid automation context.
+tion between fulfillment and assurance with drift remediation                Across the literature, there is convergence on: (i)
+[4]. Standards have strengthened intent semantics and instru-             declarative goal capture with explicit KPIs and scope;
+mentation: TMF921 v5.0.0 (Oct. 2024) binds to the TMF                     (ii) repository-backed translation (capabilities, topology,
+Intent Ontology (TIO), clarifying validation and exchange                 policies) to derive consistent policies; and (iii) multi-
+[27]; and recent updates to 3GPP TS 28.312 (Jul. 2025)                    timescale control where Non-RT guidance informs
+DRAFT - DO NOT DISTRIBUTE                                                                                                                            5
+
+
+
+Near-RT enforcement. Yet no work delivers a complete
+ingestion→translation→enforcement→CLA pipeline that is                                                                                  Intent
+natively O-RAN-embedded (A1/O1/E2), standards-aligned                       Camara                                                   Assistance
+                                                                             API
+(TMF & 3GPP models), and provides first-class conflict                                                              User
+                                                                                                                                      Interface
+management (priority, reconciliation, degradation); even                                                                            Intent
+the most advanced proposals (e.g., RSLAQ’s SLA-to-KPI
+loop or LLM-xApp’s translator) cover only slices of the                                 MCP Server                                      MCP Client
+
+pipeline, and standards (ZSM 016, TS 28.312) specify roles                           Interpretation        Intent request
+                                                                                                                                      Intent
+and messages but not an end-to-end reference instantiation.                             Scheme                                      Management
+The proposed architecture addresses this gap with an                                    smoApp                                       smoApp
+ingestion-to-enforcement pipeline that exposes capability
+discovery, aligns lifecycle management with standards, and               Non-RT
+provides the architectural mechanisms to sustain CLA over                                     ORION                                     R1
+O-RAN interfaces. We rate this work as partially fulfilling              RIC                                          Slice Info
+                                                                                               rApp
+Lifecycle/Assurance (i.e., ) because, while the architecture
+specifies the full loop including conflict remediation, the                                                                                  SMO
+current prototype operationalizes the critical path from
+                                                                                        A1/Policy    Slice Policy
+ingestion to E2 enforcement, leaving long-term CLA as
+
+
+
+
+                                                                                                                      Slice Info
+future work.
+                                                                         Near-RT
+                                                                         RIC                  ORION
+          IV. P ROPOSED A RCHITECTURE : ORION                                                                                      E2 Node
+                                                                                               xApp                  E2
+   This section presents ORION, an intent-aware orchestration
+pipeline for O-RAN that bridges natural-language intents and
+deployable RAN policies. ORION couples an LLM-assisted              Fig. 2. ORION high-level architecture spanning SMO/Non-RT and Near-RT
+MCP client/server with O-RAN-compliant control functions            RIC: the MCP Client/Server structure intents using CAMARA’s Network-
+(Non-RT/SMO and Near-RT RIC) and reuses the CAMARA                  SliceBooking schema; the Orion rApp composes policies, and the Orion xApp
+                                                                    enforces them via A1/E2.
+NetworkSliceBooking API schema as a canonical template to
+structure slice-related intents.
+                                                                    and parameters, performing domain calculations to derive
+A. Design Objectives                                                SLA targets (e.g., mapping user requirements to throughput
+                                                                    and latency budgets). Finally, the Orion xApp (Orion xApp)
+   ORION pursues five core objectives. Automation with SLA-
+                                                                    operates with A1/E2 interaction: the Non-RT RIC publishes
+awareness ensures intents translate into machine-validated
+                                                                    policies via A1, and the Orion xApp performs the final
+specifications that preserve latency, throughput, and reliability
+                                                                    resource translation, calculating exact PRB quotas based
+KPIs. Modularity decouples intent assistance, interpretation,
+                                                                    on real-time cell capacity, and enforces control through E2
+composition, and policy handling, enabling each block to
+                                                                    toward gNBs (DU/CU).
+evolve independently. Role alignment maps responsibilities to
+SMO/RIC, adopts RMIO/RMIH semantics, and reuses open
+API schemas such as CAMARA. Strict O-RAN compliance                 C. Component Details
+integrates the Non-RT RIC for A1 policy distribution and the           The MCP Client and Server jointly realize the intent as-
+Near-RT RIC/xApps for E2 enforcement. Finally, extensibility        sistance plane. The client orchestrates the LLM workflow:
+supports cases beyond slicing (e.g., energy saving) by swap-        it recognizes incoming intent requests, forwards them to the
+ping schemas and tool adapters without pipeline redesign.           server, invokes the appropriate tool, and returns the structured
+                                                                    outcome to the SMO. It maintains conversation state and
+B. High-Level Architecture Overview                                 applies guardrails that promote deterministic mappings from
+                                                                    natural language to schema fields. The server exposes tool
+   Figure 2 depicts ORION’s blocks spanning the                     endpoints and domain context to the LLM. For slicing, the
+SMO/Non-RT and Near-RT layers. The Intent Management                server supplies a translator aligned with CAMARA’s Network-
+implements an MCP Client that receives the intent requests          SliceBooking API1 . This translator accepts an intent payload,
+from an operator or higher-layer system, invokes an LLM             builds a compliant JSON POST and returns a structured result.
+with domain tools provided by the MCP Server, which                 The design grounds the LLM in telecom constraints and
+provides the LLM with context from external telecom                 decouples credentials and API logic from the model prompt.
+APIs. For slicing, it exposes an API consumer aligned to            ORION adopts the NetworkSliceBooking resource model (e.g.,
+CAMARA NetworkSliceBooking. Within the SMO, the MCP                 slice profile, QoS requirements, area of service, duration) as a
+Client tracks tools aligned with the lifecycle to execute the       canonical skeleton for slice intents, enabling vendor-agnostic
+request and ensure intents are well-formed and structured           translation and simplifying validation and auditing.
+before creating a policy. The Orion rApp (Orion rApp)
+converts structured intents into concrete policy templates            1 https://github.com/camaraproject/NetworkSliceBooking
+DRAFT - DO NOT DISTRIBUTE                                                                                                           6
+
+
+
+   Within the SMO/Non-RT domain, the MCP Host identifies                       V. I MPLEMENTATION AND P ROTOTYPE
+the tool and provides the arguments so the MCP Client                  To validate the feasibility and performance of the proposed
+triggers the MCP Server tool, which performs the request            intent-driven architecture, we developed a comprehensive
+to CAMARA’s NetworkSliceBooking API for schema checks               Proof of Concept (PoC). While the architecture (Section IV)
+for completeness (mandatory fields), consistency (ranges and        encompasses the full intent lifecycle, this operational prototype
+units), and feasibility (capability match). Ambiguities are         focuses on the Creation and Activation phases. It validates the
+surfaced to the MCP Client to request clarifications, ensuring      critical path of translating unstructured intent into enforceable
+that only admissible, complete intents progress to composition.     policies, which is the prerequisite for any subsequent closed-
+   The Orion rApp and Orion xApp execute the translation            loop assurance. This prototype realizes an end-to-end work-
+and enforcement workflow. Given a validated structured intent,      flow, from natural language ingestion to varying RAN resource
+the Orion rApp computes control parameters and maps them            allocation, by integrating a Generative AI-based orchestra-
+into policy templates; for slicing, this includes allocating        tion agent with standard O-RAN components. The system is
+throughput/latency/reliability budgets, selecting scheduler and     deployed as a suite of containerized microservices, bridging
+QoS classes, and defining E2 monitoring metrics. The Non-RT         the semantic gap between high-level user requirements and
+RIC publishes policies via A1, and the Orion xApp enforces          low-level E2 Service Model (E2SM) configurations. The key
+them through E2 towards gNBs (DU/CU). The Orion xApp                components of the prototype are detailed below.
+monitors KPMs and drives CLA updates by requesting re-
+computation or rollback when deviations are detected.
+                                                                    A. Frontend (Streamlit)
+                                                                       A web-based user interface developed using the Streamlit
+D. End-to-End Intent Workflow                                       framework allows users to input natural language intents. The
+   The end-to-end lifecycle covers six phases. Ingestion: an        interface renders the conversation history, maintaining distinct
+operator issues a slice intent and the MCP Client initializes the   bubbles for user interaction, while persisting state across
+LLM session. Translation: the LLM calls the MCP Server tool,        sessions. Communication with the MCP Client is handled
+which structures the request per CAMARA NetworkSlice-               via asynchronous Hypertext Transfer Protocol (HTTP) POST
+Booking and returns JSON. Validation: the MCP Client and            requests targeting the /intent endpoint.
+MCP Server verify correctness and feasibility and may request
+clarifications. Composition: the Orion rApp turns the validated     B. Service Management and Orchestration
+intent into policy templates and parameter values. Deployment:
+the Non-RT RIC publishes policies via A1 and the Orion xApp            The SMO implementation leverages the MCP to orchestrate
+enforces them through E2 toward gNBs. Monitoring and                the intent lifecycle. The MCP Client is built with FastAPI
+adaptation: KPIs trigger recomputation, incremental updates,        and integrates multiple LLM providers via a unified interface.
+or rollback when deviations appear.                                 It manages the system prompt, injected as a shimmed user
+                                                                    message to enforce strict JSON output formats, and establishes
+                                                                    a Server-Sent Events (SSE) connection to the MCP Server to
+E. Extensibility and Standards Alignment                            enable real-time tool execution. The MCP Server is developed
+   Roles map to RMIO/RMIH: the operator or service assumes          using the Python mcp library to provide a standardized inter-
+RMIO, while the MCP Client and Orion rApp act as RMIH.              face for network functions. It hosts the create_session
+ORION aligns with O-RAN by placing intent management and            tool, which acts as a proxy by receiving Pydantic-validated
+composition in the Non-RT/SMO domain and using A1/E2                arguments and forwarding them to the underlying Slice API.
+for control, consistent with 3GPP intent definitions [5]. By
+treating CAMARA APIs as interchangeable schema backends,            C. Large Language Model
+the same pattern generalizes to other intents (energy saving,          We integrated state-of-the-art LLMs (including OpenAI
+load balancing) by swapping the tool and policy templates           GPT-5, Google Gemini 3 Pro, and Anthropic Claude Opus) to
+without altering the core workflow.                                 function as the cognitive engine. The LLM operates under a
+      Example trace.: ”Provision a URLLC slice in area X with       strict system prompt that prohibits the use of minimum values
+1 ms latency and 99.999% reliability for 2 hours.” An operator      unless specified. The interaction creates a two-step process:
+issues the request, the MCP Client opens the LLM session, and       first, the model selects a tool based on the user’s natural
+the MCP Server tool produces NetworkSliceBooking JSON               language intent; second, after tool execution, the model is
+with latencyTarget=1 ms, reliability=99.999%,                       prompted again to classify the traffic (e.g., eMBB, URLLC)
+area=X, and duration=2 h. The MCP Client validates                  based on the session parameters.
+the payload and forwards it to the Orion rApp, which derives
+scheduler priorities and SLA constraints before emitting an
+A1 policy. The Orion xApp computes the necessary PRB                D. CAMARA Mock API
+reservations to meet these constraints, enforces the policy            A mock server implementing the CAMARA Network Slice
+through E2, and monitors URLLC KPIs; if latency exceeds 1           Booking API was developed to strategies for exposing network
+ms, the Orion rApp tightens scheduling deadlines or triggers        resources. The core endpoint, POST /sessions, accepts
+rollback to a previous stable configuration.                        booking requests adhering to OpenAPI 3.0.3 schemas. To
+     DRAFT - DO NOT DISTRIBUTE                                                                                                                                                   7
+
+
+
+
+                           Near-RT RIC                    SMO                                                       SMO                                          Non-RT RIC
+
+                             Frontend                MCP Client                         LLM                   MCP Server                  Camara API                Orion rApp
+
+
+                                                      1                             2
+                                                                Prompt with Tools
+                                       Enters Intent
+                                                                   Definition
+                                   (e.g., "Reserve high
+                                     bandwidth slice")
+                                                                 Select Tool:  3
+                                                            network_slice_booking                                                            5
+                                                                                                                           POST /sessions
+                                                                            Execute Tool Request 4                        (Check Feasibility)
+
+
+                                                                                                                        200 OK (Session ID &
+                                                                                                                            QoS Profile)
+                                                                           Return Execution Result                                        6
+                                                                                                                7
+                                                                Feed Tool Result
+                                                                                  8
+                                                                  back to LLM
+
+
+                                                            Generate JSON with
+                                                             Slice Parameter 9
+                                                                                              Sends Structured Intent (POST /generate-policy)    10
+
+                                                                                                                                                  Flow continues to A1
+                                                                                                                                                 Mediator (Near-RT RIC)
+
+
+
+
+     Fig. 3. Non-RT RIC Intent Execution Flow.
+
+
+
+     ensure stability, a lightweight admission control mechanism                                          F. SMO/Non-RT RIC Workflow
+     is engaged using an in-memory storage dictionary; requests
+     are rejected with a 429 TOO_MANY_REQUESTS status if the                                                 The interaction flow within the SMO and Non-RT RIC is
+     active session count exceeds a predefined threshold.                                                 depicted in Figure 3. This intent translation process follows
+                                                                                                          a sequence initiated by the user’s intent declaration. The
+     E. Orion rApp (Non-RT RIC)                                                                           workflow commences when the user inputs a natural language
+        The Orion rApp exposes a POST /generate-policy                                                    intent via the Streamlit frontend (Step 1). The MCP Client
+     endpoint to receive structured intent data. Its primary role is                                      captures this input and constructs a prompt for the LLM,
+     to act as an intent translation engine, converting the high-level                                    including the tool definitions (Step 2). Based on the prompt,
+     operational requirements into precise SLA objectives. Instead                                        the LLM identifies the need for network capabilities, selects
+     of computing low-level resource quotas (which depend on                                              the network_slice_booking tool, and returns the argu-
+     dynamic RAN conditions), the Orion rApp derives the target                                           ments for the request (Step 3). The MCP Client then formally
+     QoS metrics, such as maximum throughput, latency budgets,                                            requests the execution of this tool from the MCP Server
+     and packet error rates, required to satisfy the user’s intent.                                       (Step 4). To validate the feasibility of the request, the MCP
+        The final output is an A1 Policy JSON payload contain-                                            Server queries the CAMARA API (Step 5), which performs
+     ing the slice ID, scope, and these specific SLO objectives.                                          admission control and allocates resources. Upon success, the
+     Crucially, the policy also includes the slice_type (e.g.,                                            CAMARA API returns a Session ID and the confirmed QoS
+     URLLC, eMBB). This semantic tag allows the Orion xApp to                                             parameters (Step 6). This result is relayed back to the MCP
+     select appropriate scheduling disciplines (e.g., Earliest Dead-                                      Client (Step 7), which feeds the structured output back into
+     line First for URLLC vs. Proportional Fair for eMBB) that                                            the LLM context (Step 8). The LLM then synthesizes the
+     raw QoS integers alone cannot fully imply. An example of                                             final configuration payload in JSON format, identifying the
+     such a generated policy payload is shown in Listing 1.                                               slice type (Step 9). Finally, the MCP Client transmits this
+                                                                                                          structured intent to the Orion rApp within the Non-RT RIC
+     Listing 1. Example A1 Policy Instance generated by the OrApp.                                        for policy generation (Step 10).
+ 1   {     "ric_id": "ric4",
+ 2         "policy_id": "48782",
+ 3         "service_id": "intentSlice",
+ 4         "policy_data": {
+ 5              "scope": {                                                                                G. Orion xApp
+ 6                  "sliceId": {
+ 7                        "sst": 1,
+ 8                        "sd": "456DEF",                                                                    The Orion xApp is a C++ based application deployed on the
+ 9                        "plmnId": {                                                                     Near-RT RIC platform. Acting as the A1 Interface termination
+10                              "mcc": "724",                                                             point, it receives JSON-based policies from the Non-RT RIC
+11                              "mnc": "11" },
+12                        "nci": 1 },                                                                     via the A1 Mediator. Upon receiving a policy, the Orion xApp
+13                  "sliceType": "mMTC" },                                                                is responsible for the dynamic translation of SLA objectives
+14              "sliceSlaObjectives": {                                                                   into concrete resource allocations.
+15                  "maxDlThptPerUe": 50000,
+16                  "maxUlThptPerUe": 25000,                                                                 To determine the resource quota, the Orion xApp first
+17                  "maxDlThptPerSlice": 300000000,                                                       retrieves the current configuration of the target E2 Node (e.g.,
+18                  "maxUlThptPerSlice": 150000000 } },
+19         "policytype_id": 10002 }
+                                                                                                          bandwidth, numerology, and Multiple Input Multiple Output
+                                                                                                          (MIMO) layers) to determine the Maximum Cell Capacity.
+DRAFT - DO NOT DISTRIBUTE                                                                                                                                                8
+
+
+
+
+                                                                Near-RT RIC                                                           RAN
+
+                                A1 Mediator             xApp Orion                E2 Manager           E2 Termination                E2 Sim
+
+
+                                       A1_POLICY_REQ 1
+                                           (RMR)                2
+                                                                     Parse A1
+                                                                      Policy
+                                                                                  3
+                                        JSON Policy: sliceId
+                                       (PLMN, SST, SD, NCI)    GET E2 Node List
+                                         sliceSlaObjectives
+                                                                      Node List   4
+                                                                     Generate E2SM-RC Control Header
+                                                                     5
+                                                                     Encode E2AP PDU
+                                                                     6                                 7
+                                                                           RIC_CONTROL_REQ (RMR)                 RICcontrolRequest
+                                                                                                                 8    (SCTP)
+                                                                                                                                              Decode e
+                                                                                                                                              Process
+                                                                                                                     RICcontrolAck
+                                                                                                                                          9
+                                                                            RIC_CONTROL_ACK (RMR)                                10
+                                                                                                        11
+                                        A1_POLICY_RESP
+                                             (RMR)
+                                                     12
+
+
+
+
+Fig. 4. Sequence diagram of the control loop.
+
+
+
+It then calculates the required PRB percentage to meet the                                translation engine converts the parsed SLA parameters into an
+requested throughput using the formula:                                                   E2SM-RC Control Header and Control Message, specifying
+                    
+                      Requested Throughput
+                                                                                         the Control Style (Type 2), Action ID (6), and RAN Param-
+          PRB% =                           × 100       (1)                                eters for PRB Policy Ratios (Step 5). These structures are
+                       Max Cell Capacity
+                                                                                          encapsulated into an E2AP RICcontrolRequest Protocol
+The core functionality then maps this calculated percentage                               Data Unit (PDU) and encoded into binary format (Step 6).
+into E2SM-RC structures. These control messages are en-                                      The encoded message is sent to the E2 Termination via
+coded using Abstract Syntax Notation One (ASN.1) Packed                                   RMR (Step 7), which forwards it to the specific E2 Node over
+Encoding Rules (PER) for transmission over E2 Application                                 Stream Control Transmission Protocol (SCTP) (Step 8). Upon
+Protocol (E2AP), enforcing the slice boundaries directly at the                           receipt, the e2sim-rc decodes the payload and processes the
+scheduler level.                                                                          request (Step 9), validating that the new allocation respects
+                                                                                          the node’s capacity before updating the scheduler. If success-
+H. E2 Simulator (E2Sim) (e2sim-rc)                                                        ful, the simulator generates a RICcontrolAcknowledge
+                                                                                          message sent back to the E2 Termination (Step 10). This
+   The e2sim-rc is an extension of the O-RAN Software
+                                                                                          acknowledgement is routed to the Orion xApp (Step 11),
+Community (OSC) E2Sim, modified to support E2SM, em-
+                                                                                          confirming the configuration. Finally, the Orion xApp reports
+ulating a gNB capable of advanced resource control. During
+                                                                                          the operation status to the Non-RT RIC via an A1 Policy
+the initialization phase, it performs the E2 Setup procedure,
+                                                                                          Response (Step 12), closing the control loop.
+advertising support for E2SM-RC Control Style 2 (Radio
+Resource Allocation) and Action ID 6 (Slice-level PRB quota).
+The simulator is designed to decode incoming RIC Control                                                                  VI. E VALUATION
+Requests and apply PRB partitioning logic. Additionally, it                                  This section evaluates the ORION framework’s efficacy in
+implements a capacity validation mechanism acting as a re-                                automating intent-driven network orchestration.2 Our primary
+source guard to reject any control requests that would exceed                             objectives are to quantify: (1) the reliability of LLM-driven
+the total available PRB capacity of the cell, ensuring network                            agents in translating high-level intents into valid A1 policies;
+stability.                                                                                (2) the cost-performance trade-offs between competing foun-
+                                                                                          dational model architectures; (3) the classification accuracy of
+I. Near-RT RIC Workflow                                                                   3GPP slice-type inference from unstructured intents; and (4)
+                                                                                          the latency and resource overhead imposed by the MCP-based
+   The interaction between the Orion xApp and the RAN is
+                                                                                          orchestration architecture on the O-RAN infrastructure.
+illustrated in the sequence diagram (Figure 4). The process
+follows a control loop triggered by the arrival of a new policy.
+The cycle begins when the A1 Mediator pushes a policy to                                  A. Experimental Setup
+the Orion xApp via the RIC Message Router (RMR) interface
+                                                                                            To validate translation fidelity and orchestration perfor-
+(Step 1). The Orion xApp parses the JSON payload to extract
+                                                                                          mance, we utilize a curated evaluation dataset comprising 100
+the target slice identifier and SLA objectives (Step 2). To
+                                                                                          natural language intents. The dataset distribution is weighted
+determine enforcement targets, the Orion xApp queries the E2
+Manager (E2Mgr) (Step 3), which returns a list of connected                                 2 Analysis scripts, datasets, and figures are publicly available at: https://gi
+E2 Nodes and their inventory (Step 4). The Orion xApp’s                                   thub.com/zanattabruno/analysis-orion
+DRAFT - DO NOT DISTRIBUTE                                                                                                                                                      9
+
+
+
+to reflect the connection density inherent to 5G deployment        on average, compared to 154–775 for Anthropic and OpenAI
+scenarios [33]:                                                    models. This disparity stems from Gemini’s verbose chain-of-
+   • eMBB (20 samples): High-throughput scenarios such as          thought outputs, which include explicit reasoning steps in the
+      video journalism, cloud gaming, and 4K media streaming,      response.
+      prioritizing downstream rates (e.g., 100–500 Mbps) and
+                                                                                                                                                  26349          27306
+      moderate latency.                                                                 18548         15270         15090          15226
+   • URLLC (20 samples): Critical, low-latency applications
+      including autonomous robotics, remote surgery, and in-                   104
+                                                                                                                            2418           2394
+      dustrial automation, targeting strict packet delay budgets
+                                                                                            Input Tokens
+
+
+
+
+                                                                      Tokens
+      (1–7 ms) and high availability.                                                                                                                     1512
+                                                                                            Output Tokens                                                                775
+   • mMTC (60 samples): Massive connectivity use cases                         103
+      like smart city sensors, environmental monitoring, and                                    200
+      utility metering. This category is oversampled to rep-                                                  154
+      resent the high heterogeneity and massive scale of IoT                   102
+      endpoints (target density of 106 devices/km2 [34]), where                                                               ro        no
+                                                                                           .5          .5          sh
+                                                                                     Opus 4 de Sonnet 4Gemini 3 Fla Gemini 3 P GPT-5 Na                          GPT-5
+      intents must handle diverse duty cycles and reporting            Claude          Clau
+      intervals.
+   Each entry in the dataset pairs a realistic unstructured        Fig. 5. Token consumption per intent across LLM providers (log scale). Solid
+                                                                   bars represent input tokens; hatched bars represent output tokens. Error bars
+operator prompt (e.g., “Provision a slice for drone traffic        indicate standard deviation.
+management...”) with its structured ground truth, including the
+specific slice type, required throughput, latency constraints,        2) Reasoning Token Allocation: Models that expose reason-
+and device capacity. This dataset serves as the input workload     ing tokens exhibit markedly different computational strategies
+for the SMO layer to quantify the LLM’s ability to correctly       (Fig. 6). Gemini models allocate 21–23% of their total token
+extract and map intents to the CAMARA-compliant Network-           budget to explicit reasoning, compared to only 2.4–4.9% for
+SliceBooking schema.                                               GPT-5 variants. This architectural difference suggests that
+   The dataset was created based on the intents used by [35]       Gemini employs more deliberate chain-of-thought processing
+and the network slice types defined by 3GPP. This data             for intent-to-policy translation, while GPT-5 models rely on
+was structured into a prompt, along with ORION’s operating         more direct inference patterns. Anthropic models do not ex-
+characteristics, to generate different intent types using GPT-5    pose reasoning tokens in their API response, precluding direct
+in a supervised manner.                                            comparison of their internal deliberation overhead.
+   The experimental testbed was hosted on a Kubernetes clus-
+ter deployed on a VMware-virtualized host running Ubuntu                     30000              Input
+                                                                                                                                                     29282          28761
+24.04.2 LTS. The virtualized infrastructure was provisioned                                     Output
+                                                                             25000              Reasoning              22780
+with 12 vCPUs (Intel Xeon X5660 @ 2.80 GHz) and 23 GiB                                                                                22298
+
+of RAM, representing resource-constrained legacy edge in-                    20000         18748
+frastructure. This environment hosted the full ORION stack,
+                                                                    Tokens
+
+
+
+
+                                                                                                         15424
+                                                                             15000
+including the SMO framework, Non-RT and Near-RT RIC
+instances, and the RAN simulation components.                                10000
+
+                                                                              5000
+B. LLM Cost-Performance Analysis
+                                                                             0
+                                                                              Opus 4
+                                                                                     .5      4.5          sh        Pro T-5 Nano                                 GPT-5
+                                                                                        onnet Gemini 3 Fla Gemini 3
+   To evaluate the operational viability of LLM-based intent
+                                                                       Claude Claude S                                 GP
+translation in the SMO layer, we benchmarked six state-of-the-
+art models from three providers: Claude Opus 4.5 and Sonnet
+4.5 (Anthropic), Gemini 3 Flash and Pro (Google), and GPT-5        Fig. 6. Token allocation breakdown showing input, output, and reasoning
+                                                                   components. Anthropic models report zero reasoning tokens as this metric is
+and GPT-5 Nano (OpenAI). Each model processed identical            not exposed via their API.
+O-RAN network slice intents spanning eMBB, URLLC, and
+mMTC use cases, with the SMO orchestrating tool calls to              3) Policy Creation Success: Policy creation success rate
+translate natural language requests into A1 policies. Table II     measures the model’s ability to correctly invoke the MCP
+summarizes the key performance metrics.                            tool and generate a valid A1 policy (Fig. 7). Four models
+   1) Token Consumption Patterns: Input token consumption          achieved ≥97% success: Claude Opus 4.5 (100%), Gemini 3
+varies significantly across models, ranging from 15,090 (Gem-      Pro (100%), GPT-5 (100%), and GPT-5 Nano (97%). Gemini
+ini 3 Flash) to 27,306 (GPT-5),a 1.8× difference (Fig. 5). This    3 Flash achieved 85.7% due to occasional malformed tool
+variance reflects differing tokenization strategies and context    invocations. Claude Sonnet 4.5 exhibited only 17% success,
+window utilization. OpenAI models exhibit consistently higher      consistently failing to invoke the MCP tool despite correctly
+input consumption due to their tokenizer encoding MCP tool         understanding the intent semantics,a limitation in the model’s
+schemas less efficiently. Output tokens show even greater          function-calling capability rather than intent comprehension.
+variance: Gemini models produce 2,394–2,418 output tokens          This finding highlights that raw language understanding does
+DRAFT - DO NOT DISTRIBUTE                                                                                                                                                                                  10
+
+
+
+                                                                                                     TABLE II
+                                                                                 LLM P ERFORMANCE C OMPARISON FOR I NTENT P ROCESSING
+
+                                           Model                           N       Input Tokens        Output Tokens                   Reasoning (%)    Cost (cents/intent)       Success (%)
+                                           Claude Opus 4.5               100     18,766 ± 9,616             204 ± 115                            N/A                  29.68             100.0
+                                           Claude Sonnet 4.5             100     15,270 ± 9,679              154 ± 16                            N/A                   4.81               17.0
+                                           Gemini 3 Flash                 77     15,090 ± 8,308         2,418 ± 2,028                            23.1                  0.19               85.7
+                                           Gemini 3 Pro                   78     15,226 ± 8,173         2,394 ± 2,787                            21.0                  3.10             100.0
+                                           GPT-5 Nano                    100    26,349 ± 14,797           1,512 ± 381                             4.9                  0.49               97.0
+                                           GPT-5                         100    27,306 ± 15,138             775 ± 226                             2.4                  7.60             100.0
+
+
+
+not guarantee reliable tool orchestration, a critical considera-                                                      5) Slice-Type Classification Accuracy: Beyond policy cre-
+tion for agentic SMO deployments.                                                                                  ation success, we evaluate the semantic correctness of the
+                                                                                                                   generated policies by measuring how accurately each model
+                                                                                                                   classifies the 3GPP slice type (eMBB, URLLC, or mMTC)
+                                        GPT-5                                                           100.0%
+                                                                                                                   implied by the natural language intent. Classification accuracy
+                                  GPT-5 Nano                                                           97.0%       is computed deterministically: a prediction is correct if and
+                                                                                                                   only if the extracted slice type matches the ground-truth
+                              Gemini 3 Pro                                                              100.0%     label assigned by domain experts. As illustrated in Fig. 9,
+                            Gemini 3 Flash                                                     85.7%               three performance tiers emerge. Claude Opus 4.5 leads with
+                                                                                                                   99% accuracy across 101 intents, misclassifying only a single
+           Claude Sonnet 4.5                                17.0%                                                  instance, while GPT-5 follows closely at 96%. In the mid-
+                                                                                                                   range, GPT-5 Nano achieves 90% and Gemini 3 Pro 77%. The
+                       Claude Opus 4.5                                                                  100.0%
+                                                                                                                   lower tier comprises Gemini 3 Flash (66%) and Claude Sonnet
+                                                0           20           40       60      80       100             4.5 (13%). Notably, these accuracy figures are tightly coupled
+                                                                    Success Rate (%)
+                                                                                                                   to the policy creation success rates reported in Table II:
+Fig. 7. Policy creation success rate by model. Success requires correct MCP                                        Claude Sonnet 4.5’s 13% accuracy directly mirrors its 17%
+tool invocation and valid A1 policy generation.                                                                    tool-invocation success; the model fails to call the MCP tool
+                                                                                                                   for 83% of intents, yielding no slice-type prediction at all.
+   4) Cost-Performance Tradeoff: Our analysis reveals a 156×                                                       Similarly, Gemini 3 Flash achieves a 100% classification rate
+cost differential between the most economical (Gemini 3 Flash                                                      among the intents for which it produces a prediction (66 out of
+at 0.19 cents/intent) and most expensive (Claude Opus 4.5 at                                                       66 correct), but its 66% prediction rate limits overall accuracy.
+29.68 cents/intent) models (Fig. 8). Critically, cost does not
+correlate with success rate: Gemini 3 Flash, the cheapest                                                                                      99.0
+                                                                                                                                       100                                                          96.0
+                                                                                                                                                                                          90.0
+option, achieves 85.7% success, while the second-cheapest
+GPT-5 Nano (0.49 cents/intent) achieves 97%. For production                                                                             80                                       77.0
+                                                                                                                                                                  66.0
+                                                                                                                        Accuracy (%)
+
+
+
+
+deployments, this finding has significant operational impli-
+                                                                                                                                        60
+cations. An O-RAN system processing 10,000 daily intents
+would incur annual API costs ranging from $694 (Gemini                                                                                  40
+3 Flash) to $108,332 (Claude Opus 4.5). Given compara-
+ble success rates, cost-optimized model selection can reduce                                                                            20              13.0
+operational expenses by two orders of magnitude without
+                                                                                                                                 0
+sacrificing reliability.
+                                                                                                                                   Opus 4
+                                                                                                                                          .5      4.5          sh       Pro       no             GPT-5
+                                                                                                                                             onnet Gemini 3 Fla Gemini 3 GPT-5 Na
+                                                                                                                            Clau e Claude S
+                                                                                                                                d
+                                       29.325                                                                                                                            Model
+
+                                                                                                  7.601            Fig. 9. Slice-type classification accuracy by model. Only intents for which
+ Cost per Intent (cents)
+
+
+
+
+                            101                     4.811                                                          the model produced a slice-type prediction are evaluated.
+                                                                               3.100
+
+                                                                                                                      Among models that reliably produce predictions (≥97%
+                            100                                                        0.486
+                                                                                                                   prediction rate), accuracy spans 90–99%, indicating that once
+                                                                                                                   the LLM successfully invokes the tool pipeline, the slice-type
+                                                                 0.186
+                                                                                                                   inference is highly reliable. This finding confirms that the
+                           10 1
+                                                                                                                   primary bottleneck for intent-to-policy fidelity lies in the MCP
+                                                                                                                   tool orchestration layer rather than in the model’s semantic
+                                        .5          .5          sh         ro        no         GPT-5
+                                  Opus 4 de Sonnet 4Gemini 3 Fla Gemini 3 P GPT-5 Na
+             Claude
+                                                                                                                   understanding of network slice requirements.
+                                    Clau
+                                                                                                                      6) MCP Tool-Use Quality Assessment: While the preceding
+Fig. 8. API cost per intent across LLM providers (log scale). Error bars                                           metrics capture whether a model invokes the tool and what
+represent standard deviation across intents.                                                                       slice type it selects, they do not assess the fine-grained
+                                                                                                                   correctness of the generated tool arguments,i.e., whether every
+DRAFT - DO NOT DISTRIBUTE                                                                                                                      11
+
+
+
+parameter in the NetworkSliceBooking schema was popu-                        conventions and explains scores concentrated in the 0.20–0.45
+lated faithfully and no extraneous values were fabricated.                   range. Second, Claude Sonnet 4.5 exhibits an over-cautious
+To address this gap, we employ the DeepEval framework’s                      refusal pattern: in 16% of test cases, it declines to invoke any
+MCPUseMetric [36], [37], which provides an automated,                        tool and instead solicits follow-up information for fields that
+schema-aware evaluation of MCP tool-call quality. Each test                  the system prompt explicitly designates as nullable,effectively
+case is constructed from the same 100-intent dataset: the                    treating optional schema fields as mandatory requirements.
+prompt context comprises the system prompt (encoding eight                   Third, as noted above, GPT-5 demonstrates ambiguous field
+field-population rules, e.g., “all fields stay null unless the               placement, where a generic user reference to “delay budget”
+user specifies them”) concatenated with the user intent, while               is mapped to both upstream and downstream parameters;
+the actual_output is the model’s raw tool-call response.                     while this interpretation is semantically defensible, it conflicts
+An MCPServer descriptor,capturing the available tools, re-                   with the strict null-unless-specified instruction and results in
+sources, and prompts exposed by the Orion MCP server via                     consistent score deductions (typically from 0.9–0.95 to 0.55–
+SSE,provides the tool schema against which correctness is                    0.65 on affected cases). These findings underscore that MCP
+judged. No expected output is supplied; instead, a judge model               tool-use quality is influenced not only by a model’s language
+(Claude Opus 4.5, temperature = 0) scores each response on a                 comprehension but also by its adherence to schema constraints
+continuous 0–1 scale by assessing tool selection, argument                   and its tool-calling serialization fidelity,factors that are largely
+structure, and value fidelity.                                               opaque to conventional accuracy metrics.
+   Fig. 10 presents the score distribution across all 600 eval-
+uated test cases. Two distinct performance clusters emerge.
+                                                                             C. Resource Consumption Analysis
+Claude Opus 4.5 and GPT-5 Nano form a high-quality cluster,
+with probability densities concentrated in the upper quartile                   We assessed the computational overhead of the proposed
+and mean scores of 0.85 and 0.82, respectively. GPT-5 exhibits               intent orchestration framework using the Prometheus monitor-
+a similar high-performance distribution but with a slightly                  ing stack to scrape CPU and memory metrics from the target
+lower mean of 0.75 due to a systematic pattern: the model                    Kubernetes namespaces. The evaluation captured the steady-
+consistently populates the upStreamDelayBudget field                         state performance of the O-RAN platforms (Non-RT RIC,
+when the user mentions a generic “packet delay budget”                       Near-RT RIC) and the developed MCP Server/Client, along-
+without specifying directionality, which the evaluator penalizes             side the specific intent-handling components (Orion rApp,
+as a Rule 8 violation (fabricating values for unspecified                    Orion xApp) and the E2Sim. As illustrated in Fig. 11, the
+fields). In contrast, the Gemini models occupy a low-score                   resource distribution reveals a stark contrast between the base-
+cluster marked by broad, lower-bound-skewed distributions:                   line infrastructure platforms and the lightweight orchestration
+Gemini 3 Pro achieves a mean of 0.36, while Gemini 3 Flash                   logic implemented in this work.
+scores only 0.28. Claude Sonnet 4.5 falls between the two                       The quantitative results confirm the efficiency of our ap-
+clusters, displaying a high-variance distribution with a mean                proach. The Non-RT RIC remains the most resource-intensive
+of 0.55.                                                                     component, consuming an average of 76.4 ± 3.4 m CPU and
+                                                                             ≈ 7.1 GiB of memory due to its comprehensive microservice
+           1.0                                                               suite, followed by the Near-RT RIC at 37.1 ± 4.6 m CPU
+                                                                             and 1.1 GiB memory. In comparison, the custom intent ap-
+           0.8                                                               plications impose negligible overhead: the Orion rApp and
+                                                                             Orion xApp consume only 1.5 ± 0.3 m and 0.4 ± 0.0 m CPU
+           0.6
+   Score
+
+
+
+
+                                                                             respectively, with memory footprints under 40 MiB, while the
+           0.4                                                               E2Sim accounts for the remaining ≈ 25.6 m overhead. With
+                                                                             a total system-wide draw of approximately 141 millicores and
+           0.2                                                               8.5 GiB RAM, the solution proves viable for deployment on
+                                                                             resource-constrained edge servers.
+           0.0
+                  .5          .5           sh         ro        no   GPT-5
+            Opus 4 de Sonnet 4 Gemini 3 Fla Gemini 3 P GPT-5 Na
+  Claude       Clau                                                          D. End-to-End Latency Analysis
+Fig. 10. DeepEval MCPUseMetric score distribution by model. Violin plots        The end-to-end processing pipeline was analyzed to quan-
+show kernel density estimates.                                               tify the latency introduced by each architectural layer, from the
+                                                                             user’s intent submission at the Frontend to the enforcement at
+   Failure analysis reveals three distinct root causes. First, both          the E2 Node. Fig. 12 illustrates the mean processing times for
+Gemini models systematically generate multiple redundant                     each stage. The total latency is dominated by the SMO layer,
+create_session invocations for a single user request (2–                     specifically the stochastic processing within the LLM compo-
+6 duplicate calls per intent), and their tool-call arguments                 nents (OpenAI GPT-5). The translation of natural language
+are serialized in a truncated format (<... 3 items at                        intents into policy artifacts (SMO Intent→Policy) and the
+Max depth ...>), preventing the evaluator from verify-                       subsequent tool execution (SMO MCP Tool Execution) exhibit
+ing parameter correctness. This behavior likely stems from                   significant duration compared to the downstream components,
+incompatibilities in the models’ function-calling serialization              contributing the majority of the total end-to-end delay.
+   DRAFT - DO NOT DISTRIBUTE                                                                                                                                                    12
+
+
+
+                   102                                         76.4m
+                                                                                                                                                              Layer
+                                                     37.1m                                               E2 Node Slice                                        Frontend
+                            25.3m                                                                                          0.6ms
+                                                                                                           Registration                                       SMO
+                                                                                                       E2 Node Control                                        Non-RT RIC
+                                                                                                                            0.7ms                             Near-RT RIC
+                                                                                                             Processing
+CPU (millicores)
+
+
+
+                   101                                                                                                                                        E2 Node
+                                                                                                   xApp Wait for E2 ACK             2.5ms
+                                             1.5m                                                  xApp Policy Control                                169.6ms
+                   100                                                                                  xApp Full Policy              6.4ms
+                                     0.4m                                                                    Processing
+                                                                                                           A1 Mediator              2.4ms
+                                                                         0.2m                                Processing
+
+
+
+
+                                                                                Processing Stage
+                                                                                                    rApp PUT to Non-RT                              111.9ms
+                                                                                                                    RIC
+                   104                                         7114Mi                                       rApp Policy                             112.4ms
+                                                                                                            Translation
+                                                     1112Mi                                                 MCP Server                                                      15070.3ms
+                   103                                                                                Session Request
+                                                                                                   SMO Policy Creation                                                5508.4ms
+Memory (MiB)
+
+
+
+
+                            195Mi
+                                                                                                         SMO MCP Tool                         47.3ms
+                   102                                                                                        Execution
+                                             40Mi
+                                                                                                   SMO LLM Tool Start                                             3435.0ms
+
+                   101                9Mi                                                            SMO Intent Policy                                                 9025.4ms
+
+                                                                         2Mi                       Frontend Connection           2.3ms
+                                                                                                          Frontend E2E                                                 8431.4ms
+                                                                                                              Response
+                                     pp
+
+
+                                             p
+
+
+                                                      RT
+
+
+                                                                   T
+
+                                                                        Sim
+                         MCerve nt
+
+
+
+
+                                                                n-R
+                                            rAp
+                            P r
+                          S Clie
+
+
+
+
+                                                      ar-
+                                     xA
+
+
+
+
+                                                                        E2
+                                                              No
+                                                    Ne
+
+
+
+
+                                                                                                                           100      101       102       103        104
+                                                                                                                             Mean Processing Time (ms)
+   Fig. 11. CPU (millicores) and Memory (MiB) usage by namespace (Mean
+   ± Std Dev).                                                                     Fig. 12. Mean processing time breakdown across O-RAN architectural layers.
+                                                                                   The diagram highlights the latency disparity between the compute-intensive
+                                                                                   intent processing in the SMO (purple) and the highly optimized, deterministic
+      In contrast to the SMO layer, the Near-RT RIC and E2                         control operations in the Near-RT RIC (blue) and E2 Node (orange). Error
+                                                                                   bars indicate standard deviation.
+   Node components demonstrate highly deterministic behavior
+   with minimal variance. The xApp processing time (xApp
+   Full Policy Processing) and the A1 Mediator latency remain                      of the inference cost. Crucially, the architecture imposes
+   consistently low, validating the platform’s suitability for near-               negligible resource overhead on the RIC infrastructure, with
+   real-time control loops. The variance observed in the upper                     the semantic processing latency confined to the SMO layer,
+   layers, indicated by the error bars in Fig. 12, is inherent to the              ensuring that the critical Near-RT control loops remain de-
+   generative nature of the LLM and network conditions during                      terministic. ORION thus establishes a foundational reference
+   the initial Representational State Transfer (REST) interactions.                for cognitive O-RAN management, proving that generative AI
+   Conversely, the strict timing requirements of the O-RAN                         can be effectively harnessed to reduce operational complexity
+   specification are met by the lower layers, where the control                    without compromising carrier-grade performance standards.
+   loop operations (xApp Policy→Control and E2 Node Control                           Future work will extend the evaluation to local LLM
+   Processing) execute within the sub-second/millisecond range                     deployments, assessing trade-offs between inference latency,
+   required for effective RAN optimization.                                        privacy compliance, and reasoning capability compared to
+                                                                                   cloud-hosted models. Additionally, we plan to fully instrument
+                                       VII. C ONCLUSION                            the closed-loop assurance mechanism, enabling the system to
+      We have presented ORION, an intent-driven orchestration                      autonomously trigger intent modification and rollback based
+   framework that bridges the gap between high-level oper-                         on real-time RAN telemetry.
+   ator objectives and low-level O-RAN policy enforcement.
+   By integrating LLM-powered agents within the SMO and                                                               ACKNOWLEDGMENT
+   standardizing intent translation via the CAMARA Network-
+   SliceBooking schema, we demonstrated a robust pipeline for                         This work has been partially funded by the project XGM-
+   automating network slice provisioning across eMBB, URLLC,                       AFCCT-2024-5-1-1 supported by xGMobile - EMBRAPII -
+   and mMTC domains. Our evaluation confirms that while state-                     Inatel Competence Center on 5G and 6G Networks, with
+   of-the-art foundational models like Claude Opus 4.5 and GPT-                    financial resources from the PPI IoT/Manufatura 4.0 / the
+   5 achieve near-perfect translation fidelity (>99% success),                     MCTI grant number 052/2023, signed with EMBRAPII, and,
+   cost-optimized models such as GPT-5 Nano offer a viable                         partially funded by FAPESP Project PORVIR-5G (Grants No.
+   operational alternative, delivering 97% success at a fraction                   2020/05182-3 and 2025/01970-0).
+DRAFT - DO NOT DISTRIBUTE                                                                                                                                13
+
+
+
+                             R EFERENCES                                        [24] S. Lee et al., “LLM-hRIC: LLM-empowered hierarchical RIC for O-
+                                                                                     RAN,” arXiv preprint arXiv:2504.18062, 2025, accessed: 2026-02-12.
+ [1] M. Polese et al., “Understanding Open RAN: Architecture, Interfaces,            [Online]. Available: https://arxiv.org/abs/2504.18062
+     and Research Challenges,” IEEE Communications Surveys & Tutorials,         [25] J. De la Cruz et al., “RSLAQ: Robust SLA-driven RAN QoS with O-
+     vol. 25, no. 2, pp. 1312–1346, 2023.                                            RAN,” arXiv preprint arXiv:2504.09187, 2025, accessed: 2026-02-12.
+                                                                                     [Online]. Available: https://arxiv.org/abs/2504.09187
+ [2] F. Habibi et al., “Towards an AI/ML-driven SMO Framework in O-
+                                                                                [26] S. Parashar, “Intent-Based APIs for Automated Network Provisioning
+     RAN,” arXiv preprint arXiv:2409.05092, 2024, accessed: 2026-02-12.
+                                                                                     and Lifecycle Control: A Comprehensive Framework,” Journal of Com-
+     [Online]. Available: https://arxiv.org/abs/2409.05092
+                                                                                     putational Analysis and Applications (JoCAAA), vol. 34, no. 12, pp.
+ [3] L. Velasco et al., “End-to-End Intent-Based Networking,” IEEE Com-              29–37, 2025.
+     munications Magazine, vol. 59, no. 10, pp. 106–112, 2021.                  [27] TM Forum, “Intent Management API TMF921 v5.0.0,” TM Forum
+ [4] A. Clemm et al., “RFC 9315: Intent-based networking-concepts and                [Online], 2024, accessed: 2026-02-12. [Online]. Available: https:
+     definitions,” 2022.                                                             //www.tmforum.org/oda/open-apis/directory/intent-management-api-T
+ [5] 3GPP, “TS 28.312 v18.8.0: Intent driven management services,”                   MF921/v5.0.0
+     3GPP, Technical Specification 28.312, 2025. [Online]. Available:           [28] ——, “Intent in Autonomous Networks V1.3.0,” TM Forum, Technical
+     https://www.etsi.org/deliver/etsi ts/128300 128399/128312/18.08.00 6            Report, 2022.
+     0/ts 128312v180800p.pdf                                                    [29] 3GPP, “Intent Driven Management,” 3GPP Technology Page [Online],
+ [6] ETSI, “GS ZSM 016 v1.1.1: Intent-driven Closed Loops,” ETSI, GS                 2023, accessed: 2026-02-12. [Online]. Available: https://www.3gpp.org
+     ZSM 016, 2024. [Online]. Available: https://www.etsi.org/deliver/etsi g         /technologies/intent
+     s/ZSM/001 099/016/01.01.01 60/gs ZSM016v010101p.pdf                        [30] ETSI, “Zero-touch network and Service Management (ZSM); Intent-
+ [7] H. Tran et al., “INA-Infra: Open and Extensible Infrastructure for              driven autonomous networks; Generic aspects,” European Telecommu-
+     Intent-driven Network Automation,” arXiv preprint arXiv:2410.09765,             nications Standards Institute, Technical Report, 2024.
+     2024, accessed: 2026-02-12. [Online]. Available: https://arxiv.org/abs/    [31] ETSI, “TS 103 985 v1.1.0: A1 interface Use Cases and Requirements,”
+     2410.09765                                                                      ETSI, TS 103 985, 2024. [Online]. Available: https://www.etsi.org/deliv
+ [8] M. A. Habib et al., “Intent-driven Intelligent Control and Orchestration        er/etsi ts/103900 103999/103985/01.01.00 60/ts 103985v010100p.pdf
+     in O-RAN Via Hierarchical Reinforcement Learning,” in IEEE 20th            [32] O-RAN Alliance, “O-RAN Alliance releases 60 new or updated
+     International Conference on Mobile Ad Hoc and Smart Systems (MASS),             technical documents since March 2025,” O-RAN Alliance News
+     2023, pp. 55–61.                                                                [Online], 2025, accessed: 2026-02-12. [Online]. Available: https:
+ [9] T. Dinh et al., “Towards End-to-End Network Intent Management with              //www.o-ran.org/blog/o-ran-alliance-releases-60-new-or-updated-techn
+     LLMs,” arXiv preprint arXiv:2504.13589, 2025, accessed: 2026-02-12.             ical-documents-since-march-2025
+     [Online]. Available: https://arxiv.org/abs/2504.13589                      [33] ITU-R, “IMT Vision – Framework and overall objectives of the future
+[10] X. Wu et al., “LLM-xApp: A Large Language Model Empowered                       development of IMT for 2020 and beyond,” International Telecommu-
+     Radio Resource Management xApp for 5G O-RAN,” in NDSS                           nication Union, Recommendation M.2083-0, September 2015.
+     Workshop on Security and Privacy of Next-Generation Networks               [34] 3GPP, “Study on Scenarios and Requirements for Next Generation
+     (FutureG), 2025, accessed: 2026-02-12. [Online]. Available: https:              Access Technologies,” 3rd Generation Partnership Project (3GPP), Tech-
+     //www.ndss-symposium.org/ndss-paper/llm-xapp-a-large-language-m                 nical Report (TR) 38.913, 2018.
+     odel-empowered-radio-resource-management-xapp-for-5g-o-ran/                [35] A. Dandoush et al., “Large language models meet network slicing
+[11] S. Niknam et al., “Intelligent O-RAN for Beyond 5G and 6G Networks,”            management and orchestration,” 2024. [Online]. Available: https:
+     IEEE Network, vol. 36, no. 3, pp. 2–9, 2022.                                    //arxiv.org/abs/2403.13721
+[12] A. Banerjee et al., “An Intent-Driven Orchestration of Cognitive Au-       [36] J. Ip and K. Vongthongsri, “DeepEval: The Open-Source LLM
+     tonomous Networks for RAN management,” in International Conference              Evaluation Framework,” GitHub repository, 2024, accessed: 2026-02-
+     on Network and Service Management (CNSM), 2021, pp. 380–384.                    12. [Online]. Available: https://github.com/confident-ai/deepeval
+[13] Anthropic, “Introducing the Model Context Protocol,” Anthropic             [37] Y. Qin et al., “ToolLLM: Facilitating Large Language Models to Master
+     News [Online], 2024, accessed: 2026-02-18. [Online]. Available:                 16000+ Real-world APIs,” in The Twelfth International Conference
+     https://www.anthropic.com/news/model-context-protocol                           on Learning Representations, 2024, accessed: 2026-02-12. [Online].
+[14] ——, “What is the Model Context Protocol (MCP)?” Anthropic                       Available: https://openreview.net/forum?id=V3K91s1J2O
+     [Online], 2025, accessed: 2026-02-18. [Online]. Available: https:
+     //modelcontextprotocol.io/docs
+[15] X. Hou et al., “Model context protocol (mcp): Landscape, security
+     threats, and future research directions,” 2025. [Online]. Available:
+     https://arxiv.org/abs/2503.23278
+[16] K. Abbas et al., “IBNSlicing: Intent-Based Network Slicing Framework
+     for 5G Networks using Deep Learning,” in Asia-Pacific Network Oper-
+     ations and Management Symposium, 2020, pp. 19–24.
+[17] K. Mehmood et al., “Intent-based Network Management and Orchestra-
+     tion for Smart Distribution Grids,” in 2021 28th International Confer-
+     ence on Telecommunications (ICT), 2021, pp. 1–6.
+[18] M. Xie et al., “Intent-Driven Management for Multi-Vertical End-to-End
+     Network Slicing Services,” in IEEE Globecom Workshops (GC Wkshps),
+     2022, pp. 1285–1291.
+[19] J. Mcnamara et al., “NLP Powered Intent Based Network Management
+     for Private 5G Networks,” IEEE Access, vol. 11, pp. 36 642–36 657,
+     2023.
+[20] J. Zhang et al., “Intent-Driven RAN Slice Orchestration: A Multi-Agent
+     Deep Reinforcement Learning Based Approach,” in IEEE/CIC Inter-
+     national Conference on Communications in China (ICCC Workshops),
+     2023, pp. 1–6.
+[21] C. V. Nahum et al., “Intent-Aware Radio Resource Scheduling in a RAN
+     Slicing Scenario Using Reinforcement Learning,” IEEE Transactions on
+     Wireless Communications, vol. 23, no. 3, pp. 2253–2267, 2024.
+[22] V. Gopal et al., “AdapShare: RL-Based Dynamic Spectrum Sharing
+     for O-RAN,” arXiv preprint arXiv:2408.16842, 2024, accessed:
+     2026-02-12. [Online]. Available: https://arxiv.org/abs/2408.16842
+[23] L. Bonati et al., “PACIFISTA: Characterizing and Mitigating O-
+     RAN Conflicts,” arXiv preprint arXiv:2405.04395, 2024, accessed:
+     2026-02-12. [Online]. Available: https://arxiv.org/abs/2405.04395
+

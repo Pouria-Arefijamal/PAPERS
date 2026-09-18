@@ -1,0 +1,300 @@
+ 
+ Toward Autonomous O-RAN: A Multi-Scale Agentic AI Framework for Real-Time Network Control and Management 
+ Report GitHub Issue 
+ × 
+ Title: 
+ Content selection saved. Describe the issue below: 
+ Description: 
+ Submit without GitHub 
+ Submit in GitHub 
+ arXiv is now an independent nonprofit! 
+ Learn more 
+ × 
+ Back to arXiv 
+ Why HTML? 
+ Report Issue 
+ Back to Abstract 
+ Download PDF 
+ Abstract 
+ I Introduction 
+ II Agentic AI O-RAN Framework 
+ II-A Architectural Overview and Control Loops 
+ II-B Agent Roles, Data Flows, and Telemetry 
+ II-C Safety, Guardrails, and Conflict Resolution 
+ III Proof of Concept 
+ III-A Use Case I: Agentic WPFM Governance and Retraining 
+ III-B Use Case II: Agentic Slice Resource Allocation 
+ IV Risks & Challenges 
+ V Conclusion 
+ References 
+ License: CC BY-NC-ND 4.0
+arXiv:2602.14117v2 [cs.NI] 02 Jun 2026 
+ Toward Autonomous O-RAN: A Multi-Scale Agentic AI Framework for Real-Time Network Control and Management 
+ Hojjat Navidan
+ Mohammad Cheraghinia
+ Jaron Fontaine
+ ‌ Mohamed Seif
+ Eli De Poorter
+ H. Vincent Poor
+ Ingrid Moerman
+ Adnan Shahid
+ † † thanks: Hojjat Navidan, Mohammad Cheraghinia, Jaron Fontaine, Eli De Poorter, Ingrid Moerman, and Adnan Shahid are with IDLab, Department of Information Technology at Ghent University - imec, Ghent, Belgium. † † thanks: Mohamed Seif and H. Vincent Poor are with the Department of Electrical and Computer Engineering, Princeton University, USA. 
+ Abstract 
+ Open Radio Access Networks (O-RAN) promise flexible 6G network access through disaggregated, software-driven components and open interfaces, but this programmability also increases operational complexity. Multiple control loops coexist across the service management layer and RAN Intelligent Controller (RIC), while independently developed control applications can interact in unintended ways. In parallel, recent advances in generative Artificial Intelligence (AI) are enabling a shift from isolated AI models toward agentic AI systems that can interpret goals, coordinate specialized models and control applications, and adapt their behavior over time. This article proposes a multi-scale agentic AI framework for O-RAN that organizes RAN intelligence as a coordinated hierarchy across the Non-Real-Time (Non-RT), Near-Real-Time (Near-RT), and Real-Time (RT) control loops.
+(i) A Large Language Model (LLM) agent in the Non-RT RIC translates operator intent into policies and governs model lifecycles; (ii) Small Language Model (SLM) agents in the Near-RT RIC execute low-latency optimization and can activate, tune, or disable existing control applications; and (iii) Wireless Physical-layer Foundation Model (WPFM) agents near the distributed unit provide fast inference close to the air interface. We describe how these agents cooperate through standardized O-RAN interfaces and telemetry. Using a proof-of-concept implementation built on open-source models, software, and datasets, we demonstrate the proposed agentic approach in two representative scenarios: robust operation under non-stationary conditions and intent-driven slice resource control. 
+ Index Terms:  Open Radio Access Network, RAN Intelligent Controller, Agentic AI, Agentic RAN, 6G Networks, Intent-Driven Networking
+ I Introduction 
+ The transition toward 6G is being shaped by two converging revolutions: the disaggregation of the Radio Access Network (RAN) and the rise of generative Artificial Intelligence (AI). While Open-RAN (O-RAN) introduces flexibility through open interfaces and programmable control loops, the resulting network complexity exceeds the capabilities of traditional rule‑based optimization [ 8 ] . Operators no longer manage monolithic network boxes; they orchestrate distributed, cloud-native RAN functions spanning multiple time domains. Control extends from the Service Management and Orchestration (SMO) layer through the RAN Intelligent Controller (RIC) and down to the Distributed Unit (O-DU). In emerging 6G settings where ultra-dense deployments, high mobility, multi-tenant slicing, and dynamic spectrum sharing become paramount, this complexity demands a new approach to RAN intelligence [ 5 ] . 
+ To address this challenge, the community has increasingly adopted AI and Machine Learning (ML) solutions. Yet, current O-RAN intelligence is often realized as standalone rApps, xApps, and dApps that embed specialized, task-specific ML components [ 6 ] . In practice, these components are commonly implemented as lightweight neural networks for physical layer inference, sequence models for traffic forecasting, or reinforcement learning agents for resource management and scheduling. While effective within their scope, these models are typically trained for a single objective and a fixed operating regime. They are deployed as independent control or inference modules with limited awareness of network intent, peer actions, or longer-horizon effects. 
+ As operators introduce more standalone applications, unintended cross-model interactions emerge across the control hierarchy. For example, a handover-optimization xApp may increase the handover rate to improve mobility support, but this can redirect users to cells that already have little spare capacity [ 2 ] . Without a coordinating layer that understands intent and manages cross-timescale dependencies, independently optimized xApps may conflict with one another, resulting in unstable control actions and degraded end-to-end performance [ 15 ] . 
+ Several coordination mechanisms have been proposed, including conflict mitigation frameworks, multi-xApp arbitration, and Digital Twin (DT) to validate xApp behavior before deployment [ 2 ] . Although promising, many of these approaches rely on reactive resolution, and even proactive methods generally lack the multi-step semantic reasoning to handle unforeseen network states. Consequently, they may prevent inconsistent updates yet fail to satisfy objectives such as slice isolation, latency guarantees, or operator policies. Moreover, they typically assume models are static and manually curated, which limits their effectiveness in evolving environments and under model drift. 
+ At the same time, the AI ecosystem has begun to shift from models to agents, systems capable not only of prediction but also of planning, tool use, self-correction, and multi-step reasoning. Recent progress in Large Language Models (LLMs) has demonstrated their ability to interpret high-level goals, synthesize structured actions, and coordinate multiple specialized tools [ 14 , 13 ] . In parallel, Small Language Models (SLMs) have emerged as efficient, edge-deployable alternatives capable of fast, domain-specific reasoning [ 11 ] . At the physical layer, Wireless Physical-Layer Foundation Models (WPFMs) are pre-trained as general-purpose feature extractors using In-phase and Quadrature (IQ) samples and Channel State Information (CSI). They can then be fine-tuned for downstream tasks such as interference detection, channel estimation, and localization, while meeting strict real-time constraints [ 1 , 3 ] . 
+ These developments present an opportunity to rethink O-RAN’s intelligence stack as a coordinated hierarchy of intent-driven agents. This article proposes a hierarchical agentic AI framework for O-RAN. It assigns LLM rApps to intent interpretation and governance in the Non-RT loop, SLM xApps to policy-driven optimization and xApp orchestration in the Near-RT loop, and WPFM dApps to real-time PHY inference at the air interface. This directly addresses the emerging AI-RAN vision: while AI-RAN conceptualizes AI-for-RAN, AI-on-RAN, and AI-and-RAN, it leaves the cross-loop orchestration of these heterogeneous components undefined. We provide the missing how by defining concrete agent roles, data pathways, model lifecycle mechanisms, and safety guardrails, validated through a proof-of-concept for representative RAN control scenarios. The main contributions of this article are: 
+ • 
+ We introduce a hierarchical framework that moves beyond isolated ML models by mapping LLMs, SLMs, and WPFMs to the Non-RT, Near-RT, and Real-Time O-RAN loops, respectively. 
+ • 
+ We define the mechanisms for translating high-level operator intents into actionable policies, including continuous telemetry monitoring and automated model governance. 
+ • 
+ We empirically validate the framework, demonstrating LLM-driven intent translation alongside the hardware feasibility of sub-millisecond WPFM inference. 
+ The remainder is organized as follows: Section II introduces the proposed agentic framework; Section III presents the proof-of-concept; Section IV discusses the risks and challenges; Section V concludes the article with final remarks and future directions. 
+ II Agentic AI O-RAN Framework 
+ II-A Architectural Overview and Control Loops 
+ We propose the architecture in Fig. 1 to enable collaborative, multi-scale intelligence within the O-RAN ecosystem. It builds on the disaggregated gNB split into the Centralized Unit (O-CU), O-DU, and Radio Unit (O-RU), interconnected through open interfaces such as F1 and O-RAN Fronthaul (O-FH). Accordingly, we map these tiers to a team of cooperating AI agents, with each agent’s cognitive capacity proportional to its available time budget. Intent-level reasoning runs in the Non-RT loop, policy-driven control in the Near-RT loop, and fast neural inference in the RT loop, near time-critical functions. 
+ These agents are distinguished from conventional O-RAN xApps by a set of four core properties: (i) goal-directed reasoning: each agent pursues explicit objectives derived from operator intent, rather than executing a fixed control function;
+(ii) tool use and planning: the LLM rApp issues structured MCP calls to SMO subsystems as steps in a multi-turn decision loop, sequencing retrieval, simulation, and deployment actions;
+(iii) persistent memory: agents retain contextual state across control cycles through the Data Lake and Knowledge Base;
+(iv) self-correction: the system autonomously detects performance degradation and selects corrective actions without operator intervention. 
+ Fig. 1: High-level architecture of the agentic AI framework. 
+ The Non-RT RIC incorporates an LLM-driven rApp responsible for long-horizon reasoning, intent interpretation, policy generation, and model governance. This rApp interacts with a suite of SMO services via an internal Model Context Protocol (MCP) interface, enabling coordination between the language models and operational support systems. The Model Catalog maintains all registered SLM and WPFM variants together with metadata on their capabilities, constraints, and deployment history. The Data Lake aggregates multi-source telemetry, including O1 measurements, Key Performance Metric (KPM) logs, and offline training datasets. The Knowledge Base (KB) stores domain rules, operator guidelines, and validated configuration patterns that ground the LLM’s reasoning. 
+ The MLOps pipeline automates model versioning, validation, testing, and promotion, ensuring that new models can be safely onboarded or rolled back. Meanwhile, the Simulation/DT environment allows the LLM rApp to evaluate configurations before live deployment.The Analytics module provides long-horizon KPM trend analysis to detect model drift or degradation and evaluate deployed policies. Through these components, the Non-RT RIC gains the situational awareness needed to govern the full intelligence hierarchy. 
+ At the Near-RT RIC, the architecture hosts a heterogeneous portfolio of control applications, including SLM-based xApps, conventional AI/ML model-based xApps, and legacy rule-based xApps. This layer translates high-level intent and policies received via the A1 interface into specific, context-aware radio control actions. Unlike traditional xApps optimized for a single task, the SLM xApps provide lightweight reasoning capabilities to interpret intent-driven policy objectives, fuse multiple KPM streams, and coordinate with other xApps within the latency constraints. Control decisions generated at this layer, such as slice-level resource allocation, handover parameter tuning, or load balancing directives, are enforced on the RAN via the E2 interface, thereby closing the Near-RT control loop. 
+ In parallel, the gNB follows the O-RAN functional split: The O-CU handles higher-layer protocol processing, while the O-DU executes time-critical MAC and PHY operations and interfaces with the O-RU over the O-FH. Within the O-DU, we introduce WPFM-enabled dApps that perform sub-millisecond inference directly on IQ samples or CSI features. These dApps provide fast PHY-layer intelligence, such as interference classification, channel estimation or beam management, while respecting the strict real-time constraints of the lower RAN. Conventional dApps or baseline schedulers remain colocated as a fail-safe fallback, ensuring robust operation in case of model degradation or violations. 
+ Finally, to ensure the system supports self-monitoring and continuous learning, the O1 interface provides the SMO with feedback from managed elements, streaming performance counters, fault logs, and trace data to the Data Lake. This telemetry provides the evidence required by the LLM rApp and the MLOps pipeline to evaluate deployed agents, detect performance regressions, and trigger model updates or rollbacks when needed. 
+ It is important to note that the real-time control loop is not yet fully standardized within the O-RAN Alliance. Nevertheless, emerging proposals and early implementations suggest placing real-time dApps directly inside or adjacent to the O-DU to meet microsecond-scale processing deadlines [ 7 , 4 ] . Following this direction, our framework assumes that WPFM-driven dApps execute within the O-DU processing pipeline, keeping RT agents close to the air interface to deliver deterministic real-time intelligence. 
+ II-B Agent Roles, Data Flows, and Telemetry 
+ We now detail how agents interact across three operational layers: strategic, tactical, and operational, using standardized O-RAN interfaces. The resulting interaction cycle, illustrated in Fig.  2 , shows how intent, actions, feedback, and model evolution propagate across time and across the architecture. 
+ The LLM rApp functions as a strategic planner and long-horizon decision-maker, operating via a Reasoning plus Acting (ReAct) loop. It observes operator intents and aggregated KPMs from the Data Lake, draws context from the Knowledge Base, and invokes MCP tools to perform step-by-step reasoning in natural language. Using constrained generation, it outputs structured JSON policies. 
+ Concrete Non-RT tasks include: (i) translating operator intents into A1 policy objects with resource bounds and priorities; (ii) monitoring long-horizon KPMs for SLA violations; (iii) diagnosing metric regressions, such as xApp conflicts or model staleness; (iv) governing models or agent lifecycles via the Model Catalog; (v) pre-validating policies via DTs; (vi) triggering MLOps retraining pipelines; and (vii) orchestrating macro-objectives like cross-domain alignment. Unlike traditional rule-based engines, the LLM employs multi-step reasoning over unanticipated network states, enabling zero-shot policy derivation without offline rule authoring. 
+ At the tactical layer, an SLM-based xApp serves as the primary execution agent for A1 intent. Beyond its own control decisions, the SLM coordinates other applications, whether AI/ML-based or legacy rule-based, by selectively activating, deactivating, or reconfiguring them. Control actions are applied through E2 using the E2SM-RC to adjust parameters such as handover thresholds, resource allocations, and power-control settings. The outcomes of these actions are observed through E2SM-KPM reports, which provide Near-RT performance feedback and are forwarded to the Data Lake for strategic analysis. This closed-loop interaction enables the Near-RT RIC to behave as a unified tactical layer rather than a collection of independent controllers. 
+ The operational layer resides within the O-DU and executes at microsecond-to-millisecond granularity. Here, dApps perform real-time inference over IQ samples and CSI, generating PHY-level insights that guide scheduling, beam selection, interference management, and link adaptation. These dApps operate under strict timing budgets and focus solely on inference rather than policy reasoning. Their impact is reflected in the KPMs observed at the Near-RT layer, as illustrated in Fig.  2 . Shifts in channel conditions or interference can degrade the effectiveness of a deployed WPFM, triggering feedback to the upper layers and, if needed, model adaptation. 
+ Fig. 2: The interaction cycle in the proposed agentic O-RAN architecture. Operator intent is translated by the LLM agent into A1 policies, executed by SLM agents via E2 control, and realized through WPFM dApps that act on the air interface. 
+ Once model governance is incorporated, the full agentic cycle closes. Degrading KPMs trigger the LLM to diagnose the root cause and select the suitable action, whether policy adjustment, xApp reconfiguration, or model retraining. Following any intervention, the system monitors recovery via subsequent telemetry, automatically rolling back to a previously validated baseline if stability is not restored within a defined observation window. 
+ To execute these diagnostic and retraining actions, the LLM agent continuously monitors multi-layer telemetry to identify which specific component requires updating. It precisely targets either a Near-RT xApp or an RT dApp for replacement by correlating specific KPM degradations, such as MAC-layer scheduling delays versus physical-layer channel estimation errors, with their respective control domains. Standard O-RAN interfaces and service models bind these agents together and ensure that model governance remains grounded in measured network behavior. 
+ II-C Safety, Guardrails, and Conflict Resolution 
+ Agentic AI also introduces new operational risks. Unlike conventional xApps with narrowly scoped control logic, agents can generate policies, reconfigure control applications, and alter the set of deployed models. Without appropriate safeguards, this autonomy can create unstable feedback loops, unintended cross-layer interactions, or regulatory violations. Safety and governance are, therefore, essential components. 
+ At the strategic layer, safety begins by strictly constraining the reasoning and action space of the LLM rApp. All A1 policies are generated via structured schemas and validated against Knowledge Base constraints, including spectrum regulations, transmission power limits, slice isolation rules, and service-level objectives. In addition, before deploying any new policy or model to the Near-RT RIC, the LLM rApp evaluates expected impacts using the Simulation/DT block in the SMO. This pre-validation detects unsafe behaviors and side effects early, protecting live users from network instability. 
+ Strategic-layer safety also extends to model governance. To prevent unnecessary disruption, the LLM rApp does not treat every performance regression as a retraining event. Instead, it follows a least-disruptive-first ordering: A1 policy adjustments and xApp reconfiguration are preferred over deploying a new model. Only when simpler interventions fail does the agent trigger MLOps fine-tuning, and all candidate models must pass offline validation before deployment. 
+ Within the Near-RT RIC, safety is primarily a coordination problem. Multiple xApps may attempt to influence overlapping parameters, and their interactions can create oscillations or inconsistent control. In the proposed architecture, SLM xApps act not only as controllers but also as orchestrators of other AI/ML and legacy xApps.
+To keep this flexibility bounded, decision constraints such as rate limits, parameter bounds, and stability guards against rapid oscillations are enforced via xApp-specific logic and configuration parameters. Conflicts between xApps are detected either via overlapping E2 parameter updates or anomalous KPM deviations. They are then resolved using policy priorities, SLM confidence scores, and performance impact estimates, ensuring deterministic behavior under concurrent control. 
+ At the RT layer, safety is governed by two hard requirements: strict timing constraints and bounded actuation. WPFM-based dApps execute within the O-DU pipeline and must meet execution deadlines. Any inference that exceeds its time budget is discarded, and control reverts to deterministic baseline logic, such as a legacy scheduler or vendor-certified PHY procedures. Beyond timing checks, WPFM outputs are subject to sanity constraints to ensure that the suggested link-adaptation and beam-management actions remain within standard-compliant bounds. 
+ Safety across all layers is reinforced through explicit rollback mechanisms. Policies, xApp configuration, and model versions are tracked through the Model Catalog and MLOps pipeline. If telemetry indicates sustained KPM degradation following a change, the system can rapidly revert to a previously validated safe configuration or a deterministic baseline to restore stability. 
+ III Proof of Concept 
+ To demonstrate the feasibility of the proposed framework within current O-RAN constraints, we implement a proof-of-concept system spanning the Non-RT and Near-RT layers and emulating key aspects of the RT intelligence loop. The implementation combines a live 5G RAN based on srsRAN, an O-RAN-SC Near-RT RIC, and a set of lightweight LLM and SLM agents that realize the strategic and tactical roles described in Section  II . 
+ Because the O-RAN-SC Non-RT RIC lacks native agentic primitives, the LLM agent is implemented as a standalone module. This abstraction allows us to evaluate the intelligence stack while maintaining standards-compliant A1 communication with the Near-RT RIC. Although promising dApp orchestration frameworks are actively advancing toward standardization [ 7 ] , production-grade RT RIC platforms are still maturing. Consequently, the WPFM’s inference latency and capability are validated off-path using recorded IQ data, allowing us to study agentic model governance and retraining decisions without inserting inference into the real-time DU processing chain. 
+ We present this proof of concept through two complementary use cases that highlight different aspects of agentic intelligence. The first focuses on agentic model governance, where the performance of a WPFM degrades under changing radio conditions, prompting the LLM governor to decide whether to retrain or fine-tune the model. The second use case demonstrates intent-driven slice resource control in a live network. Here, an SLM-based xApp performs slice-level allocation in the Near-RT loop, while the LLM supervises policy objectives, updates constraints, and adjusts priorities based on observed KPMs. 
+ III-A Use Case I: Agentic WPFM Governance and Retraining 
+ The foundation model is pre-trained in a self-supervised manner using the FFT of IQ samples. In this work, we use our previously published WPFM [ 3 ] and adapt it to new downstream tasks deployable at the DU level. The model achieves an end-to-end inference latency of 0.847 ms per sample on Nvidia Jetson Xavier NX, a compact, low-power edge device. This latency confirms the feasibility of O-DU co-location without violating real-time scheduling deadlines. The lightweight transformer architecture requires no specialized hardware beyond a co-located accelerator, and its self-supervised pre-training means only a small labeled dataset is needed for fine-tuning to new downstream tasks. 
+ We assume that the LLM agent automates the overall workflow and, when needed, identifies the need to fine-tune the WPFM in response to network announcements or changing conditions, surpassing the limitations of manual operator-driven monitoring. To demonstrate this process, we consider two evaluation scenarios. 
+ In the first scenario, the downstream task is wireless technology recognition for vehicular applications (including LTE, 5G NR, Wi-Fi, ITS-G5, and C-V2X) 1 1 
+ 1 
+ https://ieee-dataport.org/documents/dataset-iq-samples-lte-5g-nr-wi-fi-its-g5-and-c-v2x-pc5 . The LLM processes new announcements and initiates fine-tuning of the WPFM to extend supported classes and environments using available data stored in the Data Lake. In the second scenario, interference between LTE and 5G NR leads to degradation in KPMs 2 2 
+ 2 
+ https://ieee-dataport.org/documents/dataset-fft-iq-samples-lte-nr-and-overlap-0 . In response, the governing agent detects KPM degradation and triggers a new downstream task to detect interference using the WPFM. 
+ Fig.  3 illustrates four WPFM fine-tuning stages. In the ’initial’ stage, the model operates with high accuracy before new announcements. This baseline model remains active until the updated model is trustworthy. During the ’announcement’ stage, new requirements for downstream tasks are introduced, causing a temporary drop in model performance. In the ’fine-tuning’ stage, the model begins the training process using data from the Data Lake. After the first fine-tuning epoch, corresponding to one time step in the figure and taking approximately 17 seconds, the model achieves accuracies of 58.92% (technology recognition) and 82.28% (interference detection). After approximately 340 seconds, the model is fully fine-tuned and can be redeployed into the network, supporting the new classes. 
+ Fig. 3: WPFM governance for two scenarios: a) New class announcement for Technology Recognition (TR) in vehicular application. b) Interference Detection (ID) announcement for 5G NR and LTE 
+ III-B Use Case II: Agentic Slice Resource Allocation 
+ While the previous use case demonstrated offline model governance, this use case validates the agentic loop in a live network. The experiment is conducted on a live 5G setup based on srsRAN, with four active slices: two bandwidth-intensive slices, one latency-sensitive slice, and a fourth slice initially configured as a regular service. During the experiment, this fourth slice is promoted to VIP status (throughput-oriented) via an operator intent prompt. Downlink traffic is generated through stepwise additions and removals of UDP flows with varying inter-departure times and packet sizes across slices, inducing congestion and realistic fluctuations in offered load and queue dynamics. 
+ In the Non-RT RIC, an LLM agent (Nvidia Nemotron on an H200 GPU) translates operator intent into a structured policy that defines control guardrails. In the Near-RT RIC, an SLM agent (GPT-OSS on an RTX 5090 GPU) makes low-latency Physical Resource Block (PRB) allocation decisions using live KPMs that respect policy constraints. System monitoring, control, and human-in-the-loop interaction are handled through the open-source CLI-LLM framework [ 10 ] , which connects live telemetry to the agents’ prompts and exposes control endpoints for runtime intent updates. 
+ The Near-RT SLM xApp allocates slice-level PRBs using a 5-second sliding window of E2SM-KPM measurements (throughput, resource efficiency, buffer occupancy, and RLC delay) to compute per-slice PRB caps under congestion. The Non-RT LLM rApp supervises at a coarser timescale by analyzing one-minute KPM summaries to detect persistent starvation, oscillatory behavior, or latency violations. It periodically updates a structured policy object that specifies service intent, minimum resource floors, and maximum per-step adjustment limits to constrain the SLM agent’s fast decision loop. 
+ Runtime intent changes are injected through operator prompts. During the scenario, slice 4 is promoted to a VIP service while the network is under load. The LLM agent incorporates this updated intent into the policy object, increasing the priority of slice 4 while maintaining explicit protection for the latency-sensitive slice. The SLM then enforces these updated constraints in real time without requiring retraining or controller restarts. 
+ Figure 4 provides illustrative examples of policy structures and message exchanges for this interaction. The reasoning snippets are abbreviated for readability and are not full execution logs. After the VIP promotion, the LLM updates the policy, and the SLM immediately reflects this by shifting available PRBs toward slice 4 while keeping the low-latency slice at its protective floor. 
+ Fig. 4: Representative examples of agentic interaction illustrating how telemetry inputs and operator intent are processed through distinct reasoning stages to generate structured policies and control actions. 
+ Fig. 5: Comparison of static, heuristic, SLM-only, and agentic slice control strategies in a live 5G setup. 
+ To evaluate the benefits of the agentic approach, we compare four control strategies: static equal PRB allocation, a heuristic slice controller, an SLM-only controller with fixed objectives, and the proposed agentic controller combining SLM execution with LLM supervision. The SLM-only controller serves as the conventional AI/ML xApp baseline. It applies a control decision model but operates with fixed objectives and no intent-driven governance, mirroring the structure of a standard ML-based xApp. The heuristic baseline allocates resources based on short-term demand and utilization feedback, computing a per-slice priority score from KPM-derived indicators. Performance is assessed using four metrics: downlink throughput, radio latency for the latency-sensitive slice, buffer occupancy, and overall resource efficiency. We pay particular attention to the system’s response following the VIP promotion of the fourth slice. 
+ As depicted in Fig.  5 , the static and heuristic schemes struggle to adapt to the combined effects of congestion and changing service priorities. While the heuristic controller improves average throughput over static allocation, it exhibits a delayed response to intent changes and greater delay variance.
+The SLM-only controller increases VIP throughput to 10.5 Mbps, but it lacks awareness of higher-level service priorities. As a result, it trades VIP gains for latency protection, leading to higher delays for the latency-sensitive slice. 
+ In contrast, the proposed agentic controller achieves stronger alignment with service intent while maintaining stability. Following the promotion of slice 4 to VIP status, the LLM-supervised system rapidly adjusts policy floors and priorities. This allows the SLM to increase average VIP throughput by approximately 6% relative to the SLM-only baseline without starving the other slices. At the same time, the policy-enforced minimum caps and tighter step-size limits preserve an average low latency of 22 ms for the latency-sensitive slice. Across all phases, the agentic approach achieves higher VIP throughput, comparable or lower delay, and improved overall resource efficiency, defined as the ratio of PRBs actually used to the total number of PRBs allocated. 
+ Although simpler heuristic or static strategies require minimal computing resources, they lack the semantic reasoning needed to adapt to dynamic operator intents or autonomously resolve complex cross-domain conflicts. The higher computational demand of the agentic approach is a necessary trade-off to achieve this flexibility, ultimately reducing manual operational expenditure and mitigating performance degradation from unforeseen network states. Furthermore, this computational burden is strategically distributed, with resource-intensive LLM reasoning confined to the cloud-backed Non-RT loop, while lightweight SLMs and WPFMs manage tactical and real-time operations at the resource-constrained edge. Table I provides details on the computational profile of the deployed models across the O-RAN hierarchy, demonstrating how inference latencies and hardware costs scale proportionally with their respective control domains. 
+ IV Risks & Challenges 
+ While the proposed agentic AI framework offers a compelling path toward autonomous O-RAN operation, several technical, architectural, and operational challenges must be addressed before such systems can be deployed at scale. 
+ The first challenge lies in the real-time feasibility of learning-based control, particularly in the lower layers of the RAN. The sub-millisecond latency demonstrated in Section III confirms the feasibility of deploying WPFMs at the O-DU level. However, generalizing this result to diverse O-DU deployments is non-trivial: hardware acceleration, memory locality, and deterministic execution pipelines are essential prerequisites that are not uniformly available across vendor platforms. Furthermore, the current absence of dApp API and RT RIC standardization within O-RAN means that assumptions about dApp placement and integration remain provisional. While early proposals advocate embedding RT intelligence directly within the O-DU processing chain, broader ecosystem alignment and reference implementations are still evolving [ 7 ] . 
+ TABLE I: Computational profile of the deployed agent models. 
+ Model 
+ Domain 
+ Hardware 
+ Latency (ms) 
+ Cost 
+ WPFM 
+ RT 
+ Xavier NX 
+ 0.847 ± 0.04 0.847\pm 0.04 
+ Low 
+ SLM 
+ Near-RT 
+ RTX 5090 
+ 793 ± 3 793\pm 3 
+ Medium 
+ LLM 
+ Non-RT 
+ H200 
+ 9364 ± 59 9364\pm 59 
+ High 
+ A second challenge concerns data availability and semantic alignment across layers. Agentic reasoning relies on consistent, semantically meaningful telemetry flowing among the RT, Near-RT, and Non-RT domains. In practice, O-RAN exposes heterogeneous data streams with different sampling rates, delays, and levels of abstraction. Mapping PHY‑level observations to high‑level intent, or correlating long‑horizon KPMs with instantaneous radio events, remains an open problem. Furthermore, public datasets rarely provide synchronized KPM and IQ data, limiting the ability to validate cross-layer agentic behavior without simulations or a sandbox environment. 
+ The robustness of learning-based agents under non-stationary conditions presents another significant risk. Wireless environments are inherently dynamic, influenced by mobility, interference, weather, and user behavior. As a result, SLM and WPFM models are subject to concept drift and performance degradation over time. While the proposed framework includes mechanisms for drift detection, retraining, and rollback, determining when to retrain, which model to deploy, and how to avoid oscillations between models remain open research challenges. Overly aggressive retraining can destabilize control loops, while conservative policies may delay adaptation to genuine environmental changes [ 12 ] . 
+ Trust and explainability represent additional hurdles. As LLM decision processes are not inherently transparent, operators may be reluctant to cede control to systems whose recommendations cannot be easily audited. This challenge intensifies when agents orchestrate other xApps or override legacy control logic. Providing interpretable rationales, confidence estimates, and traceable decision histories will be essential for operational trust and regulatory accountability. Promising research directions include neuro-symbolic approaches that combine data-driven learning with explicit constraints and rules. 
+ Finally, standardization and interoperability remain open issues. While A1, E2, and O1 interfaces provide a solid foundation, current O-RAN specifications were not designed with agentic AI or dynamic model governance in mind. Expressing complex intents, representing model confidence, or negotiating control authority among multiple agents may require extending existing service models or introducing new abstractions. Without alignment between research prototypes and evolving standards, agentic frameworks risk remaining confined to experimental deployments rather than becoming interoperable, multi-vendor systems [ 12 ] . 
+ From the operator’s perspective, a further critical challenge is the return on investment and the realistic timeline for agentic approaches to deliver operational benefits over established methods. The RAN presents a vast state space driven by variable user demand, mobility, channel conditions, and network slicing. Unlike reinforcement learning agents that explore the state space from scratch over days or weeks, the agents generate actionable policies from the first inference cycle by leveraging pre-trained knowledge and in-context reasoning. Simultaneously, policy-enforced hard floors and automatic fallback to co-located legacy controllers ensure user-perceived performance remains at or above current heuristic baselines.
+Nonetheless, field trials, economic modeling, and transparent benchmarking remain essential to validate these guarantees, reduce operator hesitation, and accelerate the adoption of agentic RAN management. 
+ V Conclusion 
+ This article has proposed a multi-scale agentic AI framework for O-RAN that closes the gap between the rising complexity of 6G RAN and the narrow, siloed intelligence in current deployments. Rather than treating O-RAN control applications as independent optimization modules, our proposed architecture defines a coordinated hierarchy of autonomous actors across different timescales. Through a proof-of-concept implementation, we have demonstrated how intent supervision, tactical control, and real-time inference can be coordinated in practice. 
+ Although challenges remain, particularly RT standardization gaps, cross-layer data alignment, and verifiable agent behavior, the framework outlines a practical path to introduce agentic intelligence incrementally and safely toward autonomous O-RAN operation in 6G networks. Transitioning this proof-of-concept to large-scale standardized experimental environments such as [ 9 ] , including closed-loop WPFM integration, is a critical next step. Such environments will enable evaluation of multi-vendor interoperability, agent scalability, and robustness under operator-grade conditions. 
+ Acknowledgment 
+ This work was supported by the Horizon Europe program under the MCSA Staff Exchanges 2021 grant agreement 101086218 (EVOLVE project), the Horizon-JU-SNS-2023 Research and Innovation Program under Grant Agreement No. 101139194 (6G-XCEL project), and the Fund for Scientific Research Flanders (FWO-Vlaanderen) under SB-PhD Fellowship with grant number 1S52025N 
+ References 
+ [1] 
+ A. Aboulfotouh, E. Mohammed, and H. Abou-Zeid (2025) 
+ 6G WavesFM: A Foundation Model for Sensing, Communication, and Localization .
+ IEEE Open Journal of the Communications Society 6 , pp. 6792–6807 .
+ External Links: ISSN 2644-125X ,
+ Document 
+ Cited by: §I .
+ [2] 
+ C. Adamczyk and A. Kliks (2023) 
+ Conflict Mitigation Framework and Conflict Detection in O-RAN Near-RT RIC .
+ IEEE Communications Magazine 61 ( 12 ), pp. 199–205 .
+ External Links: 2305.07117 ,
+ ISSN 0163-6804, 1558-1896 ,
+ Document 
+ Cited by: §I ,
+ §I .
+ [3] 
+ M. Cheraghinia, E. De Poorter, J. Fontaine, M. Debbah, and A. Shahid (2025) 
+ A Foundation Model for Wireless Technology Recognition and Localization Tasks .
+ IEEE Open Journal of the Communications Society 6 , pp. 9879–9896 .
+ External Links: ISSN 2644-125X ,
+ Document 
+ Cited by: §I ,
+ §III-A .
+ [4] 
+ S. D’Oro, M. Polese, L. Bonati, H. Cheng, and T. Melodia (2022) 
+ dApps: Distributed Applications for Real-Time Inference and Control in O-RAN .
+ IEEE Communications Magazine 60 ( 11 ), pp. 52–58 .
+ External Links: ISSN 1558-1896 ,
+ Document 
+ Cited by: §II-A .
+ [5] 
+ P. K. Gkonis, A. Giannopoulos, N. Nomikos, P. Trakadas, L. Sarakis, and X. Masip-Bruin (2025) 
+ A Survey on Architectural Approaches for 6G Networks: Implementation Challenges, Current Trends, and Future Directions .
+ Telecom 6 ( 2 ), pp. 27 .
+ External Links: ISSN 2673-4001 ,
+ Document 
+ Cited by: §I .
+ [6] 
+ M. Q. Hamdan, H. Lee, D. Triantafyllopoulou, R. Borralho, A. Kose, E. Amiri, D. Mulvey, W. Yu, R. Zitouni, R. Pozza, B. Hunt, H. Bagheri, C. H. Foh, F. Heliot, G. Chen, P. Xiao, N. Wang, and R. Tafazolli (2023) 
+ Recent Advances in Machine Learning for Network Automation in the O-RAN .
+ Sensors 23 ( 21 ), pp. 8792 .
+ External Links: ISSN 1424-8220 ,
+ Document 
+ Cited by: §I .
+ [7] 
+ A. Lacava, L. Bonati, N. Mohamadi, R. Gangula, F. Kaltenberger, P. Johari, S. D’Oro, F. Cuomo, M. Polese, and T. Melodia (2025) 
+ dApps: Enabling Real-Time AI-based Open RAN Control .
+ Computer Networks 269 , pp. 111342 .
+ External Links: ISSN 1389-1286 ,
+ Document 
+ Cited by: §II-A ,
+ §III ,
+ §IV .
+ [8] 
+ S. Marinova and A. Leon-Garcia (2024) 
+ Intelligent O-RAN Beyond 5G: Architecture, Use Cases, Challenges, and Opportunities .
+ IEEE Access 12 , pp. 27088–27114 .
+ External Links: ISSN 2169-3536 ,
+ Document 
+ Cited by: §I .
+ [9] 
+ W. Mauricio, F. H. Costa Neto, M. Silva, R. K. Y. Aoki, E. Melão, S. Barros, F. Farias, L. Bondan, and F. M. Abinader (2025) 
+ Assessing Nationwide Distributed Open RAN Deployments with the OpenRAN@Brasil Testbed .
+ IEEE Communications Magazine 63 ( 2 ), pp. 46–52 .
+ External Links: Document 
+ Cited by: §V .
+ [10] 
+ H. Navidan, M. Seif, H. V. Poor, I. Moerman, and A. Shahid (2025) 
+ Closed-loop Intelligence Using Large Language Models in Wireless Networks .
+ In Proceedings of the 2025 16th IFIP Wireless and Mobile Networking Conference (WMNC) ,
+ Vol. , pp. 184–185 .
+ External Links: Document 
+ Cited by: §III-B .
+ [11] 
+ T. M. Pham, P. T. Nguyen, S. Yoon, V. D. Lai, F. Dernoncourt, and T. Bui (2025) 
+ SlimLM: An Efficient Small Language Model for On-Device Document Assistance .
+ In Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 3: System Demonstrations) , P. Mishra, S. Muresan, and T. Yu (Eds.) ,
+ pp. 436–447 .
+ External Links: Document ,
+ ISBN 979-8-89176-253-4 
+ Cited by: §I .
+ [12] 
+ M. Polese, L. Bonati, S. D’Oro, S. Basagni, and T. Melodia (2023) 
+ Understanding O-RAN: Architecture, Interfaces, Algorithms, Security, and Research Challenges .
+ IEEE Communications Surveys & Tutorials 25 ( 2 ), pp. 1376–1411 .
+ External Links: Document 
+ Cited by: §IV ,
+ §IV .
+ [13] 
+ T. Schick, J. Dwivedi-Yu, R. Dessí, R. Raileanu, M. Lomeli, E. Hambro, L. Zettlemoyer, N. Cancedda, and T. Scialom (2023) 
+ Toolformer: Language Models Can Teach Themselves to Use Tools .
+ Advances in Neural Information Processing Systems 36 , pp. 68539–68551 .
+ Cited by: §I .
+ [14] 
+ S. Yao, J. Zhao, D. Yu, N. Du, I. Shafran, K. Narasimhan, and Y. Cao (2023) 
+ ReAct: Synergizing Reasoning and Acting in Language Models .
+ In Proceedings of The Eleventh International Conference on Learning Representations ,
+ Cited by: §I .
+ [15] 
+ J. Zhang, C. Yang, R. Dong, Y. Wang, A. Anpalagan, Q. Ni, and M. Guizani (2024) 
+ Intent-Driven Closed-Loop Control and Management Framework for 6G Open RAN .
+ IEEE Internet of Things Journal 11 ( 4 ), pp. 6314–6327 .
+ External Links: ISSN 2327-4662 ,
+ Document 
+ Cited by: §I .
+ Experimental support, please
+ view the build logs 
+ for errors. Generated by
+ L
+ A 
+ T
+ E 
+ xml 
+ .
+ Instructions for reporting errors 
+ We are continuing to improve HTML versions of papers, and your feedback helps enhance accessibility and mobile
+ support. To report errors in the HTML that will help us improve conversion and rendering, choose any of the
+ methods listed below: 
+ Click the "Report Issue" ( 
+ ) button, located in the page header. 
+ Tip: You can select the relevant text first, to include it in your report. 
+ Our team has already identified the following issues . We appreciate your time reviewing and reporting rendering errors we
+ may not have found yet. Your efforts will help us improve the HTML versions for all readers, because disability
+ should not be a barrier to accessing research. Thank you for your continued support in championing open access for
+ all. 
+ Have a free development cycle? Help support accessibility at arXiv! Our collaborators at LaTeXML maintain a list of packages that need conversion , and welcome developer contributions . 
+ We gratefully acknowledge support from
+ our major funders ,
+ member institutions , ,
+ and all contributors.
+ About 
+ · 
+ Help 
+ · 
+ Contact 
+ · 
+ Subscribe 
+ · 
+ Copyright 
+ · 
+ Privacy 
+ · 
+ Accessibility 
+ · 
+ Operational Status (opens in new tab) 
+ Major funding support from 

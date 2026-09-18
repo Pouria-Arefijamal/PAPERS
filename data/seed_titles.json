@@ -1,0 +1,722 @@
+[
+ {
+  "key": "F01",
+  "title": "Cellular Network Traffic Scheduling With Deep Reinforcement Learning"
+ },
+ {
+  "key": "F02",
+  "title": "Intelligent Resource Scheduling for 5G Radio Access Network Slicing"
+ },
+ {
+  "key": "F03",
+  "title": "Deep Reinforcement Learning for Dynamic Uplink/Downlink Resource Allocation in High Mobility 5G HetNet"
+ },
+ {
+  "key": "F04",
+  "title": "Reinforcement Learning-Based Particle Swarm Optimization for End-to-End Traffic Scheduling in TSN-5G Networks"
+ },
+ {
+  "key": "F05",
+  "title": "DecAge: Decentralized Flow Scheduling for Industrial 5G and TSN Integrated Networks"
+ },
+ {
+  "key": "F06",
+  "title": "Learn to Schedule (LEASCH): A Deep Reinforcement Learning Approach for Radio Resource Scheduling in the 5G MAC Layer"
+ },
+ {
+  "key": "F07",
+  "title": "5G RAN Slicing for Verticals: Enablers and Challenges"
+ },
+ {
+  "key": "F08",
+  "title": "Toward a Flexible and Reconfigurable 5G Network Slicing Scheduler"
+ },
+ {
+  "key": "F09",
+  "title": "A Scheduling Scheme for 5G QoS Flows"
+ },
+ {
+  "key": "F10",
+  "title": "Deep Reinforcement Learning-Based Scheduling for 5G Network Slicing"
+ },
+ {
+  "key": "F11",
+  "title": "QoS-aware scheduling in 5G network slicing"
+ },
+ {
+  "key": "F12",
+  "title": "Multi-Agent Deep Reinforcement Learning-Based Task Scheduling and Resource Sharing for O-RAN-Empowered Multi-UAV Wireless Networks"
+ },
+ {
+  "key": "F13",
+  "title": "Traffic Engineering in Hybrid SDN/IP Networks Based on Deep Reinforcement Learning"
+ },
+ {
+  "key": "F14",
+  "title": "DeepRoute: An Intelligent Routing Scheme for SDN Based on Deep Reinforcement Learning"
+ },
+ {
+  "key": "F15",
+  "title": "DRL-Based Traffic Engineering for Software Defined Networks"
+ },
+ {
+  "key": "F16",
+  "title": "Experience-driven networking: A deep reinforcement learning based approach"
+ },
+ {
+  "key": "F17",
+  "title": "A Deep-Reinforcement-Learning-Based Approach for Routing Optimization in Software Defined Networks"
+ },
+ {
+  "key": "F18",
+  "title": "Deadline-Aware Traffic Steering in 5G Networks"
+ },
+ {
+  "key": "F19",
+  "title": "Latency-aware service function chain deployment"
+ },
+ {
+  "key": "F20",
+  "title": "Joint Optimization of Service Function Chaining and Resource Allocation in Network Function Virtualization"
+ },
+ {
+  "key": "F21",
+  "title": "Adaptive service function chain scheduling"
+ },
+ {
+  "key": "F22",
+  "title": "Deep Reinforcement Learning for 5G Network Slicing Resource Allocation"
+ },
+ {
+  "key": "F23",
+  "title": "Energy-Efficient Resource Allocation in 5G Networks"
+ },
+ {
+  "key": "F24",
+  "title": "Machine Learning for Network Slicing Resource Management"
+ },
+ {
+  "key": "F25",
+  "title": "Optimal Scheduling for 5G Core Network User Plane Function"
+ },
+ {
+  "key": "F26",
+  "title": "Latency-Aware VNF Placement and Scheduling"
+ },
+ {
+  "key": "F27",
+  "title": "A Survey on Network Slicing for 5G"
+ },
+ {
+  "key": "F28",
+  "title": "Traffic Steering in O-RAN: A Reinforcement Learning Approach"
+ },
+ {
+  "key": "F29",
+  "title": "QoS-Aware Traffic Steering in O-RAN"
+ },
+ {
+  "key": "F30",
+  "title": "Packet Scheduling for Mixed Traffic in 5G"
+ },
+ {
+  "key": "F31",
+  "title": "An Intelligent Packet Scheduling Scheme for 5G URLLC and eMBB Multiplexing"
+ },
+ {
+  "key": "F32",
+  "title": "Deep Reinforcement Learning for Traffic Engineering in Segment Routing Networks"
+ },
+ {
+  "key": "F33",
+  "title": "Softwarized 5G Core Network Traffic Engineering"
+ },
+ {
+  "key": "F34",
+  "title": "Latency-Aware Traffic Scheduling in 5G Transport Networks"
+ },
+ {
+  "key": "F35",
+  "title": "Drl-based Flow Scheduling in Data Center Networks"
+ },
+ {
+  "key": "F36",
+  "title": "Machine Learning Based Traffic Classification and Scheduling in 5G"
+ },
+ {
+  "key": "F37",
+  "title": "SLA-Aware Resource Scheduling in 5G Network Slicing"
+ },
+ {
+  "key": "F38",
+  "title": "End-to-End Network Slicing for 5G Mobile Networks"
+ },
+ {
+  "key": "F39",
+  "title": "5G-QoE: QoE Modelling for Ultra-HD Video Streaming in 5G Networks"
+ },
+ {
+  "key": "F40",
+  "title": "A Survey on Resource Allocation for 5G Heterogeneous Networks"
+ },
+ {
+  "key": "O01",
+  "title": "Network Service Orchestration: A Survey"
+ },
+ {
+  "key": "O02",
+  "title": "Multi-Domain Network Slicing Orchestration"
+ },
+ {
+  "key": "O03",
+  "title": "5G Network Slicing Using SDN and NFV: A Survey of Taxonomy, Architectures and Future Challenges"
+ },
+ {
+  "key": "O04",
+  "title": "Intent-Based Management of Next-Generation Networks: an LLM-Centric Approach"
+ },
+ {
+  "key": "O05",
+  "title": "AI-Driven Zero Touch Network and Service Management in 5G and Beyond: Challenges and Research Directions"
+ },
+ {
+  "key": "O06",
+  "title": "Toward Zero-Touch Management and Orchestration of Massive Deployment of Network Slices in 6G"
+ },
+ {
+  "key": "O07",
+  "title": "Knowledge-Defined Networking"
+ },
+ {
+  "key": "O08",
+  "title": "Cloud-Native Network Slicing: A Survey"
+ },
+ {
+  "key": "O09",
+  "title": "Orchestrating Virtualized Network Functions"
+ },
+ {
+  "key": "O10",
+  "title": "A Survey on the Placement of Virtual Resources and Virtual Network Functions"
+ },
+ {
+  "key": "O11",
+  "title": "Machine Learning for Orchestration in Multi-Domain Networks"
+ },
+ {
+  "key": "O12",
+  "title": "End-to-End Network Slicing Orchestration with Deep Reinforcement Learning"
+ },
+ {
+  "key": "O13",
+  "title": "Network Slicing Orchestration in Multi-Domain Environments"
+ },
+ {
+  "key": "O14",
+  "title": "Reinforcement Learning for Virtual Network Embedding"
+ },
+ {
+  "key": "O15",
+  "title": "O-RAN Service Management and Orchestration: Architecture and Challenges"
+ },
+ {
+  "key": "O16",
+  "title": "Open RAN xApps Design and Evaluation: Lessons Learnt and Identified Challenges"
+ },
+ {
+  "key": "O17",
+  "title": "MEC Orchestration in 5G Networks"
+ },
+ {
+  "key": "O18",
+  "title": "Intent-Based Networking: Concepts and Applications"
+ },
+ {
+  "key": "O19",
+  "title": "Network Digital Twin: A Survey"
+ },
+ {
+  "key": "O20",
+  "title": "Autonomous Networks: A Survey"
+ },
+ {
+  "key": "O21",
+  "title": "Zero-Touch Network and Service Management (ZSM)"
+ },
+ {
+  "key": "O22",
+  "title": "Explainable AI in 6G O-RAN: A Tutorial and Survey on Architecture, Use Cases, Challenges, and Future Research"
+ },
+ {
+  "key": "O23",
+  "title": "Resource Management From Single-Domain 5G to End-to-End 6G Network Slicing: A Survey"
+ },
+ {
+  "key": "O24",
+  "title": "A Survey on Large Language Models for Communication, Network, and Service Management: Application Insights, Challenges, and Open Issues"
+ },
+ {
+  "key": "O25",
+  "title": "Orchestration in Multi-Access Edge Computing"
+ },
+ {
+  "key": "O26",
+  "title": "Service Function Chaining Orchestration in Multi-Domain Networks"
+ },
+ {
+  "key": "O27",
+  "title": "Deep Reinforcement Learning for Network Slicing Orchestration"
+ },
+ {
+  "key": "O28",
+  "title": "Autonomous Network Management and Orchestration in 6G"
+ },
+ {
+  "key": "O29",
+  "title": "5G Service Orchestration in Vertical Industries"
+ },
+ {
+  "key": "O30",
+  "title": "Federated Learning Based Network Slice Management"
+ },
+ {
+  "key": "M01",
+  "title": "TCP Extensions for Multipath Operation with Multiple Addresses"
+ },
+ {
+  "key": "M02",
+  "title": "Multipath TCP: From Theory to Practice"
+ },
+ {
+  "key": "M03",
+  "title": "Design, Implementation and Evaluation of Congestion Control for Multipath TCP"
+ },
+ {
+  "key": "M04",
+  "title": "Experimental evaluation of multipath TCP schedulers"
+ },
+ {
+  "key": "M05",
+  "title": "Low-Latency Scheduling in MPTCP"
+ },
+ {
+  "key": "M06",
+  "title": "Multipath QUIC: Design and Evaluation"
+ },
+ {
+  "key": "M07",
+  "title": "The QUIC Transport Protocol: Design and Internet-Scale Deployment"
+ },
+ {
+  "key": "M08",
+  "title": "ReLeS: A Neural Adaptive Multipath Scheduler based on Deep Reinforcement Learning"
+ },
+ {
+  "key": "M09",
+  "title": "DeepCC: Multi-Agent Deep Reinforcement Learning Congestion Control for Multi-Path TCP Based on Self-Attention"
+ },
+ {
+  "key": "M10",
+  "title": "Leveraging Coupled BBR and Adaptive Packet Scheduling to Boost MPTCP"
+ },
+ {
+  "key": "M11",
+  "title": "BBR-Based Congestion Control and Packet Scheduling for Bottleneck Fairness Considered Multipath TCP in Heterogeneous Wireless Networks"
+ },
+ {
+  "key": "M12",
+  "title": "Blest: Blocking estimation-based MPTCP scheduler for heterogeneous networks"
+ },
+ {
+  "key": "M13",
+  "title": "ECF: An MPTCP path scheduler to manage heterogeneous paths"
+ },
+ {
+  "key": "M14",
+  "title": "Peekaboo: Learning-Based Multipath Scheduling for Dynamic Heterogeneous Environments"
+ },
+ {
+  "key": "M15",
+  "title": "Stochastic Scheduling for Multipath Transmission"
+ },
+ {
+  "key": "M16",
+  "title": "MPTCP Scheduling: A Reinforcement Learning Approach"
+ },
+ {
+  "key": "M17",
+  "title": "Smart Multipath TCP"
+ },
+ {
+  "key": "M18",
+  "title": "Cross-layer Path Selection for Multipath TCP"
+ },
+ {
+  "key": "M19",
+  "title": "Multipath TCP Scheduling for Video Streaming"
+ },
+ {
+  "key": "M20",
+  "title": "An MPTCP Scheduler for Latency-Sensitive Applications"
+ },
+ {
+  "key": "M21",
+  "title": "CMT-QA: Quality-Aware Adaptive Concurrent Multipath Data Transfer in Heterogeneous Wireless Networks"
+ },
+ {
+  "key": "M22",
+  "title": "Bandwidth-Efficient Multipath Transport Protocol for Quality-Guaranteed Real-Time Video Over Heterogeneous Wireless Networks"
+ },
+ {
+  "key": "M23",
+  "title": "Multipath QUIC Scheduling"
+ },
+ {
+  "key": "M24",
+  "title": "A Stream-Aware Multipath QUIC Scheduler for Heterogeneous Paths"
+ },
+ {
+  "key": "M25",
+  "title": "Multipath TCP Scheduling in Data Centers"
+ },
+ {
+  "key": "M26",
+  "title": "Packet Reordering in Multipath Transport"
+ },
+ {
+  "key": "M27",
+  "title": "A Survey on Multipath Transport Protocols Towards 5G Access Traffic Steering, Switching and Splitting"
+ },
+ {
+  "key": "M28",
+  "title": "ATSSS: Access Traffic Steering, Switching and Splitting in 5G"
+ },
+ {
+  "key": "M29",
+  "title": "Multipath Scheduling for 5G Multi-Connectivity"
+ },
+ {
+  "key": "M30",
+  "title": "GCLR: GNN-Based Cross Layer Optimization for Multipath TCP by Routing"
+ },
+ {
+  "key": "M31",
+  "title": "Deep Reinforcement Learning for Multipath Video Streaming"
+ },
+ {
+  "key": "M32",
+  "title": "Adaptive Multipath Scheduling for 5G Networks"
+ },
+ {
+  "key": "M33",
+  "title": "Energy-Efficient Multipath Scheduling"
+ },
+ {
+  "key": "M34",
+  "title": "MPTCP Meets Reinforcement Learning: A Novel Energy-Efficient Scheduling Approach in Heterogeneous Wireless Networks"
+ },
+ {
+  "key": "M35",
+  "title": "Multipath TCP Scheduling with Deep Reinforcement Learning for Heterogeneous Networks"
+ },
+ {
+  "key": "M36",
+  "title": "Multipath Transmission Control Protocol Scheduling based on Deep Reinforcement Learning"
+ },
+ {
+  "key": "M37",
+  "title": "Enhancing Multipath TCP with Deep Reinforcement Learning"
+ },
+ {
+  "key": "M38",
+  "title": "Path-Aware Scheduling for Multipath Transport"
+ },
+ {
+  "key": "M39",
+  "title": "Multipath Routing and MPTCP-Based Data Delivery Over MANETs"
+ },
+ {
+  "key": "M40",
+  "title": "Improving Multipath TCP Performance with Reinforcement Learning"
+ },
+ {
+  "key": "L01",
+  "title": "NetConfEval: Can LLMs Facilitate Network Configuration?"
+ },
+ {
+  "key": "L02",
+  "title": "Large Language Models for Networking: Applications, Enabling Techniques, and Challenges"
+ },
+ {
+  "key": "L03",
+  "title": "Mobile-LLaMA: Instruction Fine-Tuning Open-Source LLM for Network Analysis in 5G Networks"
+ },
+ {
+  "key": "L04",
+  "title": "TelecomGPT: A Framework to Build Telecom-Specific Large Language Models"
+ },
+ {
+  "key": "L05",
+  "title": "NetLLM: Adapting Large Language Models for Networking"
+ },
+ {
+  "key": "L06",
+  "title": "Large Language Models for Zero Touch Network Configuration Management"
+ },
+ {
+  "key": "L07",
+  "title": "LLM-xApp: A Large Language Model Empowered Radio Resource Management xApp for 5G O-RAN"
+ },
+ {
+  "key": "L08",
+  "title": "LLM-Driven Agentic AI Approach to Enhanced O-RAN Resilience in Next-Generation Networks"
+ },
+ {
+  "key": "L09",
+  "title": "Semantic Routing for Enhanced Performance of LLM-Assisted Intent-Based 5G Core Network Management and Orchestration"
+ },
+ {
+  "key": "L10",
+  "title": "Towards Intent-Based Network Management: Large Language Models for Intent Extraction in 5G Core Networks"
+ },
+ {
+  "key": "L11",
+  "title": "LLMs for Network Engineering Automation: State of the Art and Research Directions"
+ },
+ {
+  "key": "L12",
+  "title": "LLM-Based Network Management: A Survey"
+ },
+ {
+  "key": "L13",
+  "title": "A Survey on Large Language Models for Communication, Network, and Service Management"
+ },
+ {
+  "key": "L14",
+  "title": "IntentGPT: Intent-Based Network Management with Large Language Models"
+ },
+ {
+  "key": "L15",
+  "title": "Large Language Models for Telecom: Forthcoming Impact on the Industry"
+ },
+ {
+  "key": "L16",
+  "title": "Telco LLM: Large Language Models for Telecommunications"
+ },
+ {
+  "key": "L17",
+  "title": "TeleQnA: A Benchmark Dataset to Assess Large Language Models Telecommunications Knowledge"
+ },
+ {
+  "key": "L18",
+  "title": "Are Large Language Models Ready for Telecommunication Networks?"
+ },
+ {
+  "key": "L19",
+  "title": "Towards AI-Assisted Network Troubleshooting with Large Language Models"
+ },
+ {
+  "key": "L20",
+  "title": "NetOpsBench: Benchmarking LLM Agents for Network Operations"
+ },
+ {
+  "key": "L21",
+  "title": "An LLM-Based Agent for Network Fault Diagnosis"
+ },
+ {
+  "key": "L22",
+  "title": "LLM Agent for Intent-Based Network Slicing"
+ },
+ {
+  "key": "L23",
+  "title": "Generative AI for Network Management"
+ },
+ {
+  "key": "L24",
+  "title": "Can Large Language Models Understand Network Traffic?"
+ },
+ {
+  "key": "L25",
+  "title": "NetGPT: A Native AI Architecture for 6G Networks"
+ },
+ {
+  "key": "L26",
+  "title": "Large Language Model Based Multi-Agent System for Network Management"
+ },
+ {
+  "key": "L27",
+  "title": "Large Language Models for Wireless Networks: Opportunities and Challenges"
+ },
+ {
+  "key": "L28",
+  "title": "Foundation Models for Wireless Communications"
+ },
+ {
+  "key": "L29",
+  "title": "WirelessGPT: A Generative Pre-trained Model for Wireless Networks"
+ },
+ {
+  "key": "L30",
+  "title": "LLM-Based Root Cause Analysis for Network Incidents"
+ },
+ {
+  "key": "L31",
+  "title": "Automating Network Configuration with Large Language Models"
+ },
+ {
+  "key": "L32",
+  "title": "Agentic AI for Network Automation"
+ },
+ {
+  "key": "L33",
+  "title": "Multi-Agent Large Language Model Framework for Network Orchestration"
+ },
+ {
+  "key": "L34",
+  "title": "A Benchmark for LLM-Based Network Configuration Synthesis"
+ },
+ {
+  "key": "L35",
+  "title": "Towards Autonomous Networks with Large Language Models"
+ },
+ {
+  "key": "L36",
+  "title": "Large Language Models for Intent Translation in Network Slicing"
+ },
+ {
+  "key": "L37",
+  "title": "LLM for Network Security and Management: A Survey"
+ },
+ {
+  "key": "L38",
+  "title": "Empowering Network Management with Large Language Models"
+ },
+ {
+  "key": "L39",
+  "title": "From LLM to Network Agent: A Survey"
+ },
+ {
+  "key": "L40",
+  "title": "Benchmarking Large Language Models for Networking Tasks"
+ },
+ {
+  "key": "L41",
+  "title": "RAG for Network Management"
+ },
+ {
+  "key": "L42",
+  "title": "Network Operations with AI Agents"
+ },
+ {
+  "key": "L43",
+  "title": "Kubernetes Troubleshooting with Large Language Models"
+ },
+ {
+  "key": "L44",
+  "title": "Alibaba Cloud Network Operations with LLM"
+ },
+ {
+  "key": "L45",
+  "title": "LLM-Based Multi-Agent Framework for Intent-Based Networking"
+ },
+ {
+  "key": "E01",
+  "title": "TelecomGPT: A Framework to Build Telecom-Specific Large Language Models"
+ },
+ {
+  "key": "E02",
+  "title": "Mobile-LLaMA: Instruction Fine-Tuning Open-Source LLM for Network Analysis in 5G Networks"
+ },
+ {
+  "key": "E03",
+  "title": "LoRA: Low-Rank Adaptation of Large Language Models"
+ },
+ {
+  "key": "E04",
+  "title": "QLoRA: Efficient Finetuning of Quantized LLMs"
+ },
+ {
+  "key": "E05",
+  "title": "Parameter-Efficient Transfer Learning for NLP"
+ },
+ {
+  "key": "E06",
+  "title": "Distilling the Knowledge in a Neural Network"
+ },
+ {
+  "key": "E07",
+  "title": "TinyBERT: Distilling BERT for Natural Language Understanding"
+ },
+ {
+  "key": "E08",
+  "title": "MiniLM: Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers"
+ },
+ {
+  "key": "E09",
+  "title": "The Lottery Ticket Hypothesis: Finding Sparse, Trainable Neural Networks"
+ },
+ {
+  "key": "E10",
+  "title": "Knowledge Distillation: A Survey"
+ },
+ {
+  "key": "E11",
+  "title": "A Survey on Model Compression for Large Language Models"
+ },
+ {
+  "key": "E12",
+  "title": "Telecom Language Models: Datasets and Benchmarks"
+ },
+ {
+  "key": "E13",
+  "title": "NetGPT: A Native AI Architecture for 6G Networks"
+ },
+ {
+  "key": "E14",
+  "title": "Fine-Tuning Large Language Models for Network Intrusion Detection"
+ },
+ {
+  "key": "E15",
+  "title": "IoV-BERT-IDS: Hybrid Network Intrusion Detection System in IoV Using Large Language Models"
+ },
+ {
+  "key": "E16",
+  "title": "Lightweight Large Language Models for Edge Networks"
+ },
+ {
+  "key": "E17",
+  "title": "Domain Adaptation of Large Language Models for Telecommunications"
+ },
+ {
+  "key": "E18",
+  "title": "Tele-LLMs: A Series of Specialized Large Language Models for Telecommunications"
+ },
+ {
+  "key": "E19",
+  "title": "Continual Learning for Network Management"
+ },
+ {
+  "key": "E20",
+  "title": "LLM Pruning for Efficient Inference"
+ },
+ {
+  "key": "E21",
+  "title": "Wanda: A Simple and Effective Pruning Approach for Large Language Models"
+ },
+ {
+  "key": "E22",
+  "title": "SparseGPT: Massive Language Models Can Be Accurately Pruned in One-Shot"
+ },
+ {
+  "key": "E23",
+  "title": "LLM-Pruner: On the Structural Pruning of Large Language Models"
+ },
+ {
+  "key": "E24",
+  "title": "A Survey on Knowledge Distillation of Large Language Models"
+ },
+ {
+  "key": "E25",
+  "title": "Efficient Large Language Models: A Survey"
+ }
+]

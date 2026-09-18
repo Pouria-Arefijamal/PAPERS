@@ -1,0 +1,9 @@
+Tele-LLMs A Series of Specialized Large Language Models for Telecommunications
+Mobile-LLaMA Instruction Fine-Tuning Open-Source LLM for Network Analysis in 5G Networks
+ORAN-Bench-13K An Open Source Benchmark for Assessing LLMs in Open Radio Access Networks
+ConfAgent Towards Intelligent Network Configuration Via LLM Agent
+NetIntent Leveraging Large Language Models for End-to-End Intent-Based SDN Automation
+ComNetLLM Empowering LLMs for Reliable Communication Network Planning
+NetConfArena An Executable Benchmark for LLM Agents in Closed-Loop Network Configuration
+A Network Arena for Benchmarking AI Agents on Network Troubleshooting
+Evaluating Agentic Configuration Repair for Computer Networks

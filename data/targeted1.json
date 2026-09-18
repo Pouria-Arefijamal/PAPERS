@@ -1,0 +1,1173 @@
+{
+ "flow scheduling 5G core network": [
+  {
+   "title": "What Will 5G Be?",
+   "year": 2014,
+   "venue": "IEEE Journal on Selected Areas in Communications",
+   "type": "article",
+   "doi": "10.1109/jsac.2014.2328098",
+   "cited_by": 8287,
+   "authors": [
+    "Jeffrey G. Andrews",
+    "Stefano Buzzi",
+    "Wan Choi",
+    "Stephen V. Hanly",
+    "Angel Lozano",
+    "Anthony C. K. Soong",
+    "Jianzhong Charlie Zhang"
+   ],
+   "is_oa": true,
+   "oa_url": "https://repositori.upf.edu/bitstreams/fc28283a-2b87-4440-8960-ea80da00759d/download",
+   "ids": {
+    "openalex": "https://openalex.org/W2054692642",
+    "doi": "https://doi.org/10.1109/jsac.2014.2328098",
+    "mag": "2054692642"
+   }
+  },
+  {
+   "title": "Five disruptive technology directions for 5G",
+   "year": 2014,
+   "venue": "IEEE Communications Magazine",
+   "type": "article",
+   "doi": "10.1109/mcom.2014.6736746",
+   "cited_by": 3871,
+   "authors": [
+    "Federico Boccardi",
+    "Robert W. Heath",
+    "Angel Lozano",
+    "Thomas L. Marzetta",
+    "Petar Popovski"
+   ],
+   "is_oa": true,
+   "oa_url": "https://vbn.aau.dk/files/208323943/Five_disruptive_technology_directions_for_5G.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W2103972037",
+    "doi": "https://doi.org/10.1109/mcom.2014.6736746",
+    "mag": "2103972037"
+   }
+  },
+  {
+   "title": "Network Slicing in 5G: Survey and Challenges",
+   "year": 2017,
+   "venue": "IEEE Communications Magazine",
+   "type": "article",
+   "doi": "10.1109/mcom.2017.1600951",
+   "cited_by": 1163,
+   "authors": [
+    "Xenofon Foukas",
+    "Georgios Patounas",
+    "Ahmed Elmokashfi",
+    "Mahesh K. Marina"
+   ],
+   "is_oa": true,
+   "oa_url": null,
+   "ids": {
+    "openalex": "https://openalex.org/W2612074600",
+    "doi": "https://doi.org/10.1109/mcom.2017.1600951",
+    "mag": "2612074600"
+   }
+  },
+  {
+   "title": "On Multi-Access Edge Computing: A Survey of the Emerging 5G Network Edge Cloud Architecture and Orchestration",
+   "year": 2017,
+   "venue": "IEEE Communications Surveys & Tutorials",
+   "type": "article",
+   "doi": "10.1109/comst.2017.2705720",
+   "cited_by": 1783,
+   "authors": [
+    "Tarik Taleb",
+    "Konstantinos Samdanis",
+    "Badr Eddine Mada",
+    "Hannu Flinck",
+    "Sunny Dutta",
+    "Dario Sabella"
+   ],
+   "is_oa": true,
+   "oa_url": null,
+   "ids": {
+    "openalex": "https://openalex.org/W2615459164",
+    "doi": "https://doi.org/10.1109/comst.2017.2705720",
+    "mag": "2615459164"
+   }
+  },
+  {
+   "title": "5G Evolution: A View on 5G Cellular Technology Beyond 3GPP Release 15",
+   "year": 2019,
+   "venue": "IEEE Access",
+   "type": "article",
+   "doi": "10.1109/access.2019.2939938",
+   "cited_by": 844,
+   "authors": [
+    "Amitabha Ghosh",
+    "Andreas Maeder",
+    "Matthew Baker",
+    "Devaki Chandramouli"
+   ],
+   "is_oa": true,
+   "oa_url": "https://ieeexplore.ieee.org/ielx7/6287639/8600701/08826541.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W2972260047",
+    "doi": "https://doi.org/10.1109/access.2019.2939938",
+    "mag": "2972260047"
+   }
+  },
+  {
+   "title": "Integrated Sensing and Communications: Toward Dual-Functional Wireless Networks for 6G and Beyond",
+   "year": 2022,
+   "venue": "IEEE Journal on Selected Areas in Communications",
+   "type": "article",
+   "doi": "10.1109/jsac.2022.3156632",
+   "cited_by": 3662,
+   "authors": [
+    "Fan Liu",
+    "Yuanhao Cui",
+    "Christos Masouros",
+    "Jie Xu",
+    "Tony Xiao Han",
+    "Yonina C. Eldar",
+    "Stefano Buzzi"
+   ],
+   "is_oa": true,
+   "oa_url": "https://ieeexplore.ieee.org/ielx7/49/9776000/09737357.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W3194620979",
+    "doi": "https://doi.org/10.1109/jsac.2022.3156632",
+    "mag": "3194620979"
+   }
+  },
+  {
+   "title": "User Association in 5G Networks: A Survey and an Outlook",
+   "year": 2016,
+   "venue": "IEEE Communications Surveys & Tutorials",
+   "type": "article",
+   "doi": "10.1109/comst.2016.2516538",
+   "cited_by": 612,
+   "authors": [
+    "Dantong Liu",
+    "Lifeng Wang",
+    "Yue Chen",
+    "Maged Elkashlan",
+    "Kai\u2010Kit Wong",
+    "Robert Schober",
+    "Lajos Hanzo"
+   ],
+   "is_oa": true,
+   "oa_url": "https://arxiv.org/pdf/1509.00338",
+   "ids": {
+    "openalex": "https://openalex.org/W2256188983",
+    "doi": "https://doi.org/10.1109/comst.2016.2516538",
+    "mag": "2256188983"
+   }
+  },
+  {
+   "title": "5G-Enabled Tactile Internet",
+   "year": 2016,
+   "venue": "IEEE Journal on Selected Areas in Communications",
+   "type": "article",
+   "doi": "10.1109/jsac.2016.2525398",
+   "cited_by": 776,
+   "authors": [
+    "Meryem Simsek",
+    "Adnan Aijaz",
+    "Mischa D\u00f6hler",
+    "Joachim Sachs",
+    "Gerhard Fettweis"
+   ],
+   "is_oa": true,
+   "oa_url": "https://kclpure.kcl.ac.uk/ws/files/51707736/PURE_5G_IoT.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W2294511912",
+    "doi": "https://doi.org/10.1109/jsac.2016.2525398",
+    "mag": "2294511912"
+   }
+  },
+  {
+   "title": "Internet of Things in the 5G Era: Enablers, Architecture, and Business Models",
+   "year": 2016,
+   "venue": "IEEE Journal on Selected Areas in Communications",
+   "type": "article",
+   "doi": "10.1109/jsac.2016.2525418",
+   "cited_by": 1495,
+   "authors": [
+    "Maria Rita Palattella",
+    "Mischa D\u00f6hler",
+    "Alfredo Grieco",
+    "Gianluca Rizzo",
+    "Johan Torsner",
+    "Thomas Engel",
+    "Latif Ladid"
+   ],
+   "is_oa": true,
+   "oa_url": "https://orbilu.uni.lu/bitstream/10993/24796/1/main_jsac.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W2273675851",
+    "doi": "https://doi.org/10.1109/jsac.2016.2525418",
+    "mag": "2273675851"
+   }
+  },
+  {
+   "title": "A Tutorial on 5G NR V2X Communications",
+   "year": 2021,
+   "venue": "IEEE Communications Surveys & Tutorials",
+   "type": "article",
+   "doi": "10.1109/comst.2021.3057017",
+   "cited_by": 959,
+   "authors": [
+    "Mario H. Casta\u00f1eda Garc\u00eda",
+    "Alejandro Molina-Galan",
+    "Mate Boban",
+    "Javier Goz\u00e1lvez",
+    "Baldomero Coll-Perales",
+    "Taylan \u015eahin",
+    "\u0391\u03c0\u03cc\u03c3\u03c4\u03bf\u03bb\u03bf\u03c2 \u039a\u03bf\u03c5\u03c3\u03b1\u03c1\u03af\u03b4\u03b1\u03c2"
+   ],
+   "is_oa": true,
+   "oa_url": "https://ieeexplore.ieee.org/ielx7/9739/9520094/09345798.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W3126365018",
+    "doi": "https://doi.org/10.1109/comst.2021.3057017",
+    "mag": "3126365018"
+   }
+  },
+  {
+   "title": "5G network slicing using SDN and NFV: A survey of taxonomy, architectures and future challenges",
+   "year": 2019,
+   "venue": "Computer Networks",
+   "type": "article",
+   "doi": "10.1016/j.comnet.2019.106984",
+   "cited_by": 814,
+   "authors": [
+    "Alcardo Alex Barakabitze",
+    "Arslan Ahmad",
+    "Rashid Mijumbi",
+    "Andrew Hines"
+   ],
+   "is_oa": true,
+   "oa_url": "https://www.sciencedirect.com/science/article/pii/S1389128619304773/pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W2989178978",
+    "doi": "https://doi.org/10.1016/j.comnet.2019.106984",
+    "mag": "2989178978"
+   }
+  },
+  {
+   "title": "Survey on Network Slicing for Internet of Things Realization in 5G Networks",
+   "year": 2021,
+   "venue": "IEEE Communications Surveys & Tutorials",
+   "type": "article",
+   "doi": "10.1109/comst.2021.3067807",
+   "cited_by": 455,
+   "authors": [
+    "Shalitha Wijethilaka",
+    "Madhusanka Liyanage"
+   ],
+   "is_oa": true,
+   "oa_url": "https://ieeexplore.ieee.org/ielx7/9739/9438976/09382385.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W3136454200",
+    "doi": "https://doi.org/10.1109/comst.2021.3067807",
+    "mag": "3136454200"
+   }
+  },
+  {
+   "title": "Blockchain for 5G and beyond networks: A state of the art survey",
+   "year": 2020,
+   "venue": "Journal of Network and Computer Applications",
+   "type": "article",
+   "doi": "10.1016/j.jnca.2020.102693",
+   "cited_by": 428,
+   "authors": [
+    "Dinh C. Nguyen",
+    "Pubudu N. Pathirana",
+    "Ming Ding",
+    "Aruna Seneviratne"
+   ],
+   "is_oa": true,
+   "oa_url": "https://arxiv.org/pdf/1912.05062",
+   "ids": {
+    "openalex": "https://openalex.org/W3031802354",
+    "doi": "https://doi.org/10.1016/j.jnca.2020.102693",
+    "mag": "3031802354"
+   }
+  },
+  {
+   "title": "A Survey on Beyond 5G Network With the Advent of 6G: Architecture and Emerging Technologies",
+   "year": 2020,
+   "venue": "IEEE Access",
+   "type": "article",
+   "doi": "10.1109/access.2020.3031234",
+   "cited_by": 506,
+   "authors": [
+    "Anutusha Dogra",
+    "Rakesh Kumar Jha",
+    "Shubha Jain"
+   ],
+   "is_oa": true,
+   "oa_url": "https://ieeexplore.ieee.org/ielx7/6287639/9312710/09224777.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W3112680140",
+    "doi": "https://doi.org/10.1109/access.2020.3031234",
+    "mag": "3112680140"
+   }
+  },
+  {
+   "title": "A Survey of the Functional Splits Proposed for 5G Mobile Crosshaul Networks",
+   "year": 2018,
+   "venue": "IEEE Communications Surveys & Tutorials",
+   "type": "article",
+   "doi": "10.1109/comst.2018.2868805",
+   "cited_by": 441,
+   "authors": [
+    "Line M. P. Larsen",
+    "Aleksandra Checko",
+    "Henrik Lehrmann Christiansen"
+   ],
+   "is_oa": true,
+   "oa_url": "https://ieeexplore.ieee.org/ielx7/9739/8649699/08479363.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W2895059999",
+    "doi": "https://doi.org/10.1109/comst.2018.2868805",
+    "mag": "2895059999"
+   }
+  },
+  {
+   "title": "Network Slicing and Softwarization: A Survey on Principles, Enabling Technologies, and Solutions",
+   "year": 2018,
+   "venue": "IEEE Communications Surveys & Tutorials",
+   "type": "article",
+   "doi": "10.1109/comst.2018.2815638",
+   "cited_by": 1088,
+   "authors": [
+    "Ibrahim Afolabi",
+    "Tarik Taleb",
+    "Konstantinos Samdanis",
+    "Adlen Ksentini",
+    "Hannu Flinck"
+   ],
+   "is_oa": true,
+   "oa_url": null,
+   "ids": {
+    "openalex": "https://openalex.org/W2793519446",
+    "doi": "https://doi.org/10.1109/comst.2018.2815638",
+    "mag": "2793519446"
+   }
+  },
+  {
+   "title": "A Survey on Security and Privacy of 5G Technologies: Potential Solutions, Recent Advancements, and Future Directions",
+   "year": 2019,
+   "venue": "IEEE Communications Surveys & Tutorials",
+   "type": "article",
+   "doi": "10.1109/comst.2019.2933899",
+   "cited_by": 578,
+   "authors": [
+    "Rabia Khan",
+    "Pardeep Kumar",
+    "Dushantha Nalin K. Jayakody",
+    "Madhusanka Liyanage"
+   ],
+   "is_oa": true,
+   "oa_url": "https://strathprints.strath.ac.uk/80177/1/Khan_etal_IEEECST_2020_A_survey_on_security_and_privacy_of_5G_technologies_potential_solutions.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W2968746919",
+    "doi": "https://doi.org/10.1109/comst.2019.2933899",
+    "mag": "2968746919"
+   }
+  },
+  {
+   "title": "Network Function Virtualization: State-of-the-Art and Research Challenges",
+   "year": 2015,
+   "venue": "IEEE Communications Surveys & Tutorials",
+   "type": "article",
+   "doi": "10.1109/comst.2015.2477041",
+   "cited_by": 1921,
+   "authors": [
+    "Rashid Mijumbi",
+    "Joan Serrat",
+    "Juan\u2010Luis Gorricho",
+    "Niels Bouten",
+    "Filip De Turck",
+    "Raouf Boutaba"
+   ],
+   "is_oa": true,
+   "oa_url": null,
+   "ids": {
+    "openalex": "https://openalex.org/W2260783129",
+    "doi": "https://doi.org/10.1109/comst.2015.2477041",
+    "mag": "2260783129"
+   }
+  },
+  {
+   "title": "A Comprehensive Review of the COVID-19 Pandemic and the Role of IoT, Drones, AI, Blockchain, and 5G in Managing its Impact",
+   "year": 2020,
+   "venue": "IEEE Access",
+   "type": "article",
+   "doi": "10.1109/access.2020.2992341",
+   "cited_by": 1130,
+   "authors": [
+    "Vinay Chamola",
+    "Vikas Hassija",
+    "Vatsal Gupta",
+    "Mohsen Guizani"
+   ],
+   "is_oa": true,
+   "oa_url": "https://ieeexplore.ieee.org/ielx7/6287639/8948470/09086010.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W3023617420",
+    "doi": "https://doi.org/10.1109/access.2020.2992341",
+    "mag": "3023617420"
+   }
+  },
+  {
+   "title": "The impact of 5G on the evolution of intelligent automation and industry digitization",
+   "year": 2021,
+   "venue": "Journal of Ambient Intelligence and Humanized Computing",
+   "type": "article",
+   "doi": "10.1007/s12652-020-02521-x",
+   "cited_by": 499,
+   "authors": [
+    "Mohsen Attaran"
+   ],
+   "is_oa": true,
+   "oa_url": "https://link.springer.com/content/pdf/10.1007/s12652-020-02521-x.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W3129311377",
+    "doi": "https://doi.org/10.1007/s12652-020-02521-x",
+    "mag": "3129311377",
+    "pmid": "https://pubmed.ncbi.nlm.nih.gov/33643481"
+   }
+  },
+  {
+   "title": "Edge Computing in 5G: A Review",
+   "year": 2019,
+   "venue": "IEEE Access",
+   "type": "article",
+   "doi": "10.1109/access.2019.2938534",
+   "cited_by": 393,
+   "authors": [
+    "Najmul Hassan",
+    "Kok\u2010Lim Alvin Yau",
+    "Celimuge Wu"
+   ],
+   "is_oa": true,
+   "oa_url": "https://ieeexplore.ieee.org/ielx7/6287639/8600701/08821283.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W2971329741",
+    "doi": "https://doi.org/10.1109/access.2019.2938534",
+    "mag": "2971329741"
+   }
+  },
+  {
+   "title": "Simu5G\u2013An OMNeT++ Library for End-to-End Performance Evaluation of 5G Networks",
+   "year": 2020,
+   "venue": "IEEE Access",
+   "type": "article",
+   "doi": "10.1109/access.2020.3028550",
+   "cited_by": 303,
+   "authors": [
+    "Giovanni Nardini",
+    "Dario Sabella",
+    "Giovanni Stea",
+    "Purvi Thakkar",
+    "Antonio Virdis"
+   ],
+   "is_oa": true,
+   "oa_url": "https://ieeexplore.ieee.org/ielx7/6287639/8948470/09211504.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W3091180885",
+    "doi": "https://doi.org/10.1109/access.2020.3028550",
+    "mag": "3091180885"
+   }
+  },
+  {
+   "title": "5G-Based Smart Healthcare Network: Architecture, Taxonomy, Challenges and Future Research Directions",
+   "year": 2019,
+   "venue": "IEEE Access",
+   "type": "article",
+   "doi": "10.1109/access.2019.2930628",
+   "cited_by": 357,
+   "authors": [
+    "Abdul Ahad",
+    "Mohammad Tahir",
+    "Kok\u2010Lim Alvin Yau"
+   ],
+   "is_oa": true,
+   "oa_url": null,
+   "ids": {
+    "openalex": "https://openalex.org/W2963302706",
+    "doi": "https://doi.org/10.1109/access.2019.2930628",
+    "mag": "2963302706"
+   }
+  },
+  {
+   "title": "A Survey on Mobile Augmented Reality With 5G Mobile Edge Computing: Architectures, Applications, and Technical Aspects",
+   "year": 2021,
+   "venue": "IEEE Communications Surveys & Tutorials",
+   "type": "article",
+   "doi": "10.1109/comst.2021.3061981",
+   "cited_by": 681,
+   "authors": [
+    "Yushan Siriwardhana",
+    "Pawani Porambage",
+    "Madhusanka Liyanage",
+    "Mika Ylianttila"
+   ],
+   "is_oa": true,
+   "oa_url": "https://ieeexplore.ieee.org/ielx7/9739/9438976/09363323.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W3133913697",
+    "doi": "https://doi.org/10.1109/comst.2021.3061981",
+    "mag": "3133913697"
+   }
+  },
+  {
+   "title": "5G Technology: Towards Dynamic Spectrum Sharing Using Cognitive Radio Networks",
+   "year": 2020,
+   "venue": "IEEE Access",
+   "type": "article",
+   "doi": "10.1109/access.2020.2966271",
+   "cited_by": 322,
+   "authors": [
+    "Wan Siti Halimatul Munirah Wan Ahmad",
+    "Nurul Asyikin Mohamed Radzi",
+    "Faris Syahmi Samidi",
+    "Aiman Ismail",
+    "Fairuz Abdullah",
+    "M. Z. Jamaludin",
+    "M. N. Zakaria"
+   ],
+   "is_oa": true,
+   "oa_url": "https://ieeexplore.ieee.org/ielx7/6287639/8948470/08957541.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W2998755892",
+    "doi": "https://doi.org/10.1109/access.2020.2966271",
+    "mag": "2998755892"
+   }
+  }
+ ],
+ "packet scheduling 5G new radio": [
+  {
+   "title": "A Survey of 5G Network: Architecture and Emerging Technologies",
+   "year": 2015,
+   "venue": "IEEE Access",
+   "type": "article",
+   "doi": "10.1109/access.2015.2461602",
+   "cited_by": 2428,
+   "authors": [
+    "Akhil Gupta",
+    "Rakesh Kumar Jha"
+   ],
+   "is_oa": true,
+   "oa_url": "https://ieeexplore.ieee.org/ielx7/6287639/7042252/07169508.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W2128145324",
+    "doi": "https://doi.org/10.1109/access.2015.2461602",
+    "mag": "2128145324"
+   }
+  },
+  {
+   "title": "Nonorthogonal Multiple Access for 5G and Beyond",
+   "year": 2017,
+   "venue": "Proceedings of the IEEE",
+   "type": "article",
+   "doi": "10.1109/jproc.2017.2768666",
+   "cited_by": 1414,
+   "authors": [
+    "Yuanwei Liu",
+    "Zhijin Qin",
+    "Maged Elkashlan",
+    "Zhiguo Ding",
+    "Arumugam Nallanathan",
+    "Lajos Hanzo"
+   ],
+   "is_oa": true,
+   "oa_url": null,
+   "ids": {
+    "openalex": "https://openalex.org/W2769456309",
+    "doi": "https://doi.org/10.1109/jproc.2017.2768666",
+    "mag": "2769456309"
+   }
+  },
+  {
+   "title": "A Survey on 5G Networks for the Internet of Things: Communication Technologies and Challenges",
+   "year": 2017,
+   "venue": "IEEE Access",
+   "type": "article",
+   "doi": "10.1109/access.2017.2779844",
+   "cited_by": 1296,
+   "authors": [
+    "Godfrey A. Akpakwu",
+    "Bruno Silva",
+    "Gerhard P. Hancke",
+    "Adnan M. Abu\u2010Mahfouz"
+   ],
+   "is_oa": true,
+   "oa_url": null,
+   "ids": {
+    "openalex": "https://openalex.org/W2771152181",
+    "doi": "https://doi.org/10.1109/access.2017.2779844",
+    "mag": "2771152181"
+   }
+  },
+  {
+   "title": "5G Evolution: A View on 5G Cellular Technology Beyond 3GPP Release 15",
+   "year": 2019,
+   "venue": "IEEE Access",
+   "type": "article",
+   "doi": "10.1109/access.2019.2939938",
+   "cited_by": 844,
+   "authors": [
+    "Amitabha Ghosh",
+    "Andreas Maeder",
+    "Matthew Baker",
+    "Devaki Chandramouli"
+   ],
+   "is_oa": true,
+   "oa_url": "https://ieeexplore.ieee.org/ielx7/6287639/8600701/08826541.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W2972260047",
+    "doi": "https://doi.org/10.1109/access.2019.2939938",
+    "mag": "2972260047"
+   }
+  },
+  {
+   "title": "A Survey of Non-Orthogonal Multiple Access for 5G",
+   "year": 2018,
+   "venue": "IEEE Communications Surveys & Tutorials",
+   "type": "article",
+   "doi": "10.1109/comst.2018.2835558",
+   "cited_by": 1350,
+   "authors": [
+    "Linglong Dai",
+    "Bichai Wang",
+    "Zhiguo Ding",
+    "Zhaocheng Wang",
+    "Sheng Chen",
+    "Lajos Hanzo"
+   ],
+   "is_oa": true,
+   "oa_url": null,
+   "ids": {
+    "openalex": "https://openalex.org/W2802495557",
+    "doi": "https://doi.org/10.1109/comst.2018.2835558",
+    "mag": "2802495557"
+   }
+  },
+  {
+   "title": "Internet of Things in the 5G Era: Enablers, Architecture, and Business Models",
+   "year": 2016,
+   "venue": "IEEE Journal on Selected Areas in Communications",
+   "type": "article",
+   "doi": "10.1109/jsac.2016.2525418",
+   "cited_by": 1495,
+   "authors": [
+    "Maria Rita Palattella",
+    "Mischa D\u00f6hler",
+    "Alfredo Grieco",
+    "Gianluca Rizzo",
+    "Johan Torsner",
+    "Thomas Engel",
+    "Latif Ladid"
+   ],
+   "is_oa": true,
+   "oa_url": "https://orbilu.uni.lu/bitstream/10993/24796/1/main_jsac.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W2273675851",
+    "doi": "https://doi.org/10.1109/jsac.2016.2525418",
+    "mag": "2273675851"
+   }
+  },
+  {
+   "title": "A Tutorial on 5G NR V2X Communications",
+   "year": 2021,
+   "venue": "IEEE Communications Surveys & Tutorials",
+   "type": "article",
+   "doi": "10.1109/comst.2021.3057017",
+   "cited_by": 959,
+   "authors": [
+    "Mario H. Casta\u00f1eda Garc\u00eda",
+    "Alejandro Molina-Galan",
+    "Mate Boban",
+    "Javier Goz\u00e1lvez",
+    "Baldomero Coll-Perales",
+    "Taylan \u015eahin",
+    "\u0391\u03c0\u03cc\u03c3\u03c4\u03bf\u03bb\u03bf\u03c2 \u039a\u03bf\u03c5\u03c3\u03b1\u03c1\u03af\u03b4\u03b1\u03c2"
+   ],
+   "is_oa": true,
+   "oa_url": "https://ieeexplore.ieee.org/ielx7/9739/9520094/09345798.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W3126365018",
+    "doi": "https://doi.org/10.1109/comst.2021.3057017",
+    "mag": "3126365018"
+   }
+  },
+  {
+   "title": "On Multi-Access Edge Computing: A Survey of the Emerging 5G Network Edge Cloud Architecture and Orchestration",
+   "year": 2017,
+   "venue": "IEEE Communications Surveys & Tutorials",
+   "type": "article",
+   "doi": "10.1109/comst.2017.2705720",
+   "cited_by": 1783,
+   "authors": [
+    "Tarik Taleb",
+    "Konstantinos Samdanis",
+    "Badr Eddine Mada",
+    "Hannu Flinck",
+    "Sunny Dutta",
+    "Dario Sabella"
+   ],
+   "is_oa": true,
+   "oa_url": null,
+   "ids": {
+    "openalex": "https://openalex.org/W2615459164",
+    "doi": "https://doi.org/10.1109/comst.2017.2705720",
+    "mag": "2615459164"
+   }
+  },
+  {
+   "title": "Network Slicing in 5G: Survey and Challenges",
+   "year": 2017,
+   "venue": "IEEE Communications Magazine",
+   "type": "article",
+   "doi": "10.1109/mcom.2017.1600951",
+   "cited_by": 1163,
+   "authors": [
+    "Xenofon Foukas",
+    "Georgios Patounas",
+    "Ahmed Elmokashfi",
+    "Mahesh K. Marina"
+   ],
+   "is_oa": true,
+   "oa_url": null,
+   "ids": {
+    "openalex": "https://openalex.org/W2612074600",
+    "doi": "https://doi.org/10.1109/mcom.2017.1600951",
+    "mag": "2612074600"
+   }
+  },
+  {
+   "title": "5G-Enabled Tactile Internet",
+   "year": 2016,
+   "venue": "IEEE Journal on Selected Areas in Communications",
+   "type": "article",
+   "doi": "10.1109/jsac.2016.2525398",
+   "cited_by": 776,
+   "authors": [
+    "Meryem Simsek",
+    "Adnan Aijaz",
+    "Mischa D\u00f6hler",
+    "Joachim Sachs",
+    "Gerhard Fettweis"
+   ],
+   "is_oa": true,
+   "oa_url": "https://kclpure.kcl.ac.uk/ws/files/51707736/PURE_5G_IoT.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W2294511912",
+    "doi": "https://doi.org/10.1109/jsac.2016.2525398",
+    "mag": "2294511912"
+   }
+  },
+  {
+   "title": "Towards 6G wireless communication networks: vision, enabling technologies, and new paradigm shifts",
+   "year": 2020,
+   "venue": "Science China Information Sciences",
+   "type": "article",
+   "doi": "10.1007/s11432-020-2955-6",
+   "cited_by": 2055,
+   "authors": [
+    "Xiaohu You",
+    "Cheng\u2010Xiang Wang",
+    "Jie Huang",
+    "Xiqi Gao",
+    "Zaichen Zhang",
+    "Mao Wang",
+    "Yongming Huang",
+    "Chuan Zhang",
+    "Yanxiang Jiang",
+    "Jiaheng Wang",
+    "Min Zhu",
+    "Bin Sheng"
+   ],
+   "is_oa": true,
+   "oa_url": "https://link.springer.com/content/pdf/10.1007/s11432-020-2955-6.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W3110989801",
+    "doi": "https://doi.org/10.1007/s11432-020-2955-6",
+    "mag": "3110989801"
+   }
+  },
+  {
+   "title": "A Survey of Multi-Access Edge Computing in 5G and Beyond: Fundamentals, Technology Integration, and State-of-the-Art",
+   "year": 2020,
+   "venue": "IEEE Access",
+   "type": "article",
+   "doi": "10.1109/access.2020.3001277",
+   "cited_by": 867,
+   "authors": [
+    "Quoc\u2010Viet Pham",
+    "Fang Fang",
+    "Vu Nguyen Ha",
+    "Md. Jalil Piran",
+    "Mai Le",
+    "Long Bao Le",
+    "Won\u2013Joo Hwang",
+    "Zhiguo Ding"
+   ],
+   "is_oa": true,
+   "oa_url": "https://ieeexplore.ieee.org/ielx7/6287639/8948470/09113305.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W3034606981",
+    "doi": "https://doi.org/10.1109/access.2020.3001277",
+    "mag": "3034606981"
+   }
+  },
+  {
+   "title": "Evolution of Non-Terrestrial Networks From 5G to 6G: A Survey",
+   "year": 2022,
+   "venue": "IEEE Communications Surveys & Tutorials",
+   "type": "article",
+   "doi": "10.1109/comst.2022.3199901",
+   "cited_by": 659,
+   "authors": [
+    "Mohammad Mahdi Azari",
+    "Sourabh Solanki",
+    "Symeon Chatzinotas",
+    "Oltjon Kodheli",
+    "Hazem Sallouha",
+    "Achiel Colpaert",
+    "Jes\u00fas Fabi\u00e1n Mendoza Montoya",
+    "Sofie Pollin",
+    "Alireza Haqiqatnejad",
+    "Arsham Mostaani",
+    "Eva Lagunas",
+    "Bj\u00f6rn Ottersten"
+   ],
+   "is_oa": true,
+   "oa_url": "https://ieeexplore.ieee.org/ielx7/9739/9956928/09861699.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W3179283102",
+    "doi": "https://doi.org/10.1109/comst.2022.3199901",
+    "mag": "3179283102"
+   }
+  },
+  {
+   "title": "A Survey on Hybrid Beamforming Techniques in 5G: Architecture and System Model Perspectives",
+   "year": 2018,
+   "venue": "IEEE Communications Surveys & Tutorials",
+   "type": "article",
+   "doi": "10.1109/comst.2018.2843719",
+   "cited_by": 840,
+   "authors": [
+    "Irfan Ahmed",
+    "H\u00e9di Khammari",
+    "Adnan Shahid",
+    "Ahmed Musa",
+    "Kwang Soon Kim",
+    "Eli De Poorter",
+    "Ingrid Moerman"
+   ],
+   "is_oa": true,
+   "oa_url": "https://biblio.ugent.be/publication/8585223/file/8585225.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W2805657678",
+    "doi": "https://doi.org/10.1109/comst.2018.2843719",
+    "mag": "2805657678"
+   }
+  },
+  {
+   "title": "Deep Reinforcement Learning for Dynamic Uplink/Downlink Resource Allocation in High Mobility 5G HetNet",
+   "year": 2020,
+   "venue": "IEEE Journal on Selected Areas in Communications",
+   "type": "article",
+   "doi": "10.1109/jsac.2020.3005495",
+   "cited_by": 214,
+   "authors": [
+    "Fengxiao Tang",
+    "Yibo Zhou",
+    "Nei Kato"
+   ],
+   "is_oa": false,
+   "oa_url": null,
+   "ids": {
+    "openalex": "https://openalex.org/W3038366466",
+    "doi": "https://doi.org/10.1109/jsac.2020.3005495",
+    "mag": "3038366466"
+   }
+  },
+  {
+   "title": "5G Technology: Towards Dynamic Spectrum Sharing Using Cognitive Radio Networks",
+   "year": 2020,
+   "venue": "IEEE Access",
+   "type": "article",
+   "doi": "10.1109/access.2020.2966271",
+   "cited_by": 322,
+   "authors": [
+    "Wan Siti Halimatul Munirah Wan Ahmad",
+    "Nurul Asyikin Mohamed Radzi",
+    "Faris Syahmi Samidi",
+    "Aiman Ismail",
+    "Fairuz Abdullah",
+    "M. Z. Jamaludin",
+    "M. N. Zakaria"
+   ],
+   "is_oa": true,
+   "oa_url": "https://ieeexplore.ieee.org/ielx7/6287639/8948470/08957541.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W2998755892",
+    "doi": "https://doi.org/10.1109/access.2020.2966271",
+    "mag": "2998755892"
+   }
+  },
+  {
+   "title": "Efficient Low Complexity Packet Scheduling Algorithm for Mixed URLLC and eMBB Traffic in 5G",
+   "year": 2019,
+   "venue": null,
+   "type": "conference-paper",
+   "doi": "10.1109/vtcspring.2019.8746407",
+   "cited_by": 59,
+   "authors": [
+    "Ali Karimi",
+    "Klaus I. Pedersen",
+    "Nurul Huda Mahmood",
+    "Guillermo Pocovi",
+    "Preben Mogensen"
+   ],
+   "is_oa": true,
+   "oa_url": "https://vbn.aau.dk/ws/files/305697020/Efficient_Low_Complexity_Packet_Scheduling_Algorithm_for_Mixed_URLLC_and_eMBB_Traffic_in_5G.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W2954615037",
+    "doi": "https://doi.org/10.1109/vtcspring.2019.8746407",
+    "mag": "2954615037"
+   }
+  },
+  {
+   "title": "User Association in 5G Networks: A Survey and an Outlook",
+   "year": 2016,
+   "venue": "IEEE Communications Surveys & Tutorials",
+   "type": "article",
+   "doi": "10.1109/comst.2016.2516538",
+   "cited_by": 612,
+   "authors": [
+    "Dantong Liu",
+    "Lifeng Wang",
+    "Yue Chen",
+    "Maged Elkashlan",
+    "Kai\u2010Kit Wong",
+    "Robert Schober",
+    "Lajos Hanzo"
+   ],
+   "is_oa": true,
+   "oa_url": "https://arxiv.org/pdf/1509.00338",
+   "ids": {
+    "openalex": "https://openalex.org/W2256188983",
+    "doi": "https://doi.org/10.1109/comst.2016.2516538",
+    "mag": "2256188983"
+   }
+  },
+  {
+   "title": "5G network slicing using SDN and NFV: A survey of taxonomy, architectures and future challenges",
+   "year": 2019,
+   "venue": "Computer Networks",
+   "type": "article",
+   "doi": "10.1016/j.comnet.2019.106984",
+   "cited_by": 814,
+   "authors": [
+    "Alcardo Alex Barakabitze",
+    "Arslan Ahmad",
+    "Rashid Mijumbi",
+    "Andrew Hines"
+   ],
+   "is_oa": true,
+   "oa_url": "https://www.sciencedirect.com/science/article/pii/S1389128619304773/pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W2989178978",
+    "doi": "https://doi.org/10.1016/j.comnet.2019.106984",
+    "mag": "2989178978"
+   }
+  },
+  {
+   "title": "Satellite Communications in the New Space Era: A Survey and Future Challenges",
+   "year": 2020,
+   "venue": "IEEE Communications Surveys & Tutorials",
+   "type": "article",
+   "doi": "10.1109/comst.2020.3028247",
+   "cited_by": 1510,
+   "authors": [
+    "Oltjon Kodheli",
+    "Eva Lagunas",
+    "Nicola Maturo",
+    "Shree Krishna Sharma",
+    "Bhavani Shankar",
+    "Jes\u00fas Fabi\u00e1n Mendoza Montoya",
+    "Juan Carlos Merlano Dunc\u00e1n",
+    "Danilo Spano",
+    "Symeon Chatzinotas",
+    "Steven Kisseleff",
+    "Jorge Querol",
+    "Lei Lei"
+   ],
+   "is_oa": true,
+   "oa_url": "https://ieeexplore.ieee.org/ielx7/9739/9361471/09210567.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W3089706104",
+    "doi": "https://doi.org/10.1109/comst.2020.3028247",
+    "mag": "3089706104"
+   }
+  },
+  {
+   "title": "Enabling Massive IoT in 5G and Beyond Systems: PHY Radio Frame Design Considerations",
+   "year": 2016,
+   "venue": "IEEE Access",
+   "type": "article",
+   "doi": "10.1109/access.2016.2584178",
+   "cited_by": 239,
+   "authors": [
+    "Ayesha Ijaz",
+    "Lei Zhang",
+    "Maxime Grau",
+    "Abdelrahim Mohamed",
+    "Serdar Vural",
+    "Atta Ul Quddus",
+    "Muhammad Ali Imran",
+    "Chuan Heng Foh",
+    "Rahim Tafazolli"
+   ],
+   "is_oa": true,
+   "oa_url": "https://ieeexplore.ieee.org/ielx7/6287639/7419931/07499809.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W2460802106",
+    "doi": "https://doi.org/10.1109/access.2016.2584178",
+    "mag": "2460802106"
+   }
+  },
+  {
+   "title": "A Survey on Beyond 5G Network With the Advent of 6G: Architecture and Emerging Technologies",
+   "year": 2020,
+   "venue": "IEEE Access",
+   "type": "article",
+   "doi": "10.1109/access.2020.3031234",
+   "cited_by": 506,
+   "authors": [
+    "Anutusha Dogra",
+    "Rakesh Kumar Jha",
+    "Shubha Jain"
+   ],
+   "is_oa": true,
+   "oa_url": "https://ieeexplore.ieee.org/ielx7/6287639/9312710/09224777.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W3112680140",
+    "doi": "https://doi.org/10.1109/access.2020.3031234",
+    "mag": "3112680140"
+   }
+  },
+  {
+   "title": "Location-Aware Communications for 5G Networks: How location information can improve scalability, latency, and robustness of 5G",
+   "year": 2014,
+   "venue": "IEEE Signal Processing Magazine",
+   "type": "article",
+   "doi": "10.1109/msp.2014.2332611",
+   "cited_by": 452,
+   "authors": [
+    "Rocco Di Taranto",
+    "Srikar Muppirisetty",
+    "Ronald Raulefs",
+    "Dirk Slock",
+    "Tommy Svensson",
+    "Henk Wymeersch"
+   ],
+   "is_oa": true,
+   "oa_url": "http://publications.lib.chalmers.se/records/fulltext/208857/local_208857.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W2117206394",
+    "doi": "https://doi.org/10.1109/msp.2014.2332611",
+    "mag": "2117206394"
+   }
+  },
+  {
+   "title": "The impact of 5G on the evolution of intelligent automation and industry digitization",
+   "year": 2021,
+   "venue": "Journal of Ambient Intelligence and Humanized Computing",
+   "type": "article",
+   "doi": "10.1007/s12652-020-02521-x",
+   "cited_by": 499,
+   "authors": [
+    "Mohsen Attaran"
+   ],
+   "is_oa": true,
+   "oa_url": "https://link.springer.com/content/pdf/10.1007/s12652-020-02521-x.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W3129311377",
+    "doi": "https://doi.org/10.1007/s12652-020-02521-x",
+    "mag": "3129311377",
+    "pmid": "https://pubmed.ncbi.nlm.nih.gov/33643481"
+   }
+  },
+  {
+   "title": "Edge Computing in 5G: A Review",
+   "year": 2019,
+   "venue": "IEEE Access",
+   "type": "article",
+   "doi": "10.1109/access.2019.2938534",
+   "cited_by": 393,
+   "authors": [
+    "Najmul Hassan",
+    "Kok\u2010Lim Alvin Yau",
+    "Celimuge Wu"
+   ],
+   "is_oa": true,
+   "oa_url": "https://ieeexplore.ieee.org/ielx7/6287639/8600701/08821283.pdf",
+   "ids": {
+    "openalex": "https://openalex.org/W2971329741",
+    "doi": "https://doi.org/10.1109/access.2019.2938534",
+    "mag": "2971329741"
+   }
+  }
+ ],
+ "traffic scheduling deterministic network 5G": [],
+ "QoS flow 5G scheduler optimization": [],
+ "network slicing scheduling radio resource allocation": [],
+ "UPF placement selection 5G core": [],
+ "SRv6 segment routing traffic engineering": [],
+ "intent-based traffic steering 5G": [],
+ "latency-aware scheduling URLLC": [],
+ "DRL scheduling wireless network": [],
+ "network service orchestration 5G NFV": [],
+ "multi-domain orchestration network slicing": [],
+ "O-RAN service management orchestration": [],
+ "zero touch network service management automation": [],
+ "intent based networking orchestration LLM": [],
+ "cloud native network function orchestration Kubernetes": [],
+ "MEC orchestration service placement": [],
+ "digital twin network management orchestration": [],
+ "E2E network slicing orchestration optimization": [],
+ "autonomous network management closed loop": [],
+ "multipath TCP scheduler": [],
+ "multipath QUIC scheduling": [],
+ "multipath transport 5G heterogeneous network": [],
+ "access traffic steering switching splitting ATSSS": [],
+ "multi connectivity scheduling 5G": [],
+ "packet scheduling multipath reinforcement learning": [],
+ "congestion control multipath": [],
+ "multipath video streaming scheduling": [],
+ "network coding multipath transmission": [],
+ "path selection multipath routing QoE": [],
+ "large language model network management": [],
+ "large language model network configuration": [],
+ "large language model intent based networking": [],
+ "LLM agent network automation": [],
+ "LLM O-RAN 6G": [],
+ "LLM traffic engineering": [],
+ "foundation model wireless network": [],
+ "multi agent LLM network operations": [],
+ "generative AI telecom network": [],
+ "LLM network troubleshooting root cause analysis": [],
+ "retrieval augmented generation network management": [],
+ "LLM resource allocation wireless": [],
+ "fine tuning large language model telecom": [],
+ "parameter efficient fine tuning network management": [],
+ "knowledge distillation network management model": [],
+ "model compression network management": [],
+ "quantization large language model edge inference": [],
+ "lightweight language model networking": [],
+ "domain adaptation language model telecommunication": [],
+ "LoRA large language model telecom": []
+}

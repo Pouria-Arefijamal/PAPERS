@@ -1,0 +1,8 @@
+TelAgentBench benchmark LLM agents telecom
+PSMBench physical layer semantic communication benchmark
+TeleMath benchmark LLM mathematical reasoning telecom
+NetEval benchmark LLM network configuration evaluation
+TeleCom-Bench industrial telecommunication applications
+WirelessMathBench mathematical reasoning benchmark wireless
+A Multi-Dataset Benchmark for Evaluating LLM Agents in Microservice Failure Diagnosis
+AgentChaos Chaos Engineering for Agent Systems Programmatic Fault Injection

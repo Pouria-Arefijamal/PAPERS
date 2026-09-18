@@ -1,0 +1,36 @@
+done: intelligent O-RAN traffic steering URLLC deep reinforcement learning   -> 0
+done: O-RAN traffic steering xApp machine learning                           -> 0
+done: 5G core network QoS flow scheduling                                    -> 0
+done: 5G PDU session management scheduling optimization                      -> 0
+done: UPF placement selection 5G core network optimization                   -> 0
+done: SRv6 segment routing traffic engineering deep reinforcement learning   -> 0
+done: segment routing traffic engineering reinforcement learning             -> 0
+done: network slicing admission control deep reinforcement learning          -> 0
+done: service function chain deployment deep reinforcement learning          -> 0
+done: flow scheduling data center network reinforcement learning             -> 0
+done: deadline aware scheduling industrial network 5G                        -> 0
+done: traffic engineering SDN deep reinforcement learning multi-agent        -> 0
+done: LLM based network orchestration multi agent                            -> 0
+done: autonomous network orchestration LLM continual reinforcement learning  -> 0
+done: multi-agent LLM network slice management                               -> 0
+done: agentic AI 6G network management autonomous                            -> 0
+done: LLM intent based networking translation                                -> 0
+done: foundation model network management 6G                                 -> 0
+done: large language model wireless network resource allocation              -> 0
+done: LLM network fault diagnosis root cause                                 -> 0
+done: efficient LLM network management small language model                  -> 0
+done: distillation LLM network traffic classification                        -> 0
+done: quantization LLM network management edge                               -> 0
+done: LoRA fine tuning 5G network language model                             -> 0
+done: MPTCP scheduler deep reinforcement learning heterogeneous              -> 0
+done: MPQUIC multipath scheduler reinforcement learning                      -> 0
+done: access traffic steering switching splitting 5G core ATSSS              -> 0
+done: multi connectivity scheduling 5G network                               -> 0
+done: multipath transport 5G network slicing                                 -> 0
+done: network digital twin 6G management                                     -> 0
+done: zero touch network management automation AI                            -> 0
+done: intent driven network slicing orchestration deep reinforcement learnin -> 0
+done: Kubernetes 5G core cloud native orchestration                          -> 0
+done: comparison MPTCP schedulers heterogeneous networks                     -> 0
+done: energy efficient multipath scheduling mobile                           -> 0
+WROTE ../data/openalex_gap.json

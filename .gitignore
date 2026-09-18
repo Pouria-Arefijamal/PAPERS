@@ -1,0 +1,15 @@
+# Downloaded PDFs and HTML captures used as evidence during the review.
+# The extracted findings are in the committed markdown reports, so these are
+# excluded to keep the repository small (they are ~110 MB in total).
+pdfs/
+pdf/
+main/
+txt/
+txt2/
+build/
+*.pdf
+*.html
+*.htm
+__pycache__/
+*.pyc
+.DS_Store

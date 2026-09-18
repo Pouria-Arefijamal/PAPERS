@@ -1,0 +1,958 @@
+ 
+ Harnessing the Power of LLMs, Informers and Decision Transformers for Intent-driven RAN Management in 6G 
+ Report GitHub Issue 
+ × 
+ Title: 
+ Content selection saved. Describe the issue below: 
+ Description: 
+ Submit without GitHub 
+ Submit in GitHub 
+ arXiv is now an independent nonprofit! 
+ Learn more 
+ × 
+ Back to arXiv 
+ Why HTML? 
+ Report Issue 
+ Back to Abstract 
+ Download PDF 
+ Abstract 
+ I Introduction 
+ II Related Work 
+ II-A Intent Processing 
+ II-B Intent Validation 
+ II-C Intent Execution via Application Orchestration 
+ III System Model and Problem Formulation 
+ III-A System Model 
+ III-A 1 Network Elements 
+ III-A 2 Controller Architecture 
+ III-A 3 Applications 
+ III-B Problem formulation 
+ III-B 1 Intent and Query Processing by LLM 
+ III-B 2 Intent Validation 
+ III-B 3 Application Orchestration 
+ IV Proposed Three-Step Methodology for Intent-driven Network Management 
+ IV-A QLoRA -based fine-tuned LLM for Query and Intent Processing 
+ IV-B Predictive Intent Validation 
+ IV-C Application Orchestration Using Hierarchical Decision Transformer 
+ V Performance Evaluation 
+ V-A Simulation Setup 
+ V-B Simulation results 
+ V-B 1 Intent and Query Processing 
+ V-B 2 Intent validation 
+ V-B 3 Application Orchestration 
+ VI Conclusions 
+ References 
+ License: CC BY 4.0
+arXiv:2505.01841v1 [cs.NI] 03 May 2025 
+ Harnessing the Power of LLMs, Informers and Decision Transformers for Intent-driven RAN Management in 6G 
+ Md Arafat Habib 1 , Pedro Enrique Iturria-Rivera 2 , Yigit Ozcan 2 , 
+ Medhat Elsayed 2 , Majid Bavand 2 , Raimundas Gaigalas 3 , and Melike Erol-Kantarci 1 
+ Affiliation:  1 School of Electrical Engineering and Computer Science, University of Ottawa, Ottawa, Canada 
+ Affiliation:  2 Ericsson Inc., Ottawa, Canada , 3 Ericsson Inc., Stockholm, Sweden
+ Emails:{mhabi050,melike.erolkantarci}@uottawa.ca, 
+ {pedro.iturria.rivera, yigit.ozcan, medhat.elsayed, majid.bavand, raimundas.gaigalas}@ericsson.com 
+ Abstract 
+ Intent-driven network management is critical for managing the complexity of 5G and 6G networks. It enables adaptive, on-demand management of the network based on the objectives of the network operators. In this paper, we propose an innovative three-step framework for intent-driven network management based on Generative AI (GenAI) algorithms. First, we fine-tune a Large Language Model (LLM) on a custom dataset using a Quantized Low-Rank Adapter (QLoRA) to enable memory-efficient intent processing within limited computational resources. A Retrieval Augmented Generation (RAG) module is included to support dynamic decision-making. Second, we utilize a transformer architecture for time series forecasting to predict key parameters, such as power consumption, traffic load, and packet drop rate, to facilitate intent validation proactively. Lastly, we introduce a Hierarchical Decision Transformer with Goal Awareness (HDTGA) to optimize the selection and orchestration of network applications and hence, optimize the network. Our intent guidance and processing approach improves BERTScore by 6 % 6\% , and semantic similarity score by 9 % 9\% compared to the base LLM model. Again, the proposed predictive intent validation approach can successfully rule out the performance-degrading intents with an average of 88 % 88\% accuracy. Finally, compared to the baselines, the proposed HDTGA algorithm increases throughput at least by 19.3 % 19.3\% , reduces delay by 48.5 % 48.5\% , and boosts energy efficiency by 54.9 % 54.9\% . 
+ Index Terms:  Hierarchical Decision Transformer, Intent Processing, Intent Validation, Large Language Model, Network Prediction, Network Application Orchestration
+ I Introduction 
+ An intent represents a set of expectations, including requirements, objectives, and limitations for a specific service or network management workflow [ 1 ] . It is designed to be human-understandable while being precisely interpretable by machines. An intent specifies what needs to be achieved, focusing on the desired outcomes. Without detailing how to accomplish those outcomes, it provides target metrics with no possible elaboration on the implementation steps. Advancements in Natural Language Processing (NLP) can enable network operators to express intents more effectively for intent-driven network management [ 2 ] . This will provide simplification in managing vast and complex network infrastructures by focusing on what the network should achieve rather than how to configure it manually. Manual configurations are reduced in intent-driven network management, leading to fewer errors and increased operational efficiency. Furthermore, this kind of management supports rapid configuration changes and service deployment without manual intervention [ 3 ] . 
+ In 5G and envisioned 6G networks, implementing intent-driven network management can be challenging. An intent that can truly provide significant and relevant performance improvements, depends on network conditions, user demands, and regulations. As a result, a contextual understanding of intents is essential for accurate processing. Prior rule-driven, static, and manual policy-oriented Service Level Agreement (SLA) -based approaches may fail to understand such contexts. On the contrary, a Large Language Model (LLM) , with its transformer-based architecture, is well-suited for capturing the context needed and interpreting the underlying meaning of intents [ 4 ] . Approaches like [ 2 , 5 , 6 ] have put significant efforts into intent processing via LLM s. However, they lack resource efficiency and adaptability to dynamic network scenarios. Moreover, these methods are not tailored to facilitate customized intent processing; a customization that can result in enhanced task-specific performance. 
+ Processing intents expressed in natural language is necessary to generate policies that can optimize network performance. However, allowing any intent to directly affect network configurations can lead to performance and stability issues. For example, an intent like “Increase energy efficiency by 30 % 30\% ” during peak hours could degrade performance as there is high traffic load at the same time. This scenario highlights the need for a robust intent validation process that considers current network conditions to ensure smooth user experience without compromising Quality of Service (QoS) . Previous works have considered rule-based approaches for intent validation. For instance, in [ 4 ] , the rule-based validation approach ensures policies that adhere to predefined formats. However, it lacks adaptability to anticipated network changes. 
+ Emerging architectures such as Open Radio Access Network (Open RAN) [ 7 ] have provided possibilities for third-party vendors to develop network-optimizing applications. Examples of such applications include traffic steering, beamforming, power allocation, and so on. However, managing the initiation and orchestration of these applications is a great challenge. The applications may conflict with each other if initiated altogether. An example of such a scenario may occur if applications performing traffic steering and cell sleeping are initiated together since they may have conflicting network objectives. On the other hand, power allocation with beamforming applications can significantly boost performance. To optimally initiate and orchestrate applications, past works have used advanced Reinforcement Learning (RL) algorithms. Habib et al. in their works [ 8 , 9 ] have used Hierarchical RL (HRL) to manage and orchestrate these applications. However, policies trained for a specific task using these methods may not perform well on similar tasks with slight changes. They react to current states without utilizing the sequence of past states and actions. 
+ Based on the discussion so far, we summarize the following limitations of the existing intent processing, validation, and orchestration methodologies. First, intent processing approaches using LLM s lack resource efficiency, adaptability to dynamic network scenarios, and customization for task-specific actions. Second, rule-based intent validation methods ensure policies adhere to predefined formats but fail to adapt to anticipated network changes. Third, RL methods, including HRL , used for application orchestration, are limited by their inability to generalize to similar tasks with slight changes. Also, RL algorithms heavily rely on current states, without utilizing past state-action sequences. This restricts their decision-making capabilities. 
+ Research in the domain of AI-enabled wireless networks is experiencing a paradigm shift towards Generative AI (GenAI) after the introduction of the transformer architecture and its demonstrated effectiveness [ 10 ] . To this end, we propose a three-step solution based on GenAI to address the problems discussed so far associated with intent processing, validation, and network application orchestration. The proposed methodology features an end-to-end GenAI solution, providing complete intent-driven network automation for modern-day mobile communication systems. 
+ First, we build a custom dataset that has queries and prompts with their responses to fine-tune an LLM using a memory and resource-efficient technique called Quantized Low Rank Adapter (QLoRA) [ 11 ] . Fine-tuning the LLM with our dataset ensures that it is specifically adapted to our queries and intents. To keep up with the dynamic network scenarios, we further use a Retrieval Augmented Generation (RAG) module [ 12 ] for taking real-time decisions with the help of an updated knowledge base. 
+ Second, a novel transformer architecture named Informer [ 13 ] is used to perform Long Sequence Time Series Forecasting (LSTF) . It predicts three crucial parameters in future time slots: power consumption, traffic load, and packet drop percentage. Intents are validated based on these values. It significantly helps to avoid any intent that can have a negative impact on the system’s performance. 
+ Lastly, a new machine learning paradigm named Decision Transformer (DT) is employed to take control decisions regarding which network applications to initiate and how to orchestrate them [ 14 ] . In particular, we propose a Hierarchical Decision Transformer with Goal Awareness (HDTGA) . Instead of relying on fixed reward sequences (as in traditional DT s), goal awareness enables the system to focus on achieving target objectives extracted from intents. The proposed approach aligns actions with specific intents, such as improving throughput or reducing energy consumption, making the system pursue operator-defined goals. HDTGA can significantly optimize the selection and orchestration of the network-optimizing applications in Radio Access Network (RAN) . 
+ This work differs from previous works through the following four key contributions: 
+ 1. 
+ An end-to-end framework based on GenAI has been developed to facilitate intent-driven management in wireless networks. The framework incorporates a fine-tuned LLM with QLoRA providing a memory-efficient platform that works as a guidance for the operator to provide intents. The fine-tuned LLM is also adept in processing intents accurately to guide the intent validation and application orchestration phases of the framework. 
+ 2. 
+ A predictive intent validation mechanism has been introduced, utilizing the Informer model. The validation mechanism considers three critical metrics: traffic load, power consumption, and packet loss. 
+ 3. 
+ The integration of a RAG module has been implemented to enhance real-time decision-making with dynamically retrieved network data. 
+ 4. 
+ Unlike previous rule-based and RL approaches, a novel algorithm based on hierarchically organized DTs ( HDTGA ) has been proposed. This algorithm enables the orchestration of network applications by pursuing target metrics extracted from the intents as goals. 
+ Extensive experiments have been conducted to demonstrate the effectiveness of the proposed methodology. First, fine-tuning the LLM with a custom dataset significantly outperforms the base LLM model, achieving a 6 % 6\% increase in BERTScore and Meteor metrics. Also, a 9 % 9\% improvement in semantic similarity is observed. We define and explain BERTScore, Meteor, and semantic similarity in Section V of this paper. The proposed intent validation method effectively predicts traffic load, packet drop rate, and power consumption in future time slots and achieves an average of 88 % 88\% accuracy. It enables the system to preemptively avoid performance-degrading intents. Finally, we compare the performance of the proposed methodology with HDTGA against three baseline schemes. The first two baselines utilize an HRL algorithm, one with and the other without the intent validation technique [ 15 ] . The last baseline is the vanilla DT to perform application selection and orchestration. Our proposed approach surpasses all baseline methods, achieving at least a 19.4 % 19.4\% increase in throughput, a 54.9 % 54.9\% reduction in network delay, and a 48.5 % 48.5\% improvement in energy efficiency. 
+ The remaining parts of the paper are organized as follows: Section II discusses the works related to our research conducted in this paper. The network and the system model with problem formulations are presented in Section III . The proposed methodology with a fine-tuned LLM -based query and intent processing module, predictive intent validation, and HDTGA -based network application control system are covered in Section IV . Performance comparison of the proposed method against the baseline algorithms is presented in Section V . Finally, conclusions are drawn in Section VI . 
+ II Related Work 
+ This section briefly reviews the works related to our research. The proposed methodology has three core components: intent processing, validation, and policy generation for intent execution, as explained before. Therefore, this section is organized to discuss the existing works on each topic separately. 
+ II-A Intent Processing 
+ After the emergence of LLM s, intent-driven network management in the area of telecommunications is experiencing a new dimension.
+Kristina et al. in their work provide a road map on how intent-driven network automation can be achieved via a three-step methodology: intent processing, validation, and execution [ 4 ] . Though this road map provides us with a guideline to work with intent-driven network management, their work focuses only on few-shot learning to process intents. 
+ Following the methodology in [ 4 ] , Habib et al. in their work [ 9 ] use few-shot learning and prompt engineering to use a lightweight LLM to process intents. 
+ Intent processing via LLM in the literature is so far limited to few-shot learning and prompt engineering as presented in [ 4 ] and [ 9 ] . The main reason behind this is the high cost and time needed to fine-tune a model based on the specific needs of the relevant use cases. 
+ In this work, instead of using few-shot learning-assisted prompt engineering for intent processing, we use a QLoRA -based fine-tuned LLM . Unlike past works, this approach provides a memory-efficient solution for intent processing. Furthermore, the operator can query the fine-tuned LLM to fetch any necessary network-related information that can aid him in providing an intent. 
+ II-B Intent Validation 
+ Intent validation is the process of assessing whether the current network conditions and capacity can accommodate a given intent [ 16 ] . This involves verifying whether the available resources, traffic conditions, and operational constraints allow for the successful execution of the intents. 
+ Intent validation is a crucial part of ensuring robust intent-driven automation in the network. Therefore, almost all the works in the literature attempt to validate intents. These works are often limited to rule-based validation methodologies. For example, in [ 2 , 6 ] , authors use a rule-based approach in its intent validation stage where policies are checked for consistency and correct sequence. However, these approaches lack the adaptability to anticipated network changes and need to be updated each time a new intent or service is added. 
+ Considering the limitations of these works, Habib et al. presented a method for intent validation in a predictive manner [ 9 ] . However, their methodology is limited to only predicting traffic load, while other crucial parameters can aid in more precise intent validation. 
+ In this work, rather than relying on traditional rule-based validation methods, we propose a predictive intent validation mechanism. Our approach utilizes a transformer-based time-series forecasting model (Informer) to anticipate key network parameters such as traffic load, packet loss, and power consumption. This enables the system to evaluate the feasibility of the intents before execution to ensure that they are aligned with the current network status. 
+ II-C Intent Execution via Application Orchestration 
+ Static optimization-based approaches used in the literature for application orchestration [ 17 ] may need recomputation when network conditions change. RL is more suitable for dynamic environments compared to optimization-based approaches because it can continuously learn from feedback. Considering this fact, Habib et al. proposed an HRL-based application orchestration methodology in [ 8 , 9 ] . However, these approaches rely highly on hand-crafted reward functions making them hard to generalize. 
+ To overcome the algorithmic limitations of the RL methods presented in [ 8 ] and [ 9 ] , in this paper, we use DT to optimize the selection and orchestration of network applications for intent-driven network management. Next, we review the existing works associated with DT in wireless in this section. 
+ To the best of our knowledge, two prior works have used DT in wireless scenarios. DT has been utilized to provide energy saving in cellular networks by controlling cell on-off switching [ 18 ] . The approach presented in [ 18 ] improves energy efficiency and throughput by predicting cell activation patterns based on historical traffic data. Another work proposes a DT architecture for adaptive wireless resource management [ 19 ] where a DT is pre-trained on cloud servers with data from various network scenarios and fine-tuned on edge devices. 
+ In this work, we propose a new hierarchical algorithm based on DT s named HDTGA . Unlike conventional DT s used in [ 18 , 19 ] , which rely on predefined returns-to-go, HDTGA introduces a goal-aware hierarchical structure that dynamically identifies critical past actions to optimize decision-making. This design enables more efficient intent fulfillment. HDTGA can be an excellent fit for network optimization problems since it can use historical context and predictive insights to optimize actions dynamically. 
+ To showcase the difference between the proposed method and the existing works, we provide Table I . 
+ TABLE I: Feature Comparison Between the Proposed Method and Existing Works 
+ Ref. 
+ Intent 
+ processing 
+ using LLM 
+ LLM -based network 
+ assistance for intent 
+ provisioning 
+ Memory-efficient 
+ use of LLM 
+ RAG 
+ module 
+ Predictive 
+ intent validation 
+ using traffic load, 
+ packet loss, 
+ power consumption 
+ Intent execution 
+ via network 
+ Applications 
+ Application 
+ orchestration 
+ using 
+ decision 
+ transformer 
+ [ 4 ] 
+ Yes 
+ Yes 
+ No 
+ No 
+ No 
+ No 
+ No 
+ [ 2 ] 
+ Yes 
+ Yes 
+ No 
+ No 
+ No 
+ Yes 
+ No 
+ [ 6 ] 
+ Yes 
+ Yes 
+ No 
+ No 
+ No 
+ Yes 
+ No 
+ [ 9 ] 
+ Yes 
+ No 
+ No 
+ No 
+ No 
+ Yes 
+ No 
+ [ 17 ] 
+ No 
+ No 
+ No 
+ No 
+ No 
+ No 
+ No 
+ Proposed 
+ Yes 
+ Yes 
+ Yes 
+ Yes 
+ Yes 
+ Yes 
+ Yes 
+ III System Model and Problem Formulation 
+ In this section first, we elaborately discuss our system model. Next, we formulate the problems addressed by our three-step methodology, beginning with intent processing, followed by intent validation, and concluding with application orchestration for intent execution. 
+ III-A System Model 
+ III-A 1 Network Elements 
+ An Orthogonal Frequency Division Multiplexing (OFDM) -based cellular system is considered in this work where multiple B B serve U U users. B B represents a Base Station (BS) in this paper. Multiple small cells are deployed within the coverage area of a macro cell. The system supports K K traffic classes, and users maintain connections with two different Radio Access Technology (RAT) using dual connectivity. The wireless system model used in this work is illustrated in Fig. 1 . 
+ We use Clustered Delay Line (CDL) models (A, B, C, and D) to represent realistic channel propagation characteristics [ 20 ] . Each CDL model consists of clusters of multipath components, where each cluster represents a physical scatterer. Within each cluster, individual rays have specific delays, angles, and power levels, capturing multipath effects for both Line-of-Sight (LOS) and Non-Line-of-Sight (NLOS) conditions. The CDL channel response for a user u u connected to base station b b on subcarrier ψ \psi can be modeled as the superposition of all multipath components within the clusters: 
+ h u , b ψ ​ ( t ) = ∑ l c = 1 L c ∑ m = 1 M l c amp l c , m ψ ​ e j ​ θ l c , m ​ δ ​ ( t − χ l c , m ) , h_{u,b}^{\psi}(t)=\sum_{l_{c}=1}^{L_{c}}\sum_{m=1}^{M_{l_{c}}}\text{amp}_{l_{c},m}^{\psi}\,e^{j\theta_{l_{c},m}}\,\delta\left(t-\chi_{l_{c},m}\right), 
+ (1) 
+ where L c L_{c} is the number of clusters (each cluster represents a physical path), M l c M_{l_{c}} is the number of rays within the l c l_{c} -th cluster, amp l c , m ψ \text{amp}_{l_{c},m}^{\psi} is the complex amplitude for the m m -th ray in the l c l_{c} -th cluster on subcarrier ψ \psi , θ l c , m \theta_{l_{c},m} is the phase shift for each ray, modeled as a random variable, χ l c , m \chi_{l_{c},m} is the delay of the m m -th ray in the l c l_{c} -th cluster, δ ⁡ ( ⋅ ) \delta(\cdot) is the Dirac delta function representing the arrival time of each ray. 
+ The power delay profile for the channel model is given by the exponential decay of power with delay for each cluster: 
+ P ( χ l c , m ) = P l c e − χ l c , m / σ χ , P(\chi_{l_{c},m})=P_{l_{c}}e^{-\chi_{l_{c},m}/\sigma_{\chi}}, 
+ (2) 
+ where P l c P_{l_{c}} is the initial power of the l c l_{c} -th cluster,
+ σ χ \sigma_{\chi} is the delay spread for each cluster. 
+ For a user u u connected to a BS b b on subcarrier ψ \psi , the channel capacity ξ ψ \xi_{\psi} can be expressed as: 
+ ξ ψ = B w ​ log 2 ⁡ ( 1 + P s ​ c N 0 ​ B ​ | h u , b ψ ​ ( t ) | 2 ) , \xi_{\psi}=B_{w}\log_{2}\left(1+\frac{P_{sc}}{N_{0}B}|h_{u,b}^{\psi}(t)|^{2}\right), 
+ (3) 
+ where B w B_{w} is the bandwidth of each subcarrier, P s ​ c P_{sc} is the transmit power allocated to subcarrier ψ \psi , N 0 N_{0} is the noise spectral density, h u , b ψ ​ ( t ) h_{u,b}^{\psi}(t) is the channel response for subcarrier ψ \psi at time t t . 
+ The proposed system model defines delay as the sum of transmission delay and queuing delay 
+ III-A 2 Controller Architecture 
+ The system model, shown in Fig. 1 , proposes two distinct controllers responsible for managing RAN functionalities: the strategic controller and the tactical controller. The strategic controller on top is responsible for long-term goals, such as network-wide performance optimizations and policy formulation. It can define the network’s broader objectives, including service quality guarantees, energy efficiency, or overall traffic management for a timespan. The tactical controller on the bottom focuses on real-time decisions, such as handling immediate network changes, performing handovers, or dynamically adjusting resources based on the current network state. It operates within the framework set by the strategic controller but is more focused on near-real-time adjustments to ensure smooth network operation from moment to moment. 
+ III-A 3 Applications 
+ The controllers host applications focusing on control and optimization tasks across two different time scales. We deploy BS s capable of switching bands from 5G mid-band to high-band frequencies [ 21 ] . This deployment enables us to cater to high-throughput traffic by employing intelligent beamforming techniques. An application can be developed to regulate power based on User Equipment (UE) location, utilizing minimal transmission power for enhanced energy efficiency. The system facilitates analog beamforming [ 13 ] . The beamforming weights for each beamforming vector are implemented using constant modulus phase shifters. A beam steering-based codebook is considered, from which beamforming vectors are selected [ 13 ] . Each BS b b transmits with power P T ​ X , b ∈ P P_{TX,b}\in P , where P P denotes the set of possible transmit power levels. The power consumption model for the BS is taken from [ 14 ] . 
+ Fig. 1: Network and system model. 
+ III-B Problem formulation 
+ III-B 1 Intent and Query Processing by LLM 
+ The first step of the proposed methodology is to fine-tune an LLM using custom datasets. We fine-tune an LLM so that it can (i) respond to human queries about the system (e.g., reporting current network load, throughput, latency, and so on.) and (ii) process explicit performance-oriented intents (e.g., “Increase throughput by 10%”). These two tasks are referred to as: 
+ 1. 
+ subproblem 1 : Query-Response 
+ 2. 
+ subproblem 2 : Intent Processing 
+ In subproblem 1 , the LLM is trained to generate correct responses to domain-specific queries. In subproblem 2 , the LLM is trained to extract two key components from an intent: (a) the performance metric (e.g., “throughput,” “latency,” “energy efficiency”), and (b) the requested magnitude of change (e.g., “10%”, “5%”). Utilizing the capability of an LLM to handle complex natural language, it is possible to jointly address both tasks by fine-tuning on labeled data. 
+ Let 𝒟 q ​ r = { ( q j , r j ) } j = 1 F \mathcal{D}_{qr}=\{(q_{j},r_{j})\}_{j=1}^{F} be a dataset of F F query–response pairs where q j q_{j} is the j j -th query (e.g., “What is the current throughput?”) and r j r_{j} is the ground truth response to the query q j q_{j} . 
+ We fine-tune the LLM (denoted by f θ f_{\theta} , with parameters θ \theta ) on 𝒟 q ​ r \mathcal{D}_{qr} so that for any query q j q_{j} , the model’s predicted response r ^ j = f θ ​ ( q j ) \hat{r}_{j}=f_{\theta}(q_{j}) aligns well with the corresponding ground truth r j r_{j} . A standard approach is to minimize a loss function ℒ ⁡ ( r j , r ^ j ) \mathcal{L}(r_{j},\hat{r}_{j}) that measures the difference between the predicted and true responses. The LLM learns how to generate the correct response for each query by adjusting its parameters via supervised training. 
+ For the subproblem 2 , let us assume I = { i 1 , i 2 , … , i n } I=\{i_{1},i_{2},\ldots,i_{n}\} to be the set of intents and I t y = { t y 1 , t y 2 , … , t y e } I_{t_{y}}=\{t_{y_{1}},t_{y_{2}},\ldots,t_{y_{e}}\} be the set of intent types. We define a function f : I → I t y f:I\rightarrow I_{t_{y}} that maps each intent to an intent type. The system allows multiple intents to map to the same type as well as single intents mapping to one type. This function f ⁡ ( i ) = t y f(i)=t_{y} indicates that the intent i i belongs to the intent type t y t_{y} . Each intent i ∈ I i\in I is mapped to a type t y ∈ I t y t_{y}\in I_{t_{y}} . 
+ Furthermore, we also define a relation R ⊆ I × I t y R\subseteq I\times I_{t_{y}} that relates intents to their types, accommodating both one-to-one and many-to-one mappings. It is represented as follows: 
+ R = { ( i , t y ) | i ∈ I , t y ∈ I t y  and  i  is of type  t y } R=\{(i,t_{y})|i\in I,t_{y}\in I_{t_{y}}\text{ and }i\text{ is of type }t_{y}\} 
+ (4) 
+ This allows for pairs ( i , t y ) (i,t_{y}) where different i ∈ I i\in I can correspond to the same t y ∈ I t y t_{y}\in I_{t_{y}} , and also allows for single intents mapping to single types. 
+ Let { I s 1 , I s 2 , … , I j } \{I_{s_{1}},I_{s_{2}},\ldots,I_{j}\} be the subsets of I I that are disjoint. This means the intersection of any two subsets results in an empty set. For example: I s 3 ∩ I s 5 = ∅ I_{s_{3}}\cap I_{s_{5}}=\varnothing . Each subset of intents can be classified into distinct intent types from the set I t y I_{t_{y}} . 
+ I = ⋃ j = 1 N I s j . I=\bigcup_{j=1}^{N}I_{s_{j}}. 
+ (5) 
+ Each intent i j ∈ I i_{j}\in I is parsed to identify: 
+ • 
+ Type( t y j t_{y_{j}} ): example: “throughput,” “latency,” “energy efficiency.” 
+ • 
+ Magnitude( Λ j \Lambda_{j} ): example: “10%” or “5%.” 
+ We define 𝒟 i ​ n ​ t ​ e ​ n ​ t ​ s = { ( i j , t y j , Λ j ) } j = 1 N \mathcal{D}_{intents}=\{(i_{j},t_{y_{j}},\Lambda_{j})\}_{j=1}^{N} as the dataset of N N labeled intents. Here, i j i_{j} is the j j -th intent text, t y j t_{y_{j}} is the true “type” label, and Λ j \Lambda_{j} is the true “magnitude” label. After fine-tuning, the LLM will predict t ^ y j = f θ type ​ ( i j ) \hat{t}_{y_{j}}=f_{\theta}^{\text{type}}(i_{j}) and Λ ^ j = f θ mag ​ ( i j ) \hat{\Lambda}_{j}=f_{\theta}^{\text{mag}}(i_{j}) . 
+ During supervised training, these predictions are compared to the ground truth ( t y j , Λ j ) (t_{y_{j}},\Lambda_{j}) . A typical training setup involves loss functions ℒ type \mathcal{L}_{\text{type}} and ℒ mag \mathcal{L}_{\text{mag}} , which measure how accurately the model identifies the correct type and magnitude. The model parameters θ \theta are updated so as to improve classification accuracy for both type and magnitude. 
+ To address both subproblems in a single framework, we jointly fine-tune the LLM on 𝒟 q ​ r \mathcal{D}_{qr} and 𝒟 i ​ n ​ t ​ e ​ n ​ t ​ s \mathcal{D}_{intents} . By exploiting the LLM ’s robust NLP capabilities, the model can simultaneously learn to respond accurately to system-related queries and identify intent types (e.g., throughput, latency, energy efficiency) and their corresponding magnitude requests. 
+ III-B 2 Intent Validation 
+ The second problem of the proposed framework is associated with intent validation. Let V = { v c 1 , v c 2 , … , v c n } V=\{v_{c_{1}},v_{c_{2}},\ldots,v_{c_{n}}\} be the set of validation checks, and O = { o 1 , o 2 , … , o n } O=\{o_{1},o_{2},\ldots,o_{n}\} be the sequence of policies. Our objective function in this case can be formulated as follows: 
+ min ∑ i = 1 n ∑ o = 1 n ϑ i , o , \min\sum_{i=1}^{n}\sum_{o=1}^{n}\vartheta_{i,o}, 
+ (6) 
+ where ϑ i , o \vartheta_{i,o} represents the performance degradation score because of policies passing validation checks. Each policy must go through a validation check v c i v_{c_{i}} . We calculate this score based on QoS drifts. QoS parameters deviate from the originally defined QoS metrics over time due to performance degradation in the wireless networks causing QoS drifts. By deviation, we mean when a QoS parameter has a lesser value than the required. For a specific traffic class, t c ​ l ​ a ​ s ​ s t_{class} having a set of QoS requirements Q r ​ e ​ q Q_{req} and associated performance metrics P m ​ e ​ t ​ r ​ i ​ c P_{metric} , there can be QoS drifts for multiple different QoS definitions. 
+ Q drift ​ ( t ) = { max ⁡ ( 0 , A P m ​ e ​ t ​ r ​ i ​ c ​ ( t ) − D QoS ) , for  P m ​ e ​ t ​ r ​ i ​ c ​ ( l ) , max ⁡ ( 0 , D QoS − A P m ​ e ​ t ​ r ​ i ​ c ​ ( t ) ) , for  P m ​ e ​ t ​ r ​ i ​ c ​ ( h ) . Q_{\text{drift}}(t)\;=\;\begin{cases}\max\!\bigl(0,\;A_{P_{metric}}(t)\;-\;D_{\text{QoS}}\bigr),&\text{for $P_{metric(l)}$},\\[8.0pt]
+\max\!\bigl(0,\;D_{\text{QoS}}\;-\;A_{P_{metric}}(t)\bigr),&\text{for $P_{metric(h)}$}.\end{cases} 
+ (7) 
+ Here, A P m ​ e ​ t ​ r ​ i ​ c A_{P_{metric}} represents the achieved value of a metric for a certain traffic type at time t t , and D QoS D_{\text{QoS}} represents the pre-defined value of the same parameter which has to be maintained for optimal performance. P m ​ e ​ t ​ r ​ i ​ c ​ ( l ) P_{metric(l)} refers to a performance metric for which lower values are better for the system and QoS maintenance. On the other hand, P m ​ e ​ t ​ r ​ i ​ c ​ ( h ) P_{metric(h)} refers to a performance metric for which higher values are preferred. 
+ Intents that do not cause any QoS drift are validated. Intents are not allowed to change the network configuration if they will lead to QoS drifts to avoid drastic performance degradation in the system. 
+ III-B 3 Application Orchestration 
+ Let A A be the set of all the applications in our Intelligent RAN Controllers (IRCs) . By IRCs we denote the strategic and tactical controllers presented in Fig. 1 . For each IRC application a ∈ A a\in A , ℱ a ⊆ ℱ \mathcal{F}_{a}\subseteq\mathcal{F} represents the subset of functionalities offered by a a . Accordingly, we define a binary variable ϱ a , f ∈ { 0 , 1 } \varrho_{a,f}\in\{0,1\} . This variable is 1 1 if f ∈ ℱ a f\in\mathcal{F}_{a} . It is 0 0 otherwise. Two applications (can either be an application running on a strategic or tactical controller) a 1 a_{1} and a 2 a_{2} can provide similar functionalities, i.e., ℱ a 1 = ℱ a 2 \mathcal{F}_{a_{1}}=\mathcal{F}_{a_{2}} . However, they can differ in terms of model, architecture as well as required inputs. For example, two applications a 1 a_{1} and a 2 a_{2} may provide the same functionality of increasing energy efficiency but one application may use Deep RL (DRL) and another may use a supervised approach. 
+ The resource requirement for deploying and running application a a is denoted by r a ω r^{\omega}_{a} , where ω ∈ Ω \omega\in\Omega represents the resource type. Let 𝒯 \mathcal{T} be the set of all possible input types. Each application a ∈ A a\in A requires a specific input type, represented as t a I ​ N ∈ 𝒯 t^{IN}_{a}\in\mathcal{T} (e.g., Traffic flow type, Signal-to-Interference-plus-Noise Ratio (SINR) , and queue length measurements). Furthermore, for every intent i i , we specify the set of functionalities that an application must perform at a designated location l l . 
+ Certain functionalities impose strict latency constraints, making it inefficient or impractical to execute them on nodes located far from where the input is generated. To address this, we define δ i , f , l ≥ 0 \delta_{i,f,l}\geq 0 as the maximum latency an intent i i can tolerate when executing application a a at location l l . Given resource limitations, an application a a can be deployed up to C a , l C_{a,l} times at a specific location ( l l ), such as Controllers, CU, or DU. Additionally, an application can be instantiated multiple times on the same node or location to accommodate different traffic classes. 
+ Let η a , κ i , f , l ∈ { 0 , 1 } \eta^{i,f,l}_{a,\kappa}\in\{0,1\} be a binary variable such that η a , κ i , f , l = 1 \eta^{i,f,l}_{a,\kappa}=1 if functionality f f demanded by intent i i is provided by instance κ \kappa of application a a instantiated on location l l . 
+ Each application a a requires a specific type of input t a I ​ N t^{IN}_{a} and as a consequence, when instantiating an application on any location l l , we must ensure that such input is available at that very location within the desired time-scale. It is essential to ensure that the time required to gather input from nodes in 𝒟 i , f , l I ​ N \mathcal{D}^{IN}_{i,f,l} remains within the allowable latency limit δ i , f , l \delta_{i,f,l} for each intent.
+For each orchestration policy 𝐙 \mathbf{Z} , the data collection time can be formalized as follows: 
+ Δ i , f , l ​ ( 𝐙 ) = ∑ a ∈ 𝒜 ϱ a , f ​ ∑ κ = 1 C a , l η a , κ i , f , l ​ ∑ l , l ′ ∈ ℒ i , f IN μ i , f , a , l , l ′ , \displaystyle\Delta_{i,f,l}(\mathbf{Z})=\sum_{a\in\mathcal{A}}\varrho_{a,f}\sum_{\kappa=1}^{C_{a,l}}\eta^{i,f,l}_{a,\kappa}\sum_{l,l^{\prime}\in\mathcal{L}^{\text{IN}}_{i,f}}\mu_{i,f,a,l,l^{\prime}}, 
+ (8) 
+ where μ i , f , a , l , l ′ = ( s t a I ​ N b l , l ′ ​ | ℒ i , f I ​ N | + T l , l ′ ) \mu_{i,f,a,l,l^{\prime}}=\left(\frac{s_{t^{IN}_{a}}}{b_{l,l^{\prime}}|\mathcal{L}^{IN}_{i,f}|}\!+T_{l,l^{\prime}}\right) , s t a I ​ N s_{t^{IN}_{a}} is the input size of an application a a measured in bytes, b l , l ′ b_{l,l^{\prime}} is the data rate of the link between nodes l l and l ′ l^{\prime} , and T l , l ′ T_{l,l^{\prime}} represents the propagation delay between nodes l ′ l^{\prime} and l l . 
+ The latency constrain can be formulated as follows: 
+ Δ i , f , l ​ ( 𝐙 ) + Δ i , f , l E ​ X ​ E ​ C ​ ( 𝐙 ) ≤ δ i , f , l . \Delta_{i,f,l}(\mathbf{Z})+\Delta^{EXEC}_{i,f,l}(\mathbf{Z})\leq\delta_{i,f,l}. 
+ (9) 
+ Here, Δ i , f , l E ​ X ​ E ​ C \Delta^{EXEC}_{i,f,l} is the time to execute an application a a on a location l l . We declare a variable combining these two types of latency: 
+ Δ L ​ A ​ T = Δ i , f , l ​ ( 𝐙 ) + Δ i , f , l E ​ X ​ E ​ C ​ ( 𝐙 ) . \Delta_{LAT}=\Delta_{i,f,l}(\mathbf{Z})+\Delta^{EXEC}_{i,f,l}(\mathbf{Z}). 
+ (10) 
+ The problem of application orchestration that we want to address is to overcome the excessive latency that can be an issue while executing an intent. To deal with it we consider the following ratio: 
+ Δ ⁡ ( o i ) = Δ L ​ A ​ T δ i , f , l . \Delta{(o_{i})}=\frac{\Delta_{LAT}}{\delta_{i,f,l}}. 
+ (11) 
+ Similarly, we take the ratio of the total used memory and the available memory ( r a ω 1 = m u m m ​ a ​ x r^{\omega_{1}}_{a}=\frac{m_{u}}{m_{max}} ), the ratio of the total used processing power and the available processing power ( r a ω 2 = p u p m ​ a ​ x r^{\omega_{2}}_{a}=\frac{p_{u}}{p_{max}} ) for executing an intent. The computing resource consumption is the summation of these two types of resources for executing a policy resulting due to an intent. 
+ R ⁡ ( o i ) = r a ω 1 + r a ω 2 . R({o_{i}})=r^{\omega_{1}}_{a}+r^{\omega_{2}}_{a}. 
+ (12) 
+ We define a utility function as follows: 
+ U ⁡ ( o i ) = | M p | − ϖ ​ γ q s , U(o_{i})=|M_{p}|-\varpi\gamma_{q_{s}}, 
+ (13) 
+ where M p M_{p} denotes the magnitude of the performance metric that the operator aims to enhance. The term ϖ \varpi serves as a penalty parameter for violations of QoS requirements, while γ q s \gamma_{q_{s}} represents the number of UE s experiencing QoS violations. These violations are evaluated based on the QoS parameters associated with each UE ’s traffic class. 
+ Finally, the third problem we want to address in our proposed three-step methodology is represented by 
+ max 𝐙 \displaystyle\underset{\mathbf{Z}}{\max}\ 
+ ∑ i = 1 n ∑ t y = 1 e [ U ⁡ ( o i ) − g 1 × R ⁡ ( o i ) − g 2 × Δ ⁡ ( o i ) ] , \displaystyle\ \sum_{i=1}^{n}\sum_{t_{y}=1}^{e}\bigg[U(o_{i})-g_{1}\times R(o_{i})-g_{2}\times\Delta(o_{i})\bigg], 
+ (14) 
+ s.t. 
+ ( 9 ) , \displaystyle(\ref{Latency}), 
+ (14a) 
+ ∑ a ∈ 𝒜 ∑ κ = 1 C a , l η a , k i , f , l ⋅ m u ≤ m max , ∀ l , \displaystyle\sum_{a\in\mathcal{A}}\sum_{\kappa=1}^{C_{a,l}}\eta^{i,f,l}_{a,k}\cdot m_{u}\leq m_{\text{max}},\quad\forall l, 
+ (14b) 
+ ∑ a ∈ 𝒜 ∑ κ = 1 C a , l η a , k i , f , l ⋅ p u ≤ p max , ∀ l , \displaystyle\sum_{a\in\mathcal{A}}\sum_{\kappa=1}^{C_{a,l}}\eta^{i,f,l}_{a,k}\cdot p_{u}\leq p_{\text{max}},\quad\forall l, 
+ (14c) 
+ Δ i , f , l ​ ( 𝐙 ) ≤ δ i , f , l , ∀ i , f , l , \displaystyle\Delta_{i,f,l}(\mathbf{Z})\leq\delta_{i,f,l},\quad\forall i,f,l, 
+ (14d) 
+ γ q s ≤ Q max , \displaystyle\gamma_{q_{s}}\leq Q_{\text{max}}, 
+ (14e) 
+ ϱ a , f ∈ { 0 , 1 } , η a , κ i , f , l ∈ { 0 , 1 } , ∀ a , f , l , κ , \displaystyle\varrho_{a,f}\in\{0,1\},\quad\eta^{i,f,l}_{a,\kappa}\in\{0,1\},\quad\forall a,f,l,\kappa, 
+ (14f) 
+ where, g 1 g_{1} and g 2 g_{2} are the weight factors. Among the constraints, ( 14b ) ensures that the memory resources required ( m u m_{u} ) by all instances of applications on a location l l do not exceed the available memory capacity m max m_{\text{max}} at that location. ( 14c ) makes sure that the processing power used by all instances of applications on a location l l does not exceed the available processing power p max p_{\text{max}} . ( 14d ) ensures that each application a a requiring a specific input type t a I ​ N t^{IN}_{a} has that input available at the location l l within the desired time-scale. ( 14e ) ensures that the number of UEs experiencing QoS violations does not exceed the predefined threshold Q max Q_{\text{max}} . Lastly, ( 14f ) enforces that binary variables ϱ a , f \varrho_{a,f} and η a , κ i , f , l \eta^{i,f,l}_{a,\kappa} take values only in { 0 , 1 } \{0,1\} , representing the selection of functionalities and instances. Problem formulated in ( 14 ) is the last problem formulation of our methodology which we would refer to as Problem 3 throughout the paper. ( 8 ) and ( 9 ) are adopted from the idea and formulations from [ 17 ] . 
+ The problem in ( 14 ) presents complexities that challenge classical optimization methods. The utility function U ⁡ ( o i ) U(o_{i}) includes penalties for QoS violations and intended performance metrics, which are often non-linear and non-convex. Classical optimization struggles with such objective functions, especially when the feasible region is non-convex. Additionally, the problem requires dynamic inputs (e.g., traffic flow, SINR , queue length) that vary with orchestration policy 𝐙 \mathbf{Z} , making it inherently stochastic and context-sensitive. These factors render classical techniques impractical, especially for large-scale systems with numerous applications and UEs. To address this, we employ RL, specifically DT s, which offer approximate solutions efficiently. DTs are well-suited for real-time or near-real-time decision-making in IRCs, dynamically adapting to evolving network conditions. 
+ IV Proposed Three-Step Methodology for Intent-driven Network Management 
+ In this section, we extensively discuss the three-step methodology of intent and query processing, intent validation, and application orchestration in RAN. However, these three steps at first require data from a network infrastructure. Based on the network and the system model presented in the previous section, we run extensive simulations. Simulations included providing the system with intents and running an HRL algorithm to generate training data for the proposed HDTGA which is based on the DT . Fig. 2 presents the proposed methodology at a glance. We use numerals in black circles to portray the steps of the proposed method. Generating training data is marked as the first step. Intent processing, validation, and application selection with orchestration via DT are represented as the second, third, and fourth stages in the figure. 
+ Fig. 2: Step-by-step illustration of the proposed methodology. 
+ A hierarchical Deep-Q-Network (h-DQN) having a two-level hierarchy with a meta-controller on top [ 22 ] and a controller on the bottom has been used to generate our training data. These two controllers are solely related to the h-DQN algorithm that we use to manage network-optimizing applications. Meta-controller and the controller are hosted in the strategic and tactical controller, respectively. Meta-controller in h-DQN can take in a network state (e.g., traffic class) and a goal (desired change of a performance metric extracted from an intent) to achieve. The controller in the lower level takes the action of choosing an application or combinations of them based on the state and the goal. The meta-controller is designed as a top-level application in the strategic controller (see Fig. 3 ). Applications are managed by the controller which can directly optimize system performance by initiating such applications. 
+ Let 𝒮 \mathcal{S} be the state space, 𝒜 \mathcal{A} the action space, and 𝒢 \mathcal{G} the goal space. We define the following Markov Decision Process (MDP) for the h-DQN for application selection and orchestration. 
+ 1. 
+ States: The state space consists of four elements: 𝒮 = { P C , t c ​ l ​ a ​ s ​ s , T L , P L } \mathcal{S}=\{P_{C},t_{class},T_{L},P_{L}\} . The first element of the state space is P C P_{C} , representing power consumption. Including power consumption as a state helps directly manage energy efficiency. The second element is traffic load, represented by T L T_{L} in the state space. Including traffic load as a state helps in choosing actions suitable for the overall traffic scenario. The third element is packet loss percentage ( P L P_{L} ). It is included in the state space because it is a critical QoS metric that directly impacts user experience. By including it in the MDP , the system can prioritize actions that minimize packet loss. Lastly, traffic flow types ( t c ​ l ​ a ​ s ​ s t_{class} ) of different users in the network are used as states too. Both meta-controller and controller share the same states. 
+ 2. 
+ Actions: Selecting network optimizing applications, or combinations of them is considered as actions to be performed by the controller which is defined as 𝒜 h-DQN = { A A ​ p ​ p ​ 1 , A A ​ p ​ p ​ 1 , 2 , … . , A A ​ p ​ p ​ N } \mathcal{A}_{\text{h-DQN}}=\{A_{App1},A_{App1,2},....,A_{AppN}\} . 
+ 3. 
+ Intrinsic reward: The intrinsic reward function ( r i ​ n r_{in} ) for the controller is: r i ​ n = C ρ − ϖ ​ γ q s r_{in}=C_{\rho}-\varpi\gamma_{q_{s}} . Here, C C is the magnitude of the intended performance metric the operator intends to improve. 
+ 4. 
+ Goal for the controller: Increased level of a performance metric that can satisfy operator intent is passed to the controller as goals. For example, 𝒢 = { T ​ P 1 , T ​ P 2 , … , T ​ P n } \mathcal{G}=\{TP_{1},TP_{2},...,TP_{n}\} for throughput increasing intents. 
+ 5. 
+ Extrinsic reward: Summation of the intrinsic reward over τ \tau steps. 
+ We generate RL trajectories through a sequence of steps. First, the operator provides an intent to improve a specific performance metric, such as increasing throughput by x % x\% or reducing power consumption by y % y\% , leading to a new target value. Next, the meta-controller application assigns these targets as goals for the controller. The controller then selects one or more applications to achieve the target as closely as possible. The system learns by receiving rewards based on how effective the selected applications are. Finally, the chosen applications, using DRL -based functionalities, optimize network performance in response to the operator’s intent. 
+ We run network simulations based on the system model and h-DQN -based network application selection described previously and record trajectories as an offline dataset. We represent this dataset as follows: 
+ D o ​ f ​ f ​ l ​ i ​ n ​ e = { t ​ r 1 , t ​ r 2 , t ​ r 3 , … , t ​ r n } , D_{offline}=\{tr_{1},tr_{2},tr_{3},\ldots,tr_{n}\}, 
+ (15) 
+ where t ​ r n = { g n , s n , a t n } tr_{n}=\{g_{n},s_{n},a_{t_{n}}\} . We denote goals, states, and actions as g g , s s , and a t a_{t} respectively. These data will be used at the later stage of the work to train the HDTGA algorithm for near-real-time application orchestration. Running the network infrastructure will also provide us with some crucial information about the system. For example, we can record what is the incoming traffic load or what are the available applications we have in the inventory for network optimization. This whole process in Fig. 2 is marked as “1” in a black circle. 
+ IV-A QLoRA -based fine-tuned LLM for Query and Intent Processing 
+ In this subsection of the paper, we fine-tune an LLM model using a custom dataset of query-response pairs and intents. A human operator can query for any kind of relevant network information that can be helpful in providing an intent. 
+ A dataset is built using the data we collected from the simulations. The dataset can be divided into three segments, each presenting a distinct type of data or interaction within the system. 
+ 1. 
+ Dynamic Network Information: This segment presents examples of real-time data extracted from the network. Such information changes dynamically over time as the network evolves. 
+ 2. 
+ Queries and Responses Associated with Semi-Static Information: The second segment highlights prerecorded, semi-static information that can be accessed via specific queries. This type of information remains constant if it is not explicitly modified by the system administrator. 
+ 3. 
+ Intent Prompts and Responses: The final segment provides examples of the intent prompts along with the corresponding responses. This segment is crucial for the later stages of the methodology (policy generation). 
+ Fig. 3 represents three scenarios of query and intent processing via an LLM . Using similar patterns of information, queries, and responses, hundreds or even thousands of query-response pairs can be generated. This is the kind of dataset used for fine-tuning the LLM in this research. 
+ Fig. 3: Example queries/intents with responses. 
+ Based on the custom dataset, we train the LLM using QLoRA . The problem QLoRA addresses is the need to fine-tune LLMs while using limited computational resources. Fine-tuning large models in 16-bit precision requires significant memory and high-end hardware. QLoRA offers a solution by reducing memory usage and enabling the fine-tuning of large models on a single Graphics Processing Unit (GPU) . 
+ QLoRA introduces four key techniques for efficient model fine-tuning. The first is one is 4-bit Normal Float Quantization . It reduces memory usage by quantizing model parameters into 16 discrete “buckets”. Unlike standard quantization, which poorly represents values near zero, this approach uses equally sized buckets to optimize parameter distribution. It balances memory efficiency and fidelity by ensuring better approximation of high-density regions. 
+ The second technique is Double Quantization . It addresses the limitations of standard quantization by employing a blockwise quantization approach. In conventional quantization, parameter values are mapped into a fixed range, such as [ − 127,127 ] [-127,127] , using the rescaling formula: 
+ P q ​ ( ς i ) = ⌊ ς i max ​ ( | 𝐗 | ) × 127 ⌋ . P_{q}(\varsigma_{i})=\left\lfloor\frac{\varsigma_{i}}{\text{max}(|\mathbf{X}|)}\times 127\right\rfloor. 
+ (16) 
+ However, extreme values in the tensor 𝐗 \mathbf{X} can skew this process. To mitigate this, blockwise quantization splits 𝐗 \mathbf{X} into μ \mu smaller blocks { X 1 , X 2 , … , X μ } \{X_{1},X_{2},\ldots,X_{\mu}\} , each independently scaled as: 
+ P q ​ ( X μ ) = ⌊ X μ max ​ ( | X μ | ) × 127 ⌋ . P_{q}(X_{\mu})=\left\lfloor\frac{X_{\mu}}{\text{max}(|X_{\mu}|)}\times 127\right\rfloor. 
+ (17) 
+ This approach prevents outliers from distorting the entire quantization process. 
+ The third technique associated with QLoRA is Paged Optimization . It allows offloading parts of the model to the Central Processing Unit (CPU) and retrieving them when needed if the GPU memory capacity has exceeded. This results in efficient training on resource-limited hardware. 
+ Lastly, Low Rank Adaptation (LoRA) [ 23 ] is one of the most integral parts of QLoRA which fine-tunes a pre-trained model by introducing a small, trainable set of parameters. Rather than updating all model parameters, LoRA keeps the primary model weights 𝐖 0 \mathbf{W}_{0} frozen and learns a low-rank delta matrix, Δ ​ 𝐖 \Delta\mathbf{W} as the product of two smaller matrices 𝐀 \mathbf{A} and 𝐁 \mathbf{B} : 
+ Δ ​ 𝐖 = 𝐀 ⋅ 𝐁 , \Delta\mathbf{W}=\mathbf{A}\cdot\mathbf{B}, 
+ (18) 
+ where 𝐀 ∈ ℝ d × r \mathbf{A}\in\mathbb{R}^{d\times r} and 𝐁 ∈ ℝ r × υ \mathbf{B}\in\mathbb{R}^{r\times\upsilon} with r ≪ d , υ r\ll d,\upsilon . The notations ℝ d × r \mathbb{R}^{d\times r} and ℝ r × υ \mathbb{R}^{r\times\upsilon} indicate the dimensions of the matrices 𝐀 \mathbf{A} and 𝐁 \mathbf{B} in LoRA . The fine-tuned model’s weights become: 
+ 𝐖 = 𝐖 0 + Δ ​ 𝐖 = 𝐖 0 + 𝐀 ⋅ 𝐁 . \mathbf{W}=\mathbf{W}_{0}+\Delta\mathbf{W}=\mathbf{W}_{0}+\mathbf{A}\cdot\mathbf{B}. 
+ (19) 
+ This approach effectively reduces the number of trainable parameters, allowing for efficient memory usage during fine-tuning. 
+ Together, these four techniques make QLoRA a powerful and efficient framework for fine-tuning large language models with minimal computational overhead. 
+ When fine-tuning an LLM base model, we utilized all four components of QLoRA (quantization, double quantization, paged optimization, and LoRA ) to optimize for memory and computational efficiency. The training process involved the following steps: 
+ 1. 
+ Performing a forward pass on the model (using the 4-bit quantized weights). 
+ 2. 
+ Applying double quantization to mitigate the memory overhead of quantization constants. 
+ 3. 
+ Using paged optimization to manage memory between CPU and GPU efficiently. 
+ 4. 
+ Updating only the parameters in 𝐀 \mathbf{A} and 𝐁 \mathbf{B} , as specified by LoRA, reducing the optimizer state’s memory footprint. 
+ For instance, a 10-billion parameter model that would typically require over 160 GB of memory can be fine-tuned using QLoRA with approximately 40 GB. This process enables scalability even on limited hardware. 
+ Dataset curated for fine-tuning the LLM in this work can be hard to handle via an LLM because of its temporal nature as it is supposed to change over time. As we move forward in time, the data will be outdated. To tackle such an issue, we use a RAG module [ 24 ] . It is a hybrid model architecture that combines retrieval-based methods with generative models to answer queries by accessing external knowledge bases or documents during the response generation process. RAG is especially useful when the generative model’s internal knowledge is limited, outdated, or incomplete. Given a query, a retriever model fetches relevant documents or passages from an external database, such as a corpus of texts or a custom knowledge base. The retrieved documents are then passed to the generative model along with the query. The generative model processes the query and the relevant information from the retrieved documents. It uses both the original query and the retrieved context to generate a response, typically combining knowledge from the retrieved documents to provide an accurate and coherent answer. Fig. 4 summarizes the whole process of fine-tuning an LLM model (LlaMa [ 25 ] is provided as an example in the figure) aided by a RAG module. 
+ Fig. 4: Fine-tuned LLM model with RAG. 
+ IV-B Predictive Intent Validation 
+ At this stage of the work, we present how to validate intents from a human operator. Let us explain with an example. For instance, when there is a high traffic load, an intent to increase energy efficiency can cause performance degradation. To avoid such effects, we perform intent validation using predictions of the future network states. Predictive intent validation helps ensure that network optimization actions (e.g., initiating or terminating applications) are aligned with the expected network conditions. This alignment is crucial for maintaining and enhancing performance metrics like throughput and energy efficiency. In this work, we perform a transformer-based prediction of three crucial parameters: upcoming cell aggregate traffic (traffic volume), packet loss percentage, and power consumption. To perform such predictions, we collect the data using the network’s Physical Downlink Control Channel (PDCCH) . Readers are referred to [ 26 ] for more details regarding the data collection procedure. Using the data collection methodology in [ 26 ] , the time series for predicting P L ( % ) P_{L}(\%) can be formulated as follows: 
+ P L ​ ( T ) = { P L ​ ( t 1 ) , P L ​ ( t 2 ) , P L ​ ( t 3 ) , … , P L ​ ( t n ) } . P_{L}(T)=\{P_{L}(t_{1}),P_{L}(t_{2}),P_{L}(t_{3}),\ldots,P_{L}(t_{n})\}. 
+ (20) 
+ Similarly, time-series data for power consumption ( P i ​ n ​ ( T ) P_{in}(T) ) and aggregate cell traffic load ( T L ​ ( T ) T_{L}(T) ) are also collected. For one-step prediction, a many-to-one architecture [ 26 ] is employed. P i ​ n ​ ( T ) P_{in}(T) , T L ​ ( T ) T_{L}(T) , and P L ​ ( T ) P_{L}(T) are monitored over a predetermined number of time slots up to T T and then they are predicted at the subsequent time slot, T + 1 T+1 . 
+ We use a novel transformer architecture [ 13 ] named Informer for making predictions. Informer is designed to handle lengthy time-series data. Traditional methods struggle with increasing sequence length and perform poorly. To the best of our knowledge, this is the first work to utilize this architecture for network prediction. 
+ The input to the model is represented as a time-series sequence. Each time step includes both local positional context (e.g., position embeddings) and global time stamps (e.g., Transmission Time Interval (TTI) in our case) to enhance sequence alignment. The transformer’s self-attention mechanism compares queries, keys, and values using dot-products. Informer optimizes this by computing attention only for the “dominant” queries based on their sparsity. This reduces the complexity from O ⁡ ( L 2 ) O(L^{2}) to O ⁡ ( L ​ l ​ o ​ g ​ L ) O(L\>log\>L) [ 13 ] . Here, L L represents the sequence length. 
+ Informer further improves efficiency by progressively condensing attention maps, halving sequence length at each encoder layer in a pyramid-like structure. Unlike autoregressive models, its decoder predicts the full sequence in a single pass using known sequences as start tokens to ensure long-term forecasting without accumulating errors. To further elaborate the prediction process, we present Algorithm 1. 
+ Algorithm 1 Predicting Traffic Load, Packet Loss Percentage, and Power Consumption using Informer 
+ 1: 
+ Input: 
+Time series data 𝐃 = { 𝐃 𝐭 𝟏 , 𝐃 𝐭 𝟐 , … , 𝐃 𝐭 𝐧 } \mathbf{D}=\{\mathbf{D_{t_{1}}},\mathbf{D_{t_{2}}},\ldots,\mathbf{D_{t_{n}}}\} 
+ 2: 
+ Data aggregation: 
+Cell traffic or packet loss (%) or power consumption
+ 3: 
+ Encoder input: 
+Past t steps t_{\text{steps}} time steps 𝐗 en \mathbf{X}_{\text{en}} 
+ 4: 
+ Process:
+Apply ProbSparse self-attention mechanism to achieve efficient dependency alignment:
+ A ⁡ ( Query , Key , Value) = Softmax ​ ( Query ⋅ Key T ​ r ​ a ​ n ​ s d step ) ​ V CLOSE A(\text{Query},\text{Key},\text{Value)}=\text{Softmax}\left(\frac{\text{Query}\cdot\text{Key}^{Trans}}{\sqrt{d_{\text{step}}}}\right)V 
+ 5: 
+ Output: 
+Encoded representations 𝐇 en \mathbf{H}_{\text{en}} 
+ 6: 
+ Decoder input: 
+Encoded representations 𝐇 en \mathbf{H}_{\text{en}} and previous predictions
+ 7: 
+ Process:
+Apply generative style decoding for long-sequence outputs:
+ 𝐘 de = Decoder ​ ( 𝐇 en , 𝐗 prev ) \mathbf{Y}_{\text{de}}=\text{Decoder}(\mathbf{H}_{\text{en}},\mathbf{X}_{\text{prev}}) 
+ 8: 
+ Output: 
+Predicted traffic load 𝐏 𝐋 𝐚 ​ ( 𝐭 + 𝟏 ) \mathbf{P_{L_{a}}(t+1)} , packet loss percentage 𝐏 𝐋 ​ ( 𝐭 + 𝟏 ) \mathbf{P_{L}(t+1)} , and power consumption 𝐏 𝐏 𝐜 ​ ( 𝐭 + 𝟏 ) \mathbf{P_{P_{c}}(t+1)} 
+ As shown in Algorithm 1, the encoder processes a sequence of past time steps of length t steps t_{\text{steps}} . It applies the ProbSparse self-attention mechanism [ 13 ] to reduce computational complexity by focusing on dominant queries and aligning long-term dependencies efficiently. Self-attention computes dependencies using dot products of queries and keys, weighted by similarity. The encoder generates encoded representations, which the decoder uses along with prior predictions to forecast future values. Unlike autoregressive methods, the decoder predicts entire sequences in a single forward pass which reduces cumulative errors. In Algorithm 1, 𝐘 de \mathbf{Y_{\text{de}}} represents the predicted output, while 𝐗 prev \mathbf{X_{\text{prev}}} is the previous input. This approach enables accurate long-term forecasting of traffic load 𝐏 𝐋 𝐚 ​ ( 𝐭 + 𝟏 ) \mathbf{P_{L_{a}}(t+1)} , packet loss percentage 𝐏 𝐋 ​ ( 𝐭 + 𝟏 ) \mathbf{P_{L}(t+1)} , and power consumption 𝐏 𝐏 𝐜 ​ ( 𝐭 + 𝟏 ) \mathbf{P_{P_{c}}(t+1)} 
+ Next, we fix some thresholds for these predicted values. For example, H l ​ o ​ a ​ d H_{load} is the high threshold for 𝐏 𝐋 𝐚 ​ ( 𝐭 + 𝟏 ) \mathbf{P_{L_{a}}(t+1)} , and L l ​ o ​ a ​ d L_{load} is the low threshold for the same entity. We can define these kinds of thresholds for the predictions associated with power consumption and packet loss percentage too. This leads to a set of thresholds: S t ​ h = { H l ​ o ​ a ​ d , L l ​ o ​ a ​ d , H l ​ o ​ s ​ s , L l ​ o ​ s ​ s , H p ​ c , L p ​ c } S_{th}=\{H_{load},L_{load},H_{loss},L_{loss},H_{pc},L_{pc}\} . 
+ Here, H l ​ o ​ s ​ s H_{loss} , and L l ​ o ​ s ​ s L_{loss} are the high and low thresholds for packet loss percentage. Furthermore, H p ​ c H_{pc} , L p ​ c L_{pc} are the high and low thresholds for power consumption. Predictions can either fall into the category of a high or a low threshold. If we have an intent: “Increase throughput by 12%”, the ideal situation of executing such intent would be when the predicted traffic load ( 𝐏 𝐋 𝐚 ​ ( 𝐭 + 𝟏 ) \mathbf{P_{L_{a}}(t+1)} ) is very high, which means it is higher than H l ​ o ​ a ​ d H_{load} . Also, when the predicted packet loss percentage ( 𝐏 𝐋 ​ ( 𝐭 + 𝟏 ) \mathbf{P_{L}(t+1)} ) is higher than the decided threshold, we can validate the intent. 
+ Next, intents are executed for multiple combinations of the defined thresholds in S t ​ h S_{th} based on the predicted values of packet loss, load, and power consumption. We calculate the QoS drifts while executing such intents. We form the following look-up table (Table II ): 
+ TABLE II: Table showing intent types, network state, and QoS drifts. 
+ Intent types 
+ Network states (thresholds) 
+ QoS drifts 
+ Energy 
+ 0, 1, 1 
+ 0 
+ Throughput 
+ 1, 1, 1 
+ 0 
+ Energy 
+ 1, 1, 1 
+ 1 
+ Throughput 
+ 0, 1, 1 
+ 1 
+ Throughput 
+ 0, 1, 0 
+ 0 
+ … 
+ … 
+ … 
+ Delay 
+ 1, 1, 1 
+ 0 
+ Based on the lookup table, we either validate or invalidate intents in a supervised manner. We use a threshold selection algorithm (Algorithm 2) to select the thresholds which represent the network states. These thresholds are presented in the second column of the Table II . 
+ Algorithm 2 Threshold Selection Algorithm 
+ 1: 
+ H = { ( KPI a 1 , KPI b 1 , M t ​ h 1 ) , … , ( KPI a n , KPI b n , M t ​ h n ) } H=\{(\text{KPI}_{a_{1}},\text{KPI}_{b_{1}},M_{th_{1}}),\dots,(\text{KPI}_{a_{n}},\text{KPI}_{b_{n}},M_{th_{n}})\} 
+ 2: 
+ Define ζ a \zeta_{a} and ζ b \zeta_{b} as significance thresholds for detecting significant changes in KPI a \text{KPI}_{a} and KPI b \text{KPI}_{b} , respectively
+ 3: 
+ Step 1: Each observation ( KPI a i , KPI b i , M t ​ h i ) ∈ H (\text{KPI}_{a_{i}},\text{KPI}_{b_{i}},M_{th_{i}})\in H :
+ 4: 
+ for each i = 1 i=1 to n n do 
+ 5: 
+   Analyze the relationship among: KPI a i , KPI b i , M t ​ h i \text{KPI}_{a_{i}},\text{KPI}_{b_{i}},M_{th_{i}} .
+ 6: 
+   Denote increasing relationship as R I R_{I} .
+ 7: 
+   Denote decreasing relationship as D I D_{I} .
+ 8: 
+   Calculate Δ R ​ C a = KPI a i − KPI a i − 1 KPI a i − 1 \Delta_{RC_{a}}=\frac{\text{KPI}_{a_{i}}-\text{KPI}_{a_{i-1}}}{\text{KPI}_{a_{i-1}}} .
+ 9: 
+   Calculate Δ R ​ C b = KPI b i − KPI b i − 1 KPI b i − 1 \Delta_{RC_{b}}=\frac{\text{KPI}_{b_{i}}-\text{KPI}_{b_{i-1}}}{\text{KPI}_{b_{i-1}}} .
+ 10: 
+    Condition 1: 
+ 11: 
+    if R I = 1 R_{I}=1 for KPI a i \text{KPI}_{a_{i}} or KPI b i \text{KPI}_{b_{i}} then 
+ 12: 
+    Check whether Δ R ​ C a > ζ a \Delta_{RC_{a}}>\zeta_{a} or Δ R ​ C b > ζ b \Delta_{RC_{b}}>\zeta_{b} .
+ 13: 
+    end if 
+ 14: 
+    Condition 2: 
+ 15: 
+    if D I = 1 D_{I}=1 for KPI a i \text{KPI}_{a_{i}} or KPI b i \text{KPI}_{b_{i}} then 
+ 16: 
+    Check whether Δ R ​ C a < − ζ a \Delta_{RC_{a}}<-\zeta_{a} or Δ R ​ C b < − ζ b \Delta_{RC_{b}}<-\zeta_{b} .
+ 17: 
+    end if 
+ 18: 
+    if Condition 1 is met then 
+ 19: 
+    Set T ​ h u = M t ​ h i Th_{u}=M_{th_{i}} as the upper threshold.
+ 20: 
+    end if 
+ 21: 
+    if Condition 2 is met then 
+ 22: 
+    Set T ​ h l = M t ​ h i Th_{l}=M_{th_{i}} as the lower threshold.
+ 23: 
+    end if 
+ 24: 
+ end for 
+ 25: 
+ Step 2: Continuously monitor KPI a i \text{KPI}_{a_{i}} , KPI b i \text{KPI}_{b_{i}} , and M t ​ h i M_{th_{i}} over time to detect changes
+ 26: 
+ Step 3: Adaptively refine T ​ h l Th_{l} and T ​ h u Th_{u} 
+ As presented in Algorithm 2, we determine thresholds for a predicted metric by identifying significant changes in its associated Key Performance Indicators (KPIs) . The relationships between the predicted metric and its associated KPIs can be classified into two categories: 
+ • 
+ Increasing Relationship ( R I R_{I} ): A KPI has an increasing relationship with the predicted metric if a higher KPI value indicates a performance degradation. In such cases, when the KPI value rises sharply, it signals potential network issues. 
+ • 
+ Decreasing Relationship ( D I D_{I} ): A KPI has a decreasing relationship with the predicted metric if a lower KPI value signifies performance degradation. Here, a sudden drop in the KPI value signals potential network deterioration. 
+ For example, if we want to select a higher threshold ( H l ​ o ​ a ​ d H_{load} ) for traffic load, associated crucial metrics with traffic load are delay and packet loss. According to Algorithm 2, KPI a \text{KPI}_{a} in this case is delay and KPI b \text{KPI}_{b} in this case is packet loss . Since we are seeking a threshold for traffic load, it is denoted as M th M_{\text{th}} . When higher traffic volumes cause a sharp increase in both KPI a \text{KPI}_{a} and KPI b \text{KPI}_{b} , it signals potential network performance degradation, particularly in throughput. This point is identified as the high threshold for traffic load, where throughput-enhancing applications can be triggered. 
+ To formally detect significant changes, we compute the Relative Change Factor for each KPI . For a given KPI x x , its relative change at time step i i is defined as: 
+ Δ R ​ C x = KPI x i − KPI x i − 1 KPI x i − 1 , \Delta_{RC_{x}}=\frac{\text{KPI}_{x_{i}}-\text{KPI}_{x_{i-1}}}{\text{KPI}_{x_{i-1}}}, 
+ (21) 
+ where KPI x i \text{KPI}_{x_{i}} is the current value of KPI x x , KPI x i − 1 \text{KPI}_{x_{i-1}} is the previous value of KPI x x , and Δ R ​ C x \Delta_{RC_{x}} represents the relative change between consecutive time steps. 
+ To determine whether a KPI change is significant, we introduce a thresholding factor, denoted as ζ x \zeta_{x} for each KPI x x . The value of ζ x \zeta_{x} represents the minimum percentage change required to classify a KPI variation as significant. Specifically, if Δ R ​ C x > ζ x \Delta_{RC_{x}}>\zeta_{x} , the KPI has increased significantly. On the contrary, if Δ R ​ C x < − ζ x \Delta_{RC_{x}}<-\zeta_{x} , the KPI has decreased significantly. The value of ζ x \zeta_{x} is not a fixed constant but is dynamically determined based on historical KPI variations. It is computed via percentile-based thresholding method, where ζ x \zeta_{x} is set based on the historical distribution of KPI fluctuations. 
+ According to Algorithm 2, when a predicted metric (e.g., traffic load) experiences a significant increase in its associated KPIs that have an increasing relationship ( R I R_{I} ), it signals potential network performance degradation. In this case, the corresponding value of M th M_{\text{th}} is marked as the upper threshold ( H load H_{\text{load}} ). This threshold can be used to trigger throughput-enhancing applications. 
+ Conversely, for KPIs with a decreasing relationship ( D I D_{I} ), a significant decrease in their values also signals potential issues. When such a change is detected, the corresponding M th M_{\text{th}} is marked as the lower threshold L load L_{\text{load}} . 
+ Finally, we present Algorithm 3 that summarizes the entire intent validation methodology. 
+ Algorithm 3 Intent Validation Algorithm 
+ 1: 
+ Input: Operator’s Prompt: Intent type i t y i_{t_{y}} , Network state S N S_{N} (represented by thresholds N t ​ h N_{th} ).
+ 2: 
+ Output: Intent validation result ( Valid or Invalid )
+ 3: 
+ Require : Data extracted from operator’s input and network status ( i t y ′ , S N ′ ) (i^{\prime}_{t_{y}},S^{\prime}_{N}) .
+ 4: 
+ Step 1: Identify intent type i t y i_{t_{y}} and magnitude of increase Λ \Lambda from the operator’s input.
+ 5: 
+ Step 2: Retrieve network state S N S_{N} and check Q d ​ r ​ i ​ f ​ t Q_{drift} for each intent type i t y i_{t_{y}} in the lookup table T lookup T_{\text{lookup}} .
+ 6: 
+ for each entry ( i t y , S N , Q d ​ r ​ i ​ f ​ t ) (i_{t_{y}},S_{N},Q_{drift}) in T lookup T_{\text{lookup}} do 
+ 7: 
+    if i t y = i t y ′ i_{t_{y}}=i^{\prime}_{t_{y}} and S N = S N ′ S_{N}=S^{\prime}_{N} then 
+ 8: 
+     if Q d ​ r ​ i ​ f ​ t > 0 Q_{drift}>0 then 
+ 9: 
+       Mark intent as Invalid 
+ 10: 
+       Break the loop
+ 11: 
+     else 
+ 12: 
+      Mark intent as Valid 
+ 13: 
+     end if 
+ 14: 
+    end if 
+ 15: 
+ end for 
+ 16: 
+ Step 3: If no QoS drift found in any matching entry, return Valid ; otherwise, return Invalid .
+ IV-C Application Orchestration Using Hierarchical Decision Transformer 
+ To this end, we introduced intent processing and validation. Once intents are processed and validated, our proposed scheme extends into realization of the intent through optimizing the network. For this purpose, we introduce HDTGA , a hierarchically organized DT architecture that pursues goals to achieve instead of returns-to-go in vanilla decision transformers. We aim to initiate and orchestrate network optimizing applications for intent fulfillment in a faster and near-real-time manner at test time. It is possible to use legacy network optimization intent fulfillment. However, we take this one step further by using DRL-based approaches to fulfill an intent. In real deployments these approaches can co-exist. We have developed the following optimization applications to test the utility of HDTGA : 
+ • 
+ Traffic steering: This application uses a Deep-Q-Network (DQN) -based traffic steering mechanism to optimize performance in multi- RAT networks with dual connectivity between LTE and 5G NR [ 27 ] . The proposed model dynamically allocates traffic based on QoS requirements, specifically targeting throughput and delay. 
+ • 
+ Cell sleeping: This application enables cell sleeping decisions based on traffic load ratios and the queue length of each BS [ 28 ] . The objective is to optimize energy efficiency while also ensuring that active BSs are not overloaded. 
+ • 
+ Power allocation: The power allocation application [ 29 ] tries to maximize the total throughput by selecting a power level for each resource block group of each BS . 
+ • 
+ Beamforming and power control: We also employ DQN to develop the beamforming application [ 30 ] . It uses UE coordinates as states. Actions include selecting beam steering angles and adjusting power levels. The reward function balances throughput and energy efficiency. 
+ • 
+ Energy efficient handover management : This application [ 31 ] is specifically tailored with DQN to achieve energy efficiency via optimally tailored handover policies. 
+ Fig. 5: HDTGA architecture with an offline dataset collected from the network environment. 
+ Algorithm 4 Application Orchestration Using HDTGA 
+ 1: 
+ Initialize dataset D o ​ f ​ f ​ l ​ i ​ n ​ e D_{offline} 
+ 2: 
+ Initialize meta-controller and controller in h-DQN framework
+ 3: 
+ for each intent I ∈ I I\in I do 
+ 4: 
+   Extract goal g t ∈ 𝒢 g_{t}\in\mathcal{G} from intent I I 
+ 5: 
+   Observe current network state s t ∈ 𝒮 s_{t}\in\mathcal{S} 
+ 6: 
+   Meta-controller sets g t g_{t} and observes s t s_{t} 
+ 7: 
+    g g along with s t s_{t} is passed to the controller.
+ 8: 
+   Controller chooses a t ∈ 𝒜 a_{t}\in\mathcal{A} to optimize network
+ 9: 
+   Execute action a t a_{t} in the simulated environment
+ 10: 
+   Observe s t + 1 s_{t+1} and receive intrinsic reward r i ​ n r_{in} 
+ 11: 
+   Record trajectory t ​ r i = { s t , g t , a t , r i ​ n } tr_{i}=\{s_{t},g_{t},a_{t},r_{in}\} 
+ 12: 
+   Append t ​ r i tr_{i} to D o ​ f ​ f ​ l ​ i ​ n ​ e D_{offline} 
+ 13: 
+ end for 
+ 14: 
+ Return: D o ​ f ​ f ​ l ​ i ​ n ​ e D_{offline} 
+ 15: 
+ Require a language model M LLM M_{\text{LLM}} to process custom dataset D D with prompts/queries and responses.
+ 16: 
+ Fine-tune model: M F-LLM M_{\text{F-LLM}} , for responding accurately to network-related queries and intents.
+ 17: 
+ Validtae/ Invalidate intent
+ 18: 
+ if Intent is valid then 
+ 19: 
+    Initialize g t = g t ​ a ​ r ​ g ​ e ​ t g_{t}=g_{target} from the validated intents
+ 20: 
+    Identify a t − β a_{t-\beta} from the offline dataset D o ​ f ​ f ​ l ​ i ​ n ​ e D_{offline} .
+ 21: 
+    Use meta-transformer to predict a t − β a_{t-\beta} based on s t s_{t} , g t g_{t} 
+ a t − β = MetaTransformer ​ ( s t − 1 , s t , g t ) a_{t-\beta}=\text{MetaTransformer}(s_{t-1},s_{t},g_{t}) 
+ 22: 
+    Use the control-transformer to predict a t a_{t} to achieve g t g_{t} :
+ a t = ControlTransformer ( s t − ω : t , g t , a t − β ) a_{t}=\text{ControlTransformer}(s_{t-\omega:t},g_{t},a_{t-\beta}) 
+ 23: 
+   Execute action a t a_{t} 
+ 24: 
+ end if 
+ 25: 
+ Initiate and Orchestrate network-optimizing application(s) A = { A A ​ p ​ p ​ 1 , A A ​ p ​ p ​ 2 , … } A=\{A_{App1},A_{App2},\ldots\} .
+ DTs can be extremely efficient since data associated with the past time stamps are also fed as input for taking control actions. However, the need to specify desired returns for each task creates a dependency on external task-specific knowledge, which makes decision transformers less flexible for new environments. It is difficult to generalize across diverse tasks without manually adjusting the desired returns. 
+ The proposed method (HDTGA) eliminates the need to manually specify the returns-to-go. Instead, it uses goals identified from the demonstration dataset to guide the learning process. It has a high-level mechanism that provides the past state ( t − 1 t-1 ), the current state (at t t ), and an important past action that previously reached the goal (partially fulfilling the goal is also acceptable). We use past state sequences to predict the important action every time a new goal is provided, which guides the agent through the task. It provides a way for the low-level transformer to focus on specific actions that are valuable for completing the task. It learns to predict actions that lead to goals, effectively fulfilling an intent from the operator. 
+ We refer to the transformer on top as the meta-transformer and the transformer on the bottom as the control-transformer. We present Fig. 5 displaying this bi-level architecture. In the figure, s t − 1 s_{t-1} is the past state, a t − β a_{t-\beta} is the useful action in the past that has reached the goal partially or fully, g s , t g_{s,t} is the goal to be achieved extracted from the operator intent, and a t a_{t} is the action to be taken by the control transformer at time t t . 
+ At each time step t t , the environment provides a state s t ∈ 𝒮 s_{t}\in\mathcal{S} , and the aim is to learn a policy π ⁡ ( a t | s t , g t ) \pi(a_{t}|s_{t},g_{t}) that guides towards a goal g t ∈ 𝒢 g_{t}\in\mathcal{G} . Each component, states s t s_{t} , goals g t g_{t} , and important past actions a t − β a_{t-\beta} is embedded and fed into the transformer. Here, β \beta is the time offset of the action from the past that partially achieved a goal. Let E ⁡ ( ⋅ ) E(\cdot) denote the embedding function and P ⁡ ( ⋅ ) P(\cdot) the positional encoding: 
+ • 
+ State embeddings: E ⁡ ( s t ) + P ⁡ ( t ) E(s_{t})+P(t) 
+ • 
+ Goal embeddings: E ⁡ ( g t ) + P ⁡ ( t ) E(g_{t})+P(t) 
+ • 
+ Important action embeddings: E ⁡ ( a t − β ) + P ⁡ ( t − β ) E(a_{t-\beta})+P(t-\beta) 
+ Thus, the transformer input at time t t is: 
+ tr i t = [ E ⁡ ( s t ) + P ⁡ ( t ) , E ⁡ ( g t ) + P ⁡ ( t ) , E ⁡ ( a t − β ) + P ⁡ ( t − β ) ] \text{tr}_{i_{t}}=\left[E(s_{t})+P(t),\,E(g_{t})+P(t),\,E(a_{t-\beta})+P(t-\beta)\right] 
+ (22) 
+ The self-attention mechanism within the transformer computes attention weights across these embeddings, allowing the model to attend to important past actions effectively. 
+ The meta-transformer policy π ϕ m ​ e ​ t ​ a \pi_{\phi}^{meta} identifies a significant past action a t − β a_{t-\beta} which previously achieved the goal partially or fully, based on a series of past states s t − ω : t − 1 s_{t-\omega:t-1} , the current state ( s t s_{t} ), and the desired goal ( g t g_{t} ). 
+ a t − β = π ϕ m ​ e ​ t ​ a ( s t − ω : t − 1 , s t , g t ) , a_{t-\beta}=\pi_{\phi}^{meta}(s_{t-\omega:t-1},s_{t},g_{t}), 
+ (23) 
+ where ω \omega is the window length of past states considered. 
+ The control-transformer, responsible for predicting actions at each time step t t , takes in the sequence of encoded states, goals, and important past actions. The predicted action a t a_{t} is derived by conditioning on past states and the goal: 
+ a t = π θ c ​ o ​ n ​ t ​ r ​ o ​ l ( s t − K : ω , g t , a t − β ) a_{t}=\pi_{\theta}^{control}(s_{t-K:\omega},g_{t},a_{t-\beta}) 
+ (24) 
+ The predicted action ( a t a_{t} ) in this case is the action of selecting non-conflicting applications for initiation to fulfill an intent. We propose Theorem 1 associated with the optimality of the proposed HDTGA . 
+ Theorem 1 . 
+ The Hierarchical Decision Transformer with Goal Awareness (HDTGA) learns a policy π θ ​ ( a t | s ≤ t , g t ) \pi_{\theta}(a_{t}|s_{\leq t},g_{t}) such that the expected return V π θ ​ ( s 0 , g 0 ) V^{\pi_{\theta}}(s_{0},g_{0}) is within ϵ \epsilon of the optimal expected return V ∗ ​ ( s 0 , g 0 ) V^{*}(s_{0},g_{0}) for all initial states s 0 s_{0} and goals g 0 g_{0} , i.e., 
+ | V π θ ​ ( s 0 , g 0 ) − V ∗ ​ ( s 0 , g 0 ) | ≤ ϵ , |V^{\pi_{\theta}}(s_{0},g_{0})-V^{*}(s_{0},g_{0})|\leq\epsilon, 
+ provided that the model capacity and training procedure are sufficient to minimize the empirical loss to an acceptable level. 
+ A proof of Theorem 1 is provided in Appendix A. We summarize the entire proposed method putting special focus on the application orchestration part in Algorithm 4. 
+ V Performance Evaluation 
+ This section presents a detailed performance evaluation of the proposed method. It first describes the simulation setup. Then, it provides results to show the effectiveness of the three-step methodology: intent processing, intent validation, and application orchestration for intent execution. 
+ V-A Simulation Setup 
+ The simulation setup in this study consists of a macro cell surrounded by densely deployed small cells in a multi- RAT environment. The cells serve a total of 60 users. Configurations associated with the 5G NR and LTE RATs are presented in Table III . 
+ We consider four traffic types: video, gaming, voice, and an Ultra-Reliable Low-Latency Communication (URLLC)-based use case (vehicle-to- BS data traffic). Each of these traffic types is characterized by specific inter-arrival times for packets: 12.5 ms, 40 ms, 20 ms, and 0.5 ms, respectively [ 32 ] . The arrival of data packets follows different distributions: Pareto for video [ 32 ] , Uniform for gaming [ 32 ] , and Poisson for both voice [ 33 ] and the URLLC [ 34 ] use case. In our system, we adopt different antenna configurations and frequency bands to optimize the performance across mid-band (3.5 GHz) and high-band (30 GHz) scenarios. For the mid-band, a Uniform Linear Array (ULA) with 64 antennas is deployed to enhance coverage and maintain high spectral efficiency, given the relatively lower propagation losses at this frequency. On the contrary, a Uniform Planar Array (UPA) with 128 antennas is utilized for advanced beamforming capabilities for the high-band. The bandwidths considered for these configurations are 60 MHz for the mid-band and 100 MHz for the high-band. Table III further summarizes these simulation settings along with the necessary parameters of the algorithms used in this research. 
+ TABLE III: Simulation and Algorithmic hyperparameter Settings 
+ 5G NR 
+ Bandwidth 
+ 50 50 and 100 100 MHz 
+ Carrier frequency 
+ 3.5 3.5 and 30 30 GHz [ 21 ] 
+ Max transmission power 
+ 43 43 dBm [ 35 ] 
+ Subcarrier spacing 
+ 15 15 and 60 60 KHz [ 36 ] 
+ LTE 
+ Bandwidth 
+ 40 40 MHz 
+ Carrier frequency 
+ 800 800 MHz 
+ Max transmission power 
+ 38 38 dBm [ 35 ] 
+ Subcarrier spacing 
+ 15 15 kHz 
+ DRL parameters (Network Applications) 
+ Batch size, Initial exploring steps 
+ 32 32 , 3000 3000 
+ Learning rate ( α \alpha ), discount factor ( γ \gamma ) 
+ 0.5 0.5 , 0.9 0.9 
+ Informer (Prediction) 
+ Learning rate ( α ) (\alpha) 
+ 10 − 4 10^{-4} [ 13 ] 
+ Batch size 
+ 32 32 [ 13 ] 
+ Encoder and decoder layers 
+ 4 4 and 2 2 [ 13 ] 
+ Multi-head attention in encoder 
+ 16 16 heads [ 13 ] 
+ Multi-head attention in decoder 
+ 8 8 heads [ 13 ] 
+ Dropout probability learning rate 
+ 0.1 0.1 and 1 ​ e − 4 1e^{-4} [ 13 ] 
+ HDTGA (Common) 
+ Batch size 
+ 32 32 
+ Q-value alignment weight 
+ 0.5 0.5 
+ HDTGA (Meta-transformer) 
+ Number of attention heads and layers 
+ 8 8 and 4 4 
+ Dropout and learning rate 
+ 0.1 0.1 and 1 × 10 − ​ 4 1\times 10^{-}4 
+ HDTGA (Control-transformer) 
+ Number of attention heads and layers 
+ 8 8 and 4 4 
+ Dropout and learning rate 
+ 0.1 0.1 and 1 × 10 − ​ 4 1\times 10^{-}4 
+ V-B Simulation results 
+ V-B 1 Intent and Query Processing 
+ Fig. 6: Performance comparison among the proposed intent and query processing methodology and the LLM baseline. 
+ The first set of results in this work is associated with the LLM-fine tuning based on QLoRA. The LlaMa base model is used as a baseline in this case [ 25 ] . Three crucial metrics have been used for performance comparison. These are BERTScore [ 37 ] , METEOR [ 38 ] , and semantic similarity [ 39 ] . These are commonly used metrics for evaluating LLM performance, especially in tasks like text generation, summarization, machine translation, and natural language understanding. 
+ To evaluate the model performance in terms of BERTScore , we start by taking the LlaMA-generated output and a reference text (human-annotated correct response). After that, a pre-trained BERT model is used to generate embeddings for the words in both the generated output and reference text. Lastly, we calculate the token-level cosine similarity between corresponding embeddings, following the standard BERTScore process. The BERTScores for the LlaMa base model and the QLoRA-based fine-tuned model reflect how well the LlaMA output aligns semantically with the reference text. Since BERTScore captures fine-grained token-level semantics, it provides insights into whether LlaMA’s generated text maintains the same meaning as the reference. As it can be observed from Fig. 6 , a BERTScore of 0.92 has been achieved by the fine-tuned model compared to the base model’s 0.86. This increased score indicates that the fine-tuned LlaMA model is capturing the intended meaning of the reference text more accurately than the base model. 
+ Fig. 7: Prediction curves: (a) LSTM, (b) DOT, and (c) Informer and residual plot: (d). 
+ Fig. 8: Threshold selection via performance observation: (a) H l ​ o ​ a ​ d H_{load} , (b) L l ​ o ​ a ​ d L_{load} , (c) H l ​ o ​ s ​ s H_{loss} , (d) L l ​ o ​ s ​ s L_{loss} , (e) H p ​ c H_{pc} , and (f) L p ​ c L_{pc} 
+ The METEOR score of 0.89 for the QLoRA-based fine-tuned LlaMA model compared to the base LlaMA model’s score of 0.83, indicates a clear improvement in the semantic alignment of the generated outputs after fine-tuning (See Fig. 6 ). This increase from 0.86 to 0.89 suggests that the fine-tuned LlaMA model is generating outputs that better match the reference text in terms of meaning, lexical choice (including synonyms), and word order. For intent-driven management, such as application orchestration in RAN, it is important that the model accurately conveys specific terms and instructions. The higher METEOR score for the fine-tuned model shows that it is better at preserving and incorporating these critical terms. 
+ The third metric, semantic similarity measures how similar two pieces of text are in meaning, rather than exact wording. From Fig. 6 , we can see that the proposed intent processing method outperforms the baseline in terms of semantic similarity too. A higher semantic similarity score means the fine-tuned model can better recognize and maintain the specific intent, even when the phrasing or structure might vary slightly. This is critical because misunderstandings or deviations from the intended instructions can lead to unwanted configuration of applications. 
+ V-B 2 Intent validation 
+ The core of the intent validation process in our proposed methodology is the use of a transformer architecture (Informer) to predict traffic load, power consumption, and packet loss percentage. To justify our choice of an advanced time-series forecasting method like the Informer, we compare the performance of the Informer with Long Short-Term Memory (LSTM) [ 40 ] and Generative Pre-trained Transformer 2 (GPT2)’s Decoder Only Transformer (DOT) [ 41 ] . Fig. 7 a, b, and c present the prediction curve of Informer, GPT2-DOT, and LSTM respectively against the actual traffic data. Here, prediction results are presented for traffic load only. Similar graphs and performance can also be obtained for the other two parameters: power consumption and packet loss. 
+ Next, we use the time series residual plot to evaluate the performance of the Informer architecture. Residuals are computed by subtracting the predicted values from the actual observations in the time series. When plotted over time, a fluctuating pattern (such as increasing or decreasing residuals) indicates that the model has not fully captured certain temporal structures in the data. As shown in Fig. 7 d, the residuals from the proposed Informer-based wireless traffic prediction remain dispersed around zero, showing the model’s effectiveness in capturing the underlying patterns. On the other hand, residuals of the baselines fluctuate highly. This suggests that Informer’s predictions are closer to the actual observed values compared to the baselines. Next, the Mean Absolute Error (MAE) metric is used to compare the prediction accuracy of time-series models. MAE is calculated by measuring the average absolute difference between observed and predicted values. The MAE for LSTM, DOT, and Informer is 70.5, 64.9, and 16.1, respectively. Informer achieves the lowest MAE, which indicates superior predictive accuracy. Similarly, Informer outperforms GPT2’s DOT and LSTM in predicting power consumption and packet loss (%). 
+ Fig. 9: Validation of intents based on QoS drift calculation. 
+ Fig. 10: Impact of intent validation: (a) Throughput, (b) Delay, and (c) Energy efficiency 
+ In summary, Informer outperforms two prominent benchmark models in the literature, excelling in both prediction accuracy and network efficiency. LSTM struggles to capture long-term dependencies effectively due to performance degradation with extended sequences. Even with extensive hyperparameter tuning, LSTM could not match Informer’s efficiency on long sequences. Transformer models, on the other hand, utilize their self-attention mechanism to handle long-range dependencies more proficiently. Our approach uses Informer, an encoder-decoder Transformer model. It uses ProbSparse self-attention and a generative style decoder. With explicit focus on capturing both short-term and long-term temporal dependencies through mechanisms like sequence distillation and multi-scale modeling, Informer provides way better performance than GPT2’s DOT. 
+ Predictions are categorized as high or low based on selected thresholds. Algorithm 2 determines these thresholds by detecting sudden changes in key metrics. Fig. 8 presents bar plots for setting thresholds on traffic load ( 8 a, 8 b), power consumption ( 8 c, 8 d), and packet drop rate ( 8 e, 8 f). Rectangular boxes indicate the chosen threshold values. 
+ Next, Fig. 9 shows the accuracy of the intent validation method. The X-axis represents a subset of intents, while the Y-axis shows corresponding QoS drifts. Red circles indicate incorrect validations, where intents were accepted despite QoS drifts. Only 12 out of 100 intents were incorrectly validated, achieving 88% accuracy. 
+ Without intent validation, misaligned intents impact KPIs . Fig. 10 illustrates fluctuating throughput ( 10 a), delay ( 10 b), and energy efficiency ( 10 c) without intent validation. With intent validation, KPI curves are smoother, ensuring stable performance. 
+ V-B 3 Application Orchestration 
+ Fig. 11: Performance comparison of the proposed application orchestration methodology against the baselines in terms of (a) Throughput, (b) Delay, and (c) Energy efficiency) (d) Action inference time. 
+ We compare the application orchestration performance of the proposed HDTGA with the baseline algorithms. The first baseline algorithm is using HRL that has no intent validation [ 15 ] . The second baseline scheme is using the same HRL algorithm but has an intent validation scheme. Please refer to Appendix B for more details on the HRL algorithm used as a baseline. Lastly, the third baseline algorithm used to compare the performance of HDTGA in terms of application initiation and orchestration is the vanilla DT [ 14 ] . We consider three crucial KPIs: throughput, delay, and energy efficiency. 
+ Fig. 11 a presents the performance comparison of the proposed HDTGA with the baseline schemes in terms of throughput. It gains 9.5 % 9.5\% , 23.2 % 23.2\% , and 25.2 % 25.2\% increase compared to the DT, HRL with intent validation, and HRL without intent validation, respectively. Furthermore, the proposed method achieves better performance in terms of delay as it achieves 30.4 % 30.4\% , 53.5 % 53.5\% , and 61.5 % 61.5\% reduction in delay compared to the same baselines as presented in Fig. 11 b. Lastly, we observe the performance of the proposed method in terms of energy efficiency. An increased energy efficiency of 41.1 % 41.1\% , 46.72 % 46.72\% , and 77.4 % 77.4\% is observed compared to baseline algorithms. HDTGA’s meta-transformer identifies significant past actions that previously achieved similar goals or sub-goals. Identifying the goal relevant actions eliminates unnecessary steps minimizing time spent on suboptimal tasks. As a result, the system experiences reduced delay, improved throughput, and energy efficiency. Furthermore, the proposed hierarchical structure limits action prediction to relevant historical actions rather than a full action-space search. It is highly necessary for delay-sensitive applications. This also results in less resource consumption per decision, enhancing energy efficiency. Lastly, Fig. 11 d presents a plot where we can see that the action inference time for the proposed method is lower than the baselines. This shows that the HDTGA is more computationally efficient. It enables faster decision-making, which is critical for near-real-time network automation tasks. 
+ Multiple different trajectories (state, goal, action trios) may reach the goal partially. In such cases, we can rank the goal achievement. An exponential deviation function is used to calculate the goal deviation. 
+ G d = s f ⋅ ( e | G f − G a G f | − 1 ) , G_{d}=s_{f}\cdot\left(e^{\left|\frac{G_{f}-G_{a}}{G_{f}}\right|}-1\right), 
+ (25) 
+ where G f G_{f} is the fixed goal provided by the operator to achieve, and G a G_{a} is the achieved goal, s f s_{f} is a scaling factor that controls the growth rate of the deviation. For example, if the goal to achieve based on the intent from an operator is 7 7 ms in terms of delay, the application orchestration algorithm can take action to reach such a goal. However, there is no guarantee that the system will be able to achieve that goal exactly. ( 25 ) calculates the deviation from the goal that was intended to be achieved. 
+ Fig. 12: Performance comparison in terms of goal (delay goals) deviations: proposed method vs. the baselines. 
+ In Fig. 12 , we plot the goal deviations for the proposed HDTGA and the baseline algorithms via a spider plot. The goals are associated with delays (2, 5, 7, and 11 ms). It can be observed that the proposed method results in the least amount of goal deviation. As the delay target is relaxed (e.g.,7ms to 11ms), all methods naturally show improved success in meeting the performance criteria due to increased flexibility. However, the proposed HDTGA outperforms the baselines, showing its effectiveness even under stricter delay constraints. This suggests that HDTGA is better suited for scenarios requiring stringent latency. We observed a similar performance achievement of HDGTA in terms of the other crucial KPIs such as throughput and energy efficiency too. This suggests that HDTGA maintains better alignment with the operator-defined goals, showing higher precision in achieving specific network targets. 
+ VI Conclusions 
+ This work proposes an intent-driven network management framework utilizing GenAI algorithms to address the complexities of 5G and future 6G networks. Our approach translates human-operator intents into actionable optimization policies, resulting in efficient intent processing, validation, and network policy generation. First, a QLoRA-based fine-tuned LLM enables efficient and accurate intent processing in resource-constrained environments. Second, an Informer-based predictive model anticipates three key parameters: power consumption, traffic load, and packet drop rate to enable real-time intent validation. Finally, the HDTGA framework optimizes application selection and orchestration that results in significant improvement of the network performance.
+Experimental results show clear advantages of the proposed scheme: BERTScore and semantic similarity improved by 6% and 9%, while predictive intent validation achieved 88% accuracy in eliminating performance-degrading intents. Additionally, HDTGA-based policy generation increased throughput by at least 19.3%, reduced delay by 48.5%, and improved energy efficiency by 54.9% over the baselines. These findings highlight our framework’s potential to enable adaptive, on-demand service deployment in dynamic, resource-intensive 6G environments. 
+ Acknowledgement 
+ This work has been supported by MITACS and Ericsson, NSERC Canada Research Chairs program and NSERC Collaborative Research and Training Experience Program (CREATE) under Grant 497981. 
+ References 
+ [1] 
+3GPP, “Management and Orchestration; Intent Driven Management Services for Mobile Networks,” ETSI, Technical Specification TS 28.312, March 2022, release 17. [Online]. Available: https://www.etsi.org/deliver/etsi_ts/128300_128399/128312/17.00.01_60/ts_128312v170001p.pdf 
+ [2] 
+D. M. Manias, A. Chouman, and A. Shami, “Towards Intent-Based Network Management: Large Language Models for Intent Extraction in 5G Core Networks,” in 20th DRCN , 2024, pp. 1–6.
+ [3] 
+C. Yang, X. Mi, Y. Ouyang, R. Dong, J. Guo, and M. Guizani, “SMART Intent-Driven Network Management,” IEEE Commun. Magazine , vol. 61, no. 1, pp. 106–112, 2023.
+ [4] 
+K. Dzeparoska, J. Lin, A. Tizghadam, and A. Leon-Garcia, “LLM-Based Policy Generation for Intent-Based Management of Applications,” in 19th IEEE CNSM , 2023, pp. 1–7.
+ [5] 
+J. Mcnamara  et al ., “NLP Powered Intent Based Network Management for Private 5G Networks,” IEEE Access , vol. 11, pp. 36 642–36 657, 2023.
+ [6] 
+J. Wang  et al ., “Network Meets ChatGPT: Intent Autonomous Management, Control and Operation,” Journal of Commun. and Inf. Netw. , vol. 8, no. 3, pp. 239–255, 2023.
+ [7] 
+M. Polese, L. Bonati, S. D’Oro, S. Basagni, and T. Melodia, “ColO-RAN: Developing Machine Learning-Based xApps for Open RAN Closed-Loop Control on Programmable Experimental Platforms,” IEEE Trans. on Mobile Comput. , vol. 22, no. 10, pp. 5787–5800, 2023.
+ [8] 
+M. A. Habib  et al ., “Intent-driven Intelligent Control and Orchestration in O-RAN Via Hierarchical Reinforcement Learning,” in IEEE 20th MASS , 2023, pp. 55–61.
+ [9] 
+——, “LLM-Based Intent Processing and Network Optimization Using Attention-Based Hierarchical Reinforcement Learning,” 2024. [Online]. Available: https://arxiv.org/abs/2406.06059 
+ [10] 
+A. Vaswani  et al ., “Attention Is All You Need,” CoRR , vol. abs/1706.03762, 2017. [Online]. Available: http://arxiv.org/abs/1706.03762 
+ [11] 
+T. Dettmers, A. Pagnoni, A. Holtzman, and L. Zettlemoyer, “QLoRA: Efficient Finetuning of Quantized LLMs,” 2023. [Online]. Available: https://arxiv.org/abs/2305.14314 
+ [12] 
+P. Lewis  et al ., “Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks,” 2021. [Online]. Available: https://arxiv.org/abs/2005.11401 
+ [13] 
+H. Zhou  et al ., “Informer: Beyond Efficient Transformer for Long Sequence Time-Series Forecasting,” 2021. [Online]. Available: https://arxiv.org/abs/2012.07436 
+ [14] 
+L. Chen  et al ., “Decision Transformer: Reinforcement Learning via Sequence Modeling,” 2021. [Online]. Available: https://arxiv.org/abs/2106.01345 
+ [15] 
+A. S. Vezhnevets  et al ., “FeUdal Networks for Hierarchical Reinforcement Learning,” CoRR , vol. abs/1703.01161, 2017. [Online]. Available: http://arxiv.org/abs/1703.01161 
+ [16] 
+K. Dzeparoska, A. Tizghadam, and A. Leon-Garcia, “Intent Assurance using LLMs guided by Intent Drift,” in NOMS 2024-2024 IEEE Network Operations and Management Symposium , 2024, pp. 1–7.
+ [17] 
+S. D’Oro, L. Bonati, M. Polese, and T. Melodia, “OrchestRAN: Orchestrating Network Intelligence in the Open RAN,” IEEE Trans. on Mobile Comput. , vol. 23, no. 7, pp. 7952–7968, 2024.
+ [18] 
+Y. T. Xu, D. Wu, M. Jenkin, S. Jang, X. Liu, and G. Dudek, “Optimizing Energy Saving for Wireless Networks Via Offline Decision Transformer,” in ICC 2024 , 2024, pp. 409–414.
+ [19] 
+J. Zhang  et al ., “Decision Transformers for Wireless Communications: A New Paradigm of Resource Management,” 2024. [Online]. Available: https://arxiv.org/abs/2404.05199 
+ [20] 
+3rd Generation Partnership Project (3GPP), “Study on channel model for frequencies from 0.5 to 100 ghz,” 3GPP, Technical Report TR 38.901, Jan 2020, available at: https://www.3gpp.org/ftp/Specs/archive/38_series/38.901/ .
+ [21] 
+F. B. Mismar, A. Alammouri, A. Alkhateeb, J. G. Andrews, and B. L. Evans, “Deep Learning Predictive Band Switching in Wireless Networks,” IEEE Trans. Wireless Commun , vol. 20, no. 1, pp. 96–109, 2021.
+ [22] 
+T. D. Kulkarni, K. Narasimhan, A. Saeedi, and J. B. Tenenbaum, “Hierarchical Deep Reinforcement Learning: Integrating Temporal Abstraction and Intrinsic Motivation,” CoRR , vol. abs/1604.06057, 2016.
+ [23] 
+E. J. Hu  et al ., “LoRA: Low-Rank Adaptation of Large Language Models,” 2021. [Online]. Available: https://arxiv.org/abs/2106.09685 
+ [24] 
+P. Lewis  et al ., “Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks,” 2021. [Online]. Available: https://arxiv.org/abs/2005.11401 
+ [25] 
+H. Touvron  et al ., “LLaMA: Open and Efficient Foundation Language Models,” arXiv preprint arXiv:2302.13971 , 2023.
+ [26] 
+M. A. Habib  et al ., “Transformer-Based Wireless Traffic Prediction and Network Optimization in O-RAN,” arXiv preprint arXiv:2403.10808 , Mar. 2024.
+ [27] 
+——, “Traffic Steering for 5G Multi-RAT Deployments Using Deep Reinforcement Learning,” in IEEE 20th CCNC , 2023, pp. 164–169.
+ [28] 
+H. Zhou, M. Elsayed, M. Bavand, R. Gaigalas, S. Furr, and M. Erol-Kantarci, “Cooperative Hierarchical Deep Reinforcement Learning Based Joint Sleep and Power Control in RIS-Aided Energy-Efficient RAN,” IEEE Trans. on Cogn. Commun. Netw. , pp. 1–1, 2024.
+ [29] 
+H. Zhang, H. Zhou, and M. Erol-Kantarci, “Team Learning-Based Resource Allocation for Open Radio Access Network (O-RAN),” in ICC 2022 , 2022, pp. 4938–4943.
+ [30] 
+F. B. Mismar, B. L. Evans, and A. Alkhateeb, “Deep Reinforcement Learning for 5G Networks: Joint Beamforming, Power Control, and Interference Coordination,” IEEE Trans. Commun. , vol. 68, no. 3, pp. 1581–1592, 2020.
+ [31] 
+Y. Song, S. H. Lim, and S.-W. Jeon, “Handover Decision Making for Dense HetNets: A Reinforcement Learning Approach,” IEEE Access , vol. 11, pp. 24 737–24 751, 2023.
+ [32] 
+J. Navarro-Ortiz, P. Romero-Diaz, S. Sendra, P. Ameigeiras, J. J. Ramos-Munoz, and J. M. Lopez-Soler, “A Survey on 5G Usage Scenarios and Traffic Models,” IEEE Commun. Surveys Tuts , vol. 22, no. 2, pp. 905–929, 2020.
+ [33] 
+S. Bothe, H. N. Qureshi, and A. Imran, “Which Statistical Distribution Best Characterizes Modern Cellular Traffic and What Factors Could Predict Its Spatiotemporal Variability?” IEEE Commun. Lett. , vol. 23, no. 5, pp. 810–813, 2019.
+ [34] 
+M. Elsayed and M. Erol-Kantarci, “AI-Enabled Radio Resource Allocation in 5G for URLLC and eMBB Users,” in 2019 IEEE 2nd 5GWF , 2019, pp. 590–595.
+ [35] 
+E. Dahlman, S. Parkvall, and J. Skold, 4G, LTE-Advanced Pro and The Road to 5G, Third Edition , 3rd ed. USA: Academic Press, Inc., 2016.
+ [36] 
+T. S. Rappaport  et al ., “Millimeter Wave Mobile Communications for 5G Cellular: It Will Work!” IEEE Access , vol. 1, pp. 335–349, 2013.
+ [37] 
+T. Zhang, V. Kishore, F. Wu, K. Q. Weinberger, and Y. Artzi, “BERTScore: Evaluating Text Generation with BERT,” CoRR , vol. abs/1904.09675, 2019. [Online]. Available: http://arxiv.org/abs/1904.09675 
+ [38] 
+A. Lavie and A. Agarwal, “Meteor: An Automatic Metric for MT Evaluation with High Levels of Correlation with Human Judgments,” in Proceedings of the Second Workshop on Statistical Machine Translation , ser. StatMT ’07. USA: Association for Computational Linguistics, 2007, p. 228–231.
+ [39] 
+J. Devlin, M. Chang, K. Lee, and K. Toutanova, “BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding,” CoRR , vol. abs/1810.04805, 2018. [Online]. Available: http://arxiv.org/abs/1810.04805 
+ [40] 
+H. D. Trinh, L. Giupponi, and P. Dini, “Mobile Traffic Prediction from Raw Data Using LSTM Networks,” in IEEE 29th PIMRC , 2018, pp. 1827–1832.
+ [41] 
+A. Radford, J. Wu, R. Child, D. Luan, D. Amodei, and I. Sutskever, “Language Models are Unsupervised Multitask Learners,” 2019, openAI technical report. [Online]. Available: https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf 
+ Appendix A 
+ Proof. Consider a Markov Decision Process (MDP) defined by the tuple ( 𝒮 , 𝒜 , 𝒢 , P , R , γ ) (\mathcal{S},\mathcal{A},\mathcal{G},P,R,\gamma) , where: 
+ • 
+ 𝒮 \mathcal{S} is a finite set of states, 
+ • 
+ 𝒜 \mathcal{A} is a finite set of actions, 
+ • 
+ 𝒢 \mathcal{G} is a set of goals, 
+ • 
+ P : 𝒮 × 𝒜 × 𝒮 → [ 0 , 1 ] P:\mathcal{S}\times\mathcal{A}\times\mathcal{S}\rightarrow[0,1] is the state transition probability, 
+ • 
+ R : 𝒮 × 𝒜 × 𝒢 → ℝ R:\mathcal{S}\times\mathcal{A}\times\mathcal{G}\rightarrow\mathbb{R} is the reward function dependent on goals, 
+ • 
+ γ ∈ [ 0 , 1 ) \gamma\in[0,1) is the discount factor. 
+ Assume that: 
+ 1. 
+ The reward function R ⁡ ( s , a , g ) R(s,a,g) is bounded: | R ⁡ ( s , a , g ) | ≤ R max |R(s,a,g)|\leq R_{\text{max}} . 
+ 2. 
+ The state transition probabilities and reward function satisfy the Lipschitz condition with respect to a suitable metric. 
+ 3. 
+ The offline dataset 𝒟 offline \mathcal{D}_{\text{offline}} covers the state-action-goal space sufficiently, ensuring that all state-action-goal triples have been observed with non-zero probability. 
+ We will prove the theorem by leveraging the properties of sequence modeling in the HDTGA architecture and its relation to the Bellman optimality equation. 
+ The optimal action-value function Q ∗ ​ ( s , a , g ) Q^{*}(s,a,g) satisfies the Bellman equation: 
+ Q ∗ ​ ( s , a , g ) = 𝔼 s ′ ​ [ R ⁡ ( s , a , g ) + γ ​ max a ′ ​ Q ∗ ​ ( s ′ , a ′ , g ) ] , Q^{*}(s,a,g)=\mathbb{E}_{s^{\prime}}\left[R(s,a,g)+\gamma\max_{a^{\prime}}Q^{*}(s^{\prime},a^{\prime},g)\right], 
+ where s ′ s^{\prime} is the next state resulting from action a a in state s s . 
+ The HDTGA policy π θ \pi_{\theta} is designed to predict actions based on the sequence of past states s ≤ t s_{\leq t} , goals g t g_{t} , and important past actions a t − β a_{t-\beta} identified by the meta-transformer: 
+ a t = π θ ​ ( s ≤ t , g t , a t − β ) . a_{t}=\pi_{\theta}(s_{\leq t},g_{t},a_{t-\beta}). 
+ The meta-transformer helps focus the policy on relevant past experiences that are critical for achieving the goal g t g_{t} . 
+ Assuming that the transformer model has sufficient capacity, it can approximate any function, including the optimal policy π ∗ \pi^{*} . Specifically, for any Γ > 0 \Gamma>0 , there exists a parameter θ \theta such that: 
+ 𝔼 ( s , g ) ∼ 𝒟 ​ [ ‖ π θ ​ ( s ≤ t , g t , a t − β ) − π ∗ ​ ( s , g ) ‖ 2 ] ≤ Γ , \mathbb{E}_{(s,g)\sim\mathcal{D}}\left[\|\pi_{\theta}(s_{\leq t},g_{t},a_{t-\beta})-\pi^{*}(s,g)\|^{2}\right]\leq\Gamma, 
+ where 𝒟 \mathcal{D} is the distribution of states and goals in the offline dataset. 
+ The error in the policy translates to an error in the value function V π θ ​ ( s , g ) V^{\pi_{\theta}}(s,g) . Using standard results from approximate dynamic programming, the difference between the value functions satisfies: 
+ | V π θ ​ ( s , g ) − V ∗ ​ ( s , g ) | ≤ 2 ​ Γ ​ R max ( 1 − γ ) 2 . |V^{\pi_{\theta}}(s,g)-V^{*}(s,g)|\leq\frac{2\Gamma R_{\text{max}}}{(1-\gamma)^{2}}. 
+ This inequality arises from the Lipschitz continuity of the Bellman operator and the contraction property with factor γ \gamma . 
+ The assumption that the offline dataset 𝒟 offline \mathcal{D}_{\text{offline}} sufficiently covers the state-action-goal space ensures that the model can learn the necessary state-action dependencies to approximate π ∗ \pi^{*} . Specifically, for all ( s , a , g ) (s,a,g) , the dataset provides samples such that: 
+ P 𝒟 ​ ( s , a , g ) > 0 . P_{\mathcal{D}}(s,a,g)>0. 
+ Combining the above results, we have: 
+ | V π θ ​ ( s , g ) − V ∗ ​ ( s , g ) | ≤ ϵ = 2 ​ δ ​ R max ( 1 − γ ) 2 . |V^{\pi_{\theta}}(s,g)-V^{*}(s,g)|\leq\epsilon=\frac{2\delta R_{\text{max}}}{(1-\gamma)^{2}}. 
+ By choosing Γ \Gamma appropriately (through model capacity and training), we can make ϵ \epsilon arbitrarily small. 
+ Appendix B 
+ We use FeUDal Network as our HRL baseline to compare the application orchestration performance of the proposed HDTGA algorithm. Structure of FeUdal Network for our use case is as follows: 
+ Perceptual Module ( f percept ) (f_{\text{percept}}) : It processes network observations ( x t ) (x_{t}) into a shared latent representation ( z t ) (z_{t}) . It takes traffic classes, load, power consumption, packet drop percentage as input and outputs ( z t ) (z_{t}) . 
+ Manager: Operates at a lower temporal resolution, setting directional goals for the Worker. It learns high-level latent goals ( g t ) (g_{t}) to improve network performance. Updates take place via transition policy gradients: 
+ ∇ g t = A t ⋅ ∇ θ cos ( s → t + c − s → t , g t ( θ ) ) \nabla g_{t}=A_{t}\cdot\nabla_{\theta}\cos(\vec{s}_{t+c}-\vec{s}_{t},g_{t}(\theta)) 
+ Worker: It executes primitive actions to achieve goals set by the Manager. Takes latent state ( z t ) (z_{t}) , current observation x t x_{t} , and Manager’s goal g t g_{t} as input outputting probabilities over primitive actions optimized by intrinsic rewards: 
+ R I = 1 c ​ ∑ i = 1 c cos ⁡ ( s → t − s → t − i , g t − i ) R_{I}=\frac{1}{c}\sum_{i=1}^{c}\cos(\vec{s}_{t}-\vec{s}_{t-i},g_{t-i}) 
+ The process of implementing a FeUdal Network for HRL is as follows: 
+ • 
+ Manager observes the state s t s_{t} 
+ • 
+ Predicts a directional goal ( g t g_{t} ) in latent space. 
+ • 
+ Goal communicated to the Worker. 
+ • 
+ Worker receives g t g_{t} , current state, and observation. 
+ • 
+ Selects (worker) an action a t a_{t} using its policy. 
+ • 
+ Executes action in the environment. 
+ • 
+ Environment provides extrinsic reward ( R E R_{E} ). 
+ • 
+ Intrinsic reward R I R_{I} assigned to the Worker for achieving directional goals. 
+ • 
+ Manager updates goal-generation policy using transition policy gradients. 
+ • 
+ Worker updates action-selection policy using advantage actor-critic. 
+ Our goals are already defined abstractly (e.g., “Increase throughput by 10%,” “Minimize delay to 1 ms”). These goals can be numerically represented as directional changes in specific performance metrics: 
+ g t = { Δ ​ Throughput , Δ ​ Energy efficiency , … , Δ ​ Delay } g_{t}=\{\Delta\text{Throughput},\Delta\text{Energy efficiency},\ldots,\Delta\text{Delay}\} 
+ For example: 
+ • 
+ Intent: “Increase throughput by 10 % 10\% .” 
+ • 
+ Current throughput: 200 200 Mbps. 
+ • 
+ Goal vector: g t = { 220 ​  Mbps , 0 , 0 } g_{t}=\{220\text{ Mbps},0,0\} (indicating only throughput improvement). 
+ To embed goals into latent space a learnable linear transformation ( ϕ \phi ) is used to map goals into a latent embedding: 
+ w ⁡ ( t ) = ϕ ⁡ ( g t ) = W ​ g t . w(t)=\phi(g_{t})=Wg_{t}. 
+ Here, W W is a learned weight matrix. This ensures that abstract goals are translated into a compact, meaningful representation. 
+ The Worker uses the embedded goal w t w_{t} to decide which primitive actions (e.g., traffic steering, beamforming) to execute. The goal embedding is multiplied with the action embeddings U t U_{t} : 
+ π ⁡ ( a t | s t , g t ) = Softmax ​ ( U t ​ w t ) \pi(a_{t}|s_{t},g_{t})=\text{Softmax}(U_{t}w_{t}) 
+ The embedding ϕ \phi and worker’s action embedding U t U_{t} are trained together. 
+ Glossary 
+ BS 
+ Base Station 
+ CDL 
+ Clustered Delay Line 
+ CPU 
+ Central Processing Unit 
+ DQN 
+ Deep-Q-Network 
+ DRL 
+ Deep RL 
+ DT 
+ Decision Transformer 
+ GenAI 
+ Generative AI 
+ GPU 
+ Graphics Processing Unit 
+ h-DQN 
+ hierarchical Deep-Q-Network 
+ HDTGA 
+ Hierarchical Decision Transformer with Goal Awareness 
+ HRL 
+ Hierarchical RL 
+ IRCs 
+ Intelligent RAN Controllers 
+ KPI 
+ Key Performance Indicator 
+ LLM 
+ Large Language Model 
+ LoRA 
+ Low Rank Adaptation 
+ LOS 
+ Line-of-Sight 
+ LSTF 
+ Long Sequence Time Series Forecasting 
+ LSTM 
+ Long Short-Term Memory 
+ MDP 
+ Markov Decision Process 
+ NLOS 
+ Non-Line-of-Sight 
+ NLP 
+ Natural Language Processing 
+ OFDM 
+ Orthogonal Frequency Division Multiplexing 
+ Open RAN 
+ Open Radio Access Network 
+ PDCCH 
+ Physical Downlink Control Channel 
+ QLoRA 
+ Quantized Low Rank Adapter 
+ QoS 
+ Quality of Service 
+ RAG 
+ Retrieval Augmented Generation 
+ RAN 
+ Radio Access Network 
+ RAT 
+ Radio Access Technology 
+ RL 
+ Reinforcement Learning 
+ SINR 
+ Signal-to-Interference-plus-Noise Ratio 
+ SLA 
+ Service Level Agreement 
+ TTI 
+ Transmission Time Interval 
+ UE 
+ User Equipment 
+ Experimental support, please
+ view the build logs 
+ for errors. Generated by
+ L
+ A 
+ T
+ E 
+ xml 
+ .
+ Instructions for reporting errors 
+ We are continuing to improve HTML versions of papers, and your feedback helps enhance accessibility and mobile
+ support. To report errors in the HTML that will help us improve conversion and rendering, choose any of the
+ methods listed below: 
+ Click the "Report Issue" ( 
+ ) button, located in the page header. 
+ Tip: You can select the relevant text first, to include it in your report. 
+ Our team has already identified the following issues . We appreciate your time reviewing and reporting rendering errors we
+ may not have found yet. Your efforts will help us improve the HTML versions for all readers, because disability
+ should not be a barrier to accessing research. Thank you for your continued support in championing open access for
+ all. 
+ Have a free development cycle? Help support accessibility at arXiv! Our collaborators at LaTeXML maintain a list of packages that need conversion , and welcome developer contributions . 
+ We gratefully acknowledge support from
+ our major funders ,
+ member institutions , ,
+ and all contributors.
+ About 
+ · 
+ Help 
+ · 
+ Contact 
+ · 
+ Subscribe 
+ · 
+ Copyright 
+ · 
+ Privacy 
+ · 
+ Accessibility 
+ · 
+ Operational Status (opens in new tab) 
+ Major funding support from 

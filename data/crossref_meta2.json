@@ -1,0 +1,359 @@
+{
+ "10.1109/TWC.2024.3396273": {
+  "title": "Empowering Traffic Steering in 6G Open RAN With Deep Reinforcement Learning",
+  "authors": [
+   "Fatemeh Kavehmadavani",
+   "Van-Dinh Nguyen",
+   "Thang X. Vu",
+   "Symeon Chatzinotas"
+  ],
+  "year": 2024,
+  "venue": "IEEE Transactions on Wireless Communications",
+  "short_venue": "IEEE Trans. Wireless Commun.",
+  "type": "journal-article",
+  "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+  "event": null,
+  "volume": "23",
+  "issue": "10",
+  "page": "12782-12798",
+  "abstract": null,
+  "references_count": 46,
+  "is_referenced_by_count": 25,
+  "url": "https://doi.org/10.1109/twc.2024.3396273",
+  "license": [
+   "https://creativecommons.org/licenses/by/4.0/legalcode"
+  ],
+  "subject": []
+ },
+ "10.1109/TNSM.2024.3392945": {
+  "title": "SFCPlanner: An Online SFC Planning Approach With SRv6 Flow Steering",
+  "authors": [
+   "Changhao Qiu",
+   "Bangbang Ren",
+   "Lailong Luo",
+   "Guoming Tang",
+   "Deke Guo"
+  ],
+  "year": 2024,
+  "venue": "IEEE Transactions on Network and Service Management",
+  "short_venue": "IEEE Trans. Netw. Serv. Manage.",
+  "type": "journal-article",
+  "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+  "event": null,
+  "volume": "21",
+  "issue": "4",
+  "page": "4625-4638",
+  "abstract": null,
+  "references_count": 51,
+  "is_referenced_by_count": 3,
+  "url": "https://doi.org/10.1109/tnsm.2024.3392945",
+  "license": [
+   "https://ieeexplore.ieee.org/Xplorehelp/downloads/license-information/IEEE.html",
+   "https://doi.org/10.15223/policy-029",
+   "https://doi.org/10.15223/policy-037"
+  ],
+  "subject": []
+ },
+ "10.1109/JSAC.2023.3242711": {
+  "title": "Service Delay Minimization for Federated Learning Over Mobile Devices",
+  "authors": [
+   "Rui Chen",
+   "Dian Shi",
+   "Xiaoqi Qin",
+   "Dongjie Liu",
+   "Miao Pan",
+   "Shuguang Cui"
+  ],
+  "year": 2023,
+  "venue": "IEEE Journal on Selected Areas in Communications",
+  "short_venue": "IEEE J. Select. Areas Commun.",
+  "type": "journal-article",
+  "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+  "event": null,
+  "volume": "41",
+  "issue": "4",
+  "page": "990-1006",
+  "abstract": null,
+  "references_count": 40,
+  "is_referenced_by_count": 52,
+  "url": "https://doi.org/10.1109/jsac.2023.3242711",
+  "license": [
+   "https://ieeexplore.ieee.org/Xplorehelp/downloads/license-information/IEEE.html",
+   "https://ieeexplore.ieee.org/Xplorehelp/downloads/license-information/IEEE.html",
+   "https://doi.org/10.15223/policy-029"
+  ],
+  "subject": []
+ },
+ "10.1109/TMC.2022.3188013": {
+  "title": "ColO-RAN: Developing Machine Learning-Based xApps for Open RAN Closed-Loop Control on Programmable Experimental Platforms",
+  "authors": [
+   "Michele Polese",
+   "Leonardo Bonati",
+   "Salvatore D'Oro",
+   "Stefano Basagni",
+   "Tommaso Melodia"
+  ],
+  "year": 2023,
+  "venue": "IEEE Transactions on Mobile Computing",
+  "short_venue": "IEEE Trans. on Mobile Comput.",
+  "type": "journal-article",
+  "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+  "event": null,
+  "volume": "22",
+  "issue": "10",
+  "page": "5787-5800",
+  "abstract": null,
+  "references_count": 53,
+  "is_referenced_by_count": 217,
+  "url": "https://doi.org/10.1109/tmc.2022.3188013",
+  "license": [
+   "https://ieeexplore.ieee.org/Xplorehelp/downloads/license-information/IEEE.html",
+   "https://ieeexplore.ieee.org/Xplorehelp/downloads/license-information/IEEE.html",
+   "https://doi.org/10.15223/policy-029"
+  ],
+  "subject": []
+ },
+ "10.1109/JSAC.2020.3000405": {
+  "title": "RouteNet: Leveraging Graph Neural Networks for Network Modeling and Optimization in SDN",
+  "authors": [
+   "Krzysztof Rusek",
+   "Jose Suarez-Varela",
+   "Paul Almasan",
+   "Pere Barlet-Ros",
+   "Albert Cabellos-Aparicio"
+  ],
+  "year": 2020,
+  "venue": "IEEE Journal on Selected Areas in Communications",
+  "short_venue": "IEEE J. Select. Areas Commun.",
+  "type": "journal-article",
+  "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+  "event": null,
+  "volume": "38",
+  "issue": "10",
+  "page": "2260-2270",
+  "abstract": null,
+  "references_count": 34,
+  "is_referenced_by_count": 362,
+  "url": "https://doi.org/10.1109/jsac.2020.3000405",
+  "license": [
+   "https://ieeexplore.ieee.org/Xplorehelp/downloads/license-information/IEEE.html",
+   "https://doi.org/10.15223/policy-029",
+   "https://doi.org/10.15223/policy-037"
+  ],
+  "subject": []
+ },
+ "10.1109/TNSM.2021.3093302": {
+  "title": "DeepCC: Multi-Agent Deep Reinforcement Learning Congestion Control for Multi-Path TCP Based on Self-Attention",
+  "authors": [
+   "Bo He",
+   "Jingyu Wang",
+   "Qi Qi",
+   "Haifeng Sun",
+   "Jianxin Liao",
+   "Chunning Du",
+   "Xiang Yang",
+   "Zhu Han"
+  ],
+  "year": 2021,
+  "venue": "IEEE Transactions on Network and Service Management",
+  "short_venue": "IEEE Trans. Netw. Serv. Manage.",
+  "type": "journal-article",
+  "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+  "event": null,
+  "volume": "18",
+  "issue": "4",
+  "page": "4770-4788",
+  "abstract": null,
+  "references_count": 55,
+  "is_referenced_by_count": 55,
+  "url": "https://doi.org/10.1109/tnsm.2021.3093302",
+  "license": [
+   "https://ieeexplore.ieee.org/Xplorehelp/downloads/license-information/IEEE.html",
+   "https://doi.org/10.15223/policy-029",
+   "https://doi.org/10.15223/policy-037"
+  ],
+  "subject": []
+ },
+ "10.1109/TNET.2018.2884791": {
+  "title": "Low-Latency Scheduling in MPTCP",
+  "authors": [
+   "Per Hurtig",
+   "Karl-Johan Grinnemo",
+   "Anna Brunstrom",
+   "Simone Ferlin",
+   "Ozgu Alay",
+   "Nicolas Kuhn"
+  ],
+  "year": 2019,
+  "venue": "IEEE/ACM Transactions on Networking",
+  "short_venue": "IEEE/ACM Trans. Networking",
+  "type": "journal-article",
+  "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+  "event": null,
+  "volume": "27",
+  "issue": "1",
+  "page": "302-315",
+  "abstract": null,
+  "references_count": 50,
+  "is_referenced_by_count": 121,
+  "url": "https://doi.org/10.1109/tnet.2018.2884791",
+  "license": [
+   "https://ieeexplore.ieee.org/Xplorehelp/downloads/license-information/OAPA.html"
+  ],
+  "subject": []
+ },
+ "10.1109/TMC.2012.196": {
+  "title": "Interference Alignment for Cooperative Femtocell Networks: A Game-Theoretic Approach",
+  "authors": [
+   "Francesco Pantisano",
+   "Mehdi Bennis",
+   "Walid Saad",
+   "Merouane Debbah",
+   "Matti Latva-aho"
+  ],
+  "year": 2013,
+  "venue": "IEEE Transactions on Mobile Computing",
+  "short_venue": "IEEE Trans. on Mobile Comput.",
+  "type": "journal-article",
+  "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+  "event": null,
+  "volume": "12",
+  "issue": "11",
+  "page": "2233-2246",
+  "abstract": null,
+  "references_count": 56,
+  "is_referenced_by_count": 83,
+  "url": "https://doi.org/10.1109/tmc.2012.196",
+  "license": [
+   "https://ieeexplore.ieee.org/Xplorehelp/downloads/license-information/IEEE.html"
+  ],
+  "subject": []
+ },
+ "10.1109/TNSM.2016.2569020": {
+  "title": "Orchestrating Virtualized Network Functions",
+  "authors": [
+   "Faizul Bari",
+   "Shihabur Rahman Chowdhury",
+   "Reaz Ahmed",
+   "Raouf Boutaba",
+   "Otto Carlos Muniz Bandeira Duarte"
+  ],
+  "year": 2016,
+  "venue": "IEEE Transactions on Network and Service Management",
+  "short_venue": "IEEE Trans. Netw. Serv. Manage.",
+  "type": "journal-article",
+  "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+  "event": null,
+  "volume": "13",
+  "issue": "4",
+  "page": "725-739",
+  "abstract": null,
+  "references_count": 39,
+  "is_referenced_by_count": 359,
+  "url": "https://doi.org/10.1109/tnsm.2016.2569020",
+  "license": [
+   "https://ieeexplore.ieee.org/Xplorehelp/downloads/license-information/IEEE.html"
+  ],
+  "subject": []
+ },
+ "10.1016/j.comcom.2019.04.008": {
+  "title": "Network Service Orchestration: A survey",
+  "authors": [
+   "Nathan F. Saraiva de Sousa",
+   "Danny A. Lachos Perez",
+   "Raphael V. Rosa",
+   "Mateus A.S. Santos",
+   "Christian Esteve Rothenberg"
+  ],
+  "year": 2019,
+  "venue": "Computer Communications",
+  "short_venue": "Computer Communications",
+  "type": "journal-article",
+  "publisher": "Elsevier BV",
+  "event": null,
+  "volume": "142-143",
+  "issue": null,
+  "page": "69-94",
+  "abstract": null,
+  "references_count": 158,
+  "is_referenced_by_count": 114,
+  "url": "https://doi.org/10.1016/j.comcom.2019.04.008",
+  "license": [
+   "https://www.elsevier.com/tdm/userlicense/1.0/",
+   "https://www.elsevier.com/legal/tdmrep-license"
+  ],
+  "subject": []
+ },
+ "10.1109/MNET.001.1900252": {
+  "title": "AI-Driven Zero Touch Network and Service Management in 5G and Beyond: Challenges and Research Directions",
+  "authors": [
+   "Chafika Benzaid",
+   "Tarik Taleb"
+  ],
+  "year": 2020,
+  "venue": "IEEE Network",
+  "short_venue": "IEEE Network",
+  "type": "journal-article",
+  "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+  "event": null,
+  "volume": "34",
+  "issue": "2",
+  "page": "186-194",
+  "abstract": null,
+  "references_count": 16,
+  "is_referenced_by_count": 283,
+  "url": "https://doi.org/10.1109/mnet.001.1900252",
+  "license": [
+   "https://ieeexplore.ieee.org/Xplorehelp/downloads/license-information/IEEE.html",
+   "https://doi.org/10.15223/policy-029",
+   "https://doi.org/10.15223/policy-037"
+  ],
+  "subject": []
+ },
+ "10.1109/MWC.009.00366": {
+  "title": "Toward Zero-Touch Management and Orchestration of Massive Deployment of Network Slices in 6G",
+  "authors": [
+   "Hatim Chergui",
+   "Adlen Ksentini",
+   "Luis Blanco",
+   "Christos Verikoukis"
+  ],
+  "year": 2022,
+  "venue": "IEEE Wireless Communications",
+  "short_venue": "IEEE Wireless Commun.",
+  "type": "journal-article",
+  "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+  "event": null,
+  "volume": "29",
+  "issue": "1",
+  "page": "86-93",
+  "abstract": null,
+  "references_count": 15,
+  "is_referenced_by_count": 54,
+  "url": "https://doi.org/10.1109/mwc.009.00366",
+  "license": [
+   "https://ieeexplore.ieee.org/Xplorehelp/downloads/license-information/IEEE.html",
+   "https://doi.org/10.15223/policy-029",
+   "https://doi.org/10.15223/policy-037"
+  ],
+  "subject": []
+ },
+ "10.1109/TNSM.2021.3105616": {
+  "__error__": "HTTP Error 404: Not Found"
+ },
+ "10.1109/COMST.2023.3264334": {
+  "__error__": "HTTP Error 404: Not Found"
+ },
+ "10.1109/INFCOM.2019.8737649": {
+  "__error__": "HTTP Error 404: Not Found"
+ },
+ "10.1109/TCOMM.2016.2539169": {
+  "__error__": "HTTP Error 404: Not Found"
+ },
+ "10.1109/SECON.2019.8824865": {
+  "__error__": "HTTP Error 404: Not Found"
+ },
+ "10.1109/TVT.2019.2902114": {
+  "__error__": "HTTP Error 404: Not Found"
+ }
+}

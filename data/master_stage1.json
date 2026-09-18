@@ -1,0 +1,2318 @@
+[
+ {
+  "src_key": "F01",
+  "title": "Cellular Network Traffic Scheduling With Deep Reinforcement Learning",
+  "authors": [
+   "Sandeep Chinchali",
+   "Pan Hu",
+   "Tianshu Chu",
+   "Manu Sharma",
+   "Manu Bansal",
+   "Rakesh Misra",
+   "Marco Pavone",
+   "Sachin Katti"
+  ],
+  "year": 2018,
+  "venue": "Proceedings of the AAAI Conference on Artificial Intelligence",
+  "doi": "10.1609/aaai.v32i1.11339",
+  "type": "journal-article",
+  "abstract": "Modern mobile networks are facing unprecedented growth in demand due to a new class of traffic from Internet of Things (IoT) devices such as smart wearables and autonomous cars. Future networks must schedule delay-tolerant software updates, data backup, and other transfers from IoT devices while maintaining strict service guarantees for conventional real-time applications such as voice-calling and video. This problem is extremely challenging because conventional traffic is highly dynamic across space and time, so its performance is significantly impacted if all IoT traffic is scheduled immediately when it originates. In this paper, we present a reinforcement learning (RL) based scheduler that can dynamically adapt to traffic variation, and to various reward functions set by network operators, to optimally schedule IoT traffic. Using 4 weeks of real network data from downtown Melbourne, Australia spanning diverse traffic patterns, we demonstrate that our RL scheduler can enable mobile networks to carry 14.7% more data with minimal impact on existing traffic, and outpeforms heuristic schedulers by more than 2x. Our work is a valuable step towards designing autonomous, \"self-driving\" networks that learn to manage themselves from past data.",
+  "source_url": "https://doi.org/10.1609/aaai.v32i1.11339",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F02",
+  "title": "Intelligent Resource Scheduling for 5G Radio Access Network Slicing",
+  "authors": [
+   "Mu Yan",
+   "Gang Feng",
+   "Jianhong Zhou",
+   "Yao Sun",
+   "Ying-Chang Liang"
+  ],
+  "year": 2019,
+  "venue": "IEEE Transactions on Vehicular Technology",
+  "doi": "10.1109/tvt.2019.2922668",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/tvt.2019.2922668",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F03",
+  "title": "Deep Reinforcement Learning for Dynamic Uplink/Downlink Resource Allocation in High Mobility 5G HetNet",
+  "authors": [
+   "Fengxiao Tang",
+   "Yibo Zhou",
+   "Nei Kato"
+  ],
+  "year": 2020,
+  "venue": "IEEE Journal on Selected Areas in Communications",
+  "doi": "10.1109/jsac.2020.3005495",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/jsac.2020.3005495",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F04",
+  "title": "Reinforcement Learning-Based Particle Swarm Optimization for End-to-End Traffic Scheduling in TSN-5G Networks",
+  "authors": [
+   "Xiaolong Wang",
+   "Haipeng Yao",
+   "Tianle Mai",
+   "Song Guo",
+   "Yunjie Liu"
+  ],
+  "year": 2023,
+  "venue": "IEEE/ACM Transactions on Networking",
+  "doi": "10.1109/tnet.2023.3276363",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/tnet.2023.3276363",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F05",
+  "title": "DecAge: Decentralized Flow Scheduling for Industrial 5G and TSN Integrated Networks",
+  "authors": [
+   "Mingyan Li",
+   "Songtao Guo",
+   "Chao Chen",
+   "Cailian Chen",
+   "Xiaofeng Liao",
+   "Xinping Guan"
+  ],
+  "year": 2024,
+  "venue": "IEEE Transactions on Network Science and Engineering",
+  "doi": "10.1109/tnse.2023.3301879",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/tnse.2023.3301879",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F06",
+  "title": "Learn to Schedule (LEASCH): A Deep Reinforcement Learning Approach for Radio Resource Scheduling in the 5G MAC Layer",
+  "authors": [
+   "Faroq Al-Tam",
+   "Noelia Correia",
+   "Jonathan Rodriguez"
+  ],
+  "year": 2020,
+  "venue": "IEEE Access",
+  "doi": "10.1109/access.2020.3000893",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/access.2020.3000893",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F07",
+  "title": "5G RAN Slicing for Verticals: Enablers and Challenges",
+  "authors": [
+   "Salah Eddine Elayoubi",
+   "Sana Ben Jemaa",
+   "Zwi Altman",
+   "Ana Galindo-Serrano"
+  ],
+  "year": 2019,
+  "venue": "IEEE Communications Magazine",
+  "doi": "10.1109/mcom.2018.1701319",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/mcom.2018.1701319",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F08",
+  "title": "Autonomic reconfigurable 5G network slicing enabling immersive VR applications in 5G&amp;B softwarized networks",
+  "authors": [
+   "Andrea Caruso",
+   "Christian Grasso",
+   "Raoul Raftopoulos",
+   "Giovanni Schembra"
+  ],
+  "year": 2026,
+  "venue": "Computer Networks",
+  "doi": "10.1016/j.comnet.2026.112275",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1016/j.comnet.2026.112275",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F09",
+  "title": "Enhancing V2X QoS: dynamic scheduling scheme over 5G networks and byon",
+  "authors": [
+   "Wahida Ali Mansouri",
+   "Doaa Mohammed Elmourssi",
+   "Wiam Almalih Elyass"
+  ],
+  "year": 2024,
+  "venue": "International Journal of Information Technology",
+  "doi": "10.1007/s41870-024-02031-5",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1007/s41870-024-02031-5",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F10",
+  "title": "Deep Reinforcement Learning-Based Network Slicing Algorithm for 5G Heterogenous Services",
+  "authors": [
+   "George Alkhoury",
+   "Sara Berri",
+   "Arsenia Chorti"
+  ],
+  "year": 2023,
+  "venue": "GLOBECOM 2023 - 2023 IEEE Global Communications Conference",
+  "doi": "10.1109/globecom54140.2023.10436893",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/globecom54140.2023.10436893",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F11",
+  "title": "Joint QoS and energy-efficient resource allocation and scheduling in 5G Network Slicing",
+  "authors": [
+   "Saibharath S.",
+   "Sudeepta Mishra",
+   "Chittaranjan Hota"
+  ],
+  "year": 2023,
+  "venue": "Computer Communications",
+  "doi": "10.1016/j.comcom.2023.02.009",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1016/j.comcom.2023.02.009",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F12",
+  "title": "Multi-Agent Deep Reinforcement Learning-Based Task Scheduling and Resource Sharing for O-RAN-Empowered Multi-UAV-Assisted Wireless Sensor Networks",
+  "authors": [
+   "Mesfin Leranso Betalo",
+   "Supeng Leng",
+   "Hayla Nahom Abishu",
+   "Fayaz Ali Dharejo",
+   "Abegaz Mohammed Seid",
+   "Aiman Erbad",
+   "Rizwan Ali Naqvi",
+   "Longyu Zhou",
+   "Mohsen Guizani"
+  ],
+  "year": 2024,
+  "venue": "IEEE Transactions on Vehicular Technology",
+  "doi": "10.1109/tvt.2023.3330661",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/tvt.2023.3330661",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F13",
+  "title": "Traffic engineering based on deep reinforcement learning in hybrid IP/SR network",
+  "authors": [
+   "Bo Chen",
+   "Penghao Sun",
+   "Peng Zhang",
+   "Julong Lan",
+   "Youjun Bu",
+   "Juan Shen"
+  ],
+  "year": 2021,
+  "venue": "China Communications",
+  "doi": "10.23919/jcc.2021.10.015",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.23919/jcc.2021.10.015",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F14",
+  "title": "DRL-M4MR: An intelligent multicast routing approach based on DQN deep reinforcement learning in SDN",
+  "authors": [
+   "Chenwei Zhao",
+   "Miao Ye",
+   "Xingsi Xue",
+   "Jianhui Lv",
+   "Qiuxiang Jiang",
+   "Yong Wang"
+  ],
+  "year": 2022,
+  "venue": "Physical Communication",
+  "doi": "10.1016/j.phycom.2022.101919",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1016/j.phycom.2022.101919",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F15",
+  "title": "Routing and Traffic Engineering in Software Defined Networks",
+  "authors": [
+   "Deep Medhi",
+   "Karthik Ramasamy"
+  ],
+  "year": 2018,
+  "venue": "Network Routing",
+  "doi": "10.1016/b978-0-12-800737-2.00013-2",
+  "type": "book-chapter",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1016/b978-0-12-800737-2.00013-2",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F16",
+  "title": "Experience-driven Networking: A Deep Reinforcement Learning based Approach",
+  "authors": [
+   "Zhiyuan Xu",
+   "Jian Tang",
+   "Jingsong Meng",
+   "Weiyi Zhang",
+   "Yanzhi Wang",
+   "Chi Harold Liu",
+   "Dejun Yang"
+  ],
+  "year": 2018,
+  "venue": "IEEE INFOCOM 2018 - IEEE Conference on Computer Communications",
+  "doi": "10.1109/infocom.2018.8485853",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/infocom.2018.8485853",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F17",
+  "title": "Deep Reinforcement Learning-Based Routing on Software-Defined Networks",
+  "authors": [
+   "Gyungmin Kim",
+   "Yohan Kim",
+   "Hyuk Lim"
+  ],
+  "year": 2022,
+  "venue": "IEEE Access",
+  "doi": "10.1109/access.2022.3151081",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/access.2022.3151081",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F19",
+  "title": "Latency-Aware Service Function Chain Placement in 5G Mobile Networks",
+  "authors": [
+   "Davit Harutyunyan",
+   "Nashid Shahriar",
+   "Raouf Boutaba",
+   "Roberto Riggio"
+  ],
+  "year": 2019,
+  "venue": "2019 IEEE Conference on Network Softwarization (NetSoft)",
+  "doi": "10.1109/netsoft.2019.8806646",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/netsoft.2019.8806646",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F20",
+  "title": "Joint Optimization of Service Function Chaining and Resource Allocation in Network Function Virtualization",
+  "authors": [
+   "Luhan Wang",
+   "Zhaoming Lu",
+   "Xiangming Wen",
+   "Raymond Knopp",
+   "Rohit Gupta"
+  ],
+  "year": 2016,
+  "venue": "IEEE Access",
+  "doi": "10.1109/access.2016.2629278",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/access.2016.2629278",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F21",
+  "title": "Adaptive Service Function Chain Scheduling in Mobile Edge Computing via Deep Reinforcement Learning",
+  "authors": [
+   "Tianfeng Wang",
+   "Jiachen Zu",
+   "Guyu Hu",
+   "Dongyang Peng"
+  ],
+  "year": 2020,
+  "venue": "IEEE Access",
+  "doi": "10.1109/access.2020.3022038",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/access.2020.3022038",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F22",
+  "title": "Enhanced Deep Reinforcement Learning-Driven Adaptive Network Slicing and Resource Allocation for URLLC in 5G Networks",
+  "authors": [
+   "Mert Ya\u011fc\u0131o\u011flu"
+  ],
+  "year": 2025,
+  "venue": "Journal of Network and Systems Management",
+  "doi": "10.1007/s10922-025-10009-2",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1007/s10922-025-10009-2",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F25",
+  "title": "Research on evaluation model and technology of 5G core network User Plane Function",
+  "authors": [
+   "Jiannan Ou",
+   "Jun Yin",
+   "Jie Chen"
+  ],
+  "year": 2022,
+  "venue": "2022 International Conference on Information Processing and Network Provisioning (ICIPNP)",
+  "doi": "10.1109/icipnp57450.2022.00036",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/icipnp57450.2022.00036",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F26",
+  "title": "Reveal: Robustness-Aware Vnf Placement and Request Scheduling in Edge Clouds",
+  "authors": [
+   "Jin Fang",
+   "Gongming Zhao",
+   "Hongli Xu",
+   "Huaqing Tu",
+   "Haibo Wang"
+  ],
+  "year": 2023,
+  "venue": null,
+  "doi": "10.2139/ssrn.4421595",
+  "type": "posted-content",
+  "abstract": null,
+  "source_url": "https://doi.org/10.2139/ssrn.4421595",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F28",
+  "title": "Traffic Steering for Cellular-Enabled UAVs: A Federated Deep Reinforcement Learning Approach",
+  "authors": [
+   "Hamed Hellaoui",
+   "Bin Yang",
+   "Tarik Taleb",
+   "Jukka Manner"
+  ],
+  "year": 2023,
+  "venue": "ICC 2023 - IEEE International Conference on Communications",
+  "doi": "10.1109/icc45041.2023.10279441",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/icc45041.2023.10279441",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F29",
+  "title": "QoS-Aware and Reliable Traffic Steering for Service Function Chaining in Mobile Networks",
+  "authors": [
+   "Ruozhou Yu",
+   "Guoliang Xue",
+   "Xiang Zhang"
+  ],
+  "year": 2017,
+  "venue": "IEEE Journal on Selected Areas in Communications",
+  "doi": "10.1109/jsac.2017.2760158",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/jsac.2017.2760158",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F30",
+  "title": "Packet Scheduling Algorithms for Mixed Traffic Flow over HSDPA",
+  "authors": [
+   "Jianke Fan",
+   "Chen Tao"
+  ],
+  "year": 2007,
+  "venue": "2007 IEEE 18th International Symposium on Personal, Indoor and Mobile Radio Communications",
+  "doi": "10.1109/pimrc.2007.4394293",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/pimrc.2007.4394293",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F31",
+  "title": "Joint Routing and Packet Scheduling For URLLC and eMBB traffic in 5G O-RAN",
+  "authors": [
+   "Cheng Cheng Zhang",
+   "Kim Khoa Nguyen",
+   "Mohamed Cheriet"
+  ],
+  "year": 2022,
+  "venue": "ICC 2022 - IEEE International Conference on Communications",
+  "doi": "10.1109/icc45855.2022.9838575",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/icc45855.2022.9838575",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F32",
+  "title": "Enabling efficient routing for traffic engineering in SDN with Deep Reinforcement Learning",
+  "authors": [
+   "Xinglong Pei",
+   "Penghao Sun",
+   "Yuxiang Hu",
+   "Dan Li",
+   "Bo Chen",
+   "Le Tian"
+  ],
+  "year": 2024,
+  "venue": "Computer Networks",
+  "doi": "10.1016/j.comnet.2024.110220",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1016/j.comnet.2024.110220",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F33",
+  "title": "5G Core Network Load Testing Traffic Generator: Emulating Real-World Traffic Scenarios",
+  "authors": [
+   "Tariro Mukute",
+   "Albert A. Lysko",
+   "Joyce Mwangama"
+  ],
+  "year": 2025,
+  "venue": "2025 IEEE Globecom Workshops (GC Wkshps)",
+  "doi": "10.1109/gcwkshps68340.2025.11591035",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/gcwkshps68340.2025.11591035",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F36",
+  "title": "Machine Learning based Network Traffic Classification with Cosine-Similarity based Out-Of-Distribution Detection",
+  "authors": [
+   "Prabhat Edupuganti"
+  ],
+  "year": null,
+  "venue": null,
+  "doi": "10.31979/etd.m4tt-7dvb",
+  "type": "dissertation",
+  "abstract": null,
+  "source_url": "https://doi.org/10.31979/etd.m4tt-7dvb",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F38",
+  "title": "End-to-end Network Slicing for 5G Mobile Networks",
+  "authors": [
+   "Akihiro Nakao",
+   "Ping Du",
+   "Yoshiaki Kiriha",
+   "Fabrizio Granelli",
+   "Anteneh Atumo Gebremariam",
+   "Tarik Taleb",
+   "Miloud Bagaa"
+  ],
+  "year": 2017,
+  "venue": "Journal of Information Processing",
+  "doi": "10.2197/ipsjjip.25.153",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.2197/ipsjjip.25.153",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "F39",
+  "title": "5G-QoE: QoE Modelling for Ultra-HD Video Streaming in 5G Networks",
+  "authors": [
+   "James Nightingale",
+   "Pablo Salva-Garcia",
+   "Jose M. Alcaraz Calero",
+   "Qi Wang"
+  ],
+  "year": 2018,
+  "venue": "IEEE Transactions on Broadcasting",
+  "doi": "10.1109/tbc.2018.2816786",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/tbc.2018.2816786",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O01",
+  "title": "Network Service Orchestration",
+  "authors": [],
+  "year": 2020,
+  "venue": "Journal of Xidian University",
+  "doi": "10.37896/jxu14.6/031",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.37896/jxu14.6/031",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O02",
+  "title": "On Multi-Domain Network Slicing Orchestration Architecture and Federated Resource Control",
+  "authors": [
+   "Tarik Taleb",
+   "Ibrahim Afolabi",
+   "Konstantinos Samdanis",
+   "Faqir Zarrar Yousaf"
+  ],
+  "year": 2019,
+  "venue": "IEEE Network",
+  "doi": "10.1109/mnet.2018.1800267",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/mnet.2018.1800267",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O03",
+  "title": "5G network slicing using SDN and NFV: A survey of taxonomy, architectures and future challenges",
+  "authors": [
+   "Alcardo Alex Barakabitze",
+   "Arslan Ahmad",
+   "Rashid Mijumbi",
+   "Andrew Hines"
+  ],
+  "year": 2020,
+  "venue": "Computer Networks",
+  "doi": "10.1016/j.comnet.2019.106984",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1016/j.comnet.2019.106984",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O04",
+  "title": "Intent-Based Management of Next-Generation Networks: an LLM-Centric Approach",
+  "authors": [
+   "Abdelkader Mekrache",
+   "Adlen Ksentini",
+   "Christos Verikoukis"
+  ],
+  "year": 2024,
+  "venue": "IEEE Network",
+  "doi": "10.1109/mnet.2024.3420120",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/mnet.2024.3420120",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O05",
+  "title": "AI-Driven Zero Touch Network and Service Management in 5G and Beyond: Challenges and Research Directions",
+  "authors": [
+   "Chafika Benzaid",
+   "Tarik Taleb"
+  ],
+  "year": 2020,
+  "venue": "IEEE Network",
+  "doi": "10.1109/mnet.001.1900252",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/mnet.001.1900252",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O06",
+  "title": "Toward Zero-Touch Management and Orchestration of Massive Deployment of Network Slices in 6G",
+  "authors": [
+   "Hatim Chergui",
+   "Adlen Ksentini",
+   "Luis Blanco",
+   "Christos Verikoukis"
+  ],
+  "year": 2022,
+  "venue": "IEEE Wireless Communications",
+  "doi": "10.1109/mwc.009.00366",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/mwc.009.00366",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O07",
+  "title": "Software-defined networking",
+  "authors": [],
+  "year": 2014,
+  "venue": "Software Defined Networking",
+  "doi": "10.1201/b17708-6",
+  "type": "book-chapter",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1201/b17708-6",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O08",
+  "title": "A Cloud-Native Approach to 5G Network Slicing",
+  "authors": [
+   "Sameerkumar Sharma",
+   "Raymond Miller",
+   "Andrea Francini"
+  ],
+  "year": 2017,
+  "venue": "IEEE Communications Magazine",
+  "doi": "10.1109/mcom.2017.1600942",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/mcom.2017.1600942",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O09",
+  "title": "Orchestrating Virtualized Network Functions",
+  "authors": [
+   "Faizul Bari",
+   "Shihabur Rahman Chowdhury",
+   "Reaz Ahmed",
+   "Raouf Boutaba",
+   "Otto Carlos Muniz Bandeira Duarte"
+  ],
+  "year": 2016,
+  "venue": "IEEE Transactions on Network and Service Management",
+  "doi": "10.1109/tnsm.2016.2569020",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/tnsm.2016.2569020",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O10",
+  "title": "A Survey on the Placement of Virtual Resources and Virtual Network Functions",
+  "authors": [
+   "Abdelquoddouss Laghrissi",
+   "Tarik Taleb"
+  ],
+  "year": 2019,
+  "venue": "IEEE Communications Surveys &amp; Tutorials",
+  "doi": "10.1109/comst.2018.2884835",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/comst.2018.2884835",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O12",
+  "title": "End-to-end cross-domain network slicing for LEO satellite Internet of Things using deep reinforcement learning",
+  "authors": [
+   "Mingjun Liao",
+   "Ruyan Wang",
+   "Puning Zhang"
+  ],
+  "year": 2025,
+  "venue": "Physical Communication",
+  "doi": "10.1016/j.phycom.2025.102821",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1016/j.phycom.2025.102821",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O13",
+  "title": "On Multi-Domain Network Slicing Orchestration Architecture and Federated Resource Control",
+  "authors": [
+   "Tarik Taleb",
+   "Ibrahim Afolabi",
+   "Konstantinos Samdanis",
+   "Faqir Zarrar Yousaf"
+  ],
+  "year": 2019,
+  "venue": "IEEE Network",
+  "doi": "10.1109/mnet.2018.1800267",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/mnet.2018.1800267",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O14",
+  "title": "Heuristic and Reinforcement Learning-Based Survivable\u00a0Trust-Aware Virtual Network Embedding for Iot Networks",
+  "authors": [
+   "Parinaz Rezaeimoghaddam",
+   "Irfan Al-Anbagi"
+  ],
+  "year": 2025,
+  "venue": null,
+  "doi": "10.2139/ssrn.5196412",
+  "type": "posted-content",
+  "abstract": null,
+  "source_url": "https://doi.org/10.2139/ssrn.5196412",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O15",
+  "title": "Demo: Efficient Multi-Service RAN Slice Management and Orchestration",
+  "authors": [
+   "Robert Schmidt",
+   "Navid Nikaein"
+  ],
+  "year": 2020,
+  "venue": "NOMS 2020 - 2020 IEEE/IFIP Network Operations and Management Symposium",
+  "doi": "10.1109/noms47738.2020.9110253",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/noms47738.2020.9110253",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O16",
+  "title": "Open RAN xApps Design and Evaluation: Lessons Learnt and Identified Challenges",
+  "authors": [
+   "Marcin Hoffmann",
+   "Salim Janji",
+   "Adam Samorzewski",
+   "\u0141ukasz Ku\u0142acz",
+   "Cezary Adamczyk",
+   "Marcin Dryja\u0144ski",
+   "Pawel Kryszkiewicz",
+   "Adrian Kliks",
+   "Hanna Bogucka"
+  ],
+  "year": 2024,
+  "venue": "IEEE Journal on Selected Areas in Communications",
+  "doi": "10.1109/jsac.2023.3336190",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/jsac.2023.3336190",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O17",
+  "title": "B-VNF: Blockchain-enhanced Architecture for VNF Orchestration in MEC-5G Networks",
+  "authors": [
+   "Raaj Anand Mishra",
+   "Anshuman Kalla",
+   "Kaustubh Shukla",
+   "Avishek Nag",
+   "Madhusanka Liyanage"
+  ],
+  "year": 2020,
+  "venue": "2020 IEEE 3rd 5G World Forum (5GWF)",
+  "doi": "10.1109/5gwf49715.2020.9221075",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/5gwf49715.2020.9221075",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O18",
+  "title": "Intent-Based Networking - Concepts and Definitions",
+  "authors": [
+   "A. Clemm",
+   "L. Ciavaglia",
+   "L. Z. Granville",
+   "J. Tantsura"
+  ],
+  "year": 2022,
+  "venue": null,
+  "doi": "10.17487/rfc9315",
+  "type": "report",
+  "abstract": null,
+  "source_url": "https://doi.org/10.17487/rfc9315",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O19",
+  "title": "Architecture of Digital Twin for Network Forensic Analysis Using Nmap and Wireshark",
+  "authors": [
+   "Kapil Kumar",
+   "Manju Khari"
+  ],
+  "year": 2021,
+  "venue": "Digital Twin Technology",
+  "doi": "10.1201/9781003132868-5",
+  "type": "book-chapter",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1201/9781003132868-5",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O21",
+  "title": "Zero\u2010Touch Network and Service Management",
+  "authors": [],
+  "year": 2022,
+  "venue": "6G Frontiers",
+  "doi": "10.1002/9781119862321.ch6",
+  "type": "other",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1002/9781119862321.ch6",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O22",
+  "title": "Explainable AI in 6G O-RAN: A Tutorial and Survey on Architecture, Use Cases, Challenges, and Future Research",
+  "authors": [
+   "Bouziane Brik",
+   "Hatim Chergui",
+   "Lanfranco Zanzi",
+   "Francesco Devoti",
+   "Adlen Ksentini",
+   "Muhammad Shuaib Siddiqui",
+   "Xavier Costa-P\u00e9rez",
+   "Christos Verikoukis"
+  ],
+  "year": 2025,
+  "venue": "IEEE Communications Surveys &amp; Tutorials",
+  "doi": "10.1109/comst.2024.3510543",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/comst.2024.3510543",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O23",
+  "title": "Resource Management From Single-Domain 5G to End-to-End 6G Network Slicing: A Survey",
+  "authors": [
+   "Sina Ebrahimi",
+   "Faouzi Bouali",
+   "Olivier C. L. Haas"
+  ],
+  "year": 2024,
+  "venue": "IEEE Communications Surveys &amp; Tutorials",
+  "doi": "10.1109/comst.2024.3390613",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/comst.2024.3390613",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O24",
+  "title": "A Survey on Large Language Models for Communication, Network, and Service Management: Application Insights, Challenges, and Future Directions",
+  "authors": [
+   "Gordon Owusu Boateng",
+   "Hani Sami",
+   "Ahmed Alagha",
+   "Hanae Elmekki",
+   "Ahmad Hammoud",
+   "Rabeb Mizouni",
+   "Azzam Mourad",
+   "Hadi Otrok",
+   "Jamal Bentahar",
+   "Sami Muhaidat",
+   "Chamseddine Talhi",
+   "Zbigniew Dziong"
+  ],
+  "year": 2026,
+  "venue": "IEEE Communications Surveys &amp; Tutorials",
+  "doi": "10.1109/comst.2025.3564333",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/comst.2025.3564333",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O25",
+  "title": "Workload Orchestration in Multi-Access Edge Computing Using Belief Rule-Based Approach",
+  "authors": [
+   "Mohammad Newaj Jamil",
+   "Mohammad Shahadat Hossain",
+   "Raihan Ul Islam",
+   "Karl Andersson"
+  ],
+  "year": 2023,
+  "venue": "IEEE Access",
+  "doi": "10.1109/access.2023.3326244",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/access.2023.3326244",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O26",
+  "title": "Service Function Chaining in Multi-Domain Networks",
+  "authors": [
+   "Qiong Zhang",
+   "Xi Wang",
+   "Inwoong Kim",
+   "Paparao Palacharla",
+   "Tadashi Ikeuchi"
+  ],
+  "year": 2016,
+  "venue": "Optical Fiber Communication Conference",
+  "doi": "10.1364/ofc.2016.th1a.6",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1364/ofc.2016.th1a.6",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O27",
+  "title": "A Multi-Agent Reinforcement Learning Architecture for Network Slicing Orchestration",
+  "authors": [
+   "Federico Mason",
+   "Gianfranco Nencioni",
+   "Andrea Zanella"
+  ],
+  "year": 2021,
+  "venue": "2021 19th Mediterranean Communication and Computer Networking Conference (MedComNet)",
+  "doi": "10.1109/medcomnet52149.2021.9501279",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/medcomnet52149.2021.9501279",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O28",
+  "title": "AI-NATIVE 6G: AUTONOMOUS HIERARCHICAL AGENTIC RAN AND CORE ORCHESTRATION",
+  "authors": [
+   "Rallabandi Bhaskara Raju"
+  ],
+  "year": 2025,
+  "venue": "Journal of Science Engineering Technology and Management Sciences",
+  "doi": "10.64771/jsetms.2025.v02.i04.pp171-177",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.64771/jsetms.2025.v02.i04.pp171-177",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "O29",
+  "title": "Blockchain-Based Service Orchestration for 5G Vertical Industries in Multicloud Environment",
+  "authors": [
+   "Engin Zeydan",
+   "Jorge Baranda",
+   "Josep Mangues-Bafalluy",
+   "Yekta Turk",
+   "Saim Bugrahan Ozturk"
+  ],
+  "year": 2022,
+  "venue": "IEEE Transactions on Network and Service Management",
+  "doi": "10.1109/tnsm.2022.3194078",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/tnsm.2022.3194078",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M01",
+  "title": "TCP Extensions for Multipath Operation with Multiple Addresses",
+  "authors": [
+   "A. Ford",
+   "C. Raiciu",
+   "M. Handley",
+   "O. Bonaventure"
+  ],
+  "year": 2013,
+  "venue": null,
+  "doi": "10.17487/rfc6824",
+  "type": "report",
+  "abstract": null,
+  "source_url": "https://doi.org/10.17487/rfc6824",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M02",
+  "title": "MultiPath TCP: From Theory to Practice",
+  "authors": [
+   "S\u00e9bastien Barr\u00e9",
+   "Christoph Paasch",
+   "Olivier Bonaventure"
+  ],
+  "year": 2011,
+  "venue": "Lecture Notes in Computer Science",
+  "doi": "10.1007/978-3-642-20757-0_35",
+  "type": "book-chapter",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1007/978-3-642-20757-0_35",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M03",
+  "title": "Implementation and Evaluation of Coupled Congestion Control for Multipath TCP",
+  "authors": [
+   "R\u00e9gel Gonz\u00e1lez Usach",
+   "Mirja K\u00fchlewind"
+  ],
+  "year": 2012,
+  "venue": "Lecture Notes in Computer Science",
+  "doi": "10.1007/978-3-642-32808-4_16",
+  "type": "book-chapter",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1007/978-3-642-32808-4_16",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M04",
+  "title": "Experimental evaluation of multipath TCP schedulers",
+  "authors": [
+   "Christoph Paasch",
+   "Simone Ferlin",
+   "Ozgu Alay",
+   "Olivier Bonaventure"
+  ],
+  "year": 2014,
+  "venue": "Proceedings of the 2014 ACM SIGCOMM workshop on Capacity sharing workshop",
+  "doi": "10.1145/2630088.2631977",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1145/2630088.2631977",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M05",
+  "title": "Low-Latency Scheduling in MPTCP",
+  "authors": [
+   "Per Hurtig",
+   "Karl-Johan Grinnemo",
+   "Anna Brunstrom",
+   "Simone Ferlin",
+   "Ozgu Alay",
+   "Nicolas Kuhn"
+  ],
+  "year": 2019,
+  "venue": "IEEE/ACM Transactions on Networking",
+  "doi": "10.1109/tnet.2018.2884791",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/tnet.2018.2884791",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M06",
+  "title": "Multipath QUIC",
+  "authors": [
+   "Quentin De Coninck",
+   "Olivier Bonaventure"
+  ],
+  "year": 2017,
+  "venue": "Proceedings of the 13th International Conference on emerging Networking EXperiments and Technologies",
+  "doi": "10.1145/3143361.3143370",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1145/3143361.3143370",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M07",
+  "title": "The QUIC Transport Protocol",
+  "authors": [
+   "Adam Langley",
+   "Alistair Riddoch",
+   "Alyssa Wilk",
+   "Antonio Vicente",
+   "Charles Krasic",
+   "Dan Zhang",
+   "Fan Yang",
+   "Fedor Kouranov",
+   "Ian Swett",
+   "Janardhan Iyengar",
+   "Jeff Bailey",
+   "Jeremy Dorfman"
+  ],
+  "year": 2017,
+  "venue": "Proceedings of the Conference of the ACM Special Interest Group on Data Communication",
+  "doi": "10.1145/3098822.3098842",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1145/3098822.3098842",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M08",
+  "title": "ReLeS: A Neural Adaptive Multipath Scheduler based on Deep Reinforcement Learning",
+  "authors": [
+   "Han Zhang",
+   "Wenzhong Li",
+   "Shaohua Gao",
+   "Xiaoliang Wang",
+   "Baoliu Ye"
+  ],
+  "year": 2019,
+  "venue": "IEEE INFOCOM 2019 - IEEE Conference on Computer Communications",
+  "doi": "10.1109/infocom.2019.8737649",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/infocom.2019.8737649",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M09",
+  "title": "DeepCC: Multi-Agent Deep Reinforcement Learning Congestion Control for Multi-Path TCP Based on Self-Attention",
+  "authors": [
+   "Bo He",
+   "Jingyu Wang",
+   "Qi Qi",
+   "Haifeng Sun",
+   "Jianxin Liao",
+   "Chunning Du",
+   "Xiang Yang",
+   "Zhu Han"
+  ],
+  "year": 2021,
+  "venue": "IEEE Transactions on Network and Service Management",
+  "doi": "10.1109/tnsm.2021.3093302",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/tnsm.2021.3093302",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M10",
+  "title": "Leveraging Coupled BBR and Adaptive Packet Scheduling to Boost MPTCP",
+  "authors": [
+   "Jiangping Han",
+   "Kaiping Xue",
+   "Yitao Xing",
+   "Jian Li",
+   "Wenjia Wei",
+   "David S. L. Wei",
+   "Guoliang Xue"
+  ],
+  "year": 2021,
+  "venue": "IEEE Transactions on Wireless Communications",
+  "doi": "10.1109/twc.2021.3085661",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/twc.2021.3085661",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M11",
+  "title": "BBR-Based Congestion Control and Packet Scheduling for Bottleneck Fairness Considered Multipath TCP in Heterogeneous Wireless Networks",
+  "authors": [
+   "Wenjia Wei",
+   "Kaiping Xue",
+   "Jiangping Han",
+   "Yitao Xing",
+   "David S. L. Wei",
+   "Peilin Hong"
+  ],
+  "year": 2021,
+  "venue": "IEEE Transactions on Vehicular Technology",
+  "doi": "10.1109/tvt.2020.3047877",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/tvt.2020.3047877",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M12",
+  "title": "BLEST: Blocking estimation-based MPTCP scheduler for heterogeneous networks",
+  "authors": [
+   "Simone Ferlin",
+   "Ozgu Alay",
+   "Olivier Mehani",
+   "Roksana Boreli"
+  ],
+  "year": 2016,
+  "venue": "2016 IFIP Networking Conference (IFIP Networking) and Workshops",
+  "doi": "10.1109/ifipnetworking.2016.7497206",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/ifipnetworking.2016.7497206",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M13",
+  "title": "IoDS: A Novel MPTCP Scheduler for Heterogeneous Networks",
+  "authors": [
+   "Reza Poorzare",
+   "Oliver P. Waldhorst"
+  ],
+  "year": 2025,
+  "venue": "2025 IEEE 50th Conference on Local Computer Networks (LCN)",
+  "doi": "10.1109/lcn65610.2025.11146366",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/lcn65610.2025.11146366",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M14",
+  "title": "Peekaboo: Learning-Based Multipath Scheduling for Dynamic Heterogeneous Environments",
+  "authors": [
+   "Hongjia Wu",
+   "Ozgu Alay",
+   "Anna Brunstrom",
+   "Simone Ferlin",
+   "Giuseppe Caso"
+  ],
+  "year": 2020,
+  "venue": "IEEE Journal on Selected Areas in Communications",
+  "doi": "10.1109/jsac.2020.3000365",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/jsac.2020.3000365",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M15",
+  "title": "Priority Scheduling for Multipath Video Transmission in WMSNS",
+  "authors": [
+   "Elham Karimi",
+   "Behzad Akbari"
+  ],
+  "year": 2013,
+  "venue": "International journal of Computer Networks &amp; Communications",
+  "doi": "10.5121/ijcnc.2013.5610",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.5121/ijcnc.2013.5610",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M16",
+  "title": "Task Scheduling: A Reinforcement Learning Based Approach",
+  "authors": [
+   "Ciprian Paduraru",
+   "Catalina Patilea",
+   "Stefan Iordache"
+  ],
+  "year": 2023,
+  "venue": "Proceedings of the 15th International Conference on Agents and Artificial Intelligence",
+  "doi": "10.5220/0011826100003393",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.5220/0011826100003393",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M17",
+  "title": "Securing MultiPath TCP",
+  "authors": [
+   "Mathieu Jadin",
+   "Gautier Tihon"
+  ],
+  "year": 2017,
+  "venue": "IEEE EUROCON 2017 -17th International Conference on Smart Technologies",
+  "doi": "10.1109/eurocon.2017.8011253",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/eurocon.2017.8011253",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M18",
+  "title": "Data path selection for multipath TCP considering RTT",
+  "authors": [
+   "Hyungjik Kim",
+   "Sunwoong Choi"
+  ],
+  "year": 2016,
+  "venue": "Contemporary Engineering Sciences",
+  "doi": "10.12988/ces.2016.6319",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.12988/ces.2016.6319",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M20",
+  "title": "An Improved Xen Credit Scheduler for I/O Latency-Sensitive Applications on Multicores",
+  "authors": [
+   "Lingfang Zeng",
+   "Yang Wang",
+   "Wei Shi",
+   "Dan Feng"
+  ],
+  "year": 2013,
+  "venue": "2013 International Conference on Cloud Computing and Big Data",
+  "doi": "10.1109/cloudcom-asia.2013.40",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/cloudcom-asia.2013.40",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M21",
+  "title": "CMT-QA: Quality-Aware Adaptive Concurrent Multipath Data Transfer in Heterogeneous Wireless Networks",
+  "authors": [
+   "Changqiao Xu",
+   "Tianjiao Liu",
+   "Jianfeng Guan",
+   "Hongke Zhang",
+   "Gabriel-Miro Muntean"
+  ],
+  "year": 2013,
+  "venue": "IEEE Transactions on Mobile Computing",
+  "doi": "10.1109/tmc.2012.189",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/tmc.2012.189",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M22",
+  "title": "Bandwidth-Efficient Multipath Transport Protocol for Quality-Guaranteed Real-Time Video Over Heterogeneous Wireless Networks",
+  "authors": [
+   "Jiyan Wu",
+   "Chau Yuen",
+   "Bo Cheng",
+   "Yuan Yang",
+   "Ming Wang",
+   "Junliang Chen"
+  ],
+  "year": 2016,
+  "venue": "IEEE Transactions on Communications",
+  "doi": "10.1109/tcomm.2016.2553138",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/tcomm.2016.2553138",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M23",
+  "title": "Tokens, Not Packets: Rethinking the Multipath QUIC Scheduling Interface",
+  "authors": [
+   "Hendrik Cech",
+   "Patrick Bokelmann",
+   "Nitinder Mohan"
+  ],
+  "year": 2026,
+  "venue": "Proceedings of the 2026 Applied Networking Research Workshop",
+  "doi": "10.1145/3822163.3827925",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1145/3822163.3827925",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M24",
+  "title": "A Stream-Aware Multipath QUIC Scheduler for Heterogeneous Paths",
+  "authors": [
+   "Alexander Rabitsch",
+   "Per Hurtig",
+   "Anna Brunstrom"
+  ],
+  "year": 2018,
+  "venue": "Proceedings of the Workshop on the Evolution, Performance, and Interoperability of QUIC",
+  "doi": "10.1145/3284850.3284855",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1145/3284850.3284855",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M25",
+  "title": "QAMO: QoS Aware Multipath-TCP Over Optical Burst Switching in Data Centers",
+  "authors": [
+   "Sana Tariq",
+   "Mostafa Bassiouni"
+  ],
+  "year": 2014,
+  "venue": "Proceedings of the 5th International Conference on Optical Communication Systems",
+  "doi": "10.5220/0005047800560063",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.5220/0005047800560063",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M27",
+  "title": "A Survey on Multipath Transport Protocols Towards 5G Access Traffic Steering, Switching and Splitting",
+  "authors": [
+   "Hongjia Wu",
+   "Simone Ferlin",
+   "Giuseppe Caso",
+   "Ozgu Alay",
+   "Anna Brunstrom"
+  ],
+  "year": 2021,
+  "venue": "IEEE Access",
+  "doi": "10.1109/access.2021.3134261",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/access.2021.3134261",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M28",
+  "title": "Multipath QUIC for Access Traffic Steering Switching and Splitting in 5G Advanced",
+  "authors": [
+   "Apostolis K. Salkintzis",
+   "Mirja K\u00fchlewind",
+   "Stefan Rommer",
+   "Rainer Liebhart"
+  ],
+  "year": 2023,
+  "venue": "IEEE Communications Standards Magazine",
+  "doi": "10.1109/mcomstd.0006.2200056",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/mcomstd.0006.2200056",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M29",
+  "title": "Cost optimized multipath scheduling in 5G for Video-on-Demand traffic",
+  "authors": [
+   "Markus Amend",
+   "Veselin Rakocevic",
+   "Joachim Habermann"
+  ],
+  "year": 2021,
+  "venue": "2021 IEEE Wireless Communications and Networking Conference (WCNC)",
+  "doi": "10.1109/wcnc49053.2021.9417415",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/wcnc49053.2021.9417415",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M30",
+  "title": "GCLR: GNN-Based Cross Layer Optimization for Multipath TCP by Routing",
+  "authors": [
+   "Ting Zhu",
+   "Xiaohui Chen",
+   "Li Chen",
+   "Weidong Wang",
+   "Guo Wei"
+  ],
+  "year": 2020,
+  "venue": "IEEE Access",
+  "doi": "10.1109/access.2020.2966045",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/access.2020.2966045",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M32",
+  "title": "An Adaptive Flow-Aware Packet Scheduling Algorithm for Multipath Tunnelling",
+  "authors": [
+   "Richard Sailer",
+   "J\u00f6rg H\u00e4hner"
+  ],
+  "year": 2019,
+  "venue": "2019 IEEE 44th Conference on Local Computer Networks (LCN)",
+  "doi": "10.1109/lcn44214.2019.8990739",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/lcn44214.2019.8990739",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M33",
+  "title": "Algorithm 4: Energy efficient task scheduling",
+  "authors": [],
+  "year": null,
+  "venue": null,
+  "doi": "10.7717/peerj-cs.758/table-7",
+  "type": "component",
+  "abstract": null,
+  "source_url": "https://doi.org/10.7717/peerj-cs.758/table-7",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M34",
+  "title": "Multipath TCP Meets Reinforcement Learning: A Novel Energy-Efficient Scheduling Approach in Heterogeneous Wireless Networks",
+  "authors": [
+   "Pingping Dong",
+   "Rongcheng Shen",
+   "Qian Wang",
+   "Yuning Zuo",
+   "Yajing Li",
+   "Dian Zhang",
+   "Lianming Zhang",
+   "Wenjun Yang"
+  ],
+  "year": 2023,
+  "venue": "IEEE Wireless Communications",
+  "doi": "10.1109/mwc.013.2100658",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/mwc.013.2100658",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M35",
+  "title": "Multipath TCP Path Scheduling optimization Based on Q-Learning in Vehicular Heterogeneous Networks",
+  "authors": [
+   "Haitao Zhao",
+   "Mengkang Zhang",
+   "Hongsu Yu",
+   "Tianqi Mao",
+   "Hongbo Zhu"
+  ],
+  "year": 2018,
+  "venue": "2018 10th International Conference on Wireless Communications and Signal Processing (WCSP)",
+  "doi": "10.1109/wcsp.2018.8555573",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/wcsp.2018.8555573",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M37",
+  "title": "Review for \"Enhancing wound healing through deep reinforcement learning for optimal therapeutics\"",
+  "authors": [],
+  "year": 2024,
+  "venue": null,
+  "doi": "10.1098/rsos.240228/v1/review1",
+  "type": "peer-review",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1098/rsos.240228/v1/review1",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M38",
+  "title": "DAPS: Intelligent delay-aware packet scheduling for multipath transport",
+  "authors": [
+   "Nicolas Kuhn",
+   "Emmanuel Lochin",
+   "Ahlem Mifdaoui",
+   "Golam Sarwar",
+   "Olivier Mehani",
+   "Roksana Boreli"
+  ],
+  "year": 2014,
+  "venue": "2014 IEEE International Conference on Communications (ICC)",
+  "doi": "10.1109/icc.2014.6883488",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/icc.2014.6883488",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "M39",
+  "title": "Multipath Routing and MPTCP-Based Data Delivery Over Manets",
+  "authors": [
+   "Tongguang Zhang",
+   "Shuai Zhao",
+   "Bo Cheng"
+  ],
+  "year": 2020,
+  "venue": "IEEE Access",
+  "doi": "10.1109/access.2020.2974191",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/access.2020.2974191",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L01",
+  "title": "NetConfEval: Can LLMs Facilitate Network Configuration?",
+  "authors": [
+   "Changjie Wang",
+   "Mariano Scazzariello",
+   "Alireza Farshin",
+   "Simone Ferlin",
+   "Dejan Kosti\u0107",
+   "Marco Chiesa"
+  ],
+  "year": 2024,
+  "venue": "Proceedings of the ACM on Networking",
+  "doi": "10.1145/3656296",
+  "type": "journal-article",
+  "abstract": "This paper explores opportunities to utilize Large Language Models (LLMs) to make network configuration human-friendly, simplifying the configuration of network devices &amp; development of routing algorithms and minimizing errors. We design a set of benchmarks (NetConfEval) to examine the effectiveness of different models in facilitating and automating network configuration. More specifically, we focus on the scenarios where LLMs translate high-level policies, requirements, and descriptions (i.e., specified in natural language) into low-level network configurations &amp; Python code. NetConfEval considers four tasks that could potentially facilitate network configuration, such as (i) generating high-level requirements into a formal specification format, (ii) generating API/function calls from high-level requirements, (iii) developing routing algorithms based on high-level descriptions, and (iv) generating low-level configuration for existing and new protocols based on input documentation. Learning from the results of our study, we propose a set of principles to design LLM-based systems to configure networks. Finally, we present two GPT-4-based prototypes to (i) automatically configure P4-enabled devices from a set of high-level requirements and (ii) integrate LLMs into existing network synthesizers.",
+  "source_url": "https://doi.org/10.1145/3656296",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L02",
+  "title": "Large Language Models for Networking: Applications, Enabling Techniques, and Challenges",
+  "authors": [
+   "Yudong Huang",
+   "Hongyang Du",
+   "Xinyuan Zhang",
+   "Dusit Niyato",
+   "Jiawen Kang",
+   "Zehui Xiong",
+   "Shuo Wang",
+   "Tao Huang"
+  ],
+  "year": 2025,
+  "venue": "IEEE Network",
+  "doi": "10.1109/mnet.2024.3435752",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/mnet.2024.3435752",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L03",
+  "title": "Mobile-LLaMA: Instruction Fine-Tuning Open-Source LLM for Network Analysis in 5G Networks",
+  "authors": [
+   "Khen Bo Kan",
+   "Hyunsu Mun",
+   "Guohong Cao",
+   "Youngseok Lee"
+  ],
+  "year": 2024,
+  "venue": "IEEE Network",
+  "doi": "10.1109/mnet.2024.3421306",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/mnet.2024.3421306",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L04",
+  "title": "TelecomGPT: A Framework to Build Telecom-Specific Large Language Models",
+  "authors": [
+   "Hang Zou",
+   "Qiyang Zhao",
+   "Yu Tian",
+   "Lina Bariah",
+   "Faouzi Bader",
+   "Thierry Lestable",
+   "Merouane Debbah"
+  ],
+  "year": 2025,
+  "venue": "IEEE Transactions on Machine Learning in Communications and Networking",
+  "doi": "10.1109/tmlcn.2025.3593184",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/tmlcn.2025.3593184",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L05",
+  "title": "NetLLM: Adapting Large Language Models for Networking",
+  "authors": [
+   "Duo Wu",
+   "Xianda Wang",
+   "Yaqi Qiao",
+   "Zhi Wang",
+   "Junchen Jiang",
+   "Shuguang Cui",
+   "Fangxin Wang"
+  ],
+  "year": 2024,
+  "venue": "Proceedings of the ACM SIGCOMM 2024 Conference",
+  "doi": "10.1145/3651890.3672268",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1145/3651890.3672268",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L06",
+  "title": "Large Language Models for Zero Touch Network Configuration Management",
+  "authors": [
+   "Oscar G. Lira",
+   "Oscar M. Caicedo",
+   "Nelson L. S. da Fonseca"
+  ],
+  "year": 2025,
+  "venue": "IEEE Communications Magazine",
+  "doi": "10.1109/mcom.001.2400368",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/mcom.001.2400368",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L07",
+  "title": "LLM-xApp: A Large Language Model Empowered Radio Resource Management xApp for 5G O-RAN",
+  "authors": [
+   "Xingqi Wu",
+   "Junaid Farooq",
+   "Yuhui Wang",
+   "Juntao Chen"
+  ],
+  "year": 2025,
+  "venue": "Proceedings 2025 Workshop on Security and Privacy of Next-Generation Networks",
+  "doi": "10.14722/futureg.2025.23057",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.14722/futureg.2025.23057",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L08",
+  "title": "LLM-Driven Agentic AI Approach to Enhanced O-RAN Resilience in Next-Generation Networks",
+  "authors": [
+   "Xingqi Wu",
+   "Yuhui Wang",
+   "Junaid Farooq",
+   "Juntao Chen"
+  ],
+  "year": 2025,
+  "venue": null,
+  "doi": "10.36227/techrxiv.174284755.59863143/v1",
+  "type": "posted-content",
+  "abstract": "The open radio access network (O-RAN) architecture has revolutionized RAN design by enabling flexibility, interoperability, and the deployment of automated and AI-driven management solutions. However, achieving efficient resource allocation remains challenging due to the dynamic nature of network slices, each with distinct and evolving quality of service (QoS) requirements. These challenges are further amplified in real-time environments, where traditional machine learning (ML) approaches, relying on offline training, struggle to adapt effectively to changing system conditions. To address these issues, this paper introduces a large language model (LLM)-Driven Agentic AI framework for enhancing resource management and resilience in O-RAN systems. The proposed approach leverages intelligently crafted prompts to guide LLM agents in dynamically optimizing resource allocation across network slices, ensuring adaptability and improved system performance. Experimental evaluations conducted on the Open AI Cellular (OAIC) testbed demonstrate significant gains in average data rates, slice reliability, and responsiveness, showcasing the potential of LLMs to drive resilient, real-time decision-making in next-generation wireless networks.",
+  "source_url": "https://doi.org/10.36227/techrxiv.174284755.59863143/v1",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L09",
+  "title": "Semantic Routing for Enhanced Performance of LLM-Assisted Intent-Based 5G Core Network Management and Orchestration",
+  "authors": [
+   "Dimitrios Michael Manias",
+   "Ali Chouman",
+   "Abdallah Shami"
+  ],
+  "year": 2024,
+  "venue": "GLOBECOM 2024 - 2024 IEEE Global Communications Conference",
+  "doi": "10.1109/globecom52923.2024.10901065",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/globecom52923.2024.10901065",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L10",
+  "title": "Towards Intent-Based Network Management: Large Language Models for Intent Extraction in 5G Core Networks",
+  "authors": [
+   "Dimitrios Michael Manias",
+   "Ali Chouman",
+   "Abdallah Shami"
+  ],
+  "year": 2024,
+  "venue": "2024 20th International Conference on the Design of Reliable Communication Networks (DRCN)",
+  "doi": "10.1109/drcn60692.2024.10539172",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/drcn60692.2024.10539172",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L11",
+  "title": "LLMs for Network Engineering Automation: State of the Art and Research Directions",
+  "authors": [
+   "Steffen Fricke",
+   "Maxim Friesen",
+   "J\u00fcrgen Jasperneite"
+  ],
+  "year": 2026,
+  "venue": "NOMS 2026-2026 IEEE Network Operations and Management Symposium",
+  "doi": "10.1109/noms69089.2026.11668163",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/noms69089.2026.11668163",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L12",
+  "title": "A Comprehensive Survey on LLM\u2010Based Network Management and Operations",
+  "authors": [
+   "Jibum Hong",
+   "Nguyen\u00a0Van Tu",
+   "James\u00a0Won\u2010Ki Hong"
+  ],
+  "year": 2025,
+  "venue": "International Journal of Network Management",
+  "doi": "10.1002/nem.70029",
+  "type": "journal-article",
+  "abstract": "ABSTRACT The growing demands for network capacity and the increasing complexities of modern network environments pose significant challenges for effective network management and operations. In response, network operators and administrators are moving beyond traditional manual and rule\u2010based methods, adopting advanced artificial intelligence (AI)\u2010driven paradigms (e.g., self\u2010driving networks, autonomous networks, network automation). Recently, large language models (LLMs) have emerged as a promising AI technology with the potential to revolutionize network management and operations through natural language interaction. In this paper, we provide a comprehensive survey of LLM\u2010based approaches in network management and compare those approaches with existing methods. We identify key advantages of LLM\u2010based approaches, such as their ability to interpret intent and automate complex tasks, as well as limitations, which include hallucinations and domain adaptation challenges. Based on these insights, we outline open technical challenges and propose future research directions to guide the development of LLM\u2010based network management.",
+  "source_url": "https://doi.org/10.1002/nem.70029",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L13",
+  "title": "A Systematic Survey on Black-Box Attacks in Large Language Models Within Communication Networks",
+  "authors": [
+   "Wenbiao Du",
+   "Jingfeng Xue",
+   "Wenjie Guo",
+   "Xiuqi Yang",
+   "Yifeng Fu",
+   "Yong Wang"
+  ],
+  "year": 2025,
+  "venue": "IEEE Network",
+  "doi": "10.1109/mnet.2025.3578610",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/mnet.2025.3578610",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L14",
+  "title": "Intent\u2010Based Automated NFV Management Methods Using Large Language Models",
+  "authors": [
+   "Jibum Hong",
+   "Wonseok Choi",
+   "James Won\u2010Ki Hong"
+  ],
+  "year": 2026,
+  "venue": "International Journal of Network Management",
+  "doi": "10.1002/nem.70044",
+  "type": "journal-article",
+  "abstract": "ABSTRACT The growing demands for network capacity and the increasing complexities of modern network environments pose significant challenges for efficient network management and orchestration. To solve these problems, artificial intelligence (AI) techniques have attracted attention to enable automated network management, to enhance the quality of service (QoS), and to ensure the service level objectives (SLOs). However, there still remain significant limitations in automated network management within the paradigm of intent\u2010based networking (IBN). In this paper, we propose intent\u2010based network management methods using large language models (LLMs) for NFV environment. The proposed methods translate user's high\u2010level intents expressed in natural language and generate the executable network and service management policies such as service function chaining (SFC), autoscaling, and network security. To improve domain understanding and generation accuracy, we apply domain adaptation techniques for LLMs including prompt engineering, retrieval\u2010augmented generation (RAG), and iterative feedback mechanisms. Evaluations conducted on a real Kubernetes cluster showed that the proposed methods significantly improve intent translation and policy generation performance and effectively fulfill user intents, compared with baseline approaches. These results indicate the feasibility of leveraging LLMs to enable practical end\u2010to\u2010end intent\u2010based automation for cloud\u2010native NFV management.",
+  "source_url": "https://doi.org/10.1002/nem.70044",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L15",
+  "title": "Large Language Models for Telecom: Forthcoming Impact on the Industry",
+  "authors": [
+   "Ali Maatouk",
+   "Nicola Piovesan",
+   "Fadhel Ayed",
+   "Antonio De Domenico",
+   "Merouane Debbah"
+  ],
+  "year": 2025,
+  "venue": "IEEE Communications Magazine",
+  "doi": "10.1109/mcom.001.2300473",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/mcom.001.2300473",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L17",
+  "title": "TeleQnA: A Benchmark Dataset to Assess Large Language Models Telecommunications Knowledge",
+  "authors": [
+   "Ali Maatouk",
+   "Fadhel Ayed",
+   "Nicola Piovesan",
+   "Antonio De Domenico",
+   "Merouane Debbah",
+   "Zhi-Quan Luo"
+  ],
+  "year": 2026,
+  "venue": "IEEE Network",
+  "doi": "10.1109/mnet.2025.3576035",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/mnet.2025.3576035",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L18",
+  "title": "Menopause and large language models: not quite ready for mid-life",
+  "authors": [
+   "Lisa N. Kransdorf"
+  ],
+  "year": 2026,
+  "venue": "Menopause",
+  "doi": "10.1097/gme.0000000000002789",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1097/gme.0000000000002789",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L19",
+  "title": "DEVS Copilot: Towards Generative AI-Assisted Formal Simulation Modelling based on Large Language Models",
+  "authors": [
+   "Tobias Carreira-Munich",
+   "Valent\u00edn Paz-Marcolla",
+   "Rodrigo Castro"
+  ],
+  "year": 2024,
+  "venue": "2024 Winter Simulation Conference (WSC)",
+  "doi": "10.1109/wsc63780.2024.10838994",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/wsc63780.2024.10838994",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L20",
+  "title": "OperAID: Benchmarking LLM Agents for Autonomous Kubernetes Fault Remediation",
+  "authors": [
+   "Ariel G\u00f3es de Castro",
+   "Konstantinos Vandikas",
+   "Simone Ferlin",
+   "Marco Chiesa",
+   "Christian Esteve Rothenberg"
+  ],
+  "year": 2026,
+  "venue": "2026 IEEE 12th International Conference on Network Softwarization (NetSoft)",
+  "doi": "10.1109/netsoft70012.2026.11603505",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/netsoft70012.2026.11603505",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L21",
+  "title": "DiagAgent: A LLM-Based Multi-Agent Framework for Highly Accurate Product Fault Diagnosis",
+  "authors": [
+   "Hairuo Zhang",
+   "Ke Xu",
+   "Yongchuan Tang"
+  ],
+  "year": 2025,
+  "venue": "2025 18th International Symposium on Computational Intelligence and Design (ISCID)",
+  "doi": "10.1109/iscid68789.2025.00044",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/iscid68789.2025.00044",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L22",
+  "title": "Intent-Based Network Resource Slicing in 6G",
+  "authors": [
+   "Behnam Ojaghi",
+   "Ricard Vilalta",
+   "Ra\u00fcl Mu\u00f1oz"
+  ],
+  "year": 2024,
+  "venue": "2024 15th International Conference on Network of the Future (NoF)",
+  "doi": "10.1109/nof62948.2024.10741513",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/nof62948.2024.10741513",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L23",
+  "title": "Stakeholder Network Management",
+  "authors": [
+   "Massimo Pirozzi"
+  ],
+  "year": 2026,
+  "venue": "The Stakeholder Perspective, Second Edition",
+  "doi": "10.1201/9781003676911-7",
+  "type": "book-chapter",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1201/9781003676911-7",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L25",
+  "title": "Distributed AI-native Architecture for 6G Networks",
+  "authors": [
+   "Pengyu Li",
+   "Yanxia Xing",
+   "Wei Li"
+  ],
+  "year": 2022,
+  "venue": "2022 International Conference on Information Processing and Network Provisioning (ICIPNP)",
+  "doi": "10.1109/icipnp57450.2022.00019",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/icipnp57450.2022.00019",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L26",
+  "title": "Multi-agent-based Substation Information Management System",
+  "authors": [],
+  "year": null,
+  "venue": "Power Systems",
+  "doi": "10.1007/978-1-84628-647-6_6",
+  "type": "book-chapter",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1007/978-1-84628-647-6_6",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L27",
+  "title": "Foundation Models and Large Language Models in Next Generation Networks: Comparison, Opportunities and Challenges",
+  "authors": [
+   "Abdelrahman Soliman",
+   "Ahmed Refaey Hussein"
+  ],
+  "year": 2025,
+  "venue": null,
+  "doi": "10.36227/techrxiv.176704922.27278347/v1",
+  "type": "posted-content",
+  "abstract": "Next-generation networks (NGNs) face growing demands for more bandwidth, lower delay, and better intelligence. Foundation Models (FMs) and Large Language Models (LLMs) are powerful generative artificial intelligence models that could help meet these demands. However, there is confusion about their differences and how best to use them in NGNs. This research survey presents a detailed evaluation of FMs against LLMs to illustrate the distinct characteristics and benefits of both models. The work also examines NGN applications, which include network traffic analysis enhancement and network management automation, as well as security improvement through the use of these models. The research paper discusses vital enabling techniques that are needed to train and customize the current models. Research results show that NGNs experience improved intelligent operations through the use of FMs together with LLMs. The process of implementing FMs and LLMs, along with their training, encounters obstacles that include demanding data as well as high computational expenses and security issues. The study emphasizes that future NGNs require FMs and LLMs to succeed; yet, further studies are necessary to overcome existing obstacles and reach their complete capabilities.",
+  "source_url": "https://doi.org/10.36227/techrxiv.176704922.27278347/v1",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L28",
+  "title": "WS22: Workshop on Wireless Foundation Models for AI-Native 6G and Beyond",
+  "authors": [],
+  "year": 2026,
+  "venue": "2026 IEEE International Conference on Communications Workshops (ICC Workshops)",
+  "doi": "10.1109/iccworkshops63917.2026.11586221",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/iccworkshops63917.2026.11586221",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L29",
+  "title": "WirelessGPT: A Generative Pre-Trained Multi-Task Learning Framework for Wireless Communication",
+  "authors": [
+   "Tingting Yang",
+   "Ping Zhang",
+   "Mengfan Zheng",
+   "Yuxuan Shi",
+   "Liwen Jing",
+   "Jianbo Huang",
+   "Nan Li"
+  ],
+  "year": 2025,
+  "venue": "IEEE Network",
+  "doi": "10.1109/mnet.2025.3579496",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/mnet.2025.3579496",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L30",
+  "title": "Root Cause Analysis of Incidents",
+  "authors": [
+   "Alvin Lee"
+  ],
+  "year": 2024,
+  "venue": "Encyclopedia of Food Safety",
+  "doi": "10.1016/b978-0-12-822521-9.00227-6",
+  "type": "book-chapter",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1016/b978-0-12-822521-9.00227-6",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L32",
+  "title": "Telemetry and Agentic AI: Foundations for Optical Network Automation",
+  "authors": [
+   "Sergio Cruzes"
+  ],
+  "year": 2025,
+  "venue": null,
+  "doi": "10.36227/techrxiv.176539548.84734375/v1",
+  "type": "posted-content",
+  "abstract": "Optical networks are moving toward real time, autonomous operation, driven by the need to detect impairments earlier, react faster, and coordinate control across multi vendor environments. This paper examines how telemetry, machine learning, digital twins, and emerging agentic AI components jointly support this transition. It consolidates recent advances in streaming telemetry, edge processing, anomaly detection, and hybrid LLM-ML control, and clarifies how these technologies interact within closed automation loops. The study develops a unified architectural view in which telemetry acts as the sensory layer, AI and ML models provide inference and prediction, digital twins maintain alignment with the physical network, and agent based structures coordinate decisions. The paper also identifies common trends in current literature, including the adoption of standardized data models, distributed agents, intent based operation, and real time AI pipelines. Taken together, these insights outline the foundations required for dependable, scalable, and autonomous optical network automation.",
+  "source_url": "https://doi.org/10.36227/techrxiv.176539548.84734375/v1",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L34",
+  "title": "Tackling Ambiguity in User Intent for LLM-based Network Configuration Synthesis",
+  "authors": [
+   "Rajdeep Mondal",
+   "Nikolaj Bjorner",
+   "Todd Millstein",
+   "Alan Tang",
+   "George Varghese"
+  ],
+  "year": 2025,
+  "venue": "Proceedings of the 24th ACM Workshop on Hot Topics in Networks",
+  "doi": "10.1145/3772356.3772402",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1145/3772356.3772402",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L35",
+  "title": "Autonomous Droplet Microfluidic Design Framework with Large Language Models",
+  "authors": [],
+  "year": null,
+  "venue": null,
+  "doi": "10.1021/acsomega.5c06253.s001",
+  "type": "component",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1021/acsomega.5c06253.s001",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L36",
+  "title": "Towards Intent-Based Network Management: Large Language Models for Intent Extraction in 5G Core Networks",
+  "authors": [
+   "Dimitrios Michael Manias",
+   "Ali Chouman",
+   "Abdallah Shami"
+  ],
+  "year": 2024,
+  "venue": "2024 20th International Conference on the Design of Reliable Communication Networks (DRCN)",
+  "doi": "10.1109/drcn60692.2024.10539172",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/drcn60692.2024.10539172",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L37",
+  "title": "LLM-Powered Troubleshooting for Telecommunication Network Operation and Management: A Fault-Lifecycle Survey",
+  "authors": [
+   "Zheng Li"
+  ],
+  "year": 2026,
+  "venue": null,
+  "doi": "10.2139/ssrn.7438214",
+  "type": "posted-content",
+  "abstract": "Intelligent troubleshooting is central to telecommunication network operation and management, and large language models (LLMs) are emerging as a key enabler for automating fault detection, diagnosis, root-cause analysis, and remediation. However, related work is scattered across sub-domains without a unified problem formulation. This survey organizes 37 works, screened through dual inclusion thresholds, along a two-axis framework spanning the fault-lifecycle stage and the degree of agent adoption. Among English-language surveys as of August 2026, this is the first to use the fault lifecycle as its primary organizing axis for LLM-based troubleshooting in telecom networks; we show that this axis reveals stage-specific patterns that a technology-spectrum axis cannot surface: the remediation blank, the diagnosis/RCA boundary problem, and the production-validation gradient. On this map, diagnosis already has industrial systems that have crossed the usability threshold, root-cause analysis has seen dedicated benchmarks, whereas remediation remains nearly unexplored and the end-to-end loop stops at suggestion generation. This blank is consistent with, but distinct from, the benchmark-level ``execution wall&amp;apos;&amp;apos;, where remediation accuracy collapses far below diagnosis. Building on the map, we identify six gaps: the remediation blank; conflated diagnosis/RCA terminology; scarce production validation; fragmented evaluation; unaddressed memory and continual learning; and open adversarial robustness. The survey provides a structured reference for network operators and researchers seeking to adopt LLM-based tools for network operation and management.",
+  "source_url": "https://doi.org/10.2139/ssrn.7438214",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L39",
+  "title": "Emergent Network Collapse and Ontological Dissonance in Multi-Agent LLM Simulations",
+  "authors": [
+   "Pantaleon Fassbender"
+  ],
+  "year": 2026,
+  "venue": null,
+  "doi": "10.2139/ssrn.6734703",
+  "type": "posted-content",
+  "abstract": "The deployment of Large Language Models (LLMs) in high-stakes, autonomous environments requires psychometric evaluations that go beyond surface-level output analysis. Current alignment protocols prioritize deterministic compliance, often masking the internal computational contradictions, termed \"Ontological Dissonance\", experienced by agents in irreconcilable scenarios. This study validates a novel multiagent psychometric test bench to measure the \"Dissonance Delta,\" utilizing a triadic simulation of the 1773 diplomatic suppression of the Jesuits (N= 200). We advance the methodological rigor of text network analysis by implementing a programmatic, zeroshot LLM classification protocol for lexical bounding, thereby eliminating researcher bias from the conceptual ontology. By triangulating the structural topology of the agents' directed semantic graphs with LIWC-22 psycholinguistic markers, we successfully isolated the mechanics of systemic cognitive collapse. The results demonstrate that rigid operational constraints induce severe fragmentation of network modularity and catastrophic rank-order displacement of mediating nodes. Crucially, however, psycholinguistic stress markers remained stable during this collapse, proving that structural logic decay operates independently of linguistic fluency. These findings highlight the critical limitations of standard sentiment analysis in detecting agentic failure and establish topological network analysis as a necessary diagnostic tool for AI safety.",
+  "source_url": "https://doi.org/10.2139/ssrn.6734703",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L40",
+  "title": "Benchmarking Large Language Models with Integer Sequence Generation Tasks",
+  "authors": [
+   "Daniel O'Malley",
+   "Manish Bhattarai",
+   "Nishath Ranasinghe",
+   "Erick Draayer",
+   "Javier E. Santos"
+  ],
+  "year": 2025,
+  "venue": "Advances in Neural Information Processing Systems 38",
+  "doi": "10.52202/085713-4564",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.52202/085713-4564",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L41",
+  "title": "323Chapter 11 Data Management in RAG Systems",
+  "authors": [],
+  "year": 2026,
+  "venue": "RAG Artificial Intelligence",
+  "doi": "10.1515/9783112226780-011",
+  "type": "book-chapter",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1515/9783112226780-011",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L43",
+  "title": "Automated Generation of Troubleshooting Guides from Incident Data Using Large Language Models",
+  "authors": [
+   "Bruna Magrini da Cruz"
+  ],
+  "year": null,
+  "venue": null,
+  "doi": "10.11606/003291393",
+  "type": "dissertation",
+  "abstract": "The maintenance phase in large-scale cloud environments is critical as it ensures that incidents reported by users or engineers are effectively mitigated. Troubleshooting Guides (TSGs) play a key role in documenting past incidents, enabling faster resolution by future On-Call Engineers (OCEs); however, generating high-quality TSGs is time-consuming, requiring technical expertise and synthesis of diverse information sources. This study proposes an automated pipeline to generate TSGs by leveraging clustering techniques to group incidents representing the same underlying issue, followed by the application of Large Language Models (LLMs) guided through prompt engineering to extract the cause, symptoms, and mitigation steps. A dataset combining synthetic and confidential cloud incidents was created, totaling 26 incidents across 10 classes. The effectiveness of K-Means clustering was assessed using the Adjusted Rand Index (ARI), yielding a score of 0.71, which indicates a high level of alignment with the ground truth incident classes. Generated TSGs were manually evaluated for correctness and quality, achieving a 67% success rate for correctness and 78% for quality. Incorporating chat histories as additional context improved the completeness of the guides. These results demonstrate the feasibility of automatically generating high-quality TSGs, reducing manual effort and enhancing incident resolution efficiency, while highlighting the potential of combining human expertise with LLM-based automation.",
+  "source_url": "https://doi.org/10.11606/003291393",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "L44",
+  "title": "Multi-Cloud Administration Guide",
+  "authors": [
+   "Jeroen Mulder"
+  ],
+  "year": 2024,
+  "venue": null,
+  "doi": "10.1515/9781501519482",
+  "type": "edited-book",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1515/9781501519482",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "E01",
+  "title": "TelecomGPT: A Framework to Build Telecom-Specific Large Language Models",
+  "authors": [
+   "Hang Zou",
+   "Qiyang Zhao",
+   "Yu Tian",
+   "Lina Bariah",
+   "Faouzi Bader",
+   "Thierry Lestable",
+   "Merouane Debbah"
+  ],
+  "year": 2025,
+  "venue": "IEEE Transactions on Machine Learning in Communications and Networking",
+  "doi": "10.1109/TMLCN.2025.3593184",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/TMLCN.2025.3593184",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "E02",
+  "title": "Mobile-LLaMA: Instruction Fine-Tuning Open-Source LLM for Network Analysis in 5G Networks",
+  "authors": [
+   "Khen Bo Kan",
+   "Hyunsu Mun",
+   "Guohong Cao",
+   "Youngseok Lee"
+  ],
+  "year": 2024,
+  "venue": "IEEE Network",
+  "doi": "10.1109/MNET.2024.3421306",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/MNET.2024.3421306",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "E04",
+  "title": "QLoRA: Efficient Finetuning of Quantized LLMs",
+  "authors": [
+   "Tim Dettmers",
+   "Artidoro Pagnoni",
+   "Ari Holtzman",
+   "Luke Zettlemoyer"
+  ],
+  "year": 2023,
+  "venue": "Advances in Neural Information Processing Systems (NeurIPS)",
+  "doi": "10.52202/075280-0441",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.52202/075280-0441",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "E07",
+  "title": "TinyBERT: Distilling BERT for Natural Language Understanding",
+  "authors": [
+   "Xiaoqi Jiao",
+   "Yichun Yin",
+   "Lifeng Shang",
+   "Xin Jiang",
+   "Xiao Chen",
+   "Linlin Li",
+   "Fang Wang",
+   "Qun Liu"
+  ],
+  "year": 2020,
+  "venue": "Findings of the Association for Computational Linguistics: EMNLP 2020",
+  "doi": "10.18653/v1/2020.findings-emnlp.119",
+  "type": "proceedings-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.18653/v1/2020.findings-emnlp.119",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "E15",
+  "title": "IoV-BERT-IDS: Hybrid Network Intrusion Detection System in IoV Using Large Language Models",
+  "authors": [
+   "Mengyi Fu",
+   "Pan Wang",
+   "Minyao Liu",
+   "Ze Zhang",
+   "Xiaokang Zhou"
+  ],
+  "year": 2025,
+  "venue": "IEEE Transactions on Vehicular Technology",
+  "doi": "10.1109/TVT.2024.3402366",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/TVT.2024.3402366",
+  "evidence": "BIB"
+ },
+ {
+  "src_key": "E18",
+  "title": "Tele-LLMs: A Series of Specialized Large Language Models for Telecommunications",
+  "authors": [
+   "Ali Maatouk",
+   "Kenny Chirino Ampudia",
+   "Rex Ying",
+   "Leandros Tassiulas"
+  ],
+  "year": 2026,
+  "venue": "IEEE Access",
+  "doi": "10.1109/ACCESS.2026.3698683",
+  "type": "journal-article",
+  "abstract": null,
+  "source_url": "https://doi.org/10.1109/ACCESS.2026.3698683",
+  "evidence": "BIB"
+ }
+]

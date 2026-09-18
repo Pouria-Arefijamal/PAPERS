@@ -1,0 +1,10 @@
+ITBench Evaluating AI Agents across Diverse Real-World IT Automation Tasks
+AIOpsLab Enabling Holistic Evaluation of AIOps Agents
+RCAEval A Benchmark for Root Cause Analysis
+AgentPN Loop Benchmarking AI Agents for Private 5G 6G Network Management
+6G-Bench An Open Benchmark for Semantic Communication and Network-Level Reasoning
+SWE-Bench 5G Benchmarking AI Coding Agents on Telecom Network Engineering Tasks
+AutoONBench a benchmark for large language model agents in autonomous optical networks
+OperAID Benchmarking LLM Agents for Autonomous Kubernetes Fault Remediation
+TrafficNetQA Question Answering Datasets for Evaluating LLM Performance on Traffic Network Files
+OpenRCA Benchmarking Large Language Models on Root Cause Analysis

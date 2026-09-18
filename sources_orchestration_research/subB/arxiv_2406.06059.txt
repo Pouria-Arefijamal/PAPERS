@@ -1,0 +1,402 @@
+                                         Accepted by the WCNC 2025. The final version of the published material can change at any time without any notice. Personal
+                                         use is permitted only. ©2025 IEEE
+
+
+                                               LLM-Based Intent Processing and Network
+                                             Optimization Using Attention-Based Hierarchical
+                                                         Reinforcement Learning
+                                                          Md Arafat Habib1 , Pedro Enrique Iturria Rivera1 , Yigit Ozcan2 , Medhat Elsayed2 ,
+                                                         Majid Bavand2 , Raimundus Gaigalas3 and Melike Erol-Kantarci1 , Senior Member, IEEE
+                                                         1
+                                                             School of Electrical Engineering and Computer Science, University of Ottawa, Ottawa, Canada
+                                                                            2
+                                                                              Ericsson Inc., Ottawa, Canada 3 Ericsson AB, Stockholm, Sweden
+                                                                              Emails:{mhabi050, pitur008, melike.erolkantarci}@uottawa.ca,
+arXiv:2406.06059v2 [cs.NI] 21 Dec 2024
+
+
+
+
+                                                                    {yigit.ozcan, medhat.elsayed, majid.bavand, raimundas.gaigalas }@ericsson.com
+
+                                            Abstract—Intent-based network automation is a promising            such context and understanding the underlying meaning of
+                                         tool that enables easier network management; however, certain         sentences (intents) within a broader spectrum [2].
+                                         challenges must be addressed effectively. These are: 1) processing
+                                         intents, i.e., identification of logic and necessary parameters to       Processing intents expressed in natural language by the
+                                         fulfill an intent, 2) validating an intent to align it with current   human network operator is important to derive policies for
+                                         network status, and 3) satisfying intents via network optimizing      network performance optimization. However, allowing any kind
+                                         applications. This paper addresses these points via a three-fold      of intent to put an impact on the network configurations can
+                                         strategy to introduce intent-based automation for modern 5G           lead to serious degradation in performance. For example, an
+                                         architectures. First, intents are processed via a lightweight Large
+                                         Language Model (LLM). Secondly, once an intent is processed, it       intent: “Increase energy efficiency by 30%” during peak hours
+                                         is validated against future incoming traffic volume profiles (high    can degrade performance due to high incoming traffic volume.
+                                         or low). Finally, a series of network optimization applications has   This kind of scenario requires a sophisticated method of
+                                         been developed. With their machine learning-based functionalities,    intent validation using contemporary network status to ensure
+                                         they can improve certain key performance indicators such as           a seamless user experience without compromising any QoS.
+                                         throughput, delay, and energy efficiency. In the final stage, using
+                                         an attention-based hierarchical reinforcement learning algorithm,        The concept of an Open Radio Access Network (Open RAN)
+                                         these applications are optimally initiated to satisfy the intent of   facilitates the idea of disaggregating the traditional RAN and
+                                         an operator. Our simulations show that the proposed method can        promoting interoperability between components from different
+                                         achieve at least a 12% increase in throughput, a 17.1% increase       vendors. This concept enables the deployment of network-
+                                         in energy efficiency, and a 26.5% decrease in network delay
+                                         compared to the baseline algorithms.
+                                                                                                               optimizing applications (apps) in intelligent RAN controllers,
+                                            Index Terms—Attention-based hierarchical reinforcement             which can be triggered by processed intents. In [3], intents
+                                         learning, intent-based network automation, network optimization       are transformed into goals for a Hierarchical Reinforcement
+                                                                                                               Learning (HRL) algorithm to initiate such applications for
+                                                                                                               intent fulfillment. However, the computational intensity of
+                                                                  I. I NTRODUCTION                             selecting optimal combinations from numerous applications
+                                            An intent can be defined as the expectations, including            becomes significant for an AI agent.
+                                         requirements, goals, and constraints for a specific service              To this end, we propose a three-fold strategy to perform
+                                         or network management workflow [1]. It is typically under-            intent processing, validation, and application initiation based
+                                         standable by humans and must be interpreted by machines               on intents. We begin by processing intents using a pre-
+                                         without ambiguity. Furthermore, it emphasizes “What” needs            trained LLM named Bidirectional Encoder Representations
+                                         to be achieved, rather than focusing on “How” to achieve              from Transformers (BERT) [4]. In the next step, intent val-
+                                         the outcomes, specifying the desired metrics without detailing        idation is performed using a Transformer-based time series
+                                         the process to attain them [1]. It is anticipated that Mobile         predictor for upcoming traffic volume [5]. This ensures that the
+                                         Network Operators (MNOs) will leverage advancements in                intended adjustments to the network are not only theoretically
+                                         natural language processing to express intents in plain language      sound but also practical and feasible given expected future
+                                         for automated network management. In modern 5G networks,              traffic patterns. Lastly, to overcome the computational burden
+                                         achieving such intent-based automation can be challenging             of selecting the appropriate combination of applications from a
+                                         especially because intents can vary widely based on network           high number of possible choices, we utilize an attention-based
+                                         conditions, customer demands, and industry-specific terminolo-        HRL framework that takes the processed intents (magnitude of
+                                         gies [1]. Therefore, a contextual understanding of the intents is     the intended performance metric by an operator) as goals. By
+                                         vital for accurate intent processing. Large Language Models           using an attention mechanism to filter only the feasible options
+                                         (LLMs) with its transformer architecture excel at capturing           [6], the system can significantly reduce the computational
+burden.
+   The simulation results demonstrate that the proposed scheme
+yields significant improvements compared to two baseline
+approaches: HRL without attention and intent validation, and
+a single-application scenario developed using Deep RL (DRL).
+The proposed approach surpasses the HRL baseline in terms
+of throughput, delay, and energy efficiency by 12.02%, 26.5%,
+and 17.1% respectively. Moreover, compared to the DRL
+baseline, the proposed method achieves superior results across
+the same performance metrics, with improvements of 17.2%,
+48.6%, and 39.3% respectively.
+
+                     II. R ELATED WORK
+                                                                    Fig. 1. Three-step methodology for intent processing, validation, and perfor-
+   Even though using LLMs to process intents for network            mance optimization.
+optimization is a relatively new concept, a few works have
+been found in the literature. Wang et al.’s development of a        bottom focuses on real-time decisions, such as handling imme-
+transformer model based on an LLM is one such example,              diate network changes, performing handovers, or dynamically
+where multi-modal representation learning is employed to            adjusting resources based on the current network state. It
+integrate various forms of network data into a unified feature      operates within the framework set by the strategic controller
+space [7]. Similarly, Kristina et al. have introduced a pipeline    but is more focused on near-real-time adjustments to ensure
+that utilizes an LLM to process intents into structured, policy-    smooth network operation from moment to moment.
+based abstractions, linking them to APIs for execution [2].            The controllers host applications focusing on control and
+   To manage network applications based on operator intents,        optimization tasks across two different time scales. We deploy
+an approach based on HRL is proposed in [3] where intents           BSs capable of switching bands from 5G mid band to high
+are processed into goals for the control algorithm to optimize      band frequencies. This deployment enables us to cater to
+performance. Polese et al. propose a framework to collect con-      high-throughput traffic by employing intelligent beamforming
+trol requests (intents) and select the optimal Machine Learning     techniques. An application can be developed to regulate power
+(ML) models to achieve the operator’s goals to avoid conflicts      based on UE location, utilizing minimal transmission power
+[8].                                                                for enhanced energy efficiency. The system facilitates analog
+   Compared with existing literature, the main contribution of      beamforming, with each BS employing a uniform linear array
+this work lies in deploying an LLM to interpret a human             of µ antennas [9]. Beamforming weights for each beamforming
+network operator’s intent and extract specific parameters for       vector are implemented using constant modulus phase shifters.
+further network performance optimization. Processed intents         Additionally, we assume the presence of a beam steering-based
+are validated against future wireless traffic conditions. Intents   codebook F , from which beamforming vectors are selected [9].
+lead HRL agents to initiate and orchestrate multiple network        Each BS b operates with a transmit power PT X,b ∈ P , where
+applications with an efficient exploration of action space via      P represents the set of candidate transmit powers. The energy
+an attention mechanism.                                             consumption model for the BS is obtained from [10].
+
+                     III. S YSTEM M ODEL                            A. Problem Definition
+   A cellular system employing downlink Orthogonal Fre-                Based on the system and network model discussed so far,
+quency Division Multiplexing (OFDM) is considered in this           we introduce multiple applications. There are two sets of them.
+work. There are B base stations that concurrently serve U           The first set consists of intent translation, validation, and meta-
+users. Within the macro cell’s coverage area, multiple small        controller (associated with our RL-based control algorithm).
+cells are deployed. The system supports K classes of traffic,       The second set consists of traffic steering, beamforming, cell
+and users are connected through dual connectivity across mul-       sleeping, power allocation, and handover management appli-
+tiple Radio Access Technologies (RATs). These RAT classes           cations that can be directly controlled by the first set. All
+can facilitate various technologies like LTE, and 5G.               applications from the first set, along with cell sleeping, operate
+   The system model, shown in Fig. 1, proposes two distinct         on a time frame longer than 1 second within the strategic
+controllers responsible for managing RAN functionalities: the       controller, while the others preferably operate on a time scale
+strategic controller and the tactical controller. The strategic     between 10 ms and 1s within the tactical controller.
+controller on top is responsible for long-term goals, such as          Let us define Ψ as the collection of applications, and their
+network-wide performance optimizations, and policy formula-         various combinations. Let σ represent the subset of Ψ which
+tion. It can define the network’s broader objectives, including     contains at least one element that is capable of enhancing
+service quality guarantees, energy efficiency, or overall traffic   network performance in response to operator intents. We also
+management for a timespan. The tactical controller on the           define ρ as the set of potential KPIs that an application might
+improve, and Qs as the set of QoS requirements that must                     The methodology involves constructing a prompt that includes
+be met by the system. Given these definitions, the challenge                 a few examples of intents with their corresponding types and
+of orchestrating applications based on operator intent can be                keywords. This prompt is then used to query the LLM, which
+formulated as follows:                                                       classifies new intents and extracts the required information
+           P1 : max
+                      X X
+                                 (Cρ − ϖγqs ),                               based on the provided examples. Before processing new intents,
+                      ρ∈ϱ qs ∈Qs                          (1)                a set of examples is prepared. Each example consists of:
+                                                                                • Intent: A natural language statement describing the intent.
+                 s.t. ∀(Ψ)∃(σ) : ζ(O) = 1,
+                                                                                • Type: The category or classification of the intent.
+where C is the magnitude of the intended performance metric                     • Keywords: Key phrases or terms extracted from the intent.
+the operator intends to improve. ϖ is the penalty parameter                     A prompt is constructed by sequentially adding the prepared
+for QoS requirement violation, and γqs represents the number                 examples. Each example is formatted to include the intent (I =
+of UEs whose QoS requirements have been violated. The                        {i1 , i2 , . . . , in }), type (Ity = {ty1 , ty2 , ..., tym }), and keywords
+evaluation is binary: a UE is counted only if its QoS standards              (Λ = {λ1 , λ2 , . . . , λw }). After adding all the examples, the new
+are not met. Lastly, ζ(O) is the proposition that “An application            intent is appended to the prompt (p), followed by a request for
+can improve a performance metric”, which is either ‘0’ or ‘1’.               classification and keyword extraction. The constructed prompt
+   The second problem we want to address in this work                        is sent to the pre-trained LLM (a lightweight version of BERT)
+is associated with intent validation. QoS parameters deviate                 [11]. The LLM uses the context provided by the examples to
+from the originally defined QoS metrics over time due to                     understand the task and generate a response that includes the
+performance degradation in the wireless networks, causing QoS                classification and keywords for the new intent. The response
+drifts. For a specific traffic class k (K = {k1 , k2 , . . . , kη }), with   from the LLM is parsed to extract the classified type of the new
+its set of QoS requirements Qs (Qs = {Qs1 , Qs2 , . . . , Qsj })             intent and the extracted keywords. Each new intent’s classified
+and corresponding performance metrics C, the QoS drift can                   type and keywords are compiled into a result set.
+be formulated as follows:                                                       This intent processing functionality is presented as a User
+                        X X
+            P2 : min              {DQoS − AQoS },                            Interface (UI) and intent translation application in Fig. 1. The
+                      qs ∈Qs c∈C                                       (2)   job of this application is to work as a UI for a human operator
+               s.t. AQoS ≤ DQoS and AQoS > 0.                                and process the intents with crucial information to feed the
+                                                                             intent validation and the meta-controller application. We further
+   In (2), AQoS represents the achieved value of a metric (e.g.              elaborate our intent processing methodology via Algorithm 1.
+delay, throughput) for a certain traffic type at time t, and DQoS            The approach can be categorized as prompt engineering, where
+represents the pre-defined value of the same parameter which                 the prompt serves as a template for the LLM to infer the correct
+has to be maintained for optimal performance. The objective                  response based on minimal data examples.
+here is to validate intents that will not result in QoS drifts. For
+cases where AQoS > DQoS , we consider there is no QoS drift                  B. Predictive Intent Validation Using Transformer
+and the intent is valid. Otherwise, we calculate the QoS drift,                 To perform intent validation, we utilize one of our previous
+IQ = DQoS − AQoS based on (2).                                               works [5] where traffic data are collected so that it can be
+   Another objective of this work is to reduce the large action              fed to the transformer-based time series predictor for future
+space, which consists of numerous potential combinations of                  traffic volume prediction. The traffic predictor resides in the
+applications. To solve this problem, we define an attention                  strategic controller (named as intent validation app, as in
+function α(st , i, a) that scores each action a ∈ A based on                 Fig 1.). The forecast for traffic volume is performed for
+the current state st and the operator’s intent i.                            successive time intervals, with two distinct thresholds derived
+                                                                             from historical data. The higher threshold, denoted as T hp ,
+                 IV. P ROPOSED M ETHODOLOGY                                  is decided based on previous instances of heavy traffic. If the
+   In this section, first, we discuss processing intents using an            forecast traffic surpasses T hp , applications like traffic steering
+LLM and then predictive intent validation. The last part of                  and power allocation can be activated to enhance or sustain
+this section consists of an HRL-based attention mechanism for                high throughput, depending on the intent of a human operator.
+application initiation and orchestration.                                    The lower threshold, T ht , is established based on low traffic
+A. Intent Processing using LLM                                               volume. In the event that the anticipated traffic decreases to less
+                                                                             than this threshold, an intent to increase energy efficiency can
+   Intent-based networking simplifies network and adminis-                   be validated. It will then lead to the initiation of energy-saving
+trative tasks by automating system operations through the                    applications like cell sleeping due to the expected lower traffic
+comprehension and execution of operator-defined intents, such                levels. The algorithmic process of predictive traffic validation
+as “Increase overall energy efficiency by 10%”, “Boost system                is presented in Algorithm 2.
+throughput by 15%”, or “Reduce network delay by 13%”.
+These intents focus on improving metrics like throughput,                    C. Network Optimization Using Attention-based HRL
+energy efficiency, and network delay. Our approach uses few-                   After intent validation, we optimize the network performance
+shot learning to classify intents and extract relevant keywords.             based on the operator intent using an HRL algorithm. We
+Algorithm 1 Intent Processing Using LLM                                     opt for a hierarchical Deep-Q-Network (h-DQN) having a
+                                                                            two-level hierarchy with a meta-controller on top [12] and
+Require: E = {(i1 , ty1 , λ1 ), (i2 , ty2 , λ2 ), ...}, Ξ = {(i, ty , λ)}
+                                                                            a controller on the bottom. These two controllers are solely
+ 1: procedure C LASSIFYA ND E XTRACT (I, E, LLM )
+                                                                            related to the h-DQN algorithm that we are proposing to use to
+ 2:    Ξ←∅
+                                                                            manage network-optimizing applications. Meta-controller and
+ 3:    for all i ∈ I do
+                                                                            the controller are hosted in the strategic and tactical controller,
+ 4:        p ← C REATE P ROMPT(i, E)
+                                                                            respectively. We employ an attention mechanism [6] to reduce
+ 5:        response ← Q UERY LLM(p, LLM )
+                                                                            the action space for our h-DQN agent, enhancing efficiency and
+ 6:        (ty , λ) ← PARSE R ESPONSE(response)
+                                                                            decision-making while expediting convergence. We can define
+ 7:        Ξ ← Ξ ∪ {(i, ty , λ)}
+                                                                            the attention function as follows:
+ 8:    end for
+ 9:    return Ξ                                                                                  α(st , i, a) = fθ (st , i, a),               (3)
+10: end procedure
+                                                                            where fθ computes the attention score trained using supervised
+11: procedure C REATE P ROMPT (i, E)
+                                                                            learning, to predict which actions are most likely to fulfill
+12:    p←“ ”
+                                                                            the operator’s intent. Once the attention scores α(st , i, a)
+13:    for all e ∈ E do
+                                                                            are computed, the action space is reduced to a subset, Aatt s
+14:        p ← p + “Example:”
+                                                                            containing only the most relevant actions.
+15:        p ← p + “Intent: ” + e[0]
+16:        p ← p + “Type: ” + e[1]                                                          Aatt
+                                                                                             s = {a ∈ A | α(st , i, a) > ϵ},                  (4)
+17:        p ← p + “Keywords: ” + e[2]
+                                                                            where ϵ is a threshold that filters out actions with low relevance.
+18:    end for
+                                                                            This subset Aatts  is much smaller than the full action space
+19:    p ← p + “New Intent: ” + i
+                                                                            A, allowing the agent to make decisions more efficiently. For
+20:    p ← p + “Type, Keywords”
+                                                                            each Markovian option ω [6], the attention mechanism selects
+21:    return p
+                                                                            only the relevant options based on the operator’s intent. Each
+22: end procedure
+                                                                            option is defined by a policy πω , a termination condition βω ,
+23: procedure Q UERY LLM(p, LLM )
+                                                                            and an initiation set Is . After reducing the action space, the
+24:    return LLM.Q UERY(p)
+                                                                            agent applies its policy π to select the best action from Aatt s :
+25: end procedure
+26: procedure PARSE R ESPONSE (response)                                                       π(st ) = arg max
+                                                                                                              att
+                                                                                                                  Q(st , a),                  (5)
+                                                                                                              a∈As
+27:    type ← E XTRACT T YPE(response)
+28:    keywords ← E XTRACT K EYWORDS(response)                              where Q(st , a) is the action-value function that represents the
+29:    return (type, keywords)                                              expected return from taking action a in state st .
+30: end procedure                                                              Meta-controller in h-DQN can take in a network state (e.g.,
+                                                                            traffic class) and a goal (desired change of a performance metric
+                                                                            extracted from an intent) to achieve. The controller in the lower
+Algorithm 2 Intent Validation Based on Traffic Prediction                   level takes the action of choosing an application or combi-
+ 1: Predict traffic Tp for t + 1 and extract i using Algorithm 1            nations of them based on the state and the goal. The meta-
+ 2: if (Tp > T hp || Tp < T ht ) then                                       controller is designed as a top-level application in the strategic
+ 3:     Check QoS profiles for the relevant traffic class k                 controller (see Fig. 1). Applications are controlled by the meta-
+ 4:     if i impacts Qs then                                                controller that can directly optimize system performance. At
+ 5:          for each QoS parameter Qsj in kη ’s profile do                 this stage of the work, we define the following MDP for the
+ 6:              Calculate QoS drift IQ (Qsj ) using eq. 2                  h-DQN to solve the problem formulated in (1).
+ 7:              if IQ (Qsj ) ̸= 0 then                                        • State and Action: The set of states consists of
+ 8:                  Intent invalid                                               traffic flow types of different users in the network.
+ 9:                  break                                                        S = {T1 , .., T2 , ..., T3 , ..., T4 , ..}. Both meta-controller
+10:              end if                                                           and controller share the same states. Selecting network
+11:          end for                                                              optimizing applications, or combinations of them is con-
+12:          if IQ for elements in Qs is 0 || AQoS > DQoS then                    sidered as actions to be performed by the controller which
+13:              Validate intent                                                  is defined as {A = AApp1 , AApp1,2 , ...., AAppN }.
+14:          end if                                                            • Intrinsic reward: The intrinsic reward function (rin ) for
+15:     end if                                                                    the controller is: rin = Cρ − ϖγqs (see (1) for more
+16: else                                                                          details.).
+17:     Re-calculate T hp and T ht                                             • Goal for the controller: Increased level of a performance
+18: end if                                                                        metric that can satisfy operator intent is passed to the con-
+19: return Validation results                                                     troller as goals. For example, G = {T P1 , T P2 , ..., T Pn }
+                                                                                  for throughput increasing intents.
+  •   Extrinsic reward: Summation of the intrinsic reward over
+      τ steps.
+   We have used five applications in total that are controlled by
+the meta-controller. They are traffic steering [13], cell sleeping
+[3], beamforming [3], power allocation [14], and energy effi-
+cient handover management [15]. All of these applications are
+based on DRL. The traffic steering application is engineered
+to concurrently uphold QoS across various traffic types by em-
+ploying a steering mechanism to ensure optimal performance
+in terms of delay and throughput. The cell sleeping app (works
+on a longer time scale in the strategic controller) aims to reduce
+network power consumption by deactivating idle or less busy
+BSs based on traffic load and queue length. The beamforming
+application uses UE coordinates to sort out the steering angle,                Fig. 2. Impact of intent validation on energy efficiency.
+and the array steering vector corresponding to the respective
+element in the codebook. The power allocation application
+tries to maximize the total throughput and lastly, the handover
+management app is specifically tailored with DRL to achieve
+energy efficiency via optimally tailored handover policies.
+The process of selecting and orchestrating apps for network
+optimization using HRL can be summarized as follows:
+   • Step 1: An input is provided by the human network
+      operator associated with a performance metric.
+   • Step 2: Intent is processed and crucial information like
+      intent type: “energy-efficiency/ throughput/ Delay”, and
+      magnitude of change (in percentage) are extracted using
+      pre-trained LLM.
+   • Step 3: Extracted information is passed to the intent                        Fig. 3. Impacts of operator intents on throughput.
+      validation application.
+   • Step 4: With a valid intent, a target associated with the           There are four traffic types: video, gaming, voice, and
+      performance metrics (goals) and feasible action set for the     Ultra Reliable Low Latency Communications (URLLC), each
+      intent are provided to the controller by the meta-controller.   characterized by specific inter-arrival times for packets: 12.5
+   • Step 5: The controller selects an application or a combi-        ms, 40 ms, 20 ms, and 0.5 ms, respectively. These packet inter-
+      nation of them to reach the target performance as close as      arrival times follow different distributions—Pareto for video,
+      possible.                                                       Uniform for gaming, and Poisson for both voice and URLLC.
+   • Step 6: Selected applications optimize the performance of        In the following section, we present results using shorthand
+      the network as a response to the intent of the operator.        identifiers for applications: App1 (traffic steering), App2 (cell
+                                                                      sleeping), App3 (beamforming), App4 (power allocation), and
+               V. P ERFORMANCE E VALUATION
+                                                                      App5 (handover management).
+   In this section, first, we introduce the simulation settings          Table I provides a summary of the tunable parameters for
+followed by the simulation results showing the effectiveness          both the Autoformer (used for traffic prediction) and the RL
+and superiority of the proposed method.                               methods (including the HRL control algorithm and DRL-based
+                                                                      network applications).
+A. Simulation setup
+   The simulation setup for this study features a macro cell
+surrounded by densely deployed small cells in a multi-RAT                                         TABLE I
+                                                                                 PARAMETER SETTINGS FOR AUTOFORMER AND RL
+(multi-radio access technology) environment, accommodating
+a total of 60 users. For the 5G NR configuration, a bandwidth          Autoformer
+                                                                       Learning rate (α), Batch size          10−4 , 32 [5]
+of 60 MHz is used, with carrier frequencies of 3.5 GHz and             Model architecture                     2 encoder layers, 1 decoder layer
+30 GHz, a subcarrier spacing of 15 KHz, and a maximum                  HRL parameters (h-DQN)
+transmission power of 43 dBm, based on the 3GPP urban micro            Exploration Probability (ϵ2 )          1, annealed to 0.1 [12]
+channel model [16]. The LTE setup, on the other hand, employs          Learning rate (α), discount factor γ   0.00025, 0.99 [12]
+                                                                       RL paramters (applications)
+a 40 MHz bandwidth, an 800 MHz carrier frequency, a 15 KHz             Batch size, Initial exploring steps    32, 3000
+subcarrier spacing, and a maximum transmission power of 38             Learning rate (α), discount factor γ   0.5, 0.9
+dBm, following the 3GPP urban macro channel model [16].
+B. Simulation Results
+   The first simulation result is associated with intent validation.
+When there is no intent validation, conflicting intents from an
+operator can severely degrade performance. Fig. 2 presents such
+an example where we have a traffic load of 5Mbps. At 2200th
+time slot, there is a sharp decrease in energy efficiency. This is
+because of the unwanted intent of increasing throughput even
+though the cell sleeping application is active due to low traffic
+demand. An intent of increasing throughput would result in
+activating more cells unnecessarily and decrease overall energy
+efficiency. Similar impacts can be observed for other KPIs like
+delay, and throughput also.
+   As shown in Fig. 3, the human operator’s goal to “in-
+crease throughput” leads to multiple application selection. For
+instance, aiming for a 5% throughput increase results in a
+noticeable surge after several time slots due to App1. Aiming
+for a 10% increase involves both App1 and App3. Conversely,
+reducing power consumption significantly decreases throughput
+around the 1250th time slot, reflecting the deactivation of App1
+and App3 and the activation of App2. When the operator aims
+for a 20% increase, App1, App3, and App4 together produce
+                                                                       Fig. 4. Performance analysis of the proposed method: (a) network delay, (b)
+a sharp throughput rise.                                               throughput, and (c) energy efficiency.
+   The proposed method’s effectiveness is compared with two
+baselines: an HRL-based application initiation without an at-                                        R EFERENCES
+tention mechanism or intent validation, and a single DRL-based          [1] 3GPP, “Management and Orchestration; intent Driven Management
+application scenario. The proposed method employs a hard                    Services for Mobile Networks,” ETSI, Technical Specification TS 28.312,
+attention mechanism, focusing on the subset of applications                 March 2022, release 17. [Online]. Available: https://www.etsi.org/deliver/
+                                                                            etsi ts/128300 128399/128312/17.00.01 60/ts 128312v170001p.pdf
+most relevant for the current traffic type and operator’s intent.       [2] K. Dzeparoska, J. Lin, A. Tizghadam, and A. Leon-Garcia, “LLM-Based
+This focus reduces conflicting actions and shows superior                   Policy Generation for Intent-Based Management of Applications,” in
+performance over the HRL baseline (improvements of 12.02%                   2023 19th International Conference on Network and Service Management
+                                                                            (CNSM), 2023, pp. 1–7.
+in throughput, 26.5% in delay, and 17.1% in energy efficiency)          [3] M. A. Habib, H. Zhou, P. E. Iturria-Rivera, M. Elsayed, M. Bavand,
+and the DRL baseline (improvements of 17.25%, 48.6%, and                    R. Gaigalas, Y. Ozcan, and M. Erol-Kantarci, “Intent-driven Intelligent
+39.3% in the same metrics), as observed in Fig. 4.                          Control and Orchestration in O-RAN Via Hierarchical Reinforcement
+                                                                            Learning,” in 2023 IEEE 20th International Conference on Mobile Ad
+                                                                            Hoc and Smart Systems, 2023, pp. 55–61.
+                                                                        [4] J. Devlin, M. Chang, K. Lee, and K. Toutanova, “BERT: Pre-training of
+                       VI. C ONCLUSIONS                                     Deep Bidirectional Transformers for Language Understanding,” CoRR,
+   In this paper, first, we process intents using an LLM and                vol. abs/1810.04805, 2018.
+                                                                        [5] M. A. Habib, P. E. Iturria-Rivera, Y. Ozcan, M. Elsayed, M. Bavand,
+extract crucial information regarding which performance metric              R. Gaigalas, and M. Erol-Kantarci, “Transformer-Based Wireless Traf-
+to optimize and by how much. Next, a Transformer-based                      fic Prediction and Network Optimization in O-RAN,” arXiv preprint
+intent validation technique has been used to rule out intents               arXiv:2403.10808, Mar. 2024.
+                                                                        [6] A. C. Nica, K. Khetarpal, and D. Precup, “The Paradox of Choice:
+that conflict with the contemporary network state to avoid                  Using Attention in Hierarchical Reinforcement Learning,” CoRR, vol.
+performance degradation. Lastly, we use an attention-based                  abs/2201.09653, 2022.
+HRL to initiate and orchestrate applications for performance            [7] J. Wang, L. Zhang, Y. Yang, Z. Zhuang, Q. Qi, H. Sun, L. Lu, J. Feng,
+                                                                            and J. Liao, “Network Meets ChatGPT: Intent Autonomous Management,
+optimization. The proposed method outperforms the HRL base-                 Control and Operation,” Journal of Communications and Information
+line in throughput, delay, and energy efficiency by 12.02%,                 Networks, vol. 8, no. 3, pp. 239–255, 2023.
+26.5%, and 17.1% respectively. Additionally, compared to the            [8] S. D’Oro, L. Bonati, M. Polese, and T. Melodia, “OrchestRAN: Network
+                                                                            Automation Through Orchestrated Intelligence in the Open RAN,” in
+DRL baseline, it achieves superior results across the same                  IEEE INFOCOM 2022, 2022, pp. 270–279.
+performance metrics, with enhancements of 17.25%, 48.6%,                [9] F. B. Mismar, B. L. Evans, and A. Alkhateeb, “Deep Reinforcement
+and 39.3% respectively. In the future, we plan to perform highly            Learning for 5G Networks: Joint Beamforming, Power Control, and Inter-
+                                                                            ference Coordination,” IEEE Transactions on Communications, vol. 68,
+complex intent translations from the human network operator.                no. 3, pp. 1581–1592, 2020.
+                                                                       [10] P. Ren and M. Tao, “A Decentralized Sleep Mechanism in Heterogeneous
+                                                                            Cellular Networks with QoS Constraints,” IEEE Wireless Communica-
+                     ACKNOWLEDGEMENT                                        tions Letters, vol. 3, no. 5, pp. 509–512, Oct. 2014.
+                                                                       [11] Z. Lan, M. Chen, S. Goodman, K. Gimpel, P. Sharma, and R. Soricut,
+  This work has been supported by MITACS, Ericsson Canada,                  “ALBERT: A Lite BERT for Self-supervised Learning of Language
+and the NSERC Canada Research Chairs program.                               Representations,” CoRR, vol. abs/1909.11942, 2019.
+[12] T. D. Kulkarni, K. Narasimhan, A. Saeedi, and J. B. Tenenbaum, “Hier-
+     archical Deep Reinforcement Learning: Integrating Temporal Abstraction
+     and Intrinsic Motivation,” CoRR, vol. abs/1604.06057, 2016.
+[13] M. A. Habib, H. Zhou, P. E. Iturria-Rivera, M. Elsayed, M. Bavand,
+     R. Gaigalas, S. Furr, and M. Erol-Kantarci, “Traffic Steering for 5G
+     Multi-RAT Deployments using Deep Reinforcement Learning,” in IEEE
+     20th CCNC, 2023, pp. 164–169.
+[14] H. Zhang, H. Zhou, and M. Erol-Kantarci, “Team Learning-Based
+     Resource Allocation for Open Radio Access Network (O-RAN),” in ICC
+     2022, 2022, pp. 4938–4943.
+[15] Y. Song, S. H. Lim, and S.-W. Jeon, “Handover Decision Making for
+     Dense HetNets: A Reinforcement Learning Approach,” IEEE Access,
+     vol. 11, pp. 24 737–24 751, 2023.
+[16] E. Dahlman, S. Parkvall, and J. Skold, 4G, LTE-Advanced Pro and The
+     Road to 5G, Third Edition, 3rd ed. USA: Academic Press, Inc., 2016.
+

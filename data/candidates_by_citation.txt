@@ -1,0 +1,378 @@
+59684 | 1998 | Proceedings of the IEEE                              | Gradient-based learning applied to document recognition
+47357 | 2021 | Nature                                               | Highly accurate protein structure prediction with AlphaFold
+46030 | 2018 | arXiv (Cornell University)                           | AI-Assisted Pipeline for Dynamic Generation of Trustworthy Health Supplement Content at Scale
+ 8287 | 2014 | IEEE Journal on Selected Areas in Communications     | What Will 5G Be?
+ 6560 | 2023 | Learning and Individual Differences                  | ChatGPT for good? On opportunities and challenges of large language models for education
+ 4076 | 2019 | arXiv (Cornell University)                           | ALBERT: A Lite BERT for Self-supervised Learning of Language\n Representations
+ 3871 | 2014 | IEEE Communications Magazine                         | Five disruptive technology directions for 5G
+ 3862 | 2022 | ACM Computing Surveys                                | Pre-train, Prompt, and Predict: A Systematic Survey of Prompting Methods in Natural Language Processing
+ 3662 | 2022 | IEEE Journal on Selected Areas in Communications     | Integrated Sensing and Communications: Toward Dual-Functional Wireless Networks for 6G and Beyond
+ 3509 | 2019 | IEEE Access                                          | Wireless Communications Through Reconfigurable Intelligent Surfaces
+ 3178 | 2019 | Neural Networks                                      | Continual lifelong learning with neural networks: A review
+ 3048 | 2021 | IEEE Transactions on Communications                  | Intelligent Reflecting Surface-Aided Wireless Communications: A Tutorial
+ 2907 | 2010 | Journal of Artificial Intelligence Research          | From Frequency to Meaning: Vector Space Models of Semantics
+ 2795 | 2017 | Frontiers in Psychology                              | A Review of Self-regulated Learning: Six Models and Four Directions for Research
+ 2613 | 2019 | IEEE Access                                          | Wireless Communications and Applications Above 100 GHz: Opportunities and Challenges for 6G and Beyond
+ 2535 | 2014 | Proceedings of the IEEE                              | Millimeter-Wave Cellular Wireless Networks: Potentials and Challenges
+ 2490 | 2023 | arXiv (Cornell University)                           | GPT-4 Technical Report
+ 2428 | 2015 | IEEE Access                                          | A Survey of 5G Network: Architecture and Emerging Technologies
+ 2388 | 2019 | Proceedings of the IEEE                              | Edge Intelligence: Paving the Last Mile of Artificial Intelligence With Edge Computing
+ 2253 | 2023 | IEEE Communications Surveys & Tutorials              | On the Road to 6G: Visions, Requirements, Key Technologies, and Testbeds
+ 2242 | 2014 | IEEE Communications Magazine                         | Cellular architecture and key technologies for 5G wireless communication networks
+ 2055 | 2020 | Science China Information Sciences                   | Towards 6G wireless communication networks: vision, enabling technologies, and new paradigm shifts
+ 1921 | 2015 | IEEE Communications Surveys & Tutorials              | Network Function Virtualization: State-of-the-Art and Research Challenges
+ 1783 | 2017 | IEEE Communications Surveys & Tutorials              | On Multi-Access Edge Computing: A Survey of the Emerging 5G Network Edge Cloud Architecture and Orchestration
+ 1717 | 2020 | (none)                                               | TinyBERT: Distilling BERT for Natural Language Understanding
+ 1601 | 2024 | Frontiers of Computer Science                        | A survey on large language model based autonomous agents
+ 1596 | 2021 | IEEE Open Journal of the Communications Society      | The Road Towards 6G: A Comprehensive Survey
+ 1585 | 2023 | arXiv (Cornell University)                           | Sparks of Artificial General Intelligence: Early experiments with GPT-4
+ 1562 | 2023 | ACM Computing Surveys                                | Diffusion Models: A Comprehensive Survey of Methods and Applications
+ 1547 | 2026 | Frontiers of Computer Science                        | A Survey of Large Language Models
+ 1538 | 2023 | (none)                                               | Efficient Memory Management for Large Language Model Serving with PagedAttention
+ 1510 | 2020 | IEEE Communications Surveys & Tutorials              | Satellite Communications in the New Space Era: A Survey and Future Challenges
+ 1502 | 2020 | IEEE Communications Surveys & Tutorials              | Convergence of Edge Computing and Deep Learning: A Comprehensive Survey
+ 1495 | 2016 | IEEE Journal on Selected Areas in Communications     | Internet of Things in the 5G Era: Enablers, Architecture, and Business Models
+ 1414 | 2017 | Proceedings of the IEEE                              | Nonorthogonal Multiple Access for 5G and Beyond
+ 1404 | 2020 | IEEE Access                                          | 6G and Beyond: The Future of Wireless Communications Systems
+ 1377 | 2020 | Pediatria i Medycyna Rodzinna                        | Clinical management of severe acute respiratory infection (SARI) when COVID-19 disease is suspected. Interim g
+ 1355 | 2020 | IEEE Access                                          | Internet of Things (IoT) for Next-Generation Smart Systems: A Review of Current Challenges, Future Trends and 
+ 1350 | 2018 | IEEE Communications Surveys & Tutorials              | A Survey of Non-Orthogonal Multiple Access for 5G
+ 1296 | 2017 | IEEE Access                                          | A Survey on 5G Networks for the Internet of Things: Communication Technologies and Challenges
+ 1294 | 2018 | Journal of Industrial Information Integration        | 5G Internet of Things: A survey
+ 1289 | 2023 | ACM Computing Surveys                                | Recent Advances in Natural Language Processing via Large Pre-trained Language Models: A Survey
+ 1249 | 2020 | IEEE Access                                          | An Overview on Edge Computing Research
+ 1163 | 2017 | IEEE Communications Magazine                         | Network Slicing in 5G: Survey and Challenges
+ 1130 | 2020 | IEEE Access                                          | A Comprehensive Review of the COVID-19 Pandemic and the Role of IoT, Drones, AI, Blockchain, and 5G in Managin
+ 1094 | 2020 | AAAI Publications (The Association for the Advanceme | Improved Knowledge Distillation via Teacher Assistant
+ 1093 | 2014 | IEEE Communications Surveys & Tutorials              | A Survey on Software-Defined Networking
+ 1088 | 2018 | IEEE Communications Surveys & Tutorials              | Network Slicing and Softwarization: A Survey on Principles, Enabling Technologies, and Solutions
+ 1045 | 2023 | IEEE Communications Surveys & Tutorials              | Understanding O-RAN: Architecture, Interfaces, Algorithms, Security, and Research Challenges
+ 1022 | 2018 | Journal of Internet Services and Applications        | A comprehensive survey on machine learning for networking: evolution, applications and research opportunities
+ 1016 | 2019 | IEEE Access                                          | A Survey on Consensus Mechanisms and Mining Strategy Management in Blockchain Networks
+  984 | 2025 | Nature                                               | DeepSeek-R1 incentivizes reasoning in LLMs through reinforcement learning
+  959 | 2021 | IEEE Communications Surveys & Tutorials              | A Tutorial on 5G NR V2X Communications
+  899 | 2021 | IEEE Journal of Microwaves                           | The Role of Millimeter-Wave Technologies in 5G/6G Wireless Communications
+  874 | 2019 | IEEE Transactions on Vehicular Technology            | Deep Reinforcement Learning Based Resource Allocation for V2V Communications
+  867 | 2020 | IEEE Access                                          | A Survey of Multi-Access Edge Computing in 5G and Beyond: Fundamentals, Technology Integration, and State-of-t
+  860 | 2017 | Future Generation Computer Systems                   | Next generation cloud computing: New trends and research directions
+  856 | 1998 | Advances in computers                                | Coordination Models and Languages
+  844 | 2019 | IEEE Access                                          | 5G Evolution: A View on 5G Cellular Technology Beyond 3GPP Release 15
+  840 | 2018 | IEEE Communications Surveys & Tutorials              | A Survey on Hybrid Beamforming Techniques in 5G: Architecture and System Model Perspectives
+  830 | 2024 | Nature                                               | Detecting hallucinations in large language models using semantic entropy
+  820 | 2024 | IEEE Access                                          | A Review on Large Language Models: Architectures, Applications, Taxonomies, Open Issues and Challenges
+  814 | 2019 | Computer Networks                                    | 5G network slicing using SDN and NFV: A survey of taxonomy, architectures and future challenges
+  814 | 2017 | (none)                                               | The QUIC Transport Protocol
+  805 | 2021 | IEEE Journal on Selected Areas in Communications     | Edge Artificial Intelligence for 6G: Vision, Enabling Technologies, and Applications
+  801 | 2021 | IEEE Open Journal of the Communications Society      | Survey on 6G Frontiers: Trends, Applications, Requirements, Technologies and Future Research
+  788 | 2016 | (none)                                               | Sequence-Level Knowledge Distillation
+  776 | 2016 | IEEE Journal on Selected Areas in Communications     | 5G-Enabled Tactile Internet
+  755 | 2024 | Nature Medicine                                      | Adapted large language models can outperform medical experts in clinical text summarization
+  747 | 2023 | arXiv (Cornell University)                           | Retrieval-Augmented Generation for Large Language Models: A Survey
+  727 | 2020 | IEEE Access                                          | Communications in the 6G Era
+  681 | 2021 | IEEE Communications Surveys & Tutorials              | A Survey on Mobile Augmented Reality With 5G Mobile Edge Computing: Architectures, Applications, and Technical
+  659 | 2022 | IEEE Communications Surveys & Tutorials              | Evolution of Non-Terrestrial Networks From 5G to 6G: A Survey
+  659 | 2019 | IEEE Access                                          | Quantum Machine Learning for 6G Communication Networks: State-of-the-Art and Vision for the Future
+  641 | 2020 | arXiv (Cornell University)                           | MiniLM: Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers
+  636 | 2021 | IEEE Communications Surveys & Tutorials              | A Survey on Resource Allocation for 5G Heterogeneous Networks: Current Research, Future Trends, and Challenges
+  624 | 2024 | ACM Transactions on Intelligent Systems and Technolo | Explainability for Large Language Models: A Survey
+  623 | 2022 | Nature Communications                                | Communication-efficient federated learning via knowledge distillation
+  612 | 2016 | IEEE Communications Surveys & Tutorials              | User Association in 5G Networks: A Survey and an Outlook
+  598 | 2019 | IEEE Transactions on Wireless Communications         | Multi-Agent Reinforcement Learning-Based Resource Allocation for UAV Networks
+  578 | 2019 | IEEE Communications Surveys & Tutorials              | A Survey on Security and Privacy of 5G Technologies: Potential Solutions, Recent Advancements, and Future Dire
+  573 | 2019 | IEEE Access                                          | A Survey on Green 6G Network: Architecture and Technologies
+  569 | 2019 | IEEE Journal on Selected Areas in Communications     | Spectrum Sharing in Vehicular Networks Based on Multi-Agent Reinforcement Learning
+  540 | 2018 | Computer Networks                                    | A comprehensive survey of Network Function Virtualization
+  525 | 2021 | HAL (Le Centre pour la Communication Scientifique Di | 6G networks. Beyond Shannon towards semantic and goal-oriented communications
+  523 | 2023 | (none)                                               | Not What You've Signed Up For: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Inject
+  506 | 2020 | IEEE Access                                          | A Survey on Beyond 5G Network With the Advent of 6G: Architecture and Emerging Technologies
+  503 | 2020 | IEEE Transactions on Cognitive Communications and Ne | Multi-Agent Deep Reinforcement Learning-Based Trajectory Planning for Multi-UAV Assisted Mobile Edge Computing
+  500 | 2015 | IEEE Access                                          | Software-Defined Network Function Virtualization: A Survey
+  493 | 2023 | Cureus                                               | ChatDoctor: A Medical Chat Model Fine-Tuned on a Large Language Model Meta-AI (LLaMA) Using Medical Domain Kno
+  492 | 2020 | IEEE Access                                          | A Comprehensive Survey on Millimeter Wave Communications for Fifth-Generation Wireless Networks: Feasibility a
+  467 | 2022 | CHI Conference on Human Factors in Computing Systems | AI Chains: Transparent and Controllable Human-AI Interaction by Chaining Large Language Model Prompts
+  455 | 2021 | IEEE Communications Surveys & Tutorials              | Survey on Network Slicing for Internet of Things Realization in 5G Networks
+  452 | 2014 | IEEE Signal Processing Magazine                      | Location-Aware Communications for 5G Networks: How location information can improve scalability, latency, and 
+  442 | 2021 | Computer Communications                              | Deep Learning for Network Traffic Monitoring and Analysis (NTMA): A Survey
+  441 | 2018 | IEEE Communications Surveys & Tutorials              | A Survey of the Functional Splits Proposed for 5G Mobile Crosshaul Networks
+  428 | 2020 | Journal of Network and Computer Applications         | Blockchain for 5G and beyond networks: A state of the art survey
+  426 | 2019 | IEEE Access                                          | Reinforcement Learning Based Routing in Networks: Review and Classification of Approaches
+  425 | 2021 | IEEE Open Journal of the Communications Society      | The Roadmap to 6G Security and Privacy
+  419 | 2019 | IEEE Access                                          | Machine Learning for 5G/B5G Mobile and Wireless Communications: Potential, Limitations, and Future Directions
+  415 | 2020 | IEEE Access                                          | Non-Terrestrial Networks in 5G & Beyond: A Survey
+  393 | 2019 | IEEE Access                                          | Edge Computing in 5G: A Review
+  374 | 2024 | npj Digital Medicine                                 | The ethics of ChatGPT in medicine and healthcare: a systematic review on Large Language Models (LLMs)
+  370 | 2016 | IEEE Transactions on Network and Service Management  | Resource Slicing in Virtual Wireless Networks: A Survey
+  370 | 2024 | (none)                                               | LlamaFactory: Unified Efficient Fine-Tuning of 100+ Language Models
+  369 | 2024 | Artificial Intelligence Review                       | Large language models (LLMs): survey, technical frameworks, and future challenges
+  369 | 2023 | arXiv (Cornell University)                           | A Comprehensive Overview of Large Language Models
+  360 | 2020 | IEEE Journal on Selected Areas in Communications     | RouteNet: Leveraging Graph Neural Networks for Network Modeling and Optimization in SDN
+  355 | 2020 | IEEE Open Journal of Vehicular Technology            | AI-Assisted Network-Slicing Based Next-Generation Wireless Networks
+  316 | 2020 | arXiv (Cornell University)                           | Intelligence and Learning in O-RAN for Data-driven NextG Cellular Networks
+  314 | 2014 | (none)                                               | Experimental evaluation of multipath TCP schedulers
+  312 | 2020 | IEEE Network                                         | AI-Driven Zero Touch Network and Service Management in 5G and Beyond: Challenges and Research Directions
+  308 | 2017 | (none)                                               | Multipath QUIC
+  303 | 2020 | IEEE Access                                          | Simu5G–An OMNeT++ Library for End-to-End Performance Evaluation of 5G Networks
+  299 | 2017 | IEEE Internet of Things Journal                      | A New Deep-Q-Learning-Based Transmission Scheduling Mechanism for the Cognitive Internet of Things
+  298 | 2020 | Media International Australia                        | ‘Corona? 5G? or both?’: the dynamics of COVID-19/5G conspiracy theories on Facebook
+  294 | 2018 | IEEE Communications Surveys & Tutorials              | A Survey on the Placement of Virtual Resources and Virtual Network Functions
+  292 | 2019 | IEEE Vehicular Technology Magazine                   | Deep Reinforcement Learning for Mobile 5G and Beyond: Fundamentals, Applications, and Challenges
+  287 | 2021 | IEEE Communications Surveys & Tutorials              | Hybrid LiFi and WiFi Networks: A Survey
+  286 | 2024 | IEEE Access                                          | Revolutionizing Cyber Threat Detection With Large Language Models: A Privacy-Preserving BERT-Based Lightweight
+  280 | 2017 | (none)                                               | Mobile traffic forecasting for maximizing 5G network slicing resource utilization
+  272 | 2020 | IEEE Transactions on Intelligent Transportation Syst | Joint Computing and Caching in 5G-Envisioned Internet of Vehicles: A Deep Reinforcement Learning-Based Traffic
+  262 | 2020 | Sensors                                              | 5G support for Industrial IoT Applications— Challenges, Solutions, and Research gaps
+  262 | 2022 | arXiv (Cornell University)                           | Large Language Models Encode Clinical Knowledge
+  259 | 2023 | arXiv (Cornell University)                           | The Rise and Potential of Large Language Model Based Agents: A Survey
+  252 | 2020 | IEEE Access                                          | A Gentle Introduction to Reinforcement Learning and its Application in Different Fields
+  244 | 2011 | Lecture notes in computer science                    | MultiPath TCP: From Theory to Practice
+  243 | 2024 | Chemical Science                                     | A review of large language models and autonomous agents in chemistry
+  243 | 2022 | arXiv (Cornell University)                           | CodeGen: An Open Large Language Model for Code with Multi-Turn Program Synthesis
+  231 | 2019 | IEEE Transactions on Vehicular Technology            | Intelligent Resource Scheduling for 5G Radio Access Network Slicing
+  231 | 2018 | Proceedings of the AAAI Conference on Artificial Int | Cellular Network Traffic Scheduling With Deep Reinforcement Learning
+  229 | 2022 | IEEE Transactions on Mobile Computing                | ColO-RAN: Developing Machine Learning-Based xApps for Open RAN Closed-Loop Control on Programmable Experimenta
+  229 | 2024 | (none)                                               | MM-LLMs: Recent Advances in MultiModal Large Language Models
+  228 | 2019 | Electronics                                          | 5G Ultra-Reliable Low-Latency Communication Implementation Challenges and Operational Issues with IoT Devices
+  227 | 2021 | Technologies                                         | Multi-Agent Reinforcement Learning Framework in SDN-IoT for Transient Load Detection and Prevention
+  226 | 2015 | (none)                                               | Presto
+  226 | 2023 | (none)                                               | LLM-Adapters: An Adapter Family for Parameter-Efficient Fine-Tuning of Large Language Models
+  219 | 2017 | Computer Standards & Interfaces                      | Technology pillars in the architecture of future 5G mobile networks: NFV, MEC and SDN
+  217 | 2020 | EURASIP Journal on Wireless Communications and Netwo | Decentralized computation offloading for multi-user mobile edge computing: a deep reinforcement learning appro
+  214 | 2020 | IEEE Journal on Selected Areas in Communications     | Deep Reinforcement Learning for Dynamic Uplink/Downlink Resource Allocation in High Mobility 5G HetNet
+  212 | 2022 | IEEE Open Journal of the Communications Society      | URLLC and eMBB in 5G Industrial IoT: A Survey
+  212 | 2024 | Journal of Computational Social Science              | GenAI against humanity: nefarious applications of generative artificial intelligence and large language models
+  211 | 2025 | Cybersecurity                                        | When LLMs meet cybersecurity: a systematic literature review
+  203 | 2025 | Information Fusion                                   | AI Agents vs. Agentic AI: A Conceptual taxonomy, applications and challenges
+  201 | 2019 | (none)                                               | DeepCog: Cognitive Network Management in Sliced 5G Networks with Deep Learning
+  200 | 2025 | Science China Information Sciences                   | Overview of AI and communication for 6G network: fundamentals, challenges, and future research opportunities
+  200 | 2024 | Scientific Reports                                   | A multimodal approach to cross-lingual sentiment analysis with ensemble of transformer and LLM
+  197 | 2007 | IEEE Transactions on Parallel and Distributed System | An Overview of Packet Reordering in Transmission Control Protocol (TCP): Problems, Solutions, and Challenges
+  194 | 2020 | IEEE Network                                         | The Road beyond 5G: A Vision and Insight of the Key Technologies
+  189 | 2012 | IEEE Transactions on Mobile Computing                | CMT-QA: Quality-Aware Adaptive Concurrent Multipath Data Transfer in Heterogeneous Wireless Networks
+  187 | 2023 | IEEE Wireless Communications                         | Task-Oriented Communications for 6G: Vision, Principles, and Technologies
+  186 | 2024 | IEEE Wireless Communications                         | Distributed Foundation Models for Multi-Modal Learning in 6G Wireless Networks
+  185 | 2021 | IEEE Transactions on Wireless Communications         | Resource Management in Wireless Networks via Multi-Agent Deep Reinforcement Learning
+  181 | 2023 | arXiv (Cornell University)                           | AIKernel Semantic DSL Compiler and Deterministic Agent Execution Architecture
+  179 | 2022 | IEEE Communications Surveys & Tutorials              | Zero Touch Management: A Survey of Network Automation Solutions for 5G and 6G Networks
+  170 | 2022 | IEEE Transactions on Intelligent Transportation Syst | Computation Offloading and Resource Allocation in MEC-Enabled Integrated Aerial-Terrestrial Vehicular Networks
+  169 | 2021 | IEEE Access                                          | A Survey on Machine Learning Techniques for Routing Optimization in SDN
+  167 | 2022 | IEEE Transactions on Communications                  | Resource Scheduling Based on Deep Reinforcement Learning in UAV Assisted Emergency Communication Networks
+  164 | 2025 | Future Internet                                      | The Rise of Agentic AI: A Review of Definitions, Frameworks, Architectures, Applications, Evaluation Metrics, 
+  163 | 2018 | IEEE Vehicular Technology Magazine                   | End-to-End Quality of Service in 5G Networks: Examining the Effectiveness of a Network Slicing Framework
+  162 | 2020 | IEEE Transactions on Cognitive Communications and Ne | Deep Reinforcement Learning-Based Edge Caching in Wireless Networks
+  161 | 2019 | Automatica                                           | Deep reinforcement learning for wireless sensor scheduling in cyber–physical systems
+  161 | 2024 | (none)                                               | NetLLM: Adapting Large Language Models for Networking
+  160 | 2022 | IEEE Open Journal of the Communications Society      | Survey on Digital Twin Edge Networks (DITEN) Toward 6G
+  158 | 2020 | IEEE Access                                          | Combination of Ultra-Dense Networks and Other 5G Enabling Technologies: A Survey
+  152 | 2018 | IEEE Access                                          | Joint Link Adaptation and Scheduling for 5G Ultra-Reliable Low-Latency Communications
+  150 | 2020 | IEEE Access                                          | A Survey on Intent-Driven Networks
+  149 | 2023 | Journal of Network and Computer Applications         | Open RAN security: Challenges and opportunities
+  149 | 2022 | Journal of Network and Computer Applications         | A survey on Zero touch network and Service Management (ZSM) for 5G and beyond networks
+  148 | 2017 | (none)                                               | Joint Optimization of Chain Placement and Request Scheduling for Network Function Virtualization
+  148 | 2020 | Digital Communications and Networks                  | Intent-based networks for 6G: Insights and challenges
+  146 | 2020 | IEEE Access                                          | A Comprehensive Survey on Mobility Management in 5G Heterogeneous Networks: Architectures, Challenges and Solu
+  143 | 2021 | IEEE Internet of Things Journal                      | Average AoI Minimization in UAV-Assisted Data Collection With RF Wireless Power Transfer: A Deep Reinforcement
+  142 | 2017 | Journal of Information Processing                    | End-to-end Network Slicing for 5G Mobile Networks
+  139 | 2022 | Sensors                                              | Deep Reinforcement Learning for Resource Management on Network Slicing: A Survey
+  135 | 2024 | Mayo Clinic Proceedings Digital Health               | Fine-Tuning Large Language Models for Specialized Use Cases
+  134 | 2025 | ACM Transactions on Software Engineering and Methodo | Large Language Models for Cyber Security: A Systematic Literature Review
+  133 | 2019 | IEEE/ACM Transactions on Networking                  | RL-NSB: Reinforcement Learning-Based 5G Network Slice Broker
+  132 | 2021 | IEEE Access                                          | URLLC for 5G and Beyond: Requirements, Enabling Incumbent Technologies and Network Intelligence
+  132 | 2023 | Journal of Cloud Computing Advances Systems and Appl | A survey of Kubernetes scheduling algorithms
+  132 | 2007 | IEEE Transactions on Multimedia                      | Video Packet Selection and Scheduling for Multipath Streaming
+  132 | 2024 | IEEE Open Journal of Vehicular Technology            | Deep Learning in the Fast Lane: A Survey on Advanced Intrusion Detection Systems for Intelligent Vehicle Netwo
+  131 | 2022 | IEEE Open Journal of the Communications Society      | Deep Learning for B5G Open Radio Access Network: Evolution, Survey, Case Studies, and Challenges
+  131 | 2018 | IEEE/ACM Transactions on Networking                  | Low-Latency Scheduling in MPTCP
+  129 | 2018 | arXiv (Cornell University)                           | Deep Learning in Mobile and Wireless Networking: A Survey
+  127 | 2021 | IEEE Communications Standards Magazine               | Networked Twins and Twins of Networks: An Overview on the Relationship Between Digital Twins and 6G
+  126 | 2020 | Computer Networks                                    | Mobility-aware task scheduling in cloud-Fog IoT-based healthcare architectures
+  125 | 2019 | (none)                                               | ReLeS: A Neural Adaptive Multipath Scheduler based on Deep Reinforcement Learning
+  123 | 2023 | IEEE Transactions on Mobile Computing                | Programmable and Customized Intelligence for Traffic Steering in 5G Networks Using Open RAN Architectures
+  123 | 2021 | Chinese Journal of Aeronautics                       | 6G service-oriented space-air-ground integrated network: A survey
+  119 | 2021 | IEEE Access                                          | Network Slice Lifecycle Management for 5G Mobile Networks: An Intent-Based Networking Approach
+  117 | 2024 | (none)                                               | NeuPIMs: NPU-PIM Heterogeneous Acceleration for Batched LLM Inferencing
+  116 | 2023 | IEEE Access                                          | A Survey of Scheduling Algorithms for the Time-Aware Shaper in Time-Sensitive Networking (TSN)
+  112 | 2018 | (none)                                               | Latency and Availability Driven VNF Placement in a MEC-NFV Environment
+  110 | 2023 | IEEE Access                                          | A Survey of Scheduling in 5G URLLC and Outlook for Emerging 6G Systems
+  109 | 2019 | Computer Networks                                    | Machine learning-driven service function chain placement and scaling in MEC-enabled 5G networks
+  109 | 2023 | (none)                                               | Large Language Models: A Comprehensive Survey of its Applications, Challenges, Limitations, and Future Prospec
+  105 | 2018 | Chinese Journal of Electronics                       | Optimal Network Function Virtualization and Service Function Chaining: A Survey
+  105 | 2023 | IEEE Journal on Selected Areas in Communications     | Empowering the 6G Cellular Architecture With Open RAN
+  103 | 2022 | IEEE Access                                          | Scheduling Algorithms for 5G Networks and Beyond: Classification and Survey
+   99 | 2022 | IEEE Internet of Things Journal                      | Joint Routing and Scheduling Optimization in Time-Sensitive Networks Using Graph-Convolutional-Network-Based D
+   99 | 2024 | (none)                                               | LLM in a flash: Efficient Large Language Model Inference with Limited Memory
+   99 | 2025 | ACM Computing Surveys                                | Deep Learning on Network Traffic Prediction: Recent Advances, Analysis, and Future Directions
+   97 | 2019 | Journal of Lightwave Technology                      | Reinforcement Learning for Slicing in a 5G Flexible RAN
+   96 | 2021 | Digital Communications and Networks                  | Machine learning-based zero-touch network and service management: a survey
+   92 | 2025 | Robotics and Computer-Integrated Manufacturing       | Integrating large language model and digital twins in the context of industry 5.0: Framework, challenges and o
+   91 | 2023 | IEEE/ACM Transactions on Networking                  | Reinforcement Learning-Based Particle Swarm Optimization for End-to-End Traffic Scheduling in TSN-5G Networks
+   91 | 2023 | IEEE Access                                          | URLLC in Beyond 5G and 6G Networks: An Interference Management Perspective
+   90 | 2017 | (none)                                               | Runtime reconfiguration of time-sensitive networking (TSN) schedules for Fog Computing
+   90 | 2023 | Sensors                                              | Cloud-Native Workload Orchestration at the Edge: A Deployment Review and Future Directions
+   89 | 2024 | Proceedings of the ACM on Networking                 | NetConfEval: Can LLMs Facilitate Network Configuration?
+   89 | 2025 | IEEE Communications Surveys & Tutorials              | A Survey on Large Language Models for Communication, Network, and Service Management: Application Insights, Ch
+   87 | 2016 | (none)                                               | MMPTCP: A multipath transport protocol for data centers
+   85 | 2020 | IEEE Access                                          | Deep Q-Learning for Routing Schemes in SDN-Based Data Center Networks
+   85 | 2024 | IEEE Access                                          | Application of Large Language Models in Cybersecurity: A Systematic Literature Review
+   83 | 2021 | Sensors                                              | Toward Modular and Flexible Open RAN Implementations in 6G Networks: Traffic Steering Use Case and O-RAN xApps
+   83 | 2022 | Applied Sciences                                     | Open RAN—Radio Access Network Evolution, Benefits and Market Trends
+   83 | 2025 | Big Data and Cognitive Computing                     | LLM Fine-Tuning: Concepts, Opportunities, and Challenges
+   82 | 2019 | IEEE Transactions on Broadcasting                    | An Edge-to-Cloud Virtualized Multimedia Service Platform for 5G Networks
+   82 | 2019 | Journal of Network and Computer Applications         | An approach for SDN traffic monitoring based on big data techniques
+   80 | 2025 | Proceedings of the ACM on software engineering.      | Demystifying LLM-Based Software Engineering Agents
+   78 | 2019 | (none)                                               | Pluginizing QUIC
+   77 | 2021 | IEEE Communications Magazine                         | End-to-End Intent-Based Networking
+   77 | 2023 | (none)                                               | Data Decentralisation of LLM-Based Chatbot Systems in Chronic Disease Self-Management
+   76 | 2016 | (none)                                               | Multi-connectivity functional architectures in 5G
+   74 | 2024 | IEEE Transactions on Vehicular Technology            | IoV-BERT-IDS: Hybrid Network Intrusion Detection System in IoV Using Large Language Models
+   73 | 2024 | Natural Language Processing Journal                  | Towards effective teaching assistants: From intent-based chatbots to LLM-powered teaching assistants
+   72 | 2023 | IEEE Transactions on Vehicular Technology            | Multi-Agent Deep Reinforcement Learning-Based Task Scheduling and Resource Sharing for O-RAN-Empowered Multi-U
+   72 | 2024 | IEEE Communications Surveys & Tutorials              | Resource Management From Single-Domain 5G to End-to-End 6G Network Slicing: A Survey
+   70 | 2019 | IEEE Transactions on Services Computing              | Delay-Sensitive and Availability-Aware Virtual Network Function Scheduling for NFV
+   69 | 2024 | The Journal of Engineering                           | Smart performance optimization of energy‐aware scheduling model for resource sharing in 5G green communication
+   69 | 2016 | IEEE Transactions on Communications                  | Bandwidth-Efficient Multipath Transport Protocol for Quality-Guaranteed Real-Time Video Over Heterogeneous Wir
+   68 | 2020 | arXiv (Cornell University)                           | Intelligent O-RAN for Beyond 5G and 6G Wireless Networks
+   66 | 2023 | IEEE Access                                          | eBPF: A New Approach to Cloud-Native Observability, Networking and Security for Current (5G) and Future Mobile
+   64 | 2024 | Future Internet                                      | Large Language Models Meet Next-Generation Networking Technologies: A Review
+   63 | 2024 | IEEE Network                                         | Mobile-LLaMA: Instruction Fine-Tuning Open-Source LLM for Network Analysis in 5G Networks
+   63 | 2024 | Ad Hoc Networks                                      | PLLM-CS: Pre-trained Large Language Model (LLM) for cyber threat detection in satellite networks
+   62 | 2023 | (none)                                               | Evaluating the Factual Consistency of Large Language Models Through News Summarization
+   61 | 2021 | IEEE Internet of Things Journal                      | Energy-Efficient Deep Reinforced Traffic Grooming in Elastic Optical Networks for Cloud–Fog Computing
+   61 | 2025 | Sensors                                              | Generative AI and LLMs for Critical Infrastructure Protection: Evaluation Benchmarks, Agentic AI, Challenges, 
+   60 | 2020 | Sustainability                                       | Intent-Based End-to-End Network Service Orchestration System for Multi-Platforms
+   60 | 2025 | Artificial Intelligence Review                       | A review of LLMs and their applications in the architecture, engineering and construction industry
+   59 | 2022 | Sensors                                              | Multi-Connectivity for 5G Networks and Beyond: A Survey
+   59 | 2025 | Smart Cities                                         | LLM Agents for Smart City Management: Enhancing Decision Support Through Multi-Agent AI Systems
+   58 | 2021 | IEEE Transactions on Network and Service Management  | DeepCC: Multi-Agent Deep Reinforcement Learning Congestion Control for Multi-Path TCP Based on Self-Attention
+   57 | 2023 | IEEE Access                                          | PAC-GPT: A Novel Approach to Generating Synthetic Network Traffic With GPT-3
+   56 | 2022 | IEEE Wireless Communications                         | Toward Zero-Touch Management and Orchestration of Massive Deployment of Network Slices in 6G
+   56 | 2018 | (none)                                               | A Novel QoE-Centric SDN-Based Multipath Routing Approach for Multimedia Services over 5G Networks
+   56 | 2025 | NEJM AI                                              | MedAgentBench: A Virtual EHR Environment to Benchmark Medical LLM Agents
+   55 | 2022 | IEEE Communications Magazine                         | Deep-Learning-Based Blockchain for Secure Zero Touch Networks
+   55 | 2022 | IEEE Transactions on Industrial Informatics          | Deep Reinforcement Learning-Based Deterministic Routing and Scheduling for Mixed-Criticality Flows
+   55 | 2016 | IEEE Transactions on Broadcasting                    | Pipeline Network Coding-Based Multipath Data Transfer in Heterogeneous Wireless Networks
+   54 | 2019 | Sensors                                              | A Framework for the Joint Placement of Edge Service Infrastructure and User Plane Functions for 5G
+   54 | 2021 | IEEE Access                                          | Scaling UPF Instances in 5G/6G Core With Deep Reinforcement Learning
+   53 | 2024 | (none)                                               | Towards Intent-Based Network Management: Large Language Models for Intent Extraction in 5G Core Networks
+   52 | 2019 | IEEE Access                                          | Reinforcement Learning for Service Function Chain Reconfiguration in NFV-SDN Metro-Core Optical Networks
+   51 | 2025 | (none)                                               | Understanding the LLM-ification of CHI: Unpacking the Impact of LLMs at CHI through a Systematic Literature Re
+   50 | 2023 | IEEE Open Journal of the Communications Society      | Deep Learning for Intelligent and Automated Network Slicing in 5G Open RAN (ORAN) Deployment
+   50 | 2020 | IEEE Access                                          | Multipath Routing and MPTCP-Based Data Delivery Over Manets
+   50 | 2024 | IEEE Communications Magazine                         | Large Language Models for Zero Touch Network Configuration Management
+   48 | 2023 | IEEE Journal on Selected Areas in Communications     | Open RAN xApps Design and Evaluation: Lessons Learnt and Identified Challenges
+   48 | 2022 | Journal of Networking and Network Applications       | Cloud-based XR Services: A Survey on Relevant Challenges and Enabling Technologies
+   48 | 2024 | IEEE Communications Surveys & Tutorials              | Explainable AI in 6G O-RAN: A Tutorial and Survey on Architecture, Use Cases, Challenges, and Future Research
+   47 | 2020 | (none)                                               | LEARNET: Reinforcement Learning Based Flow Scheduling for Asynchronous Deterministic Networks
+   47 | 2021 | IEEE Access                                          | A Survey on Multipath Transport Protocols Towards 5G Access Traffic Steering, Switching and Splitting
+   45 | 2019 | (none)                                               | Analysis of Multi-user Scheduling in a TSN-enabled 5G System for Industrial Applications
+   45 | 2018 | (none)                                               | A Stream-Aware Multipath QUIC Scheduler for Heterogeneous Paths
+   44 | 2021 | IEEE Transactions on Wireless Communications         | Loss-Aware Throughput Estimation Scheduler for Multi-Path TCP in Heterogeneous Wireless Networks
+   44 | 2025 | IEEE Transactions on Machine Learning in Communicati | TelecomGPT: A Framework to Build Telecom-Specific Large Language Models
+   43 | 2025 | Vehicles                                             | Large Language Models (LLMs) as Traffic Control Systems at Urban Intersections: A New Paradigm
+   43 | 2024 | (none)                                               | Beyond Detection: Leveraging Large Language Models for Cyber Attack Prediction in IoT Networks
+   43 | 2024 | Smart Cities                                         | Multitask Learning for Crash Analysis: A Fine-Tuned LLM Framework Using Twitter Data
+   42 | 2023 | IEEE Transactions on Network Science and Engineering | DecAge: Decentralized Flow Scheduling for Industrial 5G and TSN Integrated Networks
+   42 | 2024 | Electronics                                          | A Survey of Intelligent End-to-End Networking Solutions: Integrating Graph Neural Networks and Deep Reinforcem
+   42 | 2024 | (none)                                               | Simulating Opinion Dynamics with Networks of LLM-based Agents
+   41 | 2021 | IEEE Transactions on Wireless Communications         | Leveraging Coupled BBR and Adaptive Packet Scheduling to Boost MPTCP
+   41 | 2025 | IEEE Transactions on Cognitive Communications and Ne | Toward Edge General Intelligence With Multiple-Large Language Model (Multi-LLM): Architecture, Trust, and Orch
+   40 | 2023 | (none)                                               | ns-O-RAN: Simulating O-RAN 5G Systems in ns-3
+   39 | 2018 | IEEE Internet of Things Journal                      | DTE-SDN: A Dynamic Traffic Engineering Engine for Delay-Sensitive Transfer
+   38 | 2020 | IEEE Access                                          | GCLR: GNN-Based Cross Layer Optimization for Multipath TCP by Routing
+   38 | 2018 | Future Generation Computer Systems                   | QoS improvisation of delay sensitive communication using SDN based multipath routing for medical applications
+   37 | 2023 | IEEE Access                                          | Resource Allocation Based on Radio Intelligence Controller for Open RAN Toward 6G
+   37 | 2020 | IEEE Transactions on Vehicular Technology            | BBR-Based Congestion Control and Packet Scheduling for Bottleneck Fairness Considered Multipath TCP in Heterog
+   37 | 2021 | Applied Sciences                                     | MPResiSDN: Multipath Resilient Routing Scheme for SDN-Enabled Smart Cities Networks
+   36 | 2020 | (none)                                               | Dynamic Scheduling and Optimal Reconfiguration of UPF Placement in 5G Networks
+   36 | 2023 | IEEE Transactions on Intelligent Transportation Syst | Mobility and Deadline-Aware Task Scheduling Mechanism for Vehicular Edge Computing
+   36 | 2022 | Sensors                                              | Multi-Agent Team Learning in Virtualized Open Radio Access Networks (O-RAN)
+   36 | 2024 | IEEE Access                                          | FeDRL-D2D: Federated Deep Reinforcement Learning- Empowered Resource Allocation Scheme for Energy Efficiency M
+   36 | 2018 | (none)                                               | Predictive Autoscaling Orchestration for Cloud-native Telecom Microservices
+   35 | 2021 | IEEE Communications Magazine                         | Multiflow QUIC: A Generic Multipath Transport Protocol
+   34 | 2023 | Sensors                                              | Recent Advances in Machine Learning for Network Automation in the O-RAN
+   34 | 2021 | Sensors                                              | A Brief Review of Multipath TCP for Vehicular Networks
+   34 | 2024 | (none)                                               | Large Language Models in Wireless Application Design: In-Context Learning-enhanced Automatic Network Intrusion
+   33 | 2022 | IEEE/ACM Transactions on Networking                  | FlEC: Enhancing QUIC With Application-Tailored Reliability Mechanisms
+   33 | 2019 | IEEE Network                                         | Fixed-Mobile Convergence in the 5G Era: From Hybrid Access to Converged Core
+   33 | 2024 | (none)                                               | Reducing LLM Hallucination Using Knowledge Distillation: A Case Study with Mistral Large and MMLU Benchmark
+   32 | 2024 | IEEE Transactions on Mobile Computing                | O-RAN-Enabled Intelligent Network Slicing to Meet Service-Level Agreement (SLA)
+   32 | 2025 | Journal of Cybersecurity and Privacy                 | AI-Augmented SOC: A Survey of LLMs and Agents for Security Automation
+   32 | 2025 | International Journal of Production Research         | Agentic LLMs in the supply chain: towards autonomous multi-agent consensus-seeking
+   31 | 2022 | Electronics                                          | CMT-SCTP and MPTCP Multipath Transport Protocols: A Comprehensive Review
+   30 | 2019 | (none)                                               | On Dynamic Mapping and Scheduling of Service Function Chains in SDN/NFV-Enabled Networks
+   30 | 2021 | 2021 IEEE Global Communications Conference (GLOBECOM | QoS-Aware Mapping and Scheduling for Virtual Network Functions in Industrial 5G-TSN Network
+   30 | 2023 | (none)                                               | 5GTQ: QoS-Aware 5G-TSN Simulation Framework
+   30 | 2019 | (none)                                               | QUIC-FEC: Bringing the benefits of Forward Erasure Correction to QUIC
+   29 | 2019 | IEEE Access                                          | Notice of Violation of IEEE Publication Principles: Dynamic Embedding and Scheduling of Service Function Chain
+   29 | 2019 | (none)                                               | Orchestrating End-to-end Slices in 5G Networks
+   29 | 2021 | IEEE Transactions on Network and Service Management  | DRL-PLink: Deep Reinforcement Learning With Private Link Approach for Mix-Flow Scheduling in Software-Defined 
+   29 | 2024 | Lecture notes on data engineering and communications | Harnessing the Advanced Capabilities of LLM for Adaptive Intrusion Detection Systems
+   28 | 2023 | China Communications                                 | Dynamic QoS mapping and adaptive semi-persistent scheduling in 5G-TSN integrated networks
+   27 | 2019 | IEEE Access                                          | Congestion Control and Packet Scheduling for Multipath Real Time Video Streaming
+   27 | 2022 | Wireless Communications and Mobile Computing         | RLMR: Reinforcement Learning Based Multipath Routing for SDN
+   27 | 2018 | Palgrave Macmillan UK eBooks                         | National Radio Astronomy Observatory
+   26 | 2019 | (none)                                               | A Reinforcement Learning Approach for Multipath TCP Data Scheduling
+   26 | 2024 | IEEE Communications Magazine                         | On Combining XAI and LLMs for Trustworthy Zero-Touch Network and Service Management in 6G
+   26 | 2024 | (none)                                               | BadAgent: Inserting and Activating Backdoor Attacks in LLM Agents
+   26 | 2025 | IEEE Geoscience and Remote Sensing Magazine          | Vision-Language Modeling Meets Remote Sensing: Models, datasets, and perspectives
+   26 | 2024 | (none)                                               | BARTPredict: Empowering IoT Security with LLM-Driven Cyber Threat Prediction
+   25 | 2023 | Electronics                                          | Deep Reinforcement Learning-Based Adaptive Beam Tracking and Resource Allocation in 6G Vehicular Networks with
+   25 | 2021 | Wireless Networks                                    | Reduce delay of multipath TCP in IoT networks
+   25 | 2025 | (none)                                               | Flow-of-Action: SOP Enhanced LLM-Based Multi-Agent System for Root Cause Analysis
+   25 | 2025 | IEEE Network                                         | TeleQnA: A Benchmark Dataset to Assess Large Language Models Telecommunications Knowledge
+   24 | 2023 | IEEE Journal on Selected Areas in Communications     | TC-RAN: A Programmable Traffic Control Service Model for 5G/6G SD-RAN
+   24 | 2023 | (none)                                               | 5G Configured Grant Scheduling for 5G-TSN Integration for the Support of Industry 4.0
+   24 | 2021 | (none)                                               | AI-driven Closed-loop Automation in 5G and beyond Mobile Networks
+   23 | 2023 | Future Internet                                      | Open Radio Access Networks for Smart IoT Systems: State of Art and Future Directions
+   22 | 2021 | (none)                                               | Investigating Inter-NF Dependencies in Cloud-Native 5G Core Networks
+   22 | 2025 | (none)                                               | Intent-Driven Network Management with Multi-Agent LLMs: The Confucius Framework
+   21 | 2022 | Wireless Communications and Mobile Computing         | Reinforcement Learning‐Based Service‐Oriented Dynamic Multipath Routing in SDN
+   20 | 2024 | (none)                                               | ORANSlice: An Open Source 5G Network Slicing Platform for O-RAN
+   20 | 2022 | (none)                                               | End-to-end 5G network slice resource management and orchestration architecture
+   20 | 2025 | Scientific Reports                                   | An IoT intrusion detection framework based on feature selection and large language models fine-tuning
+   19 | 2025 | Computer Networks                                    | dApps: Enabling real-time AI-based Open RAN control
+   18 | 2023 | IEEE Transactions on Wireless Communications         | EdAR: An Experience-Driven Multipath Scheduler for Seamless Handoff in Mobile Networks
+   18 | 2020 | (none)                                               | On the Latency of Multipath-QUIC in Real-time Applications
+   18 | 2022 | (none)                                               | BULB: Lightweight and Automated Load Balancing for Fast Datacenter Networks
+   18 | 2008 | (none)                                               | Best-Effort Network Layer Packet Reordering in Support of Multipath Overlay Packet Dispersion
+   17 | 2022 | Sensors                                              | Reinforcement Learning Based Multipath QUIC Scheduler for Multimedia Streaming
+   17 | 2018 | (none)                                               | Redundant Packet Scheduling by Uncorrelated Paths in Heterogeneous Wireless Networks
+   17 | 2025 | (none)                                               | LLM-xApp: A Large Language Model Empowered Radio Resource Management xApp for 5G O-RAN
+   17 | 2023 | arXiv (Cornell University)                           | Financial News Analytics Using Fine-Tuned Llama 2 GPT Model
+   16 | 2024 | (none)                                               | Semantic Routing for Enhanced Performance of LLM-Assisted Intent-Based 5G Core Network Management and Orchestr
+   16 | 2025 | International Journal of Network Management          | A Comprehensive Survey on LLM‐Based Network Management and Operations
+   15 | 2023 | (none)                                               | O‐RAN Architecture Overview
+   15 | 2016 | (none)                                               | A study on MPTCP for tolerating packet reordering and path heterogeneity in wireless networks
+   14 | 2024 | IEEE Transactions on Mobile Computing                | Optimizing Fault-Tolerant Time-Aware Flow Scheduling in TSN-5G Networks
+   13 | 2025 | (none)                                               | Adaptive Pufferfish based Network Slicing and Scheduling Control in O-RAN for Next Generation Cellular Network
+   13 | 2024 | (none)                                               | Algorithm for Resource Allocation and Computing Offloading in 6G Networks: Deep Reinforcement Learning-based
+   13 | 2024 | IEEE Open Journal of the Communications Society      | Unlocking O-RAN Potential: How Management Data Analytics Enhances SMO Capabilities?
+   13 | 2020 | Sensors                                              | Multipath TCP-Based IoT Communication Evaluation: From the Perspective of Multipath Management with Machine Le
+   13 | 2022 | Sensors                                              | Multiservice-Based Traffic Scheduling for 5G Access Traffic Steering, Switching and Splitting
+   13 | 2024 | Applied Sciences                                     | Fine-Tuning Retrieval-Augmented Generation with an Auto-Regressive Language Model for Sentiment Analysis in Fi
+   12 | 2024 | (none)                                               | Learning-Based Deterministic Scheduling for TSN and 5G Integrated Networks
+   12 | 2022 | (none)                                               | A Cloud Native Management and Orchestration Framework for 5G End-to-End Network Slicing
+   12 | 2022 | IEEE Wireless Communications                         | Multipath TCP Meets Reinforcement Learning: A Novel Energy-Efficient Scheduling Approach in Heterogeneous Wire
+   12 | 2023 | (none)                                               | A Multipath Extension to the QUIC Module for ns-3
+   12 | 2011 | International Journal of Communication Networks and  | Performance evaluation of packet reordering on concurrent multipath transmissions for transport virtualisation
+   12 | 2025 | (none)                                               | INTA: Intent-Based Translation for Network Configuration with LLM Agents
+   11 | 2024 | (none)                                               | Towards an AI/ML-driven SMO Framework in O-RAN: Scenarios, Solutions, and Challenges
+   10 | 2023 | (none)                                               | Unifying 3GPP, ETSI, and O-RAN SMO Interfaces: Enabling Slice Subnets Interoperability
+   10 | 2024 | (none)                                               | Cross-Layer Scheduling in QUIC and Multipath QUIC for 360-Degree Video Streaming
+   10 | 2024 | (none)                                               | KorNAT: LLM Alignment Benchmark for Korean Social Values and Common Knowledge
+    9 | 2025 | IEEE Transactions on Communications                  | Hierarchical Digital Twin for Efficient 6G Network Orchestration via Adaptive Attribute Selection and Scalable
+    9 | 2024 | Computer Networks                                    | Low-delay cost-aware multipath scheduling over dynamic links for access traffic steering, switching, and split
+    9 | 2022 | (none)                                               | Effective multi-user delay-constrained scheduling with deep recurrent reinforcement learning
+    8 | 2024 | (none)                                               | Pre-Emptive Conflict Detection Architecture for O-RAN Service Management and Orchestration
+    8 | 2024 | Journal of Computer Science and Technology           | 4D-MAP: Multipath Adaptive Packet Scheduling for Live Streaming over QUIC
+    8 | 2024 | arXiv (Cornell University)                           | CTIBench: A Benchmark for Evaluating LLMs in Cyber Threat Intelligence
+    8 | 2025 | IEEE Transactions on Machine Learning in Communicati | ORANSight-2.0: Foundational LLMs for O-RAN
+    7 | 2022 | arXiv (Cornell University)                           | Toward Experience-Driven Traffic Management and Orchestration in Digital-Twin-Enabled 6G Networks
+    7 | 2024 | arXiv (Cornell University)                           | TelecomGPT: A Framework to Build Telecom-Specfic Large Language Models
+    7 | 2025 | Acta Universitatis Sapientiae Informatica            | Evaluating Open-Source LLMs in RAG Systems: A Benchmark on Diploma Theses Abstracts Using Ragas
+    6 | 2018 | NTT technical review                                 | Standardization of Automation Technology for Network Slice Management by ETSI Zero Touch Network and Service M
+    5 | 2024 | Computer Networks                                    | Cost-efficient multipath scheduling of video-on-demand traffic for the 5G ATSSS splitting function
+    4 | 2025 | (none)                                               | O-RAN SMO Extension for Enhanced RIC Use-Cases
+    4 | 2024 | (none)                                               | Leveraging Fine-Tuned Retrieval-Augmented Generation with Long-Context Support: For 3GPP Standards
+    3 | 2026 | IEEE Wireless Communications Letters                 | Multi-LLM Cooperation-Based Joint Intent-Driven Network Slicing and Resource Allocation
+    1 | 2026 | (none)                                               | PROMPTGUARD: Zero Trust Prompting for Securing LLM-Driven O-RAN Control
+    1 | 2025 | (none)                                               | LLM-Driven Agentic AI Approach to Enhanced O-RAN Resilience in Next-Generation Networks

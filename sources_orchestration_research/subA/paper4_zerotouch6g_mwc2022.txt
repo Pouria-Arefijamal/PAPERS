@@ -1,0 +1,514 @@
+                                                                                                                        1
+
+
+
+
+ Towards zero-touch management and orchestration
+  of massive deployment of network slices in 6G
+               Hatim Chergui ‡ , Adlen Ksentini∗ , Luis Blanco ‡ and Christos Verikoukis§
+                                 ∗ EURECOM, Sophia Antipolis, France
+                                       ‡ CTTC, Barcelona, Spain
+                                     § University of Patras, Greece
+
+        Email: ∗ adlen.ksentini@eurecom.fr, ‡ firstname.lastname@cttc.es, § cveri@ceid.upatras.gr
+
+
+
+   Abstract—6G systems are expected to serve a massive          and orchestration system that traditional centralized de-
+number of extremely heterogeneous Network Slices that           signs, as in Cloud Computing and Network Function
+cross multiple technological domains (i.e., RAN, Edge,          Virtualization (NFV) [1], fail to cope with. Indeed, a
+Cloud, and Core), posing significant challenges to classical    network slice (or end-to-end network slice) is composed
+centralized management and orchestration approaches in
+                                                                of sub-slices (virtual or physical resources) that belong
+terms of scalability and sustainability. Within this context,
+distributed and intelligent management and orchestration
+                                                                to different technological domains, i.e., Radio Access
+system is mandatory. This paper proposes a novel frame-         Network (RAN), Core Network (CN), Cloud and Edge
+work featuring a distributed and AI-driven management           computing domains. Each technological domain uses its
+and orchestration system for a massive deployment of            own tools to orchestrate and manage the resources, which
+network slices in 6G. The proposed framework is compli-         complicate the overall management process; hence a
+ant of both ETSI standards focusing on autonomous and           centralized solution cannot be envisioned. Moreover, the
+intelligent network management and orchestration, i.e.,         high number of managed objects involved in the Life-
+Zero touch Service Management (ZSM) and Experimental            Cycle-Management (LCM) of end-to-end network slices
+Networked Intelligent (ENI), leveraging their visions to
+                                                                calls for autonomic and self-optimized management and
+enable autonomous as well as a scalable management
+and orchestration of network slices and their dedicated         orchestration mechanisms to reduce human intervention
+resources.                                                      to the minimum, hence decreasing the reaction time to
+                                                                sensitive service degradation and avoiding human errors.
+                                                                To overcome these challenges, it is important that the
+                    I. I NTRODUCTION                            management and orchestration system of network slices
+                                                                combine a hierarchical and fully distributed solution to
+   Although 5G has not shown all its potential, 6G              cope with the heterogeneity of the managed objects
+foundations have already been devised by the research           of different technological domains, with state-of-the-
+community. Besides supporting 5G services composed              art Machine Learning (ML) techniques and Artificial
+of end-user as well as vertical industry applications,          Intelligence (AI) algorithms to ensure more autonomy
+which already constitute a challenge by reporting to            towards zero-touch management.
+4G services, 6G expects other services that introduce              Recently, ETSI has launched two groups: Zero-touch
+further requirements in terms of latency, reliability, and      Service Management (ZSM) [2] and Experiential Net-
+data rate. 5G has anticipated this evolution by relying         worked Intelligence (ENI) [3] aiming to use AI and
+on the concept of network slicing, which leverages              ML to realize an agile, fully automated management
+the flexibility provided by network softwarization to           and orchestration of network resources. ETSI ZSM has
+build network instances (virtual networks) tailored to          already issued a reference architecture featuring dis-
+the application or network service. Building on network         tributed management and orchestration, but ignoring the
+slicing, 6G will support diverse application and service        management of network slices. Meanwhile, ETSI ENI is
+requirements using the same physical infrastructure. Ac-        more a centralized framework that aims to standardize
+cordingly, the increased number of services available in        the different methods and policies to use AI and ML to
+6G will lead to a situation where a massive number              manage networks. Besides, each group is addressing only
+of coexisting network slices, with different performance        a part of the problems related to network slicing man-
+requirements, functionality, and timespans, run in par-         agement, and no integration of activities is envisioned.
+allel. This puts significant strain on the management              In this paper, we devise a novel decentralized manage-
+2
+
+
+
+ment framework that copes with the envisioned massive          protocol stack to gain flexibility in the orchestration
+number and high dynamicity of slices in 5G/6G scenar-          of virtualized functions. In [7], the authors explored
+ios, improving both scalability and reaction times of self-    the usage of AI/ML to leverage the management of
+management and self-configuration of network slices            network slices adopting the ENI standard concept, which
+towards reaching true zero-touch network management.           is considered as a highly centralized solution and may
+The proposed framework addresses: (1) scalability by           not scale well with the high number of network slices.
+relying on a hierarchical and decentralized management         Work in [8] developed an AI-based network manage-
+system that distributes management functions on several        ment system that provides an intent-based interface for
+management entities involved in the LCM of network             network configuration. In [9], the authors target self-
+slices, including the network slice itself, which integrates   organizing network management mechanisms leveraging
+service-level related management functions; (2) zero-          the NFV paradigm jointly with AI/ML technologies. But
+touch management by devising a hierarchical closed-            the two mentioned works share the same weakness: the
+control loops that assists the management entities in          management is still highly centralized and difficult to
+charge of the LCM of network slices. The proposed              scale when the number of running slices is high.
+framework is compliant with both ZSM and ENI, reach-              On the other hand, standardization groups, such as
+ing both groups’ objectives within the same architecture.      the ETSI ZSM and ETSI ENI, have been working on
+Moreover, the proposed framework is instantiated for           using AI and ML to realize an agile, fully automated
+two technological domains, Cloud and Radio Access              management and orchestration of network resources.
+Network (RAN), supporting NFV and O-RAN [4] ar-                ETSI ZSM Industry Specification Group (ISG) was
+chitectures. Finally, we evaluate our framework through        formed in 2017 to enable full end-to-end autonomous
+the scenario of slice-level resource prediction under SLA      networks capable of self-monitoring, self-healing, and
+constraints to show the ability: (1) to reduce management      self-optimization without human intervention. However,
+overhead; (2) to guarantee SLA using AI/ML federated           the ZSM ISG is focused on the definition of generic
+learning.                                                      enablers, closed-loop enhancements, and operations for
+   The paper is organized as follows. Section II presents      the next generation of AI-driven autonomous networks,
+the related work. Section III details the proposed man-        without considering network slicing.
+agement and orchestration framework featuring scalabil-
+ity and zero touch management. Section IV describes                III. Z ERO - TOUCH AI- ENABLED DISTRIBUTED
+the use-case scenario, while Section V presents its per-                    MANAGEMENT FRAMEWORK
+formance evaluation. We conclude the paper in VI.
+                                                               A. Architecture
+                  II. R ELATED WORK                               Figure 1 illustrates the envisioned distributed, zero-
+   The management of network slices in 6G should be            touch, and AI-enabled management architecture of net-
+distributed and highly autonomous to handle the high           work slices. The proposed framework is compliant with
+number of managed objects to support the functioning of        both ETSI ZSM and ENI approaches. As stated earlier,
+network slices and guarantee their SLA. Several works          the proposed framework is focusing on the LCM of a
+in the literature tried to address the challenges related      massive number of network slices and their allocated
+to the management of network slices, either by focusing        resources. We assume that an end-to-end network slice
+on scalability or by enabling AI/ML orchestration and          is composed of sub-slices run over different techno-
+management. In [5], the authors proposed a reference           logical domains. At least one tenant-specific sub-slice
+architecture featuring a scalable management plan that         runs the tenant services as Virtual Network Function
+distributes some management functions inside the net-          (VNF), while one or more sub-slices are shared among
+work slice (namely in-slice management). However, the          different end-to-end network slices. An example of a
+proposed work did not explore the usage of AI/ML to            dedicated sub-slice is the tenant’s VNF composing the
+leverage the management of network slices. Note that           service of the tenant, which are described using the
+similarly to this work our proposed framework embedded         Network Service Descriptor (NSD) and deployed mainly
+some management functions withing the slice. Work              on top of a Cloud or Edge computing infrastructure.
+in [6] brings three enabling innovations: (a) Inter-slice      A shared sub-slice is a subset of VNF or PNF shared
+control and cross-domain management, to enable the             among all the running network slices, e.g., a 5G CN
+coordination across slices and domains; (b) Experiment-        instance or to Central Unit (CU)/Distributed Unit (DU)
+driven optimization to leverage experimental results to        functions of the RAN. Like ETSI ZSM, we assume that
+design highly performing algorithms; (c) Cloud-enabled         the management and orchestration functions are split
+                                                                                                                       3
+
+
+
+
+                           Fig. 1: High-level representation of the proposed architecture.
+
+
+between the Inter-Domain Management and Orchestra-            are similar in spirit to the ENI model and correspond to
+tion (IDMO) and domain-specific DMO(s). IDMO is a             the ENI system that provides the AI/ML to assist external
+centralized component with full-scope slice management        systems for management operations. In the envisioned
+and orchestration decision capabilities. It may take global   system, we assume that IDMO, DMO(s), and ISM(s)
+actions for network-wide, cross-slice, and cross-domain       constitute the ENI assisted-systems, while the closed-
+optimizations. For each technological domain, a DMO           control loops provide the AI/ML framework to manage
+(e.g., cloud infrastructure, edge, RAN, etc.) may operate     and orchestrate network slices. Indeed, the proposed
+its own instances of monitoring and manage specific           closed-control loops include the necessary mechanisms
+domain resources in the presence of coexisting slices.        and algorithms mainly relying on AI/ML to assist IDMO,
+Unlike ZSM, the proposed framework argues for further         MDO(s), and ISM(s) to achieve self-management, self-
+decentralization of the management functions by delegat-      configuration, and self-adaptation. Besides, the closed-
+ing and enclosing some functions within the running net-      control loops are organised to form a hierarchical control
+work slices through the InSlice-Manager (ISM). For each       scheme with fast local control loops and slow wider-
+slice, the ISM, a logical entity, handles the autonomous      scope ones. Two fast local loops are locally run at the
+management of the slice’s functions, i.e., VNF and PNF.       DMO(s) and ISM(s), where local decisions on sub-slices
+ISM can be considered as a slice-level Element Manager        can be derived and applied independently and quickly.
+(EM), with interfaces to the EMs of the slice’s VNFs and      One wider-scope control-loop that derives decisions at
+PNF.                                                          the IDMO level, which has a wide vision on the end-
+   The IDMO, DMO(s) as well as ISM(s) are leveraged           to-end network slice. It should be noted that a limited
+with a closed-control loop that adds intelligence to the      wide-scope control loop exists at the level of DMOs
+management and orchestration functions with AI-based          that involve ISM as well. This closed control loop is
+optimization to reach zero-touch service management.          involved when service level performances degrade even
+The closed-control loops envisioned in this architecture      if ISM has applied local actions. Then, a correlation,
+4
+
+
+
+                                                               SDN Controller, RAN, etc.) as well as from the VNFs
+                                                               and PNFs composing a network slice. Note that MS
+                                                               may use a DB to store the collected monitoring data for
+                                                               future analysis. It can be used for instance to understand
+                                                               the long term evolution of a system. MS periodically
+                                                               transmits monitoring information to AE that processes
+                                                               the data and provides the required analysis output to the
+                                                               DE. The latter, using a pre-deployed policy or automatic
+Fig. 2: Closed-control loop components: MS, AE, and            decision mechanisms, decides on the LCM action to
+DE.                                                            apply; in the case of a VNF a LCM action is to scale
+                                                               up or down the resources (e.g., CPU) or migrate the
+                                                               VNF to another NFVI. These actions are enforced by
+for instance, with MDO resource performances may be            the DE using interfaces with the components managing
+needed to solve the issue. Using this hierarchical scheme      the network slices (i.e., IDMO, DMOs, and ISM). AE
+permits to leverage of time-scale decomposition at dif-        and DE are highly driven by AI/ML techniques aiming at
+ferent levels of the proposed system, hence limiting the       learning appropriate LCM decisions to consider, accord-
+interference among different feedback-based decisions.         ing to the state of the infrastructure, the state of network
+Moreover, using local data processing and decisions,           slice components (obtained from AE), and depending on
+we (a) minimize the exchange of (big) data between             the technological domain where each slice component is
+components (e.g., aggressive feature selection) to keep        deployed (e.g., RAN).
+management scalable, and (b) significantly reduce the             The Closed-control loop assisting IDMO is different
+reaction time of data-driven management decisions that         from those assisting DMOs and ISMs, as no monitoring
+could be handled locally.                                      information is extracted from IDMO. Therefore, the
+   Similar in spirit to ZSM, all the entities involved in      IDMO is exposing to the closed-control loop only the
+the management and orchestration process are using the         possible actions to update/upgrade the running end-to-
+cross domain fabrics and cross slice fabrics to expose         end network slices. These actions will be considered by
+and consume APIs. Here we distinguish between the              DE as possible decisions to follow the AE recommen-
+external interfaces used by the closed control loop to         dation. Example of such action is to migrate a sub-slice
+collaborate aiming at assisting IDMO, DMOs and ISMs            from one infrastructure provider to another one reacting
+to derive decisions to handle network slices’ LCM, and         to service degradation or security threats. On the other
+the interfaces between IDMOs and DMOs which are                hand, DMOs’ decisions are local to the technological
+mainly used for orchestrating and managing sub-slices          domains. The decisions mainly concern the management
+resources.                                                     of the resources that are used by network slices, such
+                                                               as scale up/down VNFs or update the RAN resources
+                                                               dedicated to a running slice. Finally, the ISM decisions
+B. Closed-control loops                                        cover mainly service-level configuration. For instance,
+   One of the critical features of the proposed framework      change the video encoding, update the flight plan of
+is the closed-control loops that assist IDMO, DMOs,            flying drones, etc.
+ISM with AI capabilities to reach the zero-touch man-             1) Monitoring System (MS): MS role is to collect
+agement objective. Figure 2 shows the components of            critical information on the functioning of a system and
+the Closed-control loop: Monitoring System (MS), An-           provides this information, after, for example, aggrega-
+alytical Engine (AE), and Decision Engine (DE). These          tion or normalization, to AE, which in turn uses this
+three elements are already known in the Infrastructure         information to detect and react to network slices’ LCM
+as a Service (IaaS) management process of virtual re-          events, such as performance degradation, performance
+sources, principally relying on a centralized element (i.e.,   optimization, and security threats. MS interacts with
+orchestrator) that runs the three entities. However, in        different entities that orchestrate and manage the per
+the proposed approach, the three elements are highly           technological domain sub-slice, i.e., DMOs. Further, MS
+distributed among the actors managing and orchestrating        interacts, through ISM, with slice-specific VNFs and
+network slice components and resources. MS is in charge        applications, as well as shared VNF and PNF among
+of monitoring Key Performances Indicators (KPI) and            network slices. Indeed, we distinguish between informa-
+various relevant events from the different components          tion that monitors the state of the infrastructure shared by
+deploying network slices (NFV Infrastructure - NFVI,           the running slices and the information that monitors the
+                                                                                                                         5
+
+
+
+VNF of tenants and applications. For the infrastructure       and notify the DE accordingly. Examples of features
+monitoring, MS has to interact with DMO(s) to collect         extracted and analysed are: prediction of SLA violation,
+information on:                                               prediction of service migration, prediction of NS Faults,
+   • NFVI, such as computing platforms and hardware;          attack Identification, anomaly detection. Note that that an
+   • PNFs running network functions on dedicated hard-        example of predicting SLA through AEs using federated
+      ware, such as eNB/gNB, router, and User Plan            learning is presented in section IV
+      Function (UPF);                                            3) Decision Engine (DE): DE is the decision-making
+   • VNFs running common virtualized network func-            element of the proposed framework. It analyses alerts
+      tions, such as 5G Core Network (CN) functions or        and notifications from AE(s) and considers a decision
+      Directory Name Service (DNS).                           to take. The decisions are either derived using a local
+Regarding function monitoring, MS has to interact with        ML algorithm, based mainly on Reinforcement Learning
+VNFs or applications of the tenants through EM exposed        (RL), or a predefined policy enforced by the Tenant or
+by VNFs or PNFs. EM is a set of API exposed by                DMO through Intent, or a combination of both. DE may
+network functions that allow extraction of information on     collect notifications from several AEs of different TDs to
+the state of the application, such as events, alarms, and     consider wide-scope decisions on the end-to-end network
+logs, but also permit to act on the application behavior      slices. DE uses exposed APIs by DMOs to enforce the
+to update its configuration.                                  considered decisions. For local decisions, DE interacts
+   The principal consumer of MS information is AE,            with DMO and ISM, while for global decisions, the DE
+which is in charge of triggering the monitoring of needed     has to interact with IDMO. Examples of global decisions
+information from MS. The latter starts the monitoring         are energy optimization, block UE connection, while
+process by connecting to the appropriate source. Ac-          local decisions are: VNF scaling, update RAN resources
+cordingly, MS exposes two types of APIs: control API          dedicated to a slice, and service migration.
+and data collection API. AE uses the control API to
+request the KPI to monitor, the periodicity, the duration,
+                                                              C. IDMO
+etc., while the data collection API is the interface from
+which data is provided to AE as requested through the            IDMO is equivalent to the 3GPP Network Slice
+control API. The control API also indicates how data          Management Function (NSMF) [10] and exposes the
+is provided, i.e., publish/subscribe, request/response, the   Northbound API (NBI) for the OSS/BSS or Consumer
+data format, etc.                                             Service Management Function (CSMF). IDMO is in
+   2) Analytical Engine (AE): As opposed to MS, AE            charge of the LCM of end-to-end network slices. It has
+does not store, but processes data gathered from the          full-scope slice management and orchestration decision
+same or lower-level MS or AE and exposes the result           capabilities and takes global actions for network-wide,
+to any requester (i.e., DE or other AE) in an on-             cross-slice, and cross-domain optimizations. The tenant
+demand or periodic fashion. AE to AE communication            or the slice owner interacts with the OSS/BSS or CSMF
+is possible to build a learning model using Federated         to define the network slice to deploy using an already
+Learning (FL) techniques. The main functions of AE            Blueprint to generate a Network Slice Template (NST)
+are: (i) identify performance degradation of a network        that includes attributes and meta-data on the network
+slice; (ii) optimize the performance of a network slice       slice (ex. the start date and end date, slice owner, type of
+or the DMO resources; (iii) react to security threats.        slice, etc.), and information on each sub-slice composing
+To this aim, AE subscribes for data types to which it         the network slice. For instance, in the case of computing
+is interested in using the control API exposed by the         resource (i.e., Cloud or Edge) domain, the NST may in-
+MS. The data type will be determined according to the         clude information such as the number of CPUs, memory,
+logic of the LCM application execution. Then, AE starts       and virtualization technology (i.e., VM or containers) to
+receiving the stream of data or uses a request/response       be used. For the RAN domain, resources may be related
+mechanism, depending on the purpose of the analysis.          to the functional split type [11], the MAC scheduler al-
+AE may adapt the monitoring data rate or stop the prece-      gorithm, the number of Radio resource Blocks (RB), and
+dent request and request for other related monitoring         others. Finally, for the transport domain, resources may
+information. AE heavily relies on AI/ML to complete           include the type of link (bandwidth, latency), number
+an inference task locally, extract features, and analyse      of Virtual Local Area Networks (VLAN)s, front haul
+these features and send alerts and notifications to DE.       link capacity, Virtual Private Network (VPN) links, and
+AEs can collaborate to build distributed learning (based      QoS. Each technological domain needed resources are
+on federated learning) models to realize the analysis         enclosed in the NST in the form of a technological
+6
+
+
+
+domain-specific descriptor. For instance, for the NFVI       DE may delegate the decision to the IDMO’s DE that
+domain, the resources are described using a Network          may request more details from IDMO’s AE or use a local
+Service Descriptor (NSD) that includes the VNF(s) list       policy to select a new VIM to serve the sub-slice, using
+and their descriptors.                                       a multi-domain placement algorithm [1]. Finally, MS is
+   In the proposed framework, the NST also includes          common for all running AE/DE; it collects monitoring
+management functions to be embeded within the network        data, format, and aggregate data to be consumed by
+slice, i.e., the closed control loops (MS, AE, and DE)       subscribed AEs.
+and ISM template. Upon receiving the slice creation (i.e.       Regarding the RAN domain (Figure 3b), the MDO
+NST), IDMO is in charge of selecting the infrastructure      encloses Service Management and Orchestration (SMO)
+provider to run the sub-slice. To this end, it uses a        and the Near Real-Time RAN Intelligent Controller
+resource broker that relies on a specific algorithm to       (Near-RT RIC). While, the closed-control loops are run
+select the appropriate infrastructure provider for each      as rApps (i.e., applications that run Non-RT RIC) in
+technological domain where to deploy sub-slices com-         SMO for everything related to non-RT management
+posing the end-to-end network slice. After that, the         loops, such as Fault-management, the configuration of
+NST is split into a technological-specific template and      CU/DU, and LCM of xApps (i.e. applications that runs
+forwarded to the DMO of the selected infrastructure          Near RT-RIC); and xApps for everything related to Near-
+providers.                                                   Real time management functions, such as MAC schedul-
+                                                             ing, Mobility management, Radio resources manage-
+                                                             ment, etc. It should be noted that according to O-RAN
+D. DMO
+                                                             the O-Nodes correspond to RAN functions, either run
+   Each technological domain is managed and orches-          as a monolithic block (gNB), as PNFs, or disaggregated
+trated by its own entity, Domain Management Orches-          functions: CU, DUs, and Radio Units (RU)s. CU and DU
+trator (DMO), which is equivalent in 3GPP to the Net-        may run as VNFs on top of a cloud or edge infrastructure
+work Sub-Slice Management Function (NSSMF)[10].              (noted as O-Cloud), while RU is a physical component
+Depending on the technological domain, a NSSMF may           that runs as a PNF.
+correspond to NFVO for Cloud/Edge, RANO for RAN,                Closed-control loops running in the SDM collect
+and Software Defined Networking (SDN) controller for         monitoring data on O-RAN nodes in addition to Near-
+the case of the transport network.                           RT RIC components and O-Cloud, using O1 and O2
+   Figures 3a and 3b illustrate the mapping of DMO with      interfaces, respectively. O1 allows collecting data on
+its closed-control loops for two different technological     xApps performances, logging, and monitoring on the
+domains, cloud and RAN, respectively. For the cloud          status of Near-RT RIC internals components, radio infor-
+domain we use the well-known NFV architecture, while         mation extracted from CU/DU/RU. On the other hand,
+for the RAN domain we consider the emerging O-RAN            O2 provides cloud-oriented information similar to what
+architecture.                                                VIM provides, focusing only on the VNF running CU
+   In the case of the cloud and edge (Figure 3a), MDO        and DU, such as consumed CPU and memory, exchanged
+corresponds to the MANO entity, constituted by the           traffic, etc. MS in charge of collecting the monitoring
+NFV Orchestrator (NFVO), VNF Manager (VNFM),                 data using these two interfaces, while AEs will subscribe
+and Virtual Infrastructure Manager (VIM). Monitoring         to the data of interest. DEs may enforce the derived
+information is collected by MS from VIM covering             decisions using either O1 and O2. The actions are related
+mainly infrastructure-level metrics: such as CPU and         to the configuration of CU/DU (for instance, turn-off DU
+memory usage, consumed throughput, and packets per           to save energy or change the configuration of the Time
+second; organised per VNF or aggregated per sub-slice.       Duplex Division (TDD) pattern) or on the scale-up/down
+Besides, the NFVO may expose available management            of VNFs running CU/DU. Moreover, DE may use the
+actions that can be performed on a cloud or edge sub-        A1 interface, via the Non-RT RIC to push a new policy
+slice, which DE can use. We can mention VNF scale-in         toward the running xApps, for instance, to increase the
+or out, VNF migration, block incoming or outgoing VNF,       RB dedicated to a slice, or change the 5G New Radio
+instantiate a new VNF, etc. Typically, all the actions       numerology [12], or update the MAC scheduler of a
+are related to VNFs LCM. It should be noted that DE          network slice.
+assisting MANO may refer to the IDMO’s DE, if a local           Closed-control loops running in Near-RT RIC are
+decision is not enough to resolve an issue. For example,     concerned with real-time management of RAN. Only
+if no more CPU is available at the infrastructure level or   one interface is available to collect and act on the RAN
+need to migrate one VNF between two VIMs, the local          functions (i.e., CU, DU, and RU), E2. This interface
+                                                                                                                  7
+
+
+
+
+                 (a) Cloud domain.                                             (b) RAN domain
+                             Fig. 3: MDO of cloud and RAN technological domains.
+
+
+
+
+             Fig. 4: Cross-domain stochastic policy for low Slice-Level SLA violation and overhead
+
+
+will allow MS to collect monitoring information on the      E. ISM
+radio side, covering User Equipment (UE) and Cells
+information, like the used RB per sub-slice, the number        The Inslice-Manager is the finest management en-
+of attached users per cell, per UE reported channel         tity that handles fault management, configuration man-
+quality, etc. The DE can, for instance, act by increasing   agement, and performance management of the service
+the number of RBs per sub-slice, trigger handover,          deployed on top of the sub-slice. We distinguish be-
+change the 5G NR numerology to be used by a UE,             tween ISM of tenant-specific sub-slice that runs the
+the scheduled UEs for the next period, shift the TDD        tenant network service and the shared sub-slice managed
+pattern, etc.                                               by the network operator. Both ISMs are assisted by
+                                                            a closed-control loop to handle service levels related
+                                                            performances. MS monitors the service level KPI, such
+8
+
+
+
+as user-perceived Quality of Experience (QoS), number       a resource provisioning regression model under long-
+of users served by a VNF, logs of the applications,         term SLA constraints and given some space-time varying
+etc. AE analyses and extracts features related to the       input features such as slice traffic and radio condition—
+service level performances, such as services’ response      that depend on the CUs locations at RAN and slice type.
+time degradation, user-perceived QoE degradation. DE        A typical SLA between slice n tenant and the network
+derives decisions mainly at the service level, such as      slice provider would consist on imposing an upper-bound
+the change of VNF configuration, change the video           γn on the probability that a slice resource usage exceeds
+encoding, block user traffic, etc. To this end, DE passes   an interval [αn , βn ], which translates into learning the
+through the ISM, which will enforce the decision using      AE local resource prediction model under empirical
+the VNF’s EM.                                               cumulative density function (ECDF) and complementary
+   Regarding the shared sub-slice, for instance, 5G CN      CDF (ECCDF) constraints which are solved via proxy-
+instances, which usually belong to the network oper-        Lagrangian two-player game [13]. Since the local MSs
+ator, the ISM is concerned mainly with the service          datasets are not exhaustive, the local AEs participate in a
+level performances of the shared VNFs and PNFs. The         federated learning (FL) task to improve their prediction,
+closed-control loop may supervise the performance of        where only their slice n models weights and achieved
+the Authentication and Mobility Function (AMF) by           SLA violation rates {σk,n }K k=1 are reported to the end-
+detecting performance degradation due to overloaded         to-end AE and DE, respectively, which are both located
+received attach or to DDoS attacks. MS may monitor          at IDMO. At each FL round, the end-to-end AE av-
+information such as the number of attaches of UEs           erages the received weights and broadcasts the result
+seen by the AMF, the number of treated packets by           to the decentralized AEs to update their local models.
+the UPF, etc. AE predicts and detects issues, such as       To minimize the computation and management data,
+service degradation (increasing of the attach duration or   the end-to-end DE (at IDMO) implements a stochastic
+malicious traffic). Therefore, DE decisions can change      policy to select the local AEs that can take part in the
+the configuration of the AMF, block UEs attaches in case    FL optimization. To this end, it uses the received SLA
+of security threats, drop packets at the UPF, etc.          metrics to generate a probability distribution over the
+   It should be noted that one of the decisions of DE (of   AEs using the softmin activation layer. This means
+both ISM) is to send an alert to the DMO where the          that AEs whose models achieve a low SLA violation
+VNFs are run when local decisions are not sufficient.       rate are assigned a higher probability. Specifically, at
+This will allow investigating further the reasons leading   each FL round t, the end-to-end DE chooses m < K
+to bad service performances and may lead the DMO DE         local AEs to participate in the FL task based on the
+to take local decisions, for instance, by doing a scale     probability distribution {π1,n , . . . , πK,n }, and feeds back
+up of resources of the VNFs. If DMO’s local decisions                           (t)
+                                                            an activation bit sk,n ∈ {0, 1} to inform the AEs. In
+are not efficient, the DMO DE may refer to the upper        this case, only the selected AEs would train and send
+layer DE (at IDMO) to consider other solutions at the       their weights to the end-to-end AE for aggregation,
+end-to-end level, such as selecting another technological   but the generated global model is broadcast to all AEs
+domain provider.                                            thereafter. This procedure allows to orient the FL training
+                                                            to the models yielding a low SLA violation and ensures
+               IV. U SE - CASE SCENARIO                     that, by the convergence round (i.e., in the long-term),
+   To showcase both the scalability and zero-touch man-     the AEs would have stochastically taken part in the
+agement capabilities of the proposed management frame-      FL task according to the initial probability distribution,
+work, the use-case of slice-level resource prediction       while avoiding to concurrently involve all the AEs in
+under SLA constraints is considered, where the objective    the training at each round. Hence, this strategy further
+is to respect the SLA violation rate of each slice while    minimizes the system overhead and computation load as
+dramatically minimizing the management overhead. In         well as paves the way to accept and process a massive
+this regard, Figure 4 details the deployment of the use-    number of slices.
+case on top of the architecture where, under the central
+unit (CU)-distributed unit (DU) functional split, K CUs
+                                                                        V. P ERFORMANCE E VALUATION
+are running as VNFs at the Edge, and including co-
+located MS and AE which are instantiated per slice. To         To assess the above use-case, a scenario with K CUs
+avoid exchanging raw monitoring data with the cloud         is considered, where due to the heterogeneous space-
+domain, this SLA-constrained resource prediction is per-    time traffic patterns and radio conditions at various
+formed locally by each AE (k, n). It consists of learning   transmission/reception points (TRPs) over the RAN,
+                                                                                                                                  9
+
+
+
+
+                                                                 (b) CPU load average violation rates with α = [0, 0, 0],
+                 (a) Overhead reduction.                         β = [4, 7, 10] % and γ = [0.01, 0.01, 0.01].
+                                             Fig. 5: Evaluation results.
+
+
+the corresponding MSs hold non-independent identically      slices as envisioned in 6G. The proposed framework
+distributed (NIID) datasets of size Dk,n = 1000 that        relies on a hierarchical AI-driven close control loop to
+have been collected in our evaluation from a live LTE-      assist management entities in handling autonomously
+advanced network. The datasets include, as input fea-       and efficiently network slices LCM. A representative
+tures, the hourly traffics of the main over-the-top (OTT)   use-case scenario has been introduced to demonstrate
+applications, channel quality indicator (CQI) and MIMO      the usage of the framework to achieve zero-touch man-
+full-rank usage, while the considered supervised output     agement to guarantee SLA. The proposed framework
+is the CPU load. The assumed slices are:                    is compliant with ETSI ZSM and ENI, and has been
+   • enhanced Mobile BroadBand (eMBB): NetFlix,             mapped to two major architecture to manage cloud and
+      Youtube and Facebook high and ultra-definition        RAN resources, namely NFV and O-RAN.
+      videos,
+                                                                             VII. ACKNOWLEDGEMENT
+   • Social Media: Facebook, Facebook Messages,
+      Whatsapp and Instagram,                                 This work was partially supported by the European
+   • Browsing: Apple, HTTP and QUIC,                        Union’s Horizon 2020 Research and Innovation Program
+   By coding the samples of all the datastes, the AEs’      under the MonB5G project (Grant No. 871780).
+models weights as well as the SLA violation metrics                                    R EFERENCES
+in 32 bits format, we quantify the overhead induced
+                                                            [1] N. Toumi et al., “On Using Physical programming for Multi-
+by both the proposed stochastic policy-FL and a fully           Domain SFC Placement with Limited Visibility”, in IEEE Trans-
+centralized SLA-constrained learning (CSCL) baseline            actions on Cloud Computing, 2020.
+[14] as depicted in Figure 5a where m = 100. Intuitively,   [2] ETSI Zero touch network & Service Management (ZSM),
+since only the AE models’ weights are exchanged in              www.etsi.org/committee/zsm [Accessed in May, 2021].
+                                                            [3] ETSI, “Experiential Networked Intelligence (ENI)”, [Online].
+the FL setup instead of the raw dataset, as is the case         Available: www.etsi.org/committee-activity/eni (accessed: Jan.
+in CSCL, the overhead is expected to be significantly           19, 2021).
+reduced. Concretely, upon the convergence point of the      [4] ORAN Alliance, 2020b. “Operator defined next generation ran
+                                                                architecture and interfaces”. URL:https://www.o-ran.org/
+stochastic policy-FL, i.e., round 50 more than ×30
+                                                            [5] S. Kukliński et al.,“A reference architecture for network slicing,”
+overhead reduction is obtained, with a minimum of ×22           2018 4th IEEE Conference on Network Softwarization and
+reduction at round 80. While also dramatically reducing         Workshops (NetSoft), 2018, pp. 217-221.
+the CPU SLA violation rate compared to the FedAvg           [6] Bulakci, Ö., et al., “Overall 5G-MoNArch architecture and im-
+                                                                plications for resource elasticity, in IEEE European Conference
+unconstrained algorithm [15] as showcased by Figure             onNetworks and Communications (EuCNC) 2018, June 18-21,
+5b.                                                             Ljubljana,Slovenia
+                                                            [7] D. Gutierrez-Estevez, et al. “Artificial Intelligence for Elastic
+                                                                Management and Orchestration of 5G Networks.” IEEE Wireless
+                  VI. C ONCLUSION                               Communications Magazine, 2019.
+                                                            [8] D. Camps-Mur et al. “5G-CLARITY: Integrating 5GNR, WiFi
+  In this paper, we introduced a novel distributed man-
+                                                                and LiFi in Private Networks with Slicing Support”, IEEE Eu-
+agement and orchestration framework that addresses the          ropean Conference onNetworks and Communications (EuCNC),
+challenge of handling a massive number of network               June 2020.
+10
+
+
+
+[9] L. Baldini et al., ”SliceNet Control Plane for 5G Network
+    Slicing in Evolving Future Networks,” 2019 IEEE Conference
+    on Network Softwarization (NetSoft), 2019, pp. 450-457.
+[10] 3GPP, “Management of network slicing in mobile networks;
+    Concepts, use cases and requirements”, 3GPP TS 28.530, ver.
+    17.1.0, Apr. 2021.
+[11] C.Y. Chan et al.“Slice Orchestration for Multi-Service Disag-
+    gregated Ultra-Dense RANs.”, IEEE Communications Magazine,
+    Vol. 56, Issue 8: 70-77 (2018).
+[12] K. Boutiba et al., “NRflex: Enforcing Network Slicing in 5G
+    New Radio”, to appear in Elsevier’s Computer Communications
+    journal.
+[13] A. Cotter et al., “Two-Player Games for Efficient Non-
+    Convex Constrained Optimization,” [Online]. Available:
+    arxiv.org/abs/1804.06500v2.
+[14] H. Chergui and C. Verikoukis, “Offline SLA-Constrained Deep
+    Learning for 5G Networks Reliable and Dynamic End-to-End
+    Slicing,” in IEEE Journal on Selected Areas in Communications,
+    vol. 38, no. 2, pp. 350-360, Feb. 2020.
+[15] H.-B. McMahan et al., “Communication-Efficient Learning of
+    Deep Networks from Decentralized Data.”, in the 20th In-
+    ternational Conference on Artificial Intelligence and Statistics
+    (AISTATS’2017).
+
+
+                         B IOGRAPHIES
+   Hatim Chergui is the project manager of the H2020
+MonB5G European project and a Post-Doctoral re-
+searcher at CTTC, Spain. He served as an expert at both
+INWI and Huawei Technologies, Morocco. He was the
+recipient of the IEEE ICC 2020 Best Paper Award. He
+is an Associate Editor at IEEE Networking Letters.
+   Adlen Ksentini is an IEEE COMSOC distinguished
+lecturer. He obtained his Ph.D. degree in computer
+science from the University of Cergy-Pontoise in 2005.
+Since March 2016, he is a professor in the Communica-
+tion Systems Department of EURECOM. He has been
+working on several EU projects on 5G, Network Slicing,
+and MEC.
+   Luis Blanco Luis Blanco received the MSc and PhD
+degrees in Telecommunications engineering from the
+Polytechnic University of Catalonia (UPC), Spain. He
+holds a degree in Research on Information and Com-
+munications Technologies and in Data Science and Big
+Data. His current research interests include AI/ML for
+sustainable B5G/6G wireless networks, M2M/IoT over
+satellite systems and ultra-dense wireless networks.
+   Christos Verikoukis is an Associate Professor
+(Tenure Track) in the University of Patras, Department of
+Computer Engineering and Informatics. He got his Phd
+from Technical University of Catalonia in 2004. He has
+published more than 140 Journal and 220 Conference
+papers and 3 Books. He is currently the IEEE ComSoc
+EMEA Director, an IEEE ComSoc BoG member and a
+GITC member-at-large.
+

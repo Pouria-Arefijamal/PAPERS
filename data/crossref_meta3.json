@@ -1,0 +1,79 @@
+{
+ "10.1109/INFOCOM.2019.8737649": {
+  "title": "ReLeS: A Neural Adaptive Multipath Scheduler based on Deep Reinforcement Learning",
+  "authors": [
+   "Han Zhang",
+   "Wenzhong Li",
+   "Shaohua Gao",
+   "Xiaoliang Wang",
+   "Baoliu Ye"
+  ],
+  "year": 2019,
+  "venue": "IEEE INFOCOM 2019 - IEEE Conference on Computer Communications",
+  "short_venue": null,
+  "type": "proceedings-article",
+  "publisher": "IEEE",
+  "event": "IEEE INFOCOM 2019 - IEEE Conference on Computer Communications",
+  "volume": null,
+  "issue": null,
+  "page": "1648-1656",
+  "abstract": null,
+  "references_count": 29,
+  "is_referenced_by_count": 111,
+  "url": "https://doi.org/10.1109/infocom.2019.8737649",
+  "license": [
+   "https://ieeexplore.ieee.org/Xplorehelp/downloads/license-information/IEEE.html",
+   "https://doi.org/10.15223/policy-029",
+   "https://doi.org/10.15223/policy-037"
+  ],
+  "subject": []
+ },
+ "10.1109/TMC.2012.196": {
+  "title": "Interference Alignment for Cooperative Femtocell Networks: A Game-Theoretic Approach",
+  "authors": [
+   "Francesco Pantisano",
+   "Mehdi Bennis",
+   "Walid Saad",
+   "Merouane Debbah",
+   "Matti Latva-aho"
+  ],
+  "year": 2013,
+  "venue": "IEEE Transactions on Mobile Computing",
+  "short_venue": "IEEE Trans. on Mobile Comput.",
+  "type": "journal-article",
+  "publisher": "Institute of Electrical and Electronics Engineers (IEEE)",
+  "event": null,
+  "volume": "12",
+  "issue": "11",
+  "page": "2233-2246",
+  "abstract": null,
+  "references_count": 56,
+  "is_referenced_by_count": 83,
+  "url": "https://doi.org/10.1109/tmc.2012.196",
+  "license": [
+   "https://ieeexplore.ieee.org/Xplorehelp/downloads/license-information/IEEE.html"
+  ],
+  "subject": []
+ },
+ "10.1109/TMC.2013.196": {
+  "__error__": "HTTP Error 404: Not Found"
+ },
+ "10.1109/JSAC.2022.3213354": {
+  "__error__": "HTTP Error 404: Not Found"
+ },
+ "10.1109/COMST.2018.2869756": {
+  "__error__": "HTTP Error 404: Not Found"
+ },
+ "10.1109/COMST.2024.3402230": {
+  "__error__": "HTTP Error 404: Not Found"
+ },
+ "10.1109/TNSM.2019.2913107": {
+  "__error__": "HTTP Error 404: Not Found"
+ },
+ "10.1109/TVT.2020.2978265": {
+  "__error__": "HTTP Error 404: Not Found"
+ },
+ "10.1109/TWC.2021.3062082": {
+  "__error__": "HTTP Error 404: Not Found"
+ }
+}

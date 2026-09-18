@@ -1,0 +1,87 @@
+done: flow scheduling 5G core network                            -> 25
+done: packet scheduling 5G new radio                             -> 25
+done: traffic scheduling deterministic network 5G                -> 0
+done: QoS flow 5G scheduler optimization                         -> 0
+done: network slicing scheduling radio resource allocation       -> 0
+done: UPF placement selection 5G core                            -> 0
+done: SRv6 segment routing traffic engineering                   -> 0
+done: intent-based traffic steering 5G                           -> 0
+done: latency-aware scheduling URLLC                             -> 0
+done: DRL scheduling wireless network                            -> 0
+done: network service orchestration 5G NFV                       -> 0
+done: multi-domain orchestration network slicing                 -> 0
+done: O-RAN service management orchestration                     -> 0
+done: zero touch network service management automation           -> 0
+done: intent based networking orchestration LLM                  -> 0
+done: cloud native network function orchestration Kubernetes     -> 0
+done: MEC orchestration service placement                        -> 0
+done: digital twin network management orchestration              -> 0
+done: E2E network slicing orchestration optimization             -> 0
+done: autonomous network management closed loop                  -> 0
+done: multipath TCP scheduler                                    -> 0
+done: multipath QUIC scheduling                                  -> 0
+done: multipath transport 5G heterogeneous network               -> 0
+done: access traffic steering switching splitting ATSSS          -> 0
+done: multi connectivity scheduling 5G                           -> 0
+done: packet scheduling multipath reinforcement learning         -> 0
+done: congestion control multipath                               -> 0
+done: multipath video streaming scheduling                       -> 0
+done: network coding multipath transmission                      -> 0
+done: path selection multipath routing QoE                       -> 0
+done: large language model network management                    -> 0
+done: large language model network configuration                 -> 0
+done: large language model intent based networking               -> 0
+done: LLM agent network automation                               -> 0
+done: LLM O-RAN 6G                                               -> 0
+done: LLM traffic engineering                                    -> 0
+done: foundation model wireless network                          -> 0
+done: multi agent LLM network operations                         -> 0
+done: generative AI telecom network                              -> 0
+done: LLM network troubleshooting root cause analysis            -> 0
+done: retrieval augmented generation network management          -> 0
+done: LLM resource allocation wireless                           -> 0
+done: fine tuning large language model telecom                   -> 0
+done: parameter efficient fine tuning network management         -> 0
+done: knowledge distillation network management model            -> 0
+done: model compression network management                       -> 0
+done: quantization large language model edge inference           -> 0
+done: lightweight language model networking                      -> 0
+done: domain adaptation language model telecommunication         -> 0
+done: LoRA large language model telecom                          -> 0
+
+=== UNIQUE: 38
+ 8287 | 2014 | IEEE Journal on Selected Areas in Communicatio | What Will 5G Be?
+ 3871 | 2014 | IEEE Communications Magazine                   | Five disruptive technology directions for 5G
+ 3662 | 2022 | IEEE Journal on Selected Areas in Communicatio | Integrated Sensing and Communications: Toward Dual-Functional Wireless Networks for 6G and Beyond
+ 2428 | 2015 | IEEE Access                                    | A Survey of 5G Network: Architecture and Emerging Technologies
+ 1921 | 2015 | IEEE Communications Surveys & Tutorials        | Network Function Virtualization: State-of-the-Art and Research Challenges
+ 1783 | 2017 | IEEE Communications Surveys & Tutorials        | On Multi-Access Edge Computing: A Survey of the Emerging 5G Network Edge Cloud Architecture and Orch
+ 1510 | 2020 | IEEE Communications Surveys & Tutorials        | Satellite Communications in the New Space Era: A Survey and Future Challenges
+ 1495 | 2016 | IEEE Journal on Selected Areas in Communicatio | Internet of Things in the 5G Era: Enablers, Architecture, and Business Models
+ 1414 | 2017 | Proceedings of the IEEE                        | Nonorthogonal Multiple Access for 5G and Beyond
+ 1350 | 2018 | IEEE Communications Surveys & Tutorials        | A Survey of Non-Orthogonal Multiple Access for 5G
+ 1296 | 2017 | IEEE Access                                    | A Survey on 5G Networks for the Internet of Things: Communication Technologies and Challenges
+ 1163 | 2017 | IEEE Communications Magazine                   | Network Slicing in 5G: Survey and Challenges
+ 1130 | 2020 | IEEE Access                                    | A Comprehensive Review of the COVID-19 Pandemic and the Role of IoT, Drones, AI, Blockchain, and 5G 
+ 1088 | 2018 | IEEE Communications Surveys & Tutorials        | Network Slicing and Softwarization: A Survey on Principles, Enabling Technologies, and Solutions
+  959 | 2021 | IEEE Communications Surveys & Tutorials        | A Tutorial on 5G NR V2X Communications
+  867 | 2020 | IEEE Access                                    | A Survey of Multi-Access Edge Computing in 5G and Beyond: Fundamentals, Technology Integration, and 
+  844 | 2019 | IEEE Access                                    | 5G Evolution: A View on 5G Cellular Technology Beyond 3GPP Release 15
+  840 | 2018 | IEEE Communications Surveys & Tutorials        | A Survey on Hybrid Beamforming Techniques in 5G: Architecture and System Model Perspectives
+  814 | 2019 | Computer Networks                              | 5G network slicing using SDN and NFV: A survey of taxonomy, architectures and future challenges
+  776 | 2016 | IEEE Journal on Selected Areas in Communicatio | 5G-Enabled Tactile Internet
+  681 | 2021 | IEEE Communications Surveys & Tutorials        | A Survey on Mobile Augmented Reality With 5G Mobile Edge Computing: Architectures, Applications, and
+  659 | 2022 | IEEE Communications Surveys & Tutorials        | Evolution of Non-Terrestrial Networks From 5G to 6G: A Survey
+  612 | 2016 | IEEE Communications Surveys & Tutorials        | User Association in 5G Networks: A Survey and an Outlook
+  578 | 2019 | IEEE Communications Surveys & Tutorials        | A Survey on Security and Privacy of 5G Technologies: Potential Solutions, Recent Advancements, and F
+  506 | 2020 | IEEE Access                                    | A Survey on Beyond 5G Network With the Advent of 6G: Architecture and Emerging Technologies
+  455 | 2021 | IEEE Communications Surveys & Tutorials        | Survey on Network Slicing for Internet of Things Realization in 5G Networks
+  441 | 2018 | IEEE Communications Surveys & Tutorials        | A Survey of the Functional Splits Proposed for 5G Mobile Crosshaul Networks
+  428 | 2020 | Journal of Network and Computer Applications   | Blockchain for 5G and beyond networks: A state of the art survey
+  393 | 2019 | IEEE Access                                    | Edge Computing in 5G: A Review
+  357 | 2019 | IEEE Access                                    | 5G-Based Smart Healthcare Network: Architecture, Taxonomy, Challenges and Future Research Directions
+  322 | 2020 | IEEE Access                                    | 5G Technology: Towards Dynamic Spectrum Sharing Using Cognitive Radio Networks
+  303 | 2020 | IEEE Access                                    | Simu5G–An OMNeT++ Library for End-to-End Performance Evaluation of 5G Networks
+  239 | 2016 | IEEE Access                                    | Enabling Massive IoT in 5G and Beyond Systems: PHY Radio Frame Design Considerations
+  214 | 2020 | IEEE Journal on Selected Areas in Communicatio | Deep Reinforcement Learning for Dynamic Uplink/Downlink Resource Allocation in High Mobility 5G HetN
+   59 | 2019 | (none)                                         | Efficient Low Complexity Packet Scheduling Algorithm for Mixed URLLC and eMBB Traffic in 5G

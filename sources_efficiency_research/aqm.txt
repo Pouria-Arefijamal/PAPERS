@@ -1,0 +1,605 @@
+ 
+ Distilling Large Language Models for Network Active Queue Management 
+ Report GitHub Issue 
+ × 
+ Title: 
+ Content selection saved. Describe the issue below: 
+ Description: 
+ Submit without GitHub 
+ Submit in GitHub 
+ arXiv is now an independent nonprofit! 
+ Learn more 
+ × 
+ Back to arXiv 
+ Why HTML? 
+ Report Issue 
+ Back to Abstract 
+ Download PDF 
+ Abstract 
+ I Introduction 
+ I-A LLMs over AQM: Challenges & Distillation 
+ I-B Our Design Details of L4S-LLM and Contributions 
+ I-C Literature 
+ II Research Design 
+ II-A Kernel Log Collection and Format 
+ II-B Experience Pool Generation 
+ II-C Tokenization and Embedding Process 
+ II-D Architecture of AQM-LLM 
+ II-D 1 L4S-LLM State Encoder 
+ II-D 2 L4S Language Modelling Head 
+ II-E Data-Driven Reinforcement Learning (RL) Pipeline 
+ II-F Low-Rank Adaptation (LoRA) 
+ III Setup and Evaluation 
+ III-A Experimental Testbed Setup 
+ III-B L4S-LLM Training and Validation 
+ III-B 1 Evaluation of Loss Dynamics in L4S-LLM 
+ III-B 2 Evaluation of Accuracy Dynamics in L4S-LLM 
+ III-C Evaluation of L4S-LLM over AQM 
+ III-C 1 Analysis of Queue Delay 
+ III-C 2 Analysis of Bandwidth utilization 
+ III-D Computation Overhead(s) 
+ III-E Model Architecture and Optimization Considerations 
+ IV Conclusion 
+ References 
+ Structured Pruning 
+ Quantization-Aware Training 
+ Neural Architecture Search 
+ Hardware-Aware Optimization 
+ License: CC BY-NC-ND 4.0
+arXiv:2501.16734v3 [cs.NI] 02 Sep 2025 
+ Distilling Large Language Models for Network Active Queue Management 
+ Shiva Raj Pokhrel
+ Deol Satish
+ Jonathan Kua and Anwar Walid
+ † † thanks: S.˜R.˜Pokhrel, D.˜Satish and J.˜Kua are with the School of IT, Deakin University, Geelong, Australia. A.˜Walid is with Defense Unicorns and Columbia University. corresponding email: shiva.pokhrel@deakin.edu.au 
+ Abstract 
+ We propose AQM-LLM, a framework that distills Large Language Models for Active Queue Management in modern networks. Current Deep Learning-based queuing approaches struggle with dynamic network scenarios and require extensive engineering effort. Our approach leverages LLMs’ contextual understanding and pattern recognition capabilities to enhance Low Latency, Low Loss, and Scalable Throughput (L4S) architecture with minimal manual intervention. The L4S-LLM implementation incorporates three key innovations: (1) an improved state encoder that processes diverse network metrics into token embeddings, (2) an extended LLM head that generates single-inference congestion decisions, and (3) a data-driven Low-Rank Adaptation scheme that reduces trainable parameters considerably while maintaining very high accuracy. Our open-source FreeBSD-14 implementation demonstrates significant improvements in queue management metrics, with reduced delay variability and enhanced bandwidth utilization across both DCTCP and UDP Prague protocols. Comprehensive evaluations show L4S-LLM effectively balances computational efficiency with network performance, establishing a foundation and novel direction for intelligent, adaptive queuing in next-generation networks. 
+ Index Terms:  AQM Optimization, Large Language Model, Congestion Prevention, Low Latency, Low Loss, and Scalable Throughput (L4S), L4S-LLM.
+ I Introduction 
+ Since the 1990s, Active Queue Management (AQM) algorithms have employed mathematical models for optimal rule-based control systems. Early algorithms like Random Early Detection (RED) [ 1 ] utilized queue length as the primary buffer management metric. Modern AQMs including Controlled Delay (CoDel) [ 2 ] , Proportional Integral Controller Enhanced (PIE) [ 3 ] , and Common Applications Kept Enhanced (CAKE) have transitioned to queue delay-based metrics. This shift enables direct latency control and enhanced network performance. The Low Latency, Low Loss, and Scalable Throughput (L4S) framework [RFC 9330] [ 4 ] exemplifies these advances 1 1 
+ 1 
+ https://www.rfc-editor.org/rfc/rfc9330.html . Recent Bell Labs findings validate these approaches  [ 5 ] . 
+ Rule-based AQMs encounter critical limitations in contemporary heterogeneous networks. WiFi, 5G/6G, optical fiber, and satellite environments exhibit rapid link quality fluctuations. Traffic patterns and interference levels change faster than formulaic adaptation capabilities. Dynamic heterogeneous challenges necessitate complex, computationally intensive rules. Continuous parameter tuning and periodic re-engineering, perhaps by employing machine learning (ML), become mandatory 2 2 
+ 2 
+ https://www.bell-labs.com/white-papers/l4s/ , accessed 15 Aug 2025 [ 6 ] . 
+ Deep learning provides a paradigm shift toward learning-based AQMs. These systems minimize dependence on predefined mathematical models  [ 7 ] . Supervised learning handles traffic classification and bandwidth estimation tasks. Reinforcement learning addresses congestion control, adaptive bitrate streaming, and cloud scheduling  [ 8 ] . Deep neural networks (DNNs) and RL optimize packet traffic prediction in AQM contexts  [ 5 ] . Learning-based methods demonstrate superior dynamic adaptation compared to rule-based systems. Data-driven insights enable effective handling of complex scenarios  [ 5 ] . Nevertheless, critical challenges impede ML-driven AQM deployment:
+ (1) Design Complexity: ML-based AQM model development demands substantial effort . Architecture design, hyperparameter optimization, and algorithm selection require extensive experimentation. Computational resource requirements hinder dynamic network deployment.
+ (2) Generalization Limitations: ML-based AQMs struggle with cross-condition generalization . Models trained on static traffic exhibit poor real-world performance. Reliability remains inferior to traditional rule-based systems.
+ (3) Retraining Overhead: Continuous ML-based AQM retraining is essential for network evolution adaptation. Diverse, high-quality datasets and extensive preprocessing increase operational costs. Commercial deployment complexity escalates significantly. 
+ I-A LLMs over AQM: Challenges & Distillation 
+ Leveraging Large Language Models (LLMs) like GPT, Opt, and Llama  [ 9 , 10 ] into AQM can address the high costs of developing task-specific DNNs for solving networking challenges  [ 11 , 12 ] . Pretrained on vast text datasets, LLMs excel in contextual understanding, reasoning, and generalization  [ 10 ] making them ideal for tasks like AQM. Their attention mechanism enables dynamic analysis of traffic parameters and dependencies, allowing proactive congestion management and adaptability to evolving network conditions. The distillation of LLM for AQM offers a universal framework to improve the Internet with minimal modifications, which can perhaps be achieved by adopting new RL ideas for the distillation of knowledge  [ 10 , 13 ] . However, key challenges include:
+ (1) Diverse Inputs : AQM data includes time series (e.g., queue delay) and scalar values (e.g., burst allowance), requiring specialized encoders.
+ (2) Inference Latency : Token-by-token output generation causes delays, disrupting AQM’s rapid update cycles (45 ms). Hallucinated outputs further exacerbate the delays.
+ (3) Distillation Costs : Distilling LLMs for AQM requires time-consuming fine-tuning, especially in decision-making tasks using reinforcement learning, and demands significant computational resources for large models. While adopting LLMs can unify and enhance AQM, the above mentioned advances must be developed for effective AQM-LLM design and deployment. 
+ I-B Our Design Details of L4S-LLM and Contributions 
+ We propose AQM-LLM and develop and implement L4S-LLM as a proof of concept. L4S-LLM is an adapted LLM framework developed for efficient congestion prevention on the top of L4S. L4S-LLM leverages a foundational LLM model for decision-making in the L4S queues with minimal manual modifications, by incorporating three key modules:
+ (1) State Encoder: A multifaceted encoder processes diverse network data (e.g., queue delay, packet drops) into token-like embeddings, enabling the LLM to understand and utilize network metrics effectively.
+ (2) L4S-LLM Head: Replacing the default language model head, the L4S-LLM head maps LLM outputs directly to congestion prevention actions (enqueue, drop, or mark) in a single inference, reducing response time and preventing hallucinations.
+ (3) Data-Driven Low-Rank L4S Adaptation (proposed LoRA): This module finetunes the LLM using RL with distillation over the pre-collected data from existing algorithms, eliminating lengthy real-time interactions. By employing Low-Rank Adaptation (LoRA), finetuning costs are drastically reduced, with a 64% decrease in GPU memory usage and a 15.1% reduction in training time. 
+ L4S-LLM addresses low-latency needs by proactively identifying traffic patterns and taking optimal congestion-prevention actions. Its strong generalization capability ensures high performance on unseen network scenarios. 
+ Our key contributions in this paper are as follows. 
+ 1. 
+ Identification of key challenges and advantages of using LLMs for network queue management. 
+ 2. 
+ Development of L4S-LLM with a multi-faceted encoder, specialized L4S-LLM head, and the proposed LoRA scheme for improved RL-based distillation and finetuning of the L4S-LLM. 
+ 3. 
+ Evaluation demonstrating improved queue management, congestion mitigation, and latency reduction across unseen data and network environments. 
+ L4S-LLM Head Design & Development. Conventional LLM heads rely on iterative multiround inference to generate valid responses, resulting in substantial latency. To overcome this limitation, we propose the novel L4S-LLM head, which generates a valid response in a single inference round by predicting a probability distribution over possible actions. This design streamlines the response generation process, significantly accelerating inference. Drawing inspiration from speculative decoding , the L4S-LLM head advances beyond sequential token-by-token generation by simultaneously evaluating multiple potential outcomes, enhancing both computational efficiency and scalability (without degrading any accuracy). Furthermore, L4S-LLM offers a robust framework to improve AQM performance while reducing manual effort and resource consumption. 
+ Figure  1 demonstrates the integration of LLM intelligence with L4S network stack. Observe in Figure  1 how LLM components analyze real-time network telemetry and traffic patterns to dynamically optimize L4S parameters, including dual-queue AQM management, ECN marking thresholds, and congestion control algorithms. A bidirectional feedback loop enables LLM to process network performance data while simultaneously providing intelligent parameter adjustments and predictive congestion management to the existing L4S stack, resulting in enhanced network efficiency and reduced latency through LLM-driven L4S. 
+ Fig. 1: L4S-LLM Coupling: Interaction between different components of L4S and LLM, illustrating how the model integrates with the existing network stack. 
+ Temporal Modeling Framework. Our temporal modeling framework employs a dual-stage architecture to capture queue dynamics across multiple timescales. The initial stage utilizes 1D convolutional neural networks (Algorithm  1 ) with varying kernel sizes to extract multi-scale temporal features from sequential network metrics, providing efficient feature extraction before transformer processing. 
+ The transformer component employs self-attention across an empirically optimized context window of network activity. Ablation studies revealed this configuration maximizes performance while maintaining generalizability. Shorter context windows exhibited performance degradation, while extended windows showed no significant improvement and increased computational complexity. To mitigate temporal overfitting, we implemented three regularization techniques: 
+ 1. 
+ Protocol-diverse training corpus: Incorporating heterogeneous network traces from multiple congestion control algorithms 
+ 2. 
+ Stochastic temporal augmentation: Applying random offsets and noise to temporal sequences 
+ 3. 
+ Temporal dropout: Implementing random masking of timestep information during training 
+ Our findings highlight the complementary strengths of learning-based and classical approaches. While L4S-LLM offers superior performance in most scenarios, classical algorithms provide valuable safety guarantees and interpretability that inform our ongoing work to combine these strengths through formal verification and explicit incorporation of classical control principles. Empirical validation demonstrates the efficacy of this approach, with the model maintaining high accuracy on previously unseen network conditions. The data-driven reinforcement learning pipeline optimizes for discounted cumulative returns rather than immediate rewards, improving long-horizon performance compared to myopic optimization. 
+ Open Source FreeBSD Implementation. 3 3 
+ 3 
+ https://github.com/MPTCP-FreeBSD/L4S-LLM We establish an open-source experimental platform to implement and investigate new stacks of L4S within FreeBSD-14 , allowing integration with LLM models. Independent and interoperable implementations are critical for the recognition of emerging LLM-based AQMs by the Internet Engineering Task Force (IETF). In this work, we design and implement L4S-AQM framework on FreeBSD-14 , providing publicly accessible user and kernel modules to facilitate the testing and experimentation of AQM-LLM by the broader network and Internet research community. 
+ I-C Literature 
+ Networks often suffer from ‘bufferbloat’ [ 14 , 15 ] , where excessive packet buffering leads to high latency and jitter. To mitigate this, AQM schemes were developed, which detect congestion and either drop packets or use ECN to signal TCP congestion control algorithms to adjust the congestion window. Rule-based AQMs like CoDel [ 16 ] , PIE [ 3 ] , and CAKE depend on manually created rules, but these static approaches struggle to adapt to dynamic network traffic patterns. 
+ Learning-based AQM algorithms address these limitations by leveraging deep learning techniques to automate decision-making. Early works, such as PFED [ 17 ] , forecast traffic using MMSE prediction to regulate queue length and penalize misbehaving flows. Advanced approaches include ECN-based algorithms using LSTM architectures for traffic prediction [ 8 ] , QP-AQM for adaptive queue management with Q-learning traffic predictors [ 18 ] , and Deep Q-Network-based AQMs for intelligent packet dropping and differential QoS [ 19 ] . 
+ While these methods improve adaptability, they face challenges like high engineering effort, computational cost, and resource-intensive training. Their reliance on continuous learning limits generalization across diverse network environments, hindering practical deployment in real-world settings. LLMs [ 20 ] like ChatGPT, PaLM, Llama2, and OPT are advanced deep neural networks built on the Transformer architecture, with widespread applications across diverse domains. LLMs process input and output as token sequences, converting text into embeddings and predicting subsequent tokens using an auto-regressive mechanism. The self-attention mechanism allows LLMs to focus on relevant parts of the input, enabling them to handle complex language patterns and nuances effectively. Nevertheless, the LLM Driven networking has potential in several networking aspects including network function virtualization and large scale simulations [ 21 , 22 , 23 ] . 
+ There are some notable approaches for adapting LLMs to networking domains  [ 24 , 25 ] . Supervised Fine-Tuning (SFT)  [ 26 ] enables efficient domain adaptation with minimal data while preserving instruction-following capabilities, but exhibits safety degradation that increases with dataset size and is particularly sensitive to structured formats like lists and tables [ 27 ] . Continual Pre-Training (CPT)  [ 28 ] provides deeper domain knowledge integration and superior performance on complex tasks, but suffers from severe safety degradation when not followed by safety-focused instruction tuning [ 28 , 29 ] . To address these safety concerns, several methods have been proposed that maintain safety guardrails while preserving task performance. These include SafeInstruct [ 30 ] , which interleaves safety-aligned QA pairs during fine-tuning; SafeLoRA [ 31 ] , which selectively adapts only layers exhibiting harmful behavior; and SafeMERGE [ 32 ] , which merges fine-tuned layers with those of known safe models. 
+ II Research Design 
+ The L4S architecture, defined in RFC 9330 [ 4 ] , enhances QoE and QoS by integrating ECN with advanced TCP and AQM techniques. Central to this is the Dual-Queue Coupled AQM 4 4 
+ 4 
+ https://www.rfc-editor.org/rfc/rfc9332.html [RFC 9332], which prioritizes latency-sensitive L4S flows over traditional Classic queues, reducing delay at the cost of minor performance trade-offs for Classic flows. Complementing this, the Prague TCP variant works synergistically with DualPI2 and ECN to minimize packet loss and latency while maintaining high throughput. 
+ DualPI2 uses ECN (RFC 3168 [ 33 ] ) to mark packets during congestion, resorting to packet drops only under severe congestion. ECN leverages two bits in the IP header’s DiffServ field to signal congestion with four states. Table  I shows the details. Non-ECT (00) indicates endpoints don’t support ECN, so routers drop packets during congestion. ECT(1) (01) and ECT(0) (10) show endpoints are ECN-capable, allowing routers to mark packets instead of dropping them. CE (11) indicates the packet experienced congestion and is set by routers to notify the receiving endpoint. 5 5 
+ 5 
+ In our FreeBSD implementation, we have configured ECN through the net.inet.tcp.ecn.enable sysctl parameter. The default setting activates ECN solely for incoming connections requesting it, but can be modified to apply to all connections or turned off completely. 
+ Upon receiving CE-marked packets, the receiver informs the sender via an ECE flag, prompting the sender to adjust congestion control and respond with a CWR flag to acknowledge the notification. This mechanism mitigates delays, reduces packet loss, and minimizes retransmission, leading to lower latency, improved throughput, and decreased head-of-line blocking [ 34 ] . An abstract view of our L4S-LLM Architecture with complete pipeline from raw network metrics to AQM decisions, are shown in Figure  2 with the data flow through the state encoder, transformer model, and L4S-LLM head. We discuss the components of the L4S-LLM Architecture in details as follows. 
+ TABLE I: ECN Codepoints 
+ Codepoint 
+ Binary 
+ Description 
+ 00 
+ 00 00 
+ Non-ECT (Not ECN-Capable Transport) 
+ 01 
+ 00 01 
+ ECT(0) (ECN-Capable Transport) 
+ 10 
+ 00 10 
+ ECT(1) (ECN-Capable Transport) 
+ 11 
+ 00 11 
+ CE (Congestion Experienced) 
+ II-A Kernel Log Collection and Format 
+ Our approach begins with collecting raw network metrics directly from the FreeBSD kernel’s DualPI2 implementation. These logs capture the complete state of the AQM system at each decision point. Figure  3 shows an example of the raw kernel log in the format (observe the values in the highlighted dashed rectangles): queue type, qdelay reference, tupdate, max burst, max ecn threshold, alpha coefficient, beta coefficient, flags, burst allowance, drop probability,
+current queue delay, previous queue delay, accumulated probability, measurement start time,
+average dequeue time, dequeue count, status flags, total packets, total bytes,
+queue length, length in bytes, total drops, packet length, dequeue action . 
+ Fig. 2: L4S-LLM Architecture: The complete pipeline from raw network metrics to AQM decisions, showing the data flow through the state encoder, transformer model, and L4S-LLM head. 
+ Fig. 3: Snapshot of Raw Kernel Log 
+ Fig. 4: Snapshot of our processed experience pool 
+ Each log entry represents a single packet processing event with timestamps and key metrics. The final field in the dashed rectangle, action , indicates the decision made by the original DualPI2 algorithm: 0 for enqueue, 1 for drop, and 2 for ECN marking. See Table  I for details. These logs are collected using a custom kernel module seamlessly that hooks into the DualPI2 decision path without affecting normal operation. 
+ II-B Experience Pool Generation 
+ The raw kernel logs are processed into structured experience pools for training and evaluating our L4S-LLM model. Each entry contains a state vector of 8 network condition features, an action decision (0: enqueue, 1: drop, 2: ECN mark), a computed reward (balancing throughput and latency), and a Boolean flag refer to as Done indicating episode termination (0 except at transmission end). Figure  4 shows the snapshot of the processed experience pool. The experience pools are stored in a structured JSON format to facilitate efficient loading during model training. 
+ We demonstrate the L4s-LLM pipeline overview from data collection to LLM head in Table  II . Table  III displays all metric data obtained from the kernel along with their descriptions. Custom logging functions were implemented within the kernel to accurately capture data for analysis, offline data cleaning, and preparation for generating the LLM experience pool. 
+ TABLE II: Pipeline Stages and Overview 
+ Stage 
+ Description 
+ Example 
+ Kernel Log Collection 
+ Real-time AQM metrics collected from kernel-level code during packet processing 
+ Queue Type = 1, Queue Delay = 50ms, Drop Prob = 0.02 
+ Experience Pool Generation 
+ Kernel logs transformed into training/evaluation pools with state, action, reward, and done flags 
+ State: [ f 1 , f 2 , … , f n ] [f_{1},f_{2},\ldots,f_{n}] , Action: { 0 , 1 , 2 } \{0,1,2\} , Reward: throughput, Done: { 0 , 1 } \{0,1\} 
+ Tokenization 
+ Network data converted into discrete tokens for LLM processing 
+ Network state → \rightarrow [queue_delay, drop_prob, pkt_len, …] 
+ Embedding 
+ Tokens mapped to high-dimensional vectors matching LLM input space 
+ queue_delay → [ 0.2 , 0.7 , 0.1 , … ] \rightarrow[0.2,0.7,0.1,\ldots] , action → [ 0.3 , 0.1 , − 0.1 , … ] \rightarrow[0.3,0.1,-0.1,\ldots] 
+ RL Adaptation 
+ L4S-LLM fine-tuned using rewards to optimize AQM decisions 
+ s t = ( q ​ d ​ e ​ l ​ a ​ y t , p ​ d ​ r ​ o ​ p t , l ​ e ​ n ​ b t ) s_{t}=(qdelay_{t},pdrop_{t},lenb_{t}) , R t = p ​ k ​ t ​ _ ​ l ​ e ​ n t q ​ d ​ e ​ l ​ a ​ y t + 1 R_{t}=\frac{pkt\_len_{t}}{qdelay_{t+1}} 
+ LoRA 
+ Parameter-efficient training using low-rank matrices while freezing LLM weights 
+ Δ ​ W = A ⋅ B \Delta W=A\cdot B , where A , B A,B are low-rank matrices 
+ L4S Head 
+ Maps LLM outputs to congestion actions (enqueue, drop, mark) 
+ A ​ c ​ t ​ i ​ o ​ n = arg ⁡ max ⁡ ( P ⁡ ( e ​ n ​ q ​ u ​ e ​ u ​ e ) , P ⁡ ( d ​ r ​ o ​ p ) , P ⁡ ( m ​ a ​ r ​ k ) ) Action=\arg\max(P(enqueue),P(drop),P(mark)) 
+ TABLE III: Collected Kernel-Level Metrics from FreeBSD DualPI2 AQM 
+ Variable 
+ Definition 
+ queue_type 
+ Queue type identifier (0: Classic, 1: L4S) 
+ burst_allowance 
+ Maximum allowed burst size before congestion control activation 
+ drop_probability 
+ Probability of dropping a packet during congestion 
+ current_queue_delay 
+ Current queue delay experienced by packet 
+ accumulated_probability 
+ Accumulated probability for drop decisions 
+ length_in_bytes 
+ Current queue length in bytes 
+ packet_length 
+ Length of current processed packet 
+ (a) Kernel logs utilized by L4S-LLM 
+ Variable 
+ Definition 
+ qdelay_reference 
+ Target queue delay reference for AQM algorithms 
+ tupdate 
+ Update interval for queue state variables 
+ max_burst 
+ Maximum allowable burst duration 
+ max_ecn_threshold 
+ Upper ECN marking threshold 
+ alpha_coefficient 
+ PI controller proportional gain 
+ beta_coefficient 
+ PI controller integral gain 
+ flags 
+ Internal AQM status flags 
+ previous_queue_delay 
+ Previous measurement cycle queue delay 
+ measurement_start_time 
+ Current measurement interval timestamp 
+ average_dequeue_time 
+ Mean packet dequeue time 
+ dequeue_count 
+ Packets dequeued in current interval 
+ status_flags 
+ Operational state indicators 
+ total_packets 
+ Total packets processed 
+ total_bytes 
+ Total bytes processed 
+ queue_length 
+ Current queue length in packets 
+ total_drops 
+ Total packet drops in interval 
+ dequeue_action 
+ Decision (0:enqueue, 1:drop, 2:ECN mark) 
+ (b) Non-utilized Kernel log parameters 
+ II-C Tokenization and Embedding Process 
+ Unlike traditional NLP applications where text is tokenized into discrete units, our network metrics require specialized processing to be compatible with LLM architectures. We implement a custom tokenization process that converts numerical network metrics into a format suitable for transformer models. 
+ We present a novel approach to network congestion control by adapting transformer-based language models for sequential decision-making in L4S environments. The architecture fundamentally reframes network state transitions as a sequence modeling problem, leveraging the autoregressive capabilities of pre-trained LLMs. Our tokenization process transforms heterogeneous network telemetry data into a unified sequential representation suitable for transformer processing. Rather than traditional linguistic tokens, the system constructs sequences from temporal network observations, where each timestep t t generates a multi-modal token comprising: (1) return-to-go R t R_{t} representing cumulative future rewards, (2) decomposed state features 𝐬 t = [ s t , 1 , s t , 2 , … , s t , 7 ] \mathbf{s}_{t}=[s_{t,1},s_{t,2},\ldots,s_{t,7}] capturing network conditions, and (3) action a t ∈ { 0 , 1 , 2 } a_{t}\in\{0,1,2\} representing packet handling decisions. 
+ The sequence construction follows the following pattern: 
+ 𝒮 = [ R t , s t , 1 , s t , 2 , … , a t , R t + 1 , s t + 1 , 1 , … , a t + 1 , … ] \mathcal{S}=[R_{t},s_{t,1},s_{t,2},\ldots,a_{t},R_{t+1},s_{t+1,1},\ldots,a_{t+1},\ldots] 
+ (1) 
+ which creates a causal dependency structure where states predict subsequent actions, aligning with the autoregressive nature of transformer architectures. 
+ Furthermore, the proposed embedding mechanism employs separate linear projection layers for each modality to map heterogeneous input spaces into a unified d d -dimensional embedding space matching the pre-trained LLM’s hidden size. State features undergo domain-specific transformations through dedicated embedding matrices 𝐖 state , i ∈ ℝ d × d state \mathbf{W}_{\text{state},i}\in\mathbb{R}^{d\times d_{\text{state}}} for i ∈ { 1 , … , 7 } i\in\{1,\ldots,7\} , while actions and returns are projected via 𝐖 action ∈ ℝ d × 1 \mathbf{W}_{\text{action}}\in\mathbb{R}^{d\times 1} and 𝐖 return ∈ ℝ d × 1 \mathbf{W}_{\text{return}}\in\mathbb{R}^{d\times 1} respectively. 
+ Temporal information is incorporated through learned positional embeddings 𝐖 time ∈ ℝ ( T + 1 ) × d \mathbf{W}_{\text{time}}\in\mathbb{R}^{(T+1)\times d} , which are additively combined with all modality embeddings 
+ embed ​ ( 𝐱 t ) = 𝐖 modality ​ ( 𝐱 t ) + 𝐖 time ​ ( t ) \text{embed}(\mathbf{x}_{t})=\mathbf{W}_{\text{modality}}(\mathbf{x}_{t})+\mathbf{W}_{\text{time}}(t) 
+ (2) 
+ where 𝐱 t \mathbf{x}_{t} represents the input at timestep t t . 
+ The concatenated embedding sequence undergoes layer normalization before being fed into the transformer backbone, bypassing traditional tokenization by directly providing input embeddings rather than discrete tokens. This preserves the continuous nature of network telemetry while leveraging pre-trained attention patterns. The transformer processes sequences through multi-head self-attention mechanisms, capturing complex temporal dependencies and cross-modal interactions between network states, actions, and rewards. The attention mechanism computes weighted representations by calculating similarity scores between query, key, and value matrices, applying softmax normalization, and producing context-aware embeddings. The final hidden states from state embedding positions are extracted and passed through a linear classification head to generate action logits, treating congestion control as a sequence-to-sequence mapping where network history predicts optimal packet handling decisions. 
+ II-D Architecture of AQM-LLM 
+ Algorithm 1 L4S-LLM State Encoder 
+ 1: 
+ Input: State tensor state with shape (batch_size, seq_len, 8, 1) 
+ 2: 
+ Output: Encoded feature tensors for each state component
+ 3: 
+ Initialize layers:
+ 4: 
+   f ​ c 1 fc_{1} , …, f ​ c n fc_{n} as Linear(1,feature_dim) for scalar data 
+ 5: 
+   c ​ o ​ n ​ v 1 conv_{1} , …, c ​ o ​ n ​ v n conv_{n} as Conv1d(1, feature_dim, conv_size) for sequence data 
+ 6: 
+   e ​ m ​ b ​ e ​ d ​ _ ​ f ​ e ​ a ​ t ​ u ​ r ​ e embed\_feature , …, e ​ m ​ b ​ e ​ d ​ _ ​ f ​ e ​ a ​ t ​ u ​ r ​ e ​ _ ​ n embed\_feature\_n as 
+  Linear(feature_dim, plm_embed_size) where 
+  plm_embed_size depends on LLM token size. 
+ 7: 
+ for each feature i i from 1 to n do 
+ 8: 
+    if feature i i is scalar data then 
+ 9: 
+    Extract feature_i from state[:, i-1:i] 
+ 10: 
+    Apply fc_i(feature_i) to encode the feature
+ 11: 
+    else 
+ 12: 
+    Extract feature_i from state[:, i-1:i] 
+ 13: 
+    Apply conv_i(feature_i) to encode the feature
+ 14: 
+ 15: 
+    end if 
+ 16: 
+   Apply embed_i(feature_i) to encode the feature 
+ 17: 
+   into its embedded representation ⊳ \triangleright Embedding Layer
+ 18: 
+    Reshape encoded feature to (batch_size, seq_len,-1) 
+ 19: 
+ end for 
+ 20: 
+ return Encoded features: features1, features2, …, features8 
+ II-D 1 L4S-LLM State Encoder 
+ Fig. 5: L4S-LLM Encoder: Detailed architecture showing how different types of network metrics are processed through specialized encoding paths. 
+ The L4S-LLM State Encoder transforms raw network metrics into a format compatible with transformer models. As shown in Figure  5 , it consists of two main components: 
+ 1. 
+ Feature Encoder : Processes different types of network metrics through specialized paths 
+ 2. 
+ Linear Projector : Maps extracted features to the token space required by the LLM 
+ Algorithm  1 details the encoding process. For scalar metrics like queue type or drop probability, fully connected layers (line  4 , Algorithm  1 ) extract meaningful representations. For time-series data like queue delay trends, 1D CNNs (line  5 , Algorithm  1 ) capture temporal patterns with kernel sizes k ∈ { 3 , 5 , 7 } k\in\{3,5,7\} to extract multi-scale features. 
+ The extracted features are then projected into the LLM’s token space using trainable embedding layers (line  16 , Algorithm  1 ). For example, with Llama2, features are mapped to 4096-dimensional vectors compatible with the model’s input requirements. 
+ II-D 2 L4S Language Modelling Head 
+ Fig. 6: L4S-LLM Head 
+ Traditional language model heads generate responses token-by-token, requiring multiple inference rounds and introducing unacceptable latency for AQM applications. Our custom L4S-LLM head as shown in Figure  6 addresses this by generating complete actions in a single inference step. See details in Algorithm  2 . 
+ Algorithm 2 L4S Language Modelling Head 
+ 1: 
+ Input: i ​ n ​ p ​ u ​ t ​ _ ​ e ​ m ​ b ​ e ​ d ​ d ​ i ​ n ​ g ​ s , a ​ t ​ t ​ e ​ n ​ t ​ i ​ o ​ n ​ _ ​ m ​ a ​ s ​ k , input\_embeddings,attention\_mask, 
+ 2: 
+ a ​ c ​ t ​ i ​ o ​ n ​ _ ​ e ​ m ​ b ​ e ​ d ​ _ ​ p ​ o ​ s , r ​ e ​ s ​ i ​ d ​ u ​ a ​ l ​ _ ​ f ​ l ​ a ​ g action\_embed\_pos,residual\_flag 
+ 3: 
+ Output: predicted_actions
+ 4: 
+ Initialize L4SLLM head: 
+ 5: 
+ action_head ← \leftarrow Linear( p ​ l ​ m ​ _ ​ e ​ m ​ b ​ e ​ d ​ _ ​ s ​ i ​ z ​ e , a ​ c ​ t ​ i ​ o ​ n ​ C ​ o ​ u ​ n ​ t plm\_embed\_size,actionCount ) 
+ 6: 
+ action_head ← \leftarrow action_head.to(device) ⊳ \triangleright Move to appropriate device
+ 7: 
+ logits_used ← \leftarrow Transformer (input_embeddings, attention_mask)
+ 8: 
+ if residual_flag then 
+ 9: 
+   logits_used ← \leftarrow logits_used + input_embeddings ⊳ \triangleright Add residual connection
+ 10: 
+ end if 
+ 11: 
+ selected_logits ← \leftarrow logits_used[:, action_embed_pos - 2] ⊳ \triangleright Select relevant logits
+ 12: 
+ predicted_actions ← \leftarrow action_head(selected_logits) ⊳ \triangleright Predict actions using action head
+ 13: 
+ Return predicted_actions ⊳ \triangleright Probability Distribution of Candidate actions
+ The L4S-LLM head (line  5 , Algorithm  2 ) is a trainable linear layer that maps transformer outputs directly to a probability distribution over the three possible actions: enqueue (0), drop (1), or ECN mark (2). 6 6 
+ 6 
+ This approach, inspired by speculative decoding, eliminates the need for token-by-token generation, reducing inference time from hundreds of milliseconds to under 40ms. 
+ II-E Data-Driven Reinforcement Learning (RL) Pipeline 
+ Recall that we employ RL-based adaptation pipeline which begins by collecting experience trajectories from the FreeBSD DualPI2 implementation. Each trajectory τ = { r t , s t , a t } t = 1 T \tau=\{r_{t},s_{t},a_{t}\}_{t=1}^{T} consists of states s t s_{t} as 8-dimensional vectors of network metrics (including queue type, burst allowance, drop probability, current queue delay, accumulated probability, queue length in bytes, packet drops, and packet length), actions a t a_{t} as discrete values (0: enqueue, 1: drop, 2: ECN mark), and rewards r t r_{t} (for instance computed as pkt_len / ( qdelay t + 1 ) \text{pkt\_len}/(\text{qdelay}_{t}+1) in our implementation) to balance throughput and latency. For each trajectory, we evaluate the return R t = ∑ i = t T γ i − t ​ r i R_{t}=\sum_{i=t}^{T}\gamma^{i-t}r_{i} with discount factor γ = 0.95 \gamma=0.95 , representing cumulative future rewards from state s t s_{t} , transforming the trajectory into τ = { R t , s t 1 , … , s t 8 , a t } t = 1 T \tau=\{R_{t},s_{t}^{1},\ldots,s_{t}^{8},a_{t}\}_{t=1}^{T} . 
+ During training, we sample batches of data from the experience pool as d = { R t , s t 1 , … , s t 8 , a t } t = t − w + 1 T d=\{R_{t},s_{t}^{1},\ldots,s_{t}^{8},a_{t}\}_{t=t-w+1}^{T} where w w is the context window, empirically determined to balance historical information against computational efficiency. The LLM processes this data to generate predicted actions { a ^ t } t = t − w + 1 T \{\hat{a}_{t}\}_{t=t-w+1}^{T} , with training loss calculated as L r ​ l = 1 w ​ ∑ t = 1 w F r ​ l ​ ( a t , a ^ t ) L_{rl}=\frac{1}{w}\sum_{t=1}^{w}F_{rl}(a_{t},\hat{a}_{t}) where F r ​ l F_{rl} is the cross-entropy loss function for our categorical action space. The model processes encoded states through the transformer architecture and generates action probabilities via the L4S-specific classification head, enabling the system to learn optimal congestion control policies from historical network behavior patterns. 
+ II-F Low-Rank Adaptation (LoRA) 
+ Fig. 7: Low-Rank L4S adaptation (LoRA) Design: Visualization of how LoRA matrices are integrated with frozen pre-trained weights to enable efficient fine-tuning. 
+ Fine-tuning large language models with billions of parameters is computationally prohibitive for networking applications. We address this using Low-Rank Adaptation (LoRA), which dramatically reduces the number of trainable parameters while preserving model quality. Figure  7 shows the LoRA fine-tuning architecture where low-rank matrices (A and B) integrate with frozen pre-trained weights, enabling parameter-efficient L4S-LLM adaptation to network-specific patterns without full model retraining. Algorithm  3 details the LoRA training process. For each pre-trained weight matrix W 0 ∈ ℝ d × k W_{0}\in\mathbb{R}^{d\times k} in the LLM, we introduce low-rank matrices A ∈ ℝ d × r A\in\mathbb{R}^{d\times r} and B ∈ ℝ r × k B\in\mathbb{R}^{r\times k} with rank r ≪ min ⁡ ( d , k ) r\ll\min(d,k) . The effective weight matrix 
+ W = W 0 + A ​ B W=W_{0}+AB 
+ (3) 
+ By freezing W 0 W_{0} and only training A A and B B , we reduce the number of trainable parameters from billions to millions—a 99% reduction for Llama2-7B. 
+ Algorithm 3 Low-Rank Adaptation (LoRA) Algorithm 
+ 1: 
+ Input: Pretrained model W θ W_{\theta} , adaptation rank r r , training dataset D D , number of epochs E E 
+ 2: 
+ Output: Fine-Tuned model parameters W f ​ i ​ n ​ e ​ _ ​ t ​ u ​ n ​ e ​ d W_{fine\_tuned} 
+ 3: 
+ Initialize low-rank matrices A ∈ ℝ d × r A\in\mathbb{R}^{d\times r} , B ∈ ℝ r × d B\in\mathbb{R}^{r\times d} randomly
+ 4: 
+ Set the learning rate η \eta 
+ 5: 
+ for each epoch e = 1 e=1 to E E do 
+ 6: 
+    for each batch b b in the dataset D D do 
+ 7: 
+    Forward pass: compute model output with
+ 8: 
+       current θ \theta and fine-tuned weights ( A , B ) (A,B) 
+ 9: 
+    Compute the loss ℒ \mathcal{L} based on the model output
+ 10: 
+       and ground truth
+ 11: 
+    Compute the gradient of the loss with respect to θ \theta 
+ 12: 
+       and ( A , B ) (A,B) 
+ 13: 
+    Update the low-rank matrices using gradient descent:
+ A ← A − η ​ ∂ ℒ ∂ A , B ← B − η ​ ∂ ℒ ∂ B A\leftarrow A-\eta\frac{\partial\mathcal{L}}{\partial A},\quad B\leftarrow B-\eta\frac{\partial\mathcal{L}}{\partial B} 
+ 14: 
+    end for 
+ 15: 
+ end for 
+ 16: 
+ Set the final Fine-Tuned model parameters:
+ W f ​ i ​ n ​ e ​ _ ​ t ​ u ​ n ​ e ​ d ← W θ + A ​ B W_{fine\_tuned}\leftarrow W_{\theta}+AB 
+ 17: 
+ Return: θ a ​ d ​ a ​ p ​ t \theta_{adapt} 
+ For Llama2-7B, we use rank r = 128 r=128 , reducing trainable parameters from 7 billion to approximately 70 million while maintaining 97.56% accuracy. This approach preserves the pre-trained knowledge in the LLM while enabling efficient adaptation to the AQM domain. 
+ III Setup and Evaluation 
+ III-A Experimental Testbed Setup 
+ Fig. 8: Topology of the developed experimental testbed for collecting datasets and evaluating L4S-LLM framework. 
+ We collect the experiences required for training our L4S-LLM by developing a testbed as shown in Figure  8 consisting of FreeBSD-based virtual machines, built and configured using VirtualBox and VMware virtualization platforms. The virtual machines run FreeBSD version 14.1 as their operating system. To create a network setup in VirtualBox, we clone four virtual machines: two clients (Client 1 and Client 2), one router, and one server. Client 1 utilizes two different congestion control algorithms - Cubic and NewReno simultaneously, while Client 2 uses ECT(1)-enabled DCTCP congestion control algorithm. We replace DCTCP with UDP Prague and repeat all the experiments in VMware. 7 7 
+ 7 
+ VirtualBox provides open-source accessibility, simpler network configuration options, better FreeBSD guest support through built-in additions, and lower resource requirements suitable for basic protocol testing. In contrast, VMware delivers superior network performance with enhanced throughput and lower latency, advanced virtual networking capabilities (distributed switches, VLAN trunking, traffic shaping), better hardware virtualization, and more reliable snapshot functionality for experimental state preservation. For performance-sensitive experiments like congestion control or AQM evaluation, VMware’s network stack more accurately emulates physical hardware behavior, while VirtualBox remains adequate for functional protocol testing with reduced resource overhead. The router is configured with a custom-built DualPI2 algorithm that supports the L4S architecture, as described in [ 5 ] . All clients send data to the server through the router as illustrated in Figure  8 . All scripts and additional information required to set up the environment are made public in the L4S-LLM repository . 
+ In our experiment to collect data, we configure the router with a bandwidth of 8 Mbps and a delay of 10 ms. We initiate two iperf3 connections for each congestion control algorithm used in Client 1, with each connection utilizing two parallel flows via the -P 2 option in iperf3 . Client 2 only utilizes a single flow for its iperf3 connection. Each iperf3 test runs for one minute. We repeat the experiment ten times and collect all the data. We have enabled ECN on all devices. 
+ To gather the data, we use a debugging tool that is directly embedded in the DualPI2 kernel code to store data from the kernel into the debug kernel logs. The relevant data is then extracted from these logs. If the size of the collected data exceeds 1000 KB, the log files will be truncated and rotated to prevent excessive growth. To increase the file size limits, we modify the configuration files for the newsyslog service, found in /etc/newsyslog.conf . 
+ Once the data collection process is complete, we process the collected data into an experience pool to be fed into the LLM; see L4S-LLM experience pool 8 8 
+ 8 
+ https://github.com/MPTCP-FreeBSD/LLM_Gen_Exp_Pool implementation for details. We experiment with multiple foundation LLM models, including Llama2 9 9 
+ 9 
+ https://www.llama.com/llama2 [ 9 ] (7b), OPT (1.3b), GPT2 10 10 
+ 10 
+ https://openai.com/index/better-language-models/ [ 35 ] (125m) and T5-LLM 11 11 
+ 11 
+ https://github.com/google-research/text-to-text-transfer-transformer [ 36 ] , which are fine-tuned for our L4S-LLM task. Among these, Llama2 demonstrated the best performance (see Section III-B) and was selected as the foundational LLM for extensive evaluation in simulations, where L4S-LLM is compared against the legacy AQM algorithms. To execute L4S-LLM, we utilize Runpod , an online cloud computing platform that provides access to powerful GPUs and scalable storage, ensuring efficient training and testing of our framework. We used two NVIDIA A40 GPUs, each equipped with 48 GB of VRAM, carried out on an Ubuntu 22.04 instance with CUDA 11.8 version. 
+ We log key metrics during L4S-LLM training and testing, including loss, accuracy, reward, GPU/CPU utilization, computation time, RAM usage, and total training/testing time. To evaluate the model’s efficiency, we analyze loss and accuracy, which are calculated using cross-entropy loss for this multi-class classification problem. Cross-entropy loss measures the discrepancy between predicted probabilities and true labels, outputting a scalar value where lower values indicate better performance. The training process employs mini-batches with gradient accumulation to enhance efficiency and stability. Gradient clipping is utilized to prevent gradient explosion by capping gradients to a predefined threshold during backpropagation. The model predicts a probability distribution over actions, represented by action.preds , and the predicted action is obtained using the argmax() function. True actions, extracted and normalized from the experience pool, are aligned with the predicted actions using a custom vectorization and conversion function to ensure compatibility for computing accuracy 
+ Accuracy = 1 N ​ ∑ i = 1 N 𝕀 ⁡ ( preds_actions i = true_classes i ) \displaystyle\text{Accuracy}=\frac{1}{N}\sum_{i=1}^{N}\mathbb{I}(\text{preds\_actions}_{i}=\text{true\_classes}_{i}) 
+ (4) 
+ over all N samples or steps in the epoch where 𝕀 \mathbb{I} is the indicator function returns 1 when the predicted action (preds_actions) matches the true action class (true_classes), and 0 otherwise. 
+ To ensure robust generalization beyond training scenarios, we implemented multiple strategies to counteract limitations of supervised distillation. We systematically varied key network parameters (bandwidth, RTT, queue sizes, traffic patterns) during data collection to prevent model memorization. Our approach incorporated queue perturbations, temporal shifting of metrics, and diverse traffic traces from multiple congestion control algorithms to create novel training examples. 
+ III-B L4S-LLM Training and Validation 
+ III-B 1 Evaluation of Loss Dynamics in L4S-LLM 
+ Fig. 9: L4S-LLM Training Loss Trends: Evolution of Mean Loss over 80 Epochs 
+ Figure  9 demonstrates the training loss evolution across four LLM architectures over 80 epochs. Llama2 exhibits superior convergence characteristics, achieving the lowest mean loss by epoch 5 and maintaining consistent improvement throughout training. OPT displays gradual loss reduction with slower optimization dynamics, while T5-LLM follows similar trends but achieves marginally better final loss than OPT. GPT2 initially exhibits the highest loss but rapidly converges from epoch 40, ultimately matching OPT’s performance level. 
+ The loss trajectories validate L4S-LLM’s robust adaptability to complex network queue management across diverse architectural foundations. By leveraging real-time kernel-level metrics, the framework demonstrates effective optimization and generalization under dynamic network conditions. Llama2’s 7B parameter architecture achieves optimal loss minimization, followed by OPT and GPT2 with comparable performance, while T5-LLM exhibits slightly elevated loss values. These results reinforce Llama2’s selection as the primary foundation model, combining superior convergence properties with effective parameter reduction through LoRA for practical deployment in network congestion control scenarios. 
+ III-B 2 Evaluation of Accuracy Dynamics in L4S-LLM 
+ Fig. 10: L4S-LLM Training Accuracy Trends: Mean Accuracy over 80 Epochs 
+ Figure  10 illustrates the training accuracy evolution across four LLM architectures during fine-tuning. Llama2 exhibits initial near-zero accuracy with rapid improvement between epochs 5-9, followed by plateau and gradual ascent from epoch 30, ultimately achieving superior performance at 97.56%. OPT demonstrates higher initial accuracy than competitors, steadily increasing until epoch 40 where it stabilizes at 83%. GPT2 remains stagnant near zero until epoch 29, then exhibits sharp improvement through epoch 40 before stabilization. T5-LLM begins at 20% accuracy with gradual progression, plateauing around 83% after epoch 75. 
+ Llama2 significantly outperforms all alternatives, achieving 97.56% accuracy compared to the 82-83% plateau reached by OPT, GPT2, and T5-LLM. Despite requiring over 20 hours training time versus competitors’ sub-hour requirements, Llama2’s superior accuracy justifies the computational investment. Critically, LoRA reduces Llama2’s 7B parameters to 70M trainable parameters while maintaining performance, and inference times remain comparable to smaller models during deployment. 
+ III-C Evaluation of L4S-LLM over AQM 
+ We evaluate the performance of our L4S-LLM framework, with Llama2 -7B as our base, fine-tuned using LoRA, with its performance benchmarked against real-world L4S AQM data. The benchmarking focuses primarily on optimizing queue delay and bandwidth utilization. The network topology depicted in Figure  8 involves Client 1 using Cubic and New-Reno concurrently, while Client 2 is running DCTCP, and the router is configured to implement L4S. Using real-world data LLM predicts the AQM action - Enqueue, Dequeue, or ECN marking. The LLM is used at specific intervals as it is resource-intensive. Our results, Figs.  11 and  12 , demonstrate the LLM’s ability to optimize the queue delay and bandwidth of both DCTCP and UDP Prague flows. 
+ III-C 1 Analysis of Queue Delay 
+ (a) Aggregate Delay with 10-Interval LLM Inputs with DCTCP 
+ (b) Aggregate Delay with 100-Interval LLM Inputs with DCTCP 
+ (c) Classic Queue with 10-Interval LLM Inputs with UDP Prague 
+ (d) Classic Queue with 100-Interval LLM Inputs with UDP Prague 
+ Fig. 11: Queue Delay Analysis with Periodic LLM Inputs 
+ (a) DCTCP: 10-Interval Inputs 
+ (b) DCTCP: 100-Interval Inputs 
+ (c) UDP Prague: 10-Interval Inputs 
+ (d) UDP Prague: 100-Interval Inputs 
+ Fig. 12: Box Plot of DCTCP and UDP Prague Queue Delays of Fig 11. 
+ Figure  11 presents a comparison of queue delays between the original L4S AQM implementation and the enhanced L4S-LLM framework leveraging the fine-tuned LLM model to optimize queue delay. The LLM model determines the most optimal action – Enqueue, Drop and ECN marking – based on the system’s state. As shown in Figure  12 , our reward function guides the LLM in finding the most optimal action which keeps improving the reward. The results show a significant reduction in queue delay for the LLM-based system compared to the traditional algorithm. The traditional queue delay has a higher median queue delay with high variability. Conversely, the L4S-LLM achieves a remarkably low median queue delay value, with low variability and fewer outliers, demonstrating the LLM’s capacity to maintain low-latency behaviour. Our extensive analysis hereafter primarily focuses on DCTCP/VirtualBox, though results for UDP Prague/VMware have been produced using the code available in our GitHub repository. 
+ (a) CDF of Queue Delay with 10-Interval LLM Inputs 
+ (b) CDF of Queue Delay with 100-Interval LLM Inputs 
+ Fig. 13: CDF of DCTCP Queue Delay with Periodic LLM Inputs. 
+ Figure  13 illustrates the cumulative distribution functions (CDFs) of queue delay for traditional L4S and L4S-LLM AQM. These results provide an alternative representation of queue delay performance dynamics capturing LLM’s effectiveness in optimizing queue management strategies. 
+ III-C 2 Analysis of Bandwidth utilization 
+ (a) Bandwidth utilization with 10-Interval LLM Inputs 
+ (b) Bandwidth utilization with 100-Interval LLM Inputs 
+ Fig. 14: Comparision of Bandwidth utilization when L4S-LLM is enabled at 10 and 100-Packet Intervals. 
+ (a) Box Plot of Bandwidth utilization with 10-Interval LLM Inputs 
+ (b) Box Plot of Bandwidth utilization with 100-Interval LLM Inputs 
+ Fig. 15: Box Plot of Bandwidth utilization with LLM Enabled at 10 and 100-Packet Intervals. 
+ Figure  14 and Figure  15 showcase the comparative analysis of bandwidth utilization of the traditional L4S and L4S-LLM framework. The results show a significant increase in median bandwidth utilization, with significantly low variability, although along with a few large outliers. We found that these outliers mainly appear at the start of the data transfer and are not present after a certain duration. In contrast, the traditional L4S algorithm in Figure  16 shows a low median bandwidth utilization value with high variability. Similarly, L4S-LLM shows its effectiveness in optimizing bandwidth utilization while maintaining low queue delay. 
+ (a) CDF of Bandwidth utilization with 10-Interval LLM Inputs 
+ (b) CDF of Bandwidth utilization with 100-Interval LLM Inputs 
+ Fig. 16: CDF of Bandwidth utilization with LLM Enabled at 10 and 100-Packet Intervals. 
+ The CDFs of bandwidth utilization for both traditional L4S and L4S-LLM AQM, as depicted in Figure  16 , offer an alternative visualisation of router performance. These results underscore the LLM’s capability to enhance queue management strategies effectively. 
+ III-D Computation Overhead(s) 
+ Fig. 17: Distribution of Trainable Parameters Across Four Distinct LLMs 
+ Figure  17 demonstrates LoRA’s parameter reduction efficiency: Llama2’s 7B parameters reduce to 70M (1%), while OPT’s 1.3B decrease to 25M (1.9%) using rank-128 LoRA. GPT-2 (125M) and T5-LLM (220M) need no reduction due to their manageable size. This rank-128 configuration optimally balances efficiency with performance, maintaining full fine-tuning accuracy while reducing computational demands. Figure  18 highlights memory constraints critical for deployment: Llama2 requires 23.91GB VRAM, OPT 7GB, GPT2 3.6GB, and T5-LLM just 2.32GB. These requirements emphasize the need for efficient architectures in resource-constrained networking environments where routers must operate within strict hardware limitations while maintaining real-time performance. 
+ Fig. 18: Comparative Analysis of GPU VRAM Usage Across Different LLMs 
+ Fig. 19: Comparison of Decision Time Across Different LLMs (s) 
+ Figure  19 demonstrates L4S-LLM’s significant impact on inference latency. The unadapted Llama2-7B exhibits prohibitive answer generation time of 0.200 seconds, while LoRA-adapted models achieve substantial reductions: Llama2 at 0.0391s, OPT at 0.0395s, GPT2 at 0.0414s, and T5-LLM at 0.0411s. Despite Llama2-7B and OPT-1.3B containing billions of parameters, LoRA reduces inference time by approximately 80%, achieving  0.039s response times crucial for real-time congestion control. This 5x speedup validates L4S-LLM’s efficiency for latency-critical network applications. However, further optimization opportunities exist through small language models (SLMs), model pruning, partitioning strategies, and specialized hardware acceleration to achieve sub-millisecond inference suitable for high-frequency packet processing. 
+ Fig. 20: Comparison of Training Times Across Different LLMs (s) 
+ In Figure  20 , we observe the total training time required to run 80 epochs for four different LLMs. Even with the application of LoRA, Llama2-7B exhibits the highest training time by a significant margin at approximately 22.3 hours. In contrast, the training time for OPT with LoRA is around 29.9 minutes, while GPT2 requires approximately 17.96 minutes, and T5-LLM requires about 32.26 minutes. With the exception of Llama2, the training times for other LLM models are notably faster. However, during evaluation or actual deployment, the inference time is of utmost importance. Despite Llama2’s higher training time, its inference performance is comparable to other models, making it suitable for real-time congestion control applications. 
+ III-E Model Architecture and Optimization Considerations 
+ Our architectural decisions were strategically formulated to achieve an optimal balance between performance requirements and deployment feasibility. The L4S-LLM framework implements a robust three-component architecture: (1) a sophisticated state encoder utilizing linear layers for scalar inputs and CNNs for time-series data, (2) a powerful transformer-based reasoning core, and (3) an innovative L4S-LLM head enabling single-inference action generation that significantly reduces decision latency. 
+ Through extensive network evaluation , we systematically tested different foundation models (Llama2-7B, OPT-1.3B, GPT2-125M, T5-220M). While Llama2-7B demonstrated superior accuracy (97.56%), smaller models achieved a substantial 83% accuracy, providing compelling evidence for viable architectural simplification pathways that maintain acceptable performance levels. 
+ Regarding the critical latency-complexity tradeoff, our measured decision times (39-41ms) currently exceed the ideal 15ms target for high-frequency AQM operations. We effectively mitigated this limitation through periodic execution at 10 and 100-packet intervals (Figures  11 - 16 ), conclusively demonstrating that even with reduced execution frequency, L4S-LLM delivers consistently superior performance compared to traditional approaches across all key metrics. 
+ Our current implementation focuses on parameter-efficient fine-tuning through LoRA, achieving a remarkable 99% reduction in trainable parameters. We fully recognize the importance of additional optimization techniques for production deployment. Future work will systematically explore structured pruning to eliminate non-essential network components, quantization-aware training for lower precision operation, and hardware-aware optimization specifically targeting router-specific constraints. Based on recent advances in model compression techniques  [ 10 , 13 ] , these approaches could potentially reduce model size by an additional 75-90% with minimal performance degradation, making deployment on router-grade hardware an achievable near-term goal. 
+ Our comprehensive open-source FreeBSD-14 implementation establishes a solid foundation for the networking community to collaboratively explore these optimization approaches as we advance toward production-ready systems. Several critical limitations must be addressed before considering the commercial deployment of the proposed L4S-LLM framework in network routers. This section outlines the primary challenges affecting deployability and overall effectiveness: 
+ • 
+ Online Training/Testing: 
+The framework requires real-time evaluation within the L4S architecture to address deployment challenges. While the current L4S-LLM framework was trained and tested using a data-driven approach with experimental data from L4S DualPI2 AQM and various congestion control algorithms, this process involved offline training and testing. 
+ • 
+ Time Constraints: 
+Deployment requires a significant reduction in L4S-LLM’s response generation time to ensure effective performance in real-world applications. 
+ • 
+ Hardware: 
+Approaches for fine-tuning and distilling LLMs rely on high-end hardware, including an RTX 4090 GPU, 128 GB of RAM, and a 13th-generation i9 processor. Commercial network routers typically lack such resources. Therefore, model parameter size must be reduced to address memory constraints, alongside CPU and GPU optimizations. A potential solution involves transitioning to SLMs, potentially by using correlated knowledge distillation (CKD)  [ 13 ] , to replicate LLM capabilities on resource-limited devices. 
+ • 
+ Energy: 
+Continuous operation of LLMs requires substantial energy, typically supported by high-performance GPUs and CPUs. The significant energy demands and associated costs pose a challenge to commercial viability. Major technology firms are exploring nuclear-powered energy solutions to meet their LLM needs. 
+ IV Conclusion 
+ This research introduces AQM-LLM, a framework that adapts large language models for active queue management within the L4S architecture. Leveraging preemptive ECN signalling and packet dropping, L4S-LLM dynamically controls congestion, optimizes queues, and minimizes latency. Low-rank adaptation cuts memory use by 64%, while a data-driven reinforcement learning pipeline streamlines fine-tuning. An open-source L4S-LLM platform on FreeBSD-14 supports future research and IETF standardization. While delivering major gains in latency, throughput, and efficiency, further refinement via pruning, quantization, and distillation toward small-language-model-based AQM can enhance scalability and resource efficiency. 
+ References 
+ [1] 
+S. Floyd and V. Jacobson, “Random early detection gateways for congestion avoidance,” IEEE/ACM Transactions on networking , vol. 1, no. 4, pp. 397–413, 1993.
+ [2] 
+K. Nichols, V. Jacobson, A. McGregor, and J. Iyengar, “Controlled Delay Active Queue Management,” RFC 8289, Jan. 2018. [Online]. Available: https://www.rfc-editor.org/info/rfc8289 
+ [3] 
+R. Pan, P. Natarajan, F. Baker, and G. White, “Proportional Integral Controller Enhanced (PIE): A Lightweight Control Scheme to Address the Bufferbloat Problem,” RFC 8033, Feb. 2017. [Online]. Available: https://www.rfc-editor.org/info/rfc8033 
+ [4] 
+B. Briscoe, K. D. Schepper, M. Bagnulo, and G. White, “Low Latency, Low Loss, and Scalable Throughput (L4S) Internet Service: Architecture,” RFC 9330, Jan. 2023. [Online]. Available: https://www.rfc-editor.org/info/rfc9330 
+ [5] 
+D. Satish, J. Kua, and S. R. Pokhrel, “Active queue management in L4S with asynchronous advantage actor-critic: A FreeBSD networking stack perspective,” Future Internet , vol. 16, no. 8, 2024. [Online]. Available: https://www.mdpi.com/1999-5903/16/8/265 
+ [6] 
+S. R. Pokhrel and A. Walid, “Learning to harness bandwidth with multipath congestion control and scheduling,” IEEE Transactions on Mobile Computing , vol. 22, no. 2, pp. 996–1009, 2021.
+ [7] 
+S. R. Pokhrel, J. Choi, and A. Walid, “Fair and efficient distributed edge learning with hybrid multipath tcp,” IEEE/ACM Transactions on Networking , vol. 31, no. 4, pp. 1582–1594, 2023.
+ [8] 
+C. A. Gomez, X. Wang, and A. Shami, “Intelligent active queue management using explicit congestion notification,” in 2019 IEEE Global Communications Conference (GLOBECOM) . IEEE, 2019, pp. 1–6.
+ [9] 
+H. Touvron et al. , “Llama 2: Open foundation and fine-tuned chat models,” arXiv preprint arXiv:2307.09288 , 2023.
+ [10] 
+D. Guo et al. , “Deepseek-r1: Incentivizing reasoning capability in llms via reinforcement learning,” arXiv preprint arXiv:2501.12948 , 2025.
+ [11] 
+D. Wu et al. , “Netllm: Adapting large language models for networking,” in Proceedings of the ACM SIGCOMM 2024 Conference , 2024, pp. 661–678.
+ [12] 
+S. R. Pokhrel and A. Walid, “On large language model based joint source channel coding for semantic communication,” in 2024 2nd International Conference on Foundation and Large Language Models (FLLM) . IEEE, 2024, pp. 322–329.
+ [13] 
+S. R. Pokhrel et al. , “Deakin RF-sensing: Experiments on correlated knowledge distillation for monitoring human postures with radios,” IEEE Sensors Journal , vol. 23, no. 22, pp. 28 399–28 410, 2023.
+ [14] 
+J. Ye, K.-C. Leung, and S. H. Low, “Combating bufferbloat in multi-bottleneck networks: Theory and algorithms,” IEEE/ACM Transactions on Networking , vol. 29, no. 4, pp. 1477–1493, 2021.
+ [15] 
+J. Gettys and K. Nichols, “Bufferbloat: Dark buffers in the internet: Networks without effective aqm may again be vulnerable to congestion collapse.” Queue , vol. 9, no. 11, pp. 40–54, 2011.
+ [16] 
+K. Nichols and V. Jacobson, “Controlling queue delay,” Communications of the ACM , vol. 55, no. 7, pp. 42–50, 2012.
+ [17] 
+W. Gao, J. Wang, J. Chen, and S. Chen, “Pfed: A prediction-based fair active queue management algorithm,” in 2005 International Conference on Parallel Processing (ICPP’05) . IEEE, 2005, pp. 485–491.
+ [18] 
+J. Liu and D. Wei, “Active queue management based on q-learning traffic predictor,” in 2022 International Conference on Cyber-Physical Social Intelligence (ICCSI) . IEEE, 2022, pp. 399–404.
+ [19] 
+M. Kim, M. Jaseemuddin, and A. Anpalagan, “Deep reinforcement learning based active queue management for iot networks,” Journal of Network and Systems Management , vol. 29, no. 3, p. 34, 2021.
+ [20] 
+A. Vaswani et al. , “Attention is all you need,” Advances in neural information processing systems , vol. 30, 2017.
+ [21] 
+G. Sun, Z. Xu, H. Yu, X. Chen, V. Chang, and A. V. Vasilakos, “Low-latency and resource-efficient service function chaining orchestration in network function virtualization,” IEEE Internet of Things Journal , vol. 7, no. 7, pp. 5760–5772, 2020.
+ [22] 
+G. Sun, G. Zhu, D. Liao, H. Yu, X. Du, and M. Guizani, “Cost-efficient service function chain orchestration for low-latency applications in nfv networks,” IEEE Systems Journal , vol. 13, no. 4, pp. 3877–3888, 2019.
+ [23] 
+F. Huang, Y. Bei, Z. Yang, J. Jiang, H. Chen, Q. Shen, S. Wang, F. Karray, and P. S. Yu, “Large language model simulator for cold-start recommendation,” in Proceedings of the Eighteenth ACM International Conference on Web Search and Data Mining , 2025, pp. 261–270.
+ [24] 
+W. Saad, O. Hashash, C. K. Thomas, C. Chaccour, M. Debbah, N. Mandayam, and Z. Han, “Artificial general intelligence (agi)-native wireless systems: A journey beyond 6g,” Proceedings of the IEEE , pp. 1–39, 2025.
+ [25] 
+H. Zou, Q. Zhao, L. Bariah, Y. Tian, M. Bennis, S. Lasaulce, M. Debbah, and F. Bader, “Genainet: Enabling wireless collective intelligence via knowledge transfer and reasoning,” arXiv preprint arXiv:2402.16631 , 2024.
+ [26] 
+W.-L. Chiang, Z. Li, Z. Lin, Y. Sheng, Z. Wu, H. Zhang, L. Zheng, S. Zhuang, Y. Zhuang, J. E. Gonzalez et al. , “Vicuna: An open-source chatbot impressing gpt-4 with 90% chatgpt quality,” 2023.
+ [27] 
+A. Djuhera, S. R. Kadhe, F. Ahmed, S. Zawad, H. Boche, and W. Saad, “Safecomm: What about safety alignment in fine-tuned telecom large language models?” arXiv preprint arXiv:2506.00062 , 2025.
+ [28] 
+A. Maatouk, K. C. Ampudia, R. Ying, and L. Tassiulas, “Tele-llms: A series of specialized large language models for telecommunications,” arXiv preprint arXiv:2409.05314 , 2024.
+ [29] 
+R. Nikbakht, M. Benzaghta, and G. Geraci, “Tspec-llm: An open-source dataset for llm understanding of 3gpp specifications,” arXiv preprint arXiv:2406.01768 , 2024.
+ [30] 
+F. Bianchi, M. Suzgun, G. Attanasio, P. Rottger, D. Jurafsky, and J. Zou, “Safety-tuned llamas: Lessons from improving the safety of large language models that follow instructions,” in The Twelfth International Conference on Learning Representations , 2024.
+ [31] 
+C.-Y. Hsu, Y.-L. Tsai, C.-H. Lin, P.-Y. Chen, C.-M. Yu, and C.-Y. Huang, “Safe lora: the silver lining of reducing safety risks when fine-tuning large language models,” in The Thirty-eighth Annual Conference on Neural Information Processing Systems , 2024.
+ [32] 
+A. Djuhera, S. R. Kadhe, F. Ahmed, S. Zawad, and H. Boche, “Safemerge: Preserving safety alignment in fine-tuned large language models via selective layer-wise model merging,” in ICLR Workshop on Building Trust in LLMs , 2025.
+ [33] 
+S. Floyd, D. K. K. Ramakrishnan, and D. L. Black, “The Addition of Explicit Congestion Notification (ECN) to IP,” RFC 3168, Sep. 2001. [Online]. Available: https://www.rfc-editor.org/info/rfc3168 
+ [34] 
+G. Fairhurst and M. Welzl, “The Benefits of Using Explicit Congestion Notification (ECN),” RFC 8087, Mar. 2017. [Online]. Available: https://www.rfc-editor.org/info/rfc8087 
+ [35] 
+OpenAI, “Chatgpt,” 2024, accessed: 2024-08-08. [Online]. Available: https://chat.openai.com/chat 
+ [36] 
+A. Roberts et al. , “Exploring the limits of transfer learning with a unified text-to-text transformer,” Google, Tech. Rep., 2019.
+ Appendix 
+ Towards L4S-LLM Stability and Convergence 
+ We analyze the stability and convergence properties of L4S-LLM by integrating transformer-based language model theory with control-theoretic principles of L4S AQM systems. Considering transformer dynamics and convergence, the self-attention mechanism in L4S-LLM can be approximated as 
+ Attention ​ ( Q , K , V ) = softmax ​ ( Q ​ K T d k ) ​ V . \text{Attention}(Q,K,V)=\text{softmax}\left(\frac{QK^{T}}{\sqrt{d_{k}}}\right)V. 
+ (5) 
+ where Q , K , V ∈ ℝ n × d k Q,K,V\in\mathbb{R}^{n\times d_{k}} represent query, key, and value matrices derived from network state embeddings. For network state sequences s = ( s 1 , s 2 , … , s n ) s=(s_{1},s_{2},\ldots,s_{n}) , the attention mechanism creates a weighted representation that captures temporal dependencies across network metrics. The transformer layer mapping F F exhibits convergence when its Lipschitz constant satisfies 
+ ℒ = sup h ≠ h ′ ‖ F ⁡ ( h ) − F ⁡ ( h ′ ) ‖ ‖ h − h ′ ‖ < 1 . \mathcal{L}=\sup_{h\neq h^{\prime}}\frac{\|F(h)-F(h^{\prime})\|}{\|h-h^{\prime}\|}<1. 
+ (6) 
+ With LoRA adaptation, the effective weight matrices become W = W 0 + A ​ B W=W_{0}+AB where W 0 W_{0} is the pre-trained weight, and A ∈ ℝ d × r A\in\mathbb{R}^{d\times r} , B ∈ ℝ r × k B\in\mathbb{R}^{r\times k} are low-rank adaptation matrices. The stability of this adapted system depends on the spectral radius of the Jacobian: 
+ ρ ⁡ ( ∂ F LoRA ​ ( h ) ∂ h ) < 1 \rho\left(\frac{\partial F_{\text{LoRA}}(h)}{\partial h}\right)<1 
+ (7) 
+ where F LoRA F_{\text{LoRA}} is the LoRA-adapted transformer mapping. Our empirical results with rank r = 128 r=128 confirm this stability condition is maintained. 
+ Employing L4S control theoretic approach, the L4S-LLM policy π θ : 𝒮 → 𝒜 \pi_{\theta}:\mathcal{S}\rightarrow\mathcal{A} replaces the traditional PI controller dynamics 
+ p ′ ​ ( t ) = p ′ ​ ( t − 1 ) + α ⁡ ( q delay ​ ( t ) − q target ) + β ⁡ ( q delay ​ ( t ) − q delay ​ ( t − 1 ) ) . p^{\prime}(t)=p^{\prime}(t-1)+\alpha(q_{\text{delay}}(t)-q_{\text{target}})+\beta(q_{\text{delay}}(t)-q_{\text{delay}}(t-1)). 
+ Given Lyapunov function V ⁡ ( s ) = ( q delay − q target ) 2 V(s)=(q_{\text{delay}}-q_{\text{target}})^{2} , stability is guaranteed when 
+ 𝔼 [ V ( s t + 1 ) | s t , π θ ( s t ) ] − V ( s t ) < 0 , ∀ s t ≠ s ∗ \mathbb{E}[V(s_{t+1})|s_{t},\pi_{\theta}(s_{t})]-V(s_{t})<0,\quad\forall s_{t}\neq s^{*} 
+ (8) 
+ For the RL-optimized policy, convergence follows 
+ ‖ J ⁡ ( π k ) − J ⁡ ( π ∗ ) ‖ ≤ ( 1 − γ ​ λ ) k ​ ‖ J ⁡ ( π 0 ) − J ⁡ ( π ∗ ) ‖ \|J(\pi_{k})-J(\pi^{*})\|\leq(1-\gamma\lambda)^{k}\|J(\pi_{0})-J(\pi^{*})\| 
+ (9) 
+ where J ⁡ ( π ) J(\pi) is the expected return, π ∗ \pi^{*} is the optimal policy, and λ \lambda relates to the mixing time of the induced Markov chain. Therefore, L4S-LLM provides probabilistic queue stability 
+ ℙ ⁡ ( sup t ≥ T 0 | q delay ​ ( t ) − q target | ≤ ϵ ) ≥ 1 − δ \mathbb{P}\left(\sup_{t\geq T_{0}}|q_{\text{delay}}(t)-q_{\text{target}}|\leq\epsilon\right)\geq 1-\delta 
+ (10) 
+ for finite T 0 T_{0} , stability bound ϵ \epsilon , and error probability δ \delta . 
+ Observe that this theoretical analysis is substantiated by the experimental results discussed earlier, for examples, rapid convergence of training loss (Figure  9 ), high accuracy in action prediction (97.56% for Llama2), significant improvements in queue delay stability (Figure  11 ), enhanced bandwidth utilization (Figure  14 ). Our understanding is that the integration of LLM and ha the potential to yield an enhanced AQM system with strong stability and convergence properties, capable of outperforming traditional approaches. 
+ Model Compressions for Router-Deployable L4S-LLM 
+ To address L4S-LLM deployment’s computational limitations, we propose four optimization strategies to reduce model size while maintaining performance: 
+ Structured Pruning 
+ Using attribution scores and confidence-weighted patterns, approximately 40% of attention heads could be eliminated with negligible impact, as network traffic patterns exhibit strong temporal locality. Selective pruning of FFNs (65% of parameters) based on activation patterns during congestion events could reduce dimensions by 50-60% while maintaining responsiveness. Layer-specific compression rates guided by sensitivity analysis would preserve parameter density in layers with greater impact on queue management. 
+ Quantization-Aware Training 
+ Critical components would maintain FP16 precision, while less sensitive components could operate at INT8/INT4, reducing memory requirements by up to 75%. Quantization parameters would be calibrated using diverse traffic patterns, emphasizing accuracy during congestion transition states. Adaptive precision would allocate higher bit-width to components processing critical congestion indicators while using lower precision for stable states. 
+ Neural Architecture Search 
+ Evolutionary search algorithms would explore architectural variants optimized for congestion control. Asymmetric encoder designs with wider attention layers but narrower feedforward networks could maintain 95% performance while reducing parameters by 70%. Custom components for network telemetry could replace general-purpose transformers, with dedicated convolutional pathways for multi-timescale queue dynamics. 
+ Hardware-Aware Optimization 
+ Critical inference paths would be optimized to reduce memory transfers for efficient execution on processors with limited cache. The model would develop structured sparsity patterns aligned with hardware execution blocks. Router-specific optimizations would include operator reordering, buffer reuse, and execution scheduling tailored to hardware constraints. 
+ Experimental support, please
+ view the build logs 
+ for errors. Generated by
+ L
+ A 
+ T
+ E 
+ xml 
+ .
+ Instructions for reporting errors 
+ We are continuing to improve HTML versions of papers, and your feedback helps enhance accessibility and mobile
+ support. To report errors in the HTML that will help us improve conversion and rendering, choose any of the
+ methods listed below: 
+ Click the "Report Issue" ( 
+ ) button, located in the page header. 
+ Tip: You can select the relevant text first, to include it in your report. 
+ Our team has already identified the following issues . We appreciate your time reviewing and reporting rendering errors we
+ may not have found yet. Your efforts will help us improve the HTML versions for all readers, because disability
+ should not be a barrier to accessing research. Thank you for your continued support in championing open access for
+ all. 
+ Have a free development cycle? Help support accessibility at arXiv! Our collaborators at LaTeXML maintain a list of packages that need conversion , and welcome developer contributions . 
+ We gratefully acknowledge support from
+ our major funders ,
+ member institutions , ,
+ and all contributors.
+ About 
+ · 
+ Help 
+ · 
+ Contact 
+ · 
+ Subscribe 
+ · 
+ Copyright 
+ · 
+ Privacy 
+ · 
+ Accessibility 
+ · 
+ Operational Status (opens in new tab) 
+ Major funding support from 

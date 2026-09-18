@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:arxiv="http://arxiv.org/schemas/atom" xmlns="http://www.w3.org/2005/Atom">
+  <id>https://arxiv.org/api/BL8wqK3nj6ZlZPWh9IU4o3ZkJEg</id>
+  <title>arXiv Query: search_query=all:"LLM agent" AND all:"network orchestration"&amp;id_list=&amp;start=0&amp;max_results=25</title>
+  <updated>2026-09-18T15:35:37Z</updated>
+  <link href="https://arxiv.org/api/query?search_query=all:%22LLM+agent%22+AND+all:%22network+orchestration%22&amp;start=0&amp;max_results=25&amp;id_list=" type="application/atom+xml"/>
+  <opensearch:itemsPerPage>25</opensearch:itemsPerPage>
+  <opensearch:totalResults>1</opensearch:totalResults>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <entry>
+    <id>http://arxiv.org/abs/2503.11933v1</id>
+    <title>End-to-End Edge AI Service Provisioning Framework in 6G ORAN</title>
+    <updated>2025-03-15T00:48:50Z</updated>
+    <link href="https://arxiv.org/abs/2503.11933v1" rel="alternate" type="text/html"/>
+    <link href="https://arxiv.org/pdf/2503.11933v1" rel="related" type="application/pdf" title="pdf"/>
+    <summary>With the advent of 6G, Open Radio Access Network (O-RAN) architectures are evolving to support intelligent, adaptive, and automated network orchestration. This paper proposes a novel Edge AI and Network Service Orchestration framework that leverages Large Language Model (LLM) agents deployed as O-RAN rApps. The proposed LLM-agent-powered system enables interactive and intuitive orchestration by translating the user's use case description into deployable AI services and corresponding network configurations. The LLM agent automates multiple tasks, including AI model selection from repositories (e.g., Hugging Face), service deployment, network adaptation, and real-time monitoring via xApps. We implement a prototype using open-source O-RAN projects (OpenAirInterface and FlexRIC) to demonstrate the feasibility and functionality of our framework. Our demonstration showcases the end-to-end flow of AI service orchestration, from user interaction to network adaptation, ensuring Quality of Service (QoS) compliance. This work highlights the potential of integrating LLM-driven automation into 6G O-RAN ecosystems, paving the way for more accessible and efficient edge AI ecosystems.</summary>
+    <category term="cs.NI" scheme="http://arxiv.org/schemas/atom"/>
+    <category term="cs.AI" scheme="http://arxiv.org/schemas/atom"/>
+    <published>2025-03-15T00:48:50Z</published>
+    <arxiv:comment>5 pages, 3 figures, submitted to IEEE VTC for possible publication</arxiv:comment>
+    <arxiv:primary_category term="cs.NI"/>
+    <author>
+      <name>Yun Tang</name>
+    </author>
+    <author>
+      <name>Udhaya Chandhar Srinivasan</name>
+    </author>
+    <author>
+      <name>Benjamin James Scott</name>
+    </author>
+    <author>
+      <name>Obumneme Umealor</name>
+    </author>
+    <author>
+      <name>Dennis Kevogo</name>
+    </author>
+    <author>
+      <name>Weisi Guo</name>
+    </author>
+  </entry>
+</feed>

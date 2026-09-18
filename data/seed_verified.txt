@@ -1,0 +1,438 @@
+F01 OK  1.00 | Cellular Network Traffic Scheduling With Deep Reinforcement Learning
+      -> Cellular Network Traffic Scheduling With Deep Reinforcement Learning | 2018 | Proceedings of the AAAI Conference on Artificial Intell | Sandeep Chinchali,Pan Hu,Tianshu Chu | doi=10.1609/aaai.v32i1.11339
+F02 OK  1.00 | Intelligent Resource Scheduling for 5G Radio Access Network Slicing
+      -> Intelligent Resource Scheduling for 5G Radio Access Network Slicing | 2019 | IEEE Transactions on Vehicular Technology | Mu Yan,Gang Feng,Jianhong Zhou | doi=10.1109/tvt.2019.2922668
+F03 OK  1.00 | Deep Reinforcement Learning for Dynamic Uplink/Downlink Resource Alloc
+      -> Deep Reinforcement Learning for Dynamic Uplink/Downlink Resource Allocation in High Mobi | 2020 | IEEE Journal on Selected Areas in Communications | Fengxiao Tang,Yibo Zhou,Nei Kato | doi=10.1109/jsac.2020.3005495
+F04 OK  1.00 | Reinforcement Learning-Based Particle Swarm Optimization for End-to-En
+      -> Reinforcement Learning-Based Particle Swarm Optimization for End-to-End Traffic Scheduli | 2023 | IEEE/ACM Transactions on Networking | Xiaolong Wang,Haipeng Yao,Tianle Mai | doi=10.1109/tnet.2023.3276363
+F05 OK  1.00 | DecAge: Decentralized Flow Scheduling for Industrial 5G and TSN Integr
+      -> DecAge: Decentralized Flow Scheduling for Industrial 5G and TSN Integrated Networks | 2024 | IEEE Transactions on Network Science and Engineering | Mingyan Li,Songtao Guo,Chao Chen | doi=10.1109/tnse.2023.3301879
+F06 OK  1.00 | Learn to Schedule (LEASCH): A Deep Reinforcement Learning Approach for
+      -> Learn to Schedule (LEASCH): A Deep Reinforcement Learning Approach for Radio Resource Sc | 2020 | IEEE Access | Faroq Al-Tam,Noelia Correia,Jonathan Rodriguez | doi=10.1109/access.2020.3000893
+F07 OK  1.00 | 5G RAN Slicing for Verticals: Enablers and Challenges
+      -> 5G RAN Slicing for Verticals: Enablers and Challenges | 2019 | IEEE Communications Magazine | Salah Eddine Elayoubi,Sana Ben Jemaa,Zwi Altman | doi=10.1109/mcom.2018.1701319
+F08 XX  0.50 | Toward a Flexible and Reconfigurable 5G Network Slicing Scheduler
+      -> Autonomic reconfigurable 5G network slicing enabling immersive VR applications in 5G&amp | 2026 | Computer Networks | Andrea Caruso,Christian Grasso,Raoul Raftopoulos | doi=10.1016/j.comnet.2026.112275
+      ALT: 
+F09 XX  0.57 | A Scheduling Scheme for 5G QoS Flows
+      -> Enhancing V2X QoS: dynamic scheduling scheme over 5G networks and byon | 2024 | International Journal of Information Technology | Wahida Ali Mansouri,Doaa Mohammed Elmourssi,Wiam Almalih Ely | doi=10.1007/s41870-024-02031-5
+      ALT: 
+F10 XX  0.63 | Deep Reinforcement Learning-Based Scheduling for 5G Network Slicing
+      -> Deep Reinforcement Learning-Based Network Slicing Algorithm for 5G Heterogenous Services | 2023 | GLOBECOM 2023 - 2023 IEEE Global Communications Confere | George Alkhoury,Sara Berri,Arsenia Chorti | doi=10.1109/globecom54140.2023.10436893
+      ALT: 
+F11 XX  0.60 | QoS-aware scheduling in 5G network slicing
+      -> Joint QoS and energy-efficient resource allocation and scheduling in 5G Network Slicing | 2023 | Computer Communications | Saibharath S.,Sudeepta Mishra,Chittaranjan Hota | doi=10.1016/j.comcom.2023.02.009
+      ALT: 
+F12 OK  0.94 | Multi-Agent Deep Reinforcement Learning-Based Task Scheduling and Reso
+      -> Multi-Agent Deep Reinforcement Learning-Based Task Scheduling and Resource Sharing for O | 2024 | IEEE Transactions on Vehicular Technology | Mesfin Leranso Betalo,Supeng Leng,Hayla Nahom Abishu | doi=10.1109/tvt.2023.3330661
+F13 XX  0.69 | Traffic Engineering in Hybrid SDN/IP Networks Based on Deep Reinforcem
+      -> Traffic engineering based on deep reinforcement learning in hybrid IP/SR network | 2021 | China Communications | Bo Chen,Penghao Sun,Peng Zhang | doi=10.23919/jcc.2021.10.015
+      ALT: 
+F14 ??  0.72 | DeepRoute: An Intelligent Routing Scheme for SDN Based on Deep Reinfor
+      -> DRL-M4MR: An intelligent multicast routing approach based on DQN deep reinforcement lear | 2022 | Physical Communication | Chenwei Zhao,Miao Ye,Xingsi Xue | doi=10.1016/j.phycom.2022.101919
+F15 ??  0.84 | DRL-Based Traffic Engineering for Software Defined Networks
+      -> Routing and Traffic Engineering in Software Defined Networks | 2018 | Network Routing | Deep Medhi,Karthik Ramasamy | doi=10.1016/b978-0-12-800737-2.00013-2
+F17 ??  0.80 | A Deep-Reinforcement-Learning-Based Approach for Routing Optimization 
+      -> Deep Reinforcement Learning-Based Routing on Software-Defined Networks | 2022 | IEEE Access | Gyungmin Kim,Yohan Kim,Hyuk Lim | doi=10.1109/access.2022.3151081
+F16 OK  1.00 | Experience-driven networking: A deep reinforcement learning based appr
+      -> Experience-driven Networking: A Deep Reinforcement Learning based Approach | 2018 | IEEE INFOCOM 2018 - IEEE Conference on Computer Communi | Zhiyuan Xu,Jian Tang,Jingsong Meng | doi=10.1109/infocom.2018.8485853
+F18 XX  0.59 | Deadline-Aware Traffic Steering in 5G Networks
+      -> Self-Optimizing Traffic Steering for 5G mmWave Heterogeneous Networks | 2022 | Sensors | Jun Zeng,Hao Wang,Wei Luo | doi=10.3390/s22197112
+      ALT: 
+F19 ??  0.75 | Latency-aware service function chain deployment
+      -> Latency-Aware Service Function Chain Placement in 5G Mobile Networks | 2019 | 2019 IEEE Conference on Network Softwarization (NetSoft | Davit Harutyunyan,Nashid Shahriar,Raouf Boutaba | doi=10.1109/netsoft.2019.8806646
+F20 OK  1.00 | Joint Optimization of Service Function Chaining and Resource Allocatio
+      -> Joint Optimization of Service Function Chaining and Resource Allocation in Network Funct | 2016 | IEEE Access | Luhan Wang,Zhaoming Lu,Xiangming Wen | doi=10.1109/access.2016.2629278
+F21 XX  0.60 | Adaptive service function chain scheduling
+      -> Adaptive Service Function Chain Scheduling in Mobile Edge Computing via Deep Reinforceme | 2020 | IEEE Access | Tianfeng Wang,Jiachen Zu,Guyu Hu | doi=10.1109/access.2020.3022038
+      ALT: 
+F22 XX  0.68 | Deep Reinforcement Learning for 5G Network Slicing Resource Allocation
+      -> Enhanced Deep Reinforcement Learning-Driven Adaptive Network Slicing and Resource Alloca | 2025 | Journal of Network and Systems Management | Mert Yağcıoğlu | doi=10.1007/s10922-025-10009-2
+      ALT: 
+F23 ??  0.70 | Energy-Efficient Resource Allocation in 5G Networks
+      -> "An Energy-Efficient Algorithm for Resource Allocation in H-CRAN((EE H-CRAM)) for 5G Net | 2023 | ? | RANI SAHU,Vinay Sahu | doi=10.21203/rs.3.rs-2770874/v1
+F24 OK  0.92 | Machine Learning for Network Slicing Resource Management
+      -> Machine Learning for Network Resource Management | None | ? | Nesrine Ben Hassine | doi=10.70675/d1661a72za7ecz4577z8e31z716d75cac8cd
+F25 XX  0.69 | Optimal Scheduling for 5G Core Network User Plane Function
+      -> Research on evaluation model and technology of 5G core network User Plane Function | 2022 | 2022 International Conference on Information Processing | Jiannan Ou,Jun Yin,Jie Chen | doi=10.1109/icipnp57450.2022.00036
+      ALT: 
+F26 XX  0.64 | Latency-Aware VNF Placement and Scheduling
+      -> Reveal: Robustness-Aware Vnf Placement and Request Scheduling in Edge Clouds | 2023 | ? | Jin Fang,Gongming Zhao,Hongli Xu | doi=10.2139/ssrn.4421595
+      ALT: 
+F27 XX  0.62 | A Survey on Network Slicing for 5G
+      -> Optimization algorithms for network slicing for 5G | None | ? | Adrien Gausseran | doi=10.70675/bd4eb6bazc722z42f9z8bf6z572d964dc05e
+      ALT: 
+F28 ??  0.72 | Traffic Steering in O-RAN: A Reinforcement Learning Approach
+      -> Traffic Steering for Cellular-Enabled UAVs: A Federated Deep Reinforcement Learning Appr | 2023 | ICC 2023 - IEEE International Conference on Communicati | Hamed Hellaoui,Bin Yang,Tarik Taleb | doi=10.1109/icc45041.2023.10279441
+F29 XX  0.52 | QoS-Aware Traffic Steering in O-RAN
+      -> QoS-Aware and Reliable Traffic Steering for Service Function Chaining in Mobile Networks | 2017 | IEEE Journal on Selected Areas in Communications | Ruozhou Yu,Guoliang Xue,Xiang Zhang | doi=10.1109/jsac.2017.2760158
+      ALT: 
+F30 ??  0.72 | Packet Scheduling for Mixed Traffic in 5G
+      -> Packet Scheduling Algorithms for Mixed Traffic Flow over HSDPA | 2007 | 2007 IEEE 18th International Symposium on Personal, Ind | Jianke Fan,Chen Tao | doi=10.1109/pimrc.2007.4394293
+F31 XX  0.66 | An Intelligent Packet Scheduling Scheme for 5G URLLC and eMBB Multiple
+      -> Joint Routing and Packet Scheduling For URLLC and eMBB traffic in 5G O-RAN | 2022 | ICC 2022 - IEEE International Conference on Communicati | Cheng Cheng Zhang,Kim Khoa Nguyen,Mohamed Cheriet | doi=10.1109/icc45855.2022.9838575
+      ALT: 
+F32 XX  0.61 | Deep Reinforcement Learning for Traffic Engineering in Segment Routing
+      -> Enabling efficient routing for traffic engineering in SDN with Deep Reinforcement Learni | 2024 | Computer Networks | Xinglong Pei,Penghao Sun,Yuxiang Hu | doi=10.1016/j.comnet.2024.110220
+      ALT: 
+F33 XX  0.47 | Softwarized 5G Core Network Traffic Engineering
+      -> 5G Core Network Load Testing Traffic Generator: Emulating Real-World Traffic Scenarios | 2025 | 2025 IEEE Globecom Workshops (GC Wkshps) | Tariro Mukute,Albert A. Lysko,Joyce Mwangama | doi=10.1109/gcwkshps68340.2025.11591035
+      ALT: 
+F34 XX  0.59 | Latency-Aware Traffic Scheduling in 5G Transport Networks
+      -> Latency-Aware DU/CU Placement in Convergent Packet-Based 5G Fronthaul Transport Networks | 2020 | Applied Sciences | Mirosław Klinkowski | doi=10.3390/app10217429
+      ALT: 
+F35 ??  0.78 | Drl-based Flow Scheduling in Data Center Networks
+      -> Class-based Flow Scheduling Framework in SDN-based Data Center Networks | 2020 | ? | Maiass Zaher,Aymen Alawadi,Sandor Molnar | doi=10.36227/techrxiv.12927887.v1
+F36 XX  0.61 | Machine Learning Based Traffic Classification and Scheduling in 5G
+      -> Machine Learning based Network Traffic Classification with Cosine-Similarity based Out-O | None | ? | Prabhat Edupuganti | doi=10.31979/etd.m4tt-7dvb
+      ALT: 
+F37 XX  0.69 | SLA-Aware Resource Scheduling in 5G Network Slicing
+      -> Resource Allocation and Pricing in 5G Network Slicing | None | ? | Mandar Datar | doi=10.70675/d868aaf0zab19z4087zbcf0za550a6864c19
+      ALT: 
+F38 OK  1.00 | End-to-End Network Slicing for 5G Mobile Networks
+      -> End-to-end Network Slicing for 5G Mobile Networks | 2017 | Journal of Information Processing | Akihiro Nakao,Ping Du,Yoshiaki Kiriha | doi=10.2197/ipsjjip.25.153
+F39 OK  1.00 | 5G-QoE: QoE Modelling for Ultra-HD Video Streaming in 5G Networks
+      -> 5G-QoE: QoE Modelling for Ultra-HD Video Streaming in 5G Networks | 2018 | IEEE Transactions on Broadcasting | James Nightingale,Pablo Salva-Garcia,Jose M. Alcaraz Calero | doi=10.1109/tbc.2018.2816786
+F40 ??  0.72 | A Survey on Resource Allocation for 5G Heterogeneous Networks
+      -> A Survey on Resource Allocation for 5G Heterogeneous Networks: Current Research, Future  | 2020 | ? | Yongjun Xu,Guoquan Li,Miao Liu | doi=10.36227/techrxiv.11954790.v1
+O01 ??  0.85 | Network Service Orchestration: A Survey
+      -> Network Service Orchestration | 2020 | Journal of Xidian University |  | doi=10.37896/jxu14.6/031
+O02 XX  0.64 | Multi-Domain Network Slicing Orchestration
+      -> On Multi-Domain Network Slicing Orchestration Architecture and Federated Resource Contro | 2019 | IEEE Network | Tarik Taleb,Ibrahim Afolabi,Konstantinos Samdanis | doi=10.1109/mnet.2018.1800267
+      ALT: 
+O03 OK  1.00 | 5G Network Slicing Using SDN and NFV: A Survey of Taxonomy, Architectu
+      -> 5G network slicing using SDN and NFV: A survey of taxonomy, architectures and future cha | 2020 | Computer Networks | Alcardo Alex Barakabitze,Arslan Ahmad,Rashid Mijumbi | doi=10.1016/j.comnet.2019.106984
+O04 OK  1.00 | Intent-Based Management of Next-Generation Networks: an LLM-Centric Ap
+      -> Intent-Based Management of Next-Generation Networks: an LLM-Centric Approach | 2024 | IEEE Network | Abdelkader Mekrache,Adlen Ksentini,Christos Verikoukis | doi=10.1109/mnet.2024.3420120
+O05 OK  1.00 | AI-Driven Zero Touch Network and Service Management in 5G and Beyond: 
+      -> AI-Driven Zero Touch Network and Service Management in 5G and Beyond: Challenges and Res | 2020 | IEEE Network | Chafika Benzaid,Tarik Taleb | doi=10.1109/mnet.001.1900252
+O06 OK  1.00 | Toward Zero-Touch Management and Orchestration of Massive Deployment o
+      -> Toward Zero-Touch Management and Orchestration of Massive Deployment of Network Slices i | 2022 | IEEE Wireless Communications | Hatim Chergui,Adlen Ksentini,Luis Blanco | doi=10.1109/mwc.009.00366
+O07 ??  0.80 | Knowledge-Defined Networking
+      -> Software-defined networking | 2014 | Software Defined Networking |  | doi=10.1201/b17708-6
+O08 XX  0.68 | Cloud-Native Network Slicing: A Survey
+      -> A Cloud-Native Approach to 5G Network Slicing | 2017 | IEEE Communications Magazine | Sameerkumar Sharma,Raymond Miller,Andrea Francini | doi=10.1109/mcom.2017.1600942
+      ALT: 
+O09 OK  1.00 | Orchestrating Virtualized Network Functions
+      -> Orchestrating Virtualized Network Functions | 2016 | IEEE Transactions on Network and Service Management | Faizul Bari,Shihabur Rahman Chowdhury,Reaz Ahmed | doi=10.1109/tnsm.2016.2569020
+O10 OK  1.00 | A Survey on the Placement of Virtual Resources and Virtual Network Fun
+      -> A Survey on the Placement of Virtual Resources and Virtual Network Functions | 2019 | IEEE Communications Surveys &amp; Tutorials | Abdelquoddouss Laghrissi,Tarik Taleb | doi=10.1109/comst.2018.2884835
+O11 XX  0.62 | Machine Learning for Orchestration in Multi-Domain Networks
+      -> Integrated IT and SDN Orchestration of multi-domain multi-layer transport networks | None | ? | Arturo Mayoral López de Lerma | doi=10.5821/dissertation-2117-170446
+      ALT: 
+O12 XX  0.70 | End-to-End Network Slicing Orchestration with Deep Reinforcement Learn
+      -> End-to-end cross-domain network slicing for LEO satellite Internet of Things using deep  | 2025 | Physical Communication | Mingjun Liao,Ruyan Wang,Puning Zhang | doi=10.1016/j.phycom.2025.102821
+      ALT: 
+O13 XX  0.50 | Network Slicing Orchestration in Multi-Domain Environments
+      -> On Multi-Domain Network Slicing Orchestration Architecture and Federated Resource Contro | 2019 | IEEE Network | Tarik Taleb,Ibrahim Afolabi,Konstantinos Samdanis | doi=10.1109/mnet.2018.1800267
+      ALT: 
+O14 XX  0.62 | Reinforcement Learning for Virtual Network Embedding
+      -> Heuristic and Reinforcement Learning-Based Survivable Trust-Aware Virtual Network Embedd | 2025 | ? | Parinaz Rezaeimoghaddam,Irfan Al-Anbagi | doi=10.2139/ssrn.5196412
+      ALT: 
+O15 XX  0.56 | O-RAN Service Management and Orchestration: Architecture and Challenge
+      -> Demo: Efficient Multi-Service RAN Slice Management and Orchestration | 2020 | NOMS 2020 - 2020 IEEE/IFIP Network Operations and Manag | Robert Schmidt,Navid Nikaein | doi=10.1109/noms47738.2020.9110253
+      ALT: 
+O16 OK  1.00 | Open RAN xApps Design and Evaluation: Lessons Learnt and Identified Ch
+      -> Open RAN xApps Design and Evaluation: Lessons Learnt and Identified Challenges | 2024 | IEEE Journal on Selected Areas in Communications | Marcin Hoffmann,Salim Janji,Adam Samorzewski | doi=10.1109/jsac.2023.3336190
+O17 XX  0.55 | MEC Orchestration in 5G Networks
+      -> B-VNF: Blockchain-enhanced Architecture for VNF Orchestration in MEC-5G Networks | 2020 | 2020 IEEE 3rd 5G World Forum (5GWF) | Raaj Anand Mishra,Anshuman Kalla,Kaustubh Shukla | doi=10.1109/5gwf49715.2020.9221075
+      ALT: 
+O18 ??  0.86 | Intent-Based Networking: Concepts and Applications
+      -> Intent-Based Networking - Concepts and Definitions | 2022 | ? | A. Clemm,L. Ciavaglia,L. Z. Granville | doi=10.17487/rfc9315
+O19 XX  0.39 | Network Digital Twin: A Survey
+      -> Architecture of Digital Twin for Network Forensic Analysis Using Nmap and Wireshark | 2021 | Digital Twin Technology | Kapil Kumar,Manju Khari | doi=10.1201/9781003132868-5
+      ALT: 
+O20 XX  0.63 | Autonomous Networks: A Survey
+      -> Artificial Intelligence-Based Autonomous UAV Networks: A Survey | 2023 | Drones | Nurul I. Sarkar,Sonia Gul | doi=10.3390/drones7050322
+      ALT: 
+O21 OK  0.91 | Zero-Touch Network and Service Management (ZSM)
+      -> Zero‐Touch Network and Service Management | 2022 | 6G Frontiers |  | doi=10.1002/9781119862321.ch6
+O22 OK  1.00 | Explainable AI in 6G O-RAN: A Tutorial and Survey on Architecture, Use
+      -> Explainable AI in 6G O-RAN: A Tutorial and Survey on Architecture, Use Cases, Challenges | 2025 | IEEE Communications Surveys &amp; Tutorials | Bouziane Brik,Hatim Chergui,Lanfranco Zanzi | doi=10.1109/comst.2024.3510543
+O23 OK  1.00 | Resource Management From Single-Domain 5G to End-to-End 6G Network Sli
+      -> Resource Management From Single-Domain 5G to End-to-End 6G Network Slicing: A Survey | 2024 | IEEE Communications Surveys &amp; Tutorials | Sina Ebrahimi,Faouzi Bouali,Olivier C. L. Haas | doi=10.1109/comst.2024.3390613
+O24 OK  0.92 | A Survey on Large Language Models for Communication, Network, and Serv
+      -> A Survey on Large Language Models for Communication, Network, and Service Management: Ap | 2026 | IEEE Communications Surveys &amp; Tutorials | Gordon Owusu Boateng,Hani Sami,Ahmed Alagha | doi=10.1109/comst.2025.3564333
+O25 XX  0.68 | Orchestration in Multi-Access Edge Computing
+      -> Workload Orchestration in Multi-Access Edge Computing Using Belief Rule-Based Approach | 2023 | IEEE Access | Mohammad Newaj Jamil,Mohammad Shahadat Hossain,Raihan Ul Isl | doi=10.1109/access.2023.3326244
+      ALT: 
+O26 ??  0.88 | Service Function Chaining Orchestration in Multi-Domain Networks
+      -> Service Function Chaining in Multi-Domain Networks | 2016 | Optical Fiber Communication Conference | Qiong Zhang,Xi Wang,Inwoong Kim | doi=10.1364/ofc.2016.th1a.6
+O27 ??  0.81 | Deep Reinforcement Learning for Network Slicing Orchestration
+      -> A Multi-Agent Reinforcement Learning Architecture for Network Slicing Orchestration | 2021 | 2021 19th Mediterranean Communication and Computer Netw | Federico Mason,Gianfranco Nencioni,Andrea Zanella | doi=10.1109/medcomnet52149.2021.9501279
+O28 XX  0.59 | Autonomous Network Management and Orchestration in 6G
+      -> AI-NATIVE 6G: AUTONOMOUS HIERARCHICAL AGENTIC RAN AND CORE ORCHESTRATION | 2025 | Journal of Science Engineering Technology and Managemen | Rallabandi Bhaskara Raju | doi=10.64771/jsetms.2025.v02.i04.pp171-177
+      ALT: 
+O29 XX  0.62 | 5G Service Orchestration in Vertical Industries
+      -> Blockchain-Based Service Orchestration for 5G Vertical Industries in Multicloud Environm | 2022 | IEEE Transactions on Network and Service Management | Engin Zeydan,Jorge Baranda,Josep Mangues-Bafalluy | doi=10.1109/tnsm.2022.3194078
+      ALT: 
+O30 ??  0.73 | Federated Learning Based Network Slice Management
+      -> Federated Learning Applications In Enterprise Network Management | 2025 | ? | Ravikumar Perumallaplli | doi=10.2139/ssrn.5228699
+M01 OK  1.00 | TCP Extensions for Multipath Operation with Multiple Addresses
+      -> TCP Extensions for Multipath Operation with Multiple Addresses | 2013 | ? | A. Ford,C. Raiciu,M. Handley | doi=10.17487/rfc6824
+M02 OK  1.00 | Multipath TCP: From Theory to Practice
+      -> MultiPath TCP: From Theory to Practice | 2011 | Lecture Notes in Computer Science | Sébastien Barré,Christoph Paasch,Olivier Bonaventure | doi=10.1007/978-3-642-20757-0_35
+M03 OK  0.90 | Design, Implementation and Evaluation of Congestion Control for Multip
+      -> Implementation and Evaluation of Coupled Congestion Control for Multipath TCP | 2012 | Lecture Notes in Computer Science | Régel González Usach,Mirja Kühlewind | doi=10.1007/978-3-642-32808-4_16
+M04 OK  1.00 | Experimental evaluation of multipath TCP schedulers
+      -> Experimental evaluation of multipath TCP schedulers | 2014 | Proceedings of the 2014 ACM SIGCOMM workshop on Capacit | Christoph Paasch,Simone Ferlin,Ozgu Alay | doi=10.1145/2630088.2631977
+M05 OK  1.00 | Low-Latency Scheduling in MPTCP
+      -> Low-Latency Scheduling in MPTCP | 2019 | IEEE/ACM Transactions on Networking | Per Hurtig,Karl-Johan Grinnemo,Anna Brunstrom | doi=10.1109/tnet.2018.2884791
+M06 XX  0.55 | Multipath QUIC: Design and Evaluation
+      -> Multipath QUIC | 2017 | Proceedings of the 13th International Conference on eme | Quentin De Coninck,Olivier Bonaventure | doi=10.1145/3143361.3143370
+      ALT: 
+M07 XX  0.59 | The QUIC Transport Protocol: Design and Internet-Scale Deployment
+      -> The QUIC Transport Protocol | 2017 | Proceedings of the Conference of the ACM Special Intere | Adam Langley,Alistair Riddoch,Alyssa Wilk | doi=10.1145/3098822.3098842
+      ALT: 
+M08 OK  1.00 | ReLeS: A Neural Adaptive Multipath Scheduler based on Deep Reinforceme
+      -> ReLeS: A Neural Adaptive Multipath Scheduler based on Deep Reinforcement Learning | 2019 | IEEE INFOCOM 2019 - IEEE Conference on Computer Communi | Han Zhang,Wenzhong Li,Shaohua Gao | doi=10.1109/infocom.2019.8737649
+M09 OK  1.00 | DeepCC: Multi-Agent Deep Reinforcement Learning Congestion Control for
+      -> DeepCC: Multi-Agent Deep Reinforcement Learning Congestion Control for Multi-Path TCP Ba | 2021 | IEEE Transactions on Network and Service Management | Bo He,Jingyu Wang,Qi Qi | doi=10.1109/tnsm.2021.3093302
+M10 OK  1.00 | Leveraging Coupled BBR and Adaptive Packet Scheduling to Boost MPTCP
+      -> Leveraging Coupled BBR and Adaptive Packet Scheduling to Boost MPTCP | 2021 | IEEE Transactions on Wireless Communications | Jiangping Han,Kaiping Xue,Yitao Xing | doi=10.1109/twc.2021.3085661
+M11 OK  1.00 | BBR-Based Congestion Control and Packet Scheduling for Bottleneck Fair
+      -> BBR-Based Congestion Control and Packet Scheduling for Bottleneck Fairness Considered Mu | 2021 | IEEE Transactions on Vehicular Technology | Wenjia Wei,Kaiping Xue,Jiangping Han | doi=10.1109/tvt.2020.3047877
+M12 OK  1.00 | Blest: Blocking estimation-based MPTCP scheduler for heterogeneous net
+      -> BLEST: Blocking estimation-based MPTCP scheduler for heterogeneous networks | 2016 | 2016 IFIP Networking Conference (IFIP Networking) and W | Simone Ferlin,Ozgu Alay,Olivier Mehani | doi=10.1109/ifipnetworking.2016.7497206
+M13 XX  0.68 | ECF: An MPTCP path scheduler to manage heterogeneous paths
+      -> IoDS: A Novel MPTCP Scheduler for Heterogeneous Networks | 2025 | 2025 IEEE 50th Conference on Local Computer Networks (L | Reza Poorzare,Oliver P. Waldhorst | doi=10.1109/lcn65610.2025.11146366
+      ALT: 
+M14 OK  1.00 | Peekaboo: Learning-Based Multipath Scheduling for Dynamic Heterogeneou
+      -> Peekaboo: Learning-Based Multipath Scheduling for Dynamic Heterogeneous Environments | 2020 | IEEE Journal on Selected Areas in Communications | Hongjia Wu,Ozgu Alay,Anna Brunstrom | doi=10.1109/jsac.2020.3000365
+M15 ??  0.72 | Stochastic Scheduling for Multipath Transmission
+      -> Priority Scheduling for Multipath Video Transmission in WMSNS | 2013 | International journal of Computer Networks &amp; Commun | Elham Karimi,Behzad Akbari | doi=10.5121/ijcnc.2013.5610
+M16 ??  0.88 | MPTCP Scheduling: A Reinforcement Learning Approach
+      -> Task Scheduling: A Reinforcement Learning Based Approach | 2023 | Proceedings of the 15th International Conference on Age | Ciprian Paduraru,Catalina Patilea,Stefan Iordache | doi=10.5220/0011826100003393
+M17 ??  0.78 | Smart Multipath TCP
+      -> Securing MultiPath TCP | 2017 | IEEE EUROCON 2017 -17th International Conference on Sma | Mathieu Jadin,Gautier Tihon | doi=10.1109/eurocon.2017.8011253
+M18 ??  0.70 | Cross-layer Path Selection for Multipath TCP
+      -> Data path selection for multipath TCP considering RTT | 2016 | Contemporary Engineering Sciences | Hyungjik Kim,Sunwoong Choi | doi=10.12988/ces.2016.6319
+M19 XX  0.64 | Multipath TCP Scheduling for Video Streaming
+      -> Novel Multipath TCP Scheduling Design for Future IoT Applications | 2021 | ? | Mohammed Yahya Asiri | doi=10.36227/techrxiv.14778477.v1
+      ALT: 
+M20 ??  0.74 | An MPTCP Scheduler for Latency-Sensitive Applications
+      -> An Improved Xen Credit Scheduler for I/O Latency-Sensitive Applications on Multicores | 2013 | 2013 International Conference on Cloud Computing and Bi | Lingfang Zeng,Yang Wang,Wei Shi | doi=10.1109/cloudcom-asia.2013.40
+M21 OK  1.00 | CMT-QA: Quality-Aware Adaptive Concurrent Multipath Data Transfer in H
+      -> CMT-QA: Quality-Aware Adaptive Concurrent Multipath Data Transfer in Heterogeneous Wirel | 2013 | IEEE Transactions on Mobile Computing | Changqiao Xu,Tianjiao Liu,Jianfeng Guan | doi=10.1109/tmc.2012.189
+M22 OK  1.00 | Bandwidth-Efficient Multipath Transport Protocol for Quality-Guarantee
+      -> Bandwidth-Efficient Multipath Transport Protocol for Quality-Guaranteed Real-Time Video  | 2016 | IEEE Transactions on Communications | Jiyan Wu,Chau Yuen,Bo Cheng | doi=10.1109/tcomm.2016.2553138
+M23 XX  0.52 | Multipath QUIC Scheduling
+      -> Tokens, Not Packets: Rethinking the Multipath QUIC Scheduling Interface | 2026 | Proceedings of the 2026 Applied Networking Research Wor | Hendrik Cech,Patrick Bokelmann,Nitinder Mohan | doi=10.1145/3822163.3827925
+      ALT: 
+M24 OK  1.00 | A Stream-Aware Multipath QUIC Scheduler for Heterogeneous Paths
+      -> A Stream-Aware Multipath QUIC Scheduler for Heterogeneous Paths | 2018 | Proceedings of the Workshop on the Evolution, Performan | Alexander Rabitsch,Per Hurtig,Anna Brunstrom | doi=10.1145/3284850.3284855
+M25 XX  0.61 | Multipath TCP Scheduling in Data Centers
+      -> QAMO: QoS Aware Multipath-TCP Over Optical Burst Switching in Data Centers | 2014 | Proceedings of the 5th International Conference on Opti | Sana Tariq,Mostafa Bassiouni | doi=10.5220/0005047800560063
+      ALT: 
+M26 ??  0.74 | Packet Reordering in Multipath Transport
+      -> Packet reordering analysis for concurrent multipath transfer | 2013 | International Journal of Communication Systems | Chong Gao,Zhihao Ling,Yifeng Yuan | doi=10.1002/dac.2632
+M27 OK  1.00 | A Survey on Multipath Transport Protocols Towards 5G Access Traffic St
+      -> A Survey on Multipath Transport Protocols Towards 5G Access Traffic Steering, Switching  | 2021 | IEEE Access | Hongjia Wu,Simone Ferlin,Giuseppe Caso | doi=10.1109/access.2021.3134261
+M28 ??  0.79 | ATSSS: Access Traffic Steering, Switching and Splitting in 5G
+      -> Multipath QUIC for Access Traffic Steering Switching and Splitting in 5G Advanced | 2023 | IEEE Communications Standards Magazine | Apostolis K. Salkintzis,Mirja Kühlewind,Stefan Rommer | doi=10.1109/mcomstd.0006.2200056
+M29 XX  0.54 | Multipath Scheduling for 5G Multi-Connectivity
+      -> Cost optimized multipath scheduling in 5G for Video-on-Demand traffic | 2021 | 2021 IEEE Wireless Communications and Networking Confer | Markus Amend,Veselin Rakocevic,Joachim Habermann | doi=10.1109/wcnc49053.2021.9417415
+      ALT: 
+M30 OK  1.00 | GCLR: GNN-Based Cross Layer Optimization for Multipath TCP by Routing
+      -> GCLR: GNN-Based Cross Layer Optimization for Multipath TCP by Routing | 2020 | IEEE Access | Ting Zhu,Xiaohui Chen,Li Chen | doi=10.1109/access.2020.2966045
+M31 ??  0.76 | Deep Reinforcement Learning for Multipath Video Streaming
+      -> Deep Reinforcement Learning-Based Approach for Video Streaming DASH | 2023 | ? | Naima Souane,Malika Bourenane,Yassine Douga | doi=10.20944/preprints202308.1429.v1
+M32 XX  0.53 | Adaptive Multipath Scheduling for 5G Networks
+      -> An Adaptive Flow-Aware Packet Scheduling Algorithm for Multipath Tunnelling | 2019 | 2019 IEEE 44th Conference on Local Computer Networks (L | Richard Sailer,Jörg Hähner | doi=10.1109/lcn44214.2019.8990739
+      ALT: 
+M33 ??  0.71 | Energy-Efficient Multipath Scheduling
+      -> Algorithm 4: Energy efficient task scheduling | None | ? |  | doi=10.7717/peerj-cs.758/table-7
+M34 OK  0.97 | MPTCP Meets Reinforcement Learning: A Novel Energy-Efficient Schedulin
+      -> Multipath TCP Meets Reinforcement Learning: A Novel Energy-Efficient Scheduling Approach | 2023 | IEEE Wireless Communications | Pingping Dong,Rongcheng Shen,Qian Wang | doi=10.1109/mwc.013.2100658
+M35 ??  0.71 | Multipath TCP Scheduling with Deep Reinforcement Learning for Heteroge
+      -> Multipath TCP Path Scheduling optimization Based on Q-Learning in Vehicular Heterogeneou | 2018 | 2018 10th International Conference on Wireless Communic | Haitao Zhao,Mengkang Zhang,Hongsu Yu | doi=10.1109/wcsp.2018.8555573
+M36 XX  0.60 | Multipath Transmission Control Protocol Scheduling based on Deep Reinf
+      -> Learning Approaches to Dynamic Workflow Scheduling based on Genetic Programming and Deep | None | ? | Yang Yifan | doi=10.26686/wgtn.29134007
+      ALT: 
+M37 XX  0.57 | Enhancing Multipath TCP with Deep Reinforcement Learning
+      -> Review for "Enhancing wound healing through deep reinforcement learning for optimal ther | 2024 | ? |  | doi=10.1098/rsos.240228/v1/review1
+      ALT: 
+M38 ??  0.74 | Path-Aware Scheduling for Multipath Transport
+      -> DAPS: Intelligent delay-aware packet scheduling for multipath transport | 2014 | 2014 IEEE International Conference on Communications (I | Nicolas Kuhn,Emmanuel Lochin,Ahlem Mifdaoui | doi=10.1109/icc.2014.6883488
+M39 OK  1.00 | Multipath Routing and MPTCP-Based Data Delivery Over MANETs
+      -> Multipath Routing and MPTCP-Based Data Delivery Over Manets | 2020 | IEEE Access | Tongguang Zhang,Shuai Zhao,Bo Cheng | doi=10.1109/access.2020.2974191
+M40 XX  0.49 | Improving Multipath TCP Performance with Reinforcement Learning
+      -> A Game-Theoretic Rent-Seeking Framework for Improving Multipath TCP Performance | 2022 | Future Internet | Shiva Raj Pokhrel,Carey Williamson | doi=10.3390/fi14090257
+      ALT: 
+L01 OK  1.00 | NetConfEval: Can LLMs Facilitate Network Configuration?
+      -> NetConfEval: Can LLMs Facilitate Network Configuration? | 2024 | Proceedings of the ACM on Networking | Changjie Wang,Mariano Scazzariello,Alireza Farshin | doi=10.1145/3656296
+L02 OK  1.00 | Large Language Models for Networking: Applications, Enabling Technique
+      -> Large Language Models for Networking: Applications, Enabling Techniques, and Challenges | 2025 | IEEE Network | Yudong Huang,Hongyang Du,Xinyuan Zhang | doi=10.1109/mnet.2024.3435752
+L03 OK  1.00 | Mobile-LLaMA: Instruction Fine-Tuning Open-Source LLM for Network Anal
+      -> Mobile-LLaMA: Instruction Fine-Tuning Open-Source LLM for Network Analysis in 5G Network | 2024 | IEEE Network | Khen Bo Kan,Hyunsu Mun,Guohong Cao | doi=10.1109/mnet.2024.3421306
+L04 OK  1.00 | TelecomGPT: A Framework to Build Telecom-Specific Large Language Model
+      -> TelecomGPT: A Framework to Build Telecom-Specific Large Language Models | 2025 | IEEE Transactions on Machine Learning in Communications | Hang Zou,Qiyang Zhao,Yu Tian | doi=10.1109/tmlcn.2025.3593184
+L05 OK  1.00 | NetLLM: Adapting Large Language Models for Networking
+      -> NetLLM: Adapting Large Language Models for Networking | 2024 | Proceedings of the ACM SIGCOMM 2024 Conference | Duo Wu,Xianda Wang,Yaqi Qiao | doi=10.1145/3651890.3672268
+L06 OK  1.00 | Large Language Models for Zero Touch Network Configuration Management
+      -> Large Language Models for Zero Touch Network Configuration Management | 2025 | IEEE Communications Magazine | Oscar G. Lira,Oscar M. Caicedo,Nelson L. S. da Fonseca | doi=10.1109/mcom.001.2400368
+L07 OK  1.00 | LLM-xApp: A Large Language Model Empowered Radio Resource Management x
+      -> LLM-xApp: A Large Language Model Empowered Radio Resource Management xApp for 5G O-RAN | 2025 | Proceedings 2025 Workshop on Security and Privacy of Ne | Xingqi Wu,Junaid Farooq,Yuhui Wang | doi=10.14722/futureg.2025.23057
+L08 OK  1.00 | LLM-Driven Agentic AI Approach to Enhanced O-RAN Resilience in Next-Ge
+      -> LLM-Driven Agentic AI Approach to Enhanced O-RAN Resilience in Next-Generation Networks | 2025 | ? | Xingqi Wu,Yuhui Wang,Junaid Farooq | doi=10.36227/techrxiv.174284755.59863143/v1
+L09 OK  1.00 | Semantic Routing for Enhanced Performance of LLM-Assisted Intent-Based
+      -> Semantic Routing for Enhanced Performance of LLM-Assisted Intent-Based 5G Core Network M | 2024 | GLOBECOM 2024 - 2024 IEEE Global Communications Confere | Dimitrios Michael Manias,Ali Chouman,Abdallah Shami | doi=10.1109/globecom52923.2024.10901065
+L10 OK  1.00 | Towards Intent-Based Network Management: Large Language Models for Int
+      -> Towards Intent-Based Network Management: Large Language Models for Intent Extraction in  | 2024 | 2024 20th International Conference on the Design of Rel | Dimitrios Michael Manias,Ali Chouman,Abdallah Shami | doi=10.1109/drcn60692.2024.10539172
+L11 OK  1.00 | LLMs for Network Engineering Automation: State of the Art and Research
+      -> LLMs for Network Engineering Automation: State of the Art and Research Directions | 2026 | NOMS 2026-2026 IEEE Network Operations and Management S | Steffen Fricke,Maxim Friesen,Jürgen Jasperneite | doi=10.1109/noms69089.2026.11668163
+L12 XX  0.58 | LLM-Based Network Management: A Survey
+      -> A Comprehensive Survey on LLM‐Based Network Management and Operations | 2025 | International Journal of Network Management | Jibum Hong,Nguyen Van Tu,James Won‐Ki Hong | doi=10.1002/nem.70029
+      ALT: 
+L13 XX  0.64 | A Survey on Large Language Models for Communication, Network, and Serv
+      -> A Systematic Survey on Black-Box Attacks in Large Language Models Within Communication N | 2025 | IEEE Network | Wenbiao Du,Jingfeng Xue,Wenjie Guo | doi=10.1109/mnet.2025.3578610
+      ALT: 
+L14 XX  0.69 | IntentGPT: Intent-Based Network Management with Large Language Models
+      -> Intent‐Based Automated NFV Management Methods Using Large Language Models | 2026 | International Journal of Network Management | Jibum Hong,Wonseok Choi,James Won‐Ki Hong | doi=10.1002/nem.70044
+      ALT: 
+L15 OK  1.00 | Large Language Models for Telecom: Forthcoming Impact on the Industry
+      -> Large Language Models for Telecom: Forthcoming Impact on the Industry | 2025 | IEEE Communications Magazine | Ali Maatouk,Nicola Piovesan,Fadhel Ayed | doi=10.1109/mcom.001.2300473
+L16 XX  0.61 | Telco LLM: Large Language Models for Telecommunications
+      -> Large Language Models(LLM) for Automating 20 Questions Game | 2024 | ? | CRS KUMAR | doi=10.31224/3842
+      ALT: 
+L17 OK  1.00 | TeleQnA: A Benchmark Dataset to Assess Large Language Models Telecommu
+      -> TeleQnA: A Benchmark Dataset to Assess Large Language Models Telecommunications Knowledg | 2026 | IEEE Network | Ali Maatouk,Fadhel Ayed,Nicola Piovesan | doi=10.1109/mnet.2025.3576035
+L18 XX  0.56 | Are Large Language Models Ready for Telecommunication Networks?
+      -> Menopause and large language models: not quite ready for mid-life | 2026 | Menopause | Lisa N. Kransdorf | doi=10.1097/gme.0000000000002789
+      ALT: 
+L19 XX  0.60 | Towards AI-Assisted Network Troubleshooting with Large Language Models
+      -> DEVS Copilot: Towards Generative AI-Assisted Formal Simulation Modelling based on Large  | 2024 | 2024 Winter Simulation Conference (WSC) | Tobias Carreira-Munich,Valentín Paz-Marcolla,Rodrigo Castro | doi=10.1109/wsc63780.2024.10838994
+      ALT: 
+L20 XX  0.64 | NetOpsBench: Benchmarking LLM Agents for Network Operations
+      -> OperAID: Benchmarking LLM Agents for Autonomous Kubernetes Fault Remediation | 2026 | 2026 IEEE 12th International Conference on Network Soft | Ariel Góes de Castro,Konstantinos Vandikas,Simone Ferlin | doi=10.1109/netsoft70012.2026.11603505
+      ALT: 
+L21 XX  0.63 | An LLM-Based Agent for Network Fault Diagnosis
+      -> DiagAgent: A LLM-Based Multi-Agent Framework for Highly Accurate Product Fault Diagnosis | 2025 | 2025 18th International Symposium on Computational Inte | Hairuo Zhang,Ke Xu,Yongchuan Tang | doi=10.1109/iscid68789.2025.00044
+      ALT: 
+L22 XX  0.66 | LLM Agent for Intent-Based Network Slicing
+      -> Intent-Based Network Resource Slicing in 6G | 2024 | 2024 15th International Conference on Network of the Fu | Behnam Ojaghi,Ricard Vilalta,Raül Muñoz | doi=10.1109/nof62948.2024.10741513
+      ALT: 
+L23 XX  0.67 | Generative AI for Network Management
+      -> Stakeholder Network Management | 2026 | The Stakeholder Perspective, Second Edition | Massimo Pirozzi | doi=10.1201/9781003676911-7
+      ALT: 
+L24 ??  0.80 | Can Large Language Models Understand Network Traffic?
+      -> Can large language models understand molecules? | 2024 | BMC Bioinformatics | Shaghayegh Sadeghi,Alan Bui,Ali Forooghi | doi=10.1186/s12859-024-05847-x
+L25 ??  0.78 | NetGPT: A Native AI Architecture for 6G Networks
+      -> Distributed AI-native Architecture for 6G Networks | 2022 | 2022 International Conference on Information Processing | Pengyu Li,Yanxia Xing,Wei Li | doi=10.1109/icipnp57450.2022.00019
+L26 XX  0.49 | Large Language Model Based Multi-Agent System for Network Management
+      -> Multi-agent-based Substation Information Management System | None | Power Systems |  | doi=10.1007/978-1-84628-647-6_6
+      ALT: 
+L27 XX  0.67 | Large Language Models for Wireless Networks: Opportunities and Challen
+      -> Foundation Models and Large Language Models in Next Generation Networks: Comparison, Opp | 2025 | ? | Abdelrahman Soliman,Ahmed Refaey Hussein | doi=10.36227/techrxiv.176704922.27278347/v1
+      ALT: 
+L28 XX  0.50 | Foundation Models for Wireless Communications
+      -> WS22: Workshop on Wireless Foundation Models for AI-Native 6G and Beyond | 2026 | 2026 IEEE International Conference on Communications Wo |  | doi=10.1109/iccworkshops63917.2026.11586221
+      ALT: 
+L29 ??  0.72 | WirelessGPT: A Generative Pre-trained Model for Wireless Networks
+      -> WirelessGPT: A Generative Pre-Trained Multi-Task Learning Framework for Wireless Communi | 2025 | IEEE Network | Tingting Yang,Ping Zhang,Mengfan Zheng | doi=10.1109/mnet.2025.3579496
+L30 ??  0.75 | LLM-Based Root Cause Analysis for Network Incidents
+      -> Root Cause Analysis of Incidents | 2024 | Encyclopedia of Food Safety | Alvin Lee | doi=10.1016/b978-0-12-822521-9.00227-6
+L31 XX  0.65 | Automating Network Configuration with Large Language Models
+      -> Automating Reproducibility Checks Using Large Language Models | 2026 | ? | Yoel Inbar,David Tannenbaum | doi=10.31234/osf.io/wf5bv_v1
+      ALT: 
+L32 XX  0.65 | Agentic AI for Network Automation
+      -> Telemetry and Agentic AI: Foundations for Optical Network Automation | 2025 | ? | Sergio Cruzes | doi=10.36227/techrxiv.176539548.84734375/v1
+      ALT: 
+L33 ??  0.74 | Multi-Agent Large Language Model Framework for Network Orchestration
+      -> A Multi-Agent Large Language Model Framework for NCAA Tournament Simulation&amp;nbsp; | 2026 | ? | Abhyut Tangri | doi=10.2139/ssrn.6645998
+L34 ??  0.75 | A Benchmark for LLM-Based Network Configuration Synthesis
+      -> Tackling Ambiguity in User Intent for LLM-based Network Configuration Synthesis | 2025 | Proceedings of the 24th ACM Workshop on Hot Topics in N | Rajdeep Mondal,Nikolaj Bjorner,Todd Millstein | doi=10.1145/3772356.3772402
+L35 XX  0.68 | Towards Autonomous Networks with Large Language Models
+      -> Autonomous Droplet Microfluidic Design Framework with Large Language Models | None | ? |  | doi=10.1021/acsomega.5c06253.s001
+      ALT: 
+L36 XX  0.62 | Large Language Models for Intent Translation in Network Slicing
+      -> Towards Intent-Based Network Management: Large Language Models for Intent Extraction in  | 2024 | 2024 20th International Conference on the Design of Rel | Dimitrios Michael Manias,Ali Chouman,Abdallah Shami | doi=10.1109/drcn60692.2024.10539172
+      ALT: 
+L37 XX  0.56 | LLM for Network Security and Management: A Survey
+      -> LLM-Powered Troubleshooting for Telecommunication Network Operation and Management: A Fa | 2026 | ? | Zheng Li | doi=10.2139/ssrn.7438214
+      ALT: 
+L38 XX  0.67 | Empowering Network Management with Large Language Models
+      -> Empowering digital health management with on-device large language models for glucose pr | 2025 | ? | Taiyu Zhu,Joanna Howson,Alejo Nevado-Holgado | doi=10.1101/2025.07.12.25331188
+      ALT: 
+L39 XX  0.34 | From LLM to Network Agent: A Survey
+      -> Emergent Network Collapse and Ontological Dissonance in Multi-Agent LLM Simulations | 2026 | ? | Pantaleon Fassbender | doi=10.2139/ssrn.6734703
+      ALT: 
+L40 ??  0.75 | Benchmarking Large Language Models for Networking Tasks
+      -> Benchmarking Large Language Models with Integer Sequence Generation Tasks | 2025 | Advances in Neural Information Processing Systems 38 | Daniel O'Malley,Manish Bhattarai,Nishath Ranasinghe | doi=10.52202/085713-4564
+L41 XX  0.43 | RAG for Network Management
+      -> 323Chapter 11 Data Management in RAG Systems | 2026 | RAG Artificial Intelligence |  | doi=10.1515/9783112226780-011
+      ALT: 
+L42 XX  0.28 | Network Operations with AI Agents
+      -> AI-Enabled Unmanned Agents for Real-Time 3D Scene Analysis in Military Operations | 2024 | ? | Giuseppe Macario | doi=10.36227/techrxiv.172254289.90943755/v1
+      ALT: 
+L43 XX  0.62 | Kubernetes Troubleshooting with Large Language Models
+      -> Automated Generation of Troubleshooting Guides from Incident Data Using Large Language M | None | ? | Bruna Magrini da Cruz | doi=10.11606/003291393
+      ALT: 
+L44 XX  0.49 | Alibaba Cloud Network Operations with LLM
+      -> Multi-Cloud Administration Guide | 2024 | ? | Jeroen Mulder | doi=10.1515/9781501519482
+      ALT: 
+L45 XX  0.57 | LLM-Based Multi-Agent Framework for Intent-Based Networking
+      -> An LLM-Based Multi-Agent Framework for Autonomous Business Lead Intelligence Using Publi | 2026 | ? | Nikunj Patel | doi=10.2139/ssrn.7216863
+      ALT: 
+E01 OK  1.00 | TelecomGPT: A Framework to Build Telecom-Specific Large Language Model
+      -> TelecomGPT: A Framework to Build Telecom-Specific Large Language Models | 2025 | IEEE Transactions on Machine Learning in Communications | Hang Zou,Qiyang Zhao,Yu Tian | doi=10.1109/tmlcn.2025.3593184
+E02 OK  1.00 | Mobile-LLaMA: Instruction Fine-Tuning Open-Source LLM for Network Anal
+      -> Mobile-LLaMA: Instruction Fine-Tuning Open-Source LLM for Network Analysis in 5G Network | 2024 | IEEE Network | Khen Bo Kan,Hyunsu Mun,Guohong Cao | doi=10.1109/mnet.2024.3421306
+E03 ??  0.70 | LoRA: Low-Rank Adaptation of Large Language Models
+      -> C-LoRA: Contextual Low-Rank Adaptation for Uncertainty Estimation in Large Language Mode | 2025 | Advances in Neural Information Processing Systems 38 | Amir Hossein Rahmati,Sanket Jantre,Weifeng Zhang | doi=10.52202/085713-2263
+E04 OK  1.00 | QLoRA: Efficient Finetuning of Quantized LLMs
+      -> QLoRA: Efficient Finetuning of Quantized LLMs | 2023 | Advances in Neural Information Processing Systems 36 | Tim Dettmers,Artidoro Pagnoni,Ari Holtzman | doi=10.52202/075280-0441
+E05 XX  0.64 | Parameter-Efficient Transfer Learning for NLP
+      -> GeoPETL: Parameter-Efficient Transfer Learning for Earth Science Remote Sensing Visual T | 2026 | ? | Linyu Meng,Qianrui Zeng | doi=10.22541/essoar.15005321/v1
+      ALT: 
+E06 ??  0.71 | Distilling the Knowledge in a Neural Network
+      -> Distilling Graph Neural Networks | 2022 | Synthesis Lectures on Data Mining and Knowledge Discove | Jiawei Liu | doi=10.1007/978-3-031-16174-2_7
+E07 OK  1.00 | TinyBERT: Distilling BERT for Natural Language Understanding
+      -> TinyBERT: Distilling BERT for Natural Language Understanding | 2020 | Findings of the Association for Computational Linguisti | Xiaoqi Jiao,Yichun Yin,Lifeng Shang | doi=10.18653/v1/2020.findings-emnlp.372
+E08 XX  0.61 | MiniLM: Deep Self-Attention Distillation for Task-Agnostic Compression
+      -> Adversarial Data Augmentation for Task-Specific Knowledge Distillation of Pre-trained Tr | 2022 | Proceedings of the AAAI Conference on Artificial Intell | Minjia Zhang,Niranjan Uma Naresh,Yuxiong He | doi=10.1609/aaai.v36i10.21423
+      ALT: 
+E09 XX  0.67 | The Lottery Ticket Hypothesis: Finding Sparse, Trainable Neural Networ
+      -> Lottery Tickets on a Data Diet: Finding Initializations with Sparse Trainable Networks | 2022 | Advances in Neural Information Processing Systems 35 | Mansheej Paul,Brett Larsen,Surya Ganguli | doi=10.52202/068431-1374
+      ALT: 
+E10 ??  0.73 | Knowledge Distillation: A Survey
+      -> Continual Learning with Knowledge Distillation: A Survey | 2024 | ? | Songze Li,Tonghua Su,Xuyao Zhang | doi=10.36227/techrxiv.170422196.66991957/v1
+E11 ??  0.85 | A Survey on Model Compression for Large Language Models
+      -> A Survey on Model Compression for Large Language
+                    Models | 2024 | Transactions of the Association for Computational Lingu | Xunyu Zhu,Jian Li,Yong Liu | doi=10.1162/tacl_a_00704
+E12 XX  0.41 | Telecom Language Models: Datasets and Benchmarks
+      -> Vision–Language Foundation Models and Multimodal Large Language Models: A Comprehensive  | 2026 | ? | Gurpreet Singh | doi=10.2139/ssrn.6176720
+      ALT: 
+E13 ??  0.78 | NetGPT: A Native AI Architecture for 6G Networks
+      -> Distributed AI-native Architecture for 6G Networks | 2022 | 2022 International Conference on Information Processing | Pengyu Li,Yanxia Xing,Wei Li | doi=10.1109/icipnp57450.2022.00019
+E14 ??  0.77 | Fine-Tuning Large Language Models for Network Intrusion Detection
+      -> Fine-tuning Large Language Models for Folder Structure Generation | None | ? | Likhith Nemani | doi=10.31979/etd.taar-3t5j
+E15 OK  1.00 | IoV-BERT-IDS: Hybrid Network Intrusion Detection System in IoV Using L
+      -> IoV-BERT-IDS: Hybrid Network Intrusion Detection System in IoV Using Large Language Mode | 2025 | IEEE Transactions on Vehicular Technology | Mengyi Fu,Pan Wang,Minyao Liu | doi=10.1109/tvt.2024.3402366
+E16 XX  0.50 | Lightweight Large Language Models for Edge Networks
+      -> Extracting lightweight neural networks from large models for embedded audio applications | None | ? | David Genova | doi=10.70675/deca2d05zdfaez42e3zb33czacc3f46b6c19
+      ALT: 
+E17 XX  0.59 | Domain Adaptation of Large Language Models for Telecommunications
+      -> Data-efficient domain adaptation for pretrained language models | None | ? | Xu Guo | doi=10.32657/10356/167965
+      ALT: 
+E18 OK  1.00 | Tele-LLMs: A Series of Specialized Large Language Models for Telecommu
+      -> Tele-LLMs: A Series of Specialized Large Language Models for Telecommunications | 2026 | IEEE Access | Ali Maatouk,Kenny Chirino Ampudia,Rex Ying | doi=10.1109/access.2026.3698683
+E19 XX  0.67 | Continual Learning for Network Management
+      -> Continual Learning With Siamese Neural Networks for Sustainable Network Management | 2024 | IEEE Transactions on Network and Service Management | Khalid El Yaacoub,Oscar Stenhammar,Selim Ickin | doi=10.1109/tnsm.2024.3368928
+      ALT: 
+E20 ??  0.71 | LLM Pruning for Efficient Inference
+      -> Unified Static-Dynamic Pruning for Efficient LLM Inference | 2026 | Proceedings of the VLDB Endowment | Jinhyeok Kim,Yejoon Lee,Jaeyoung Do | doi=10.14778/3836663.3836665
+E21 XX  0.63 | Wanda: A Simple and Effective Pruning Approach for Large Language Mode
+      -> Less is KEN: a Universal and Simple Non-Parametric Pruning Algorithm for Large Language  | 2024 | Findings of the Association for Computational Linguisti | Michele Mastromattei,Fabio Massimo Zanzotto | doi=10.18653/v1/2024.findings-acl.674
+      ALT: 
+E22 XX  0.33 | SparseGPT: Massive Language Models Can Be Accurately Pruned in One-Sho
+      -> eLife Assessment: How accurately can one predict drug binding modes using AlphaFold mode | 2023 | ? | Aaron Frank | doi=10.7554/elife.89386.1.sa2
+      ALT: 
+E23 OK  1.00 | LLM-Pruner: On the Structural Pruning of Large Language Models
+      -> LLM-Pruner: On the Structural Pruning of Large Language Models | 2023 | Advances in Neural Information Processing Systems 36 | Xinyin Ma,Gongfan Fang,Xinchao Wang | doi=10.52202/075280-0950
+E24 OK  0.93 | A Survey on Knowledge Distillation of Large Language Models
+      -> A Survey on Symbolic Knowledge Distillation of Large Language Models | 2024 | IEEE Transactions on Artificial Intelligence | Kamal Acharya,Alvaro Velasquez,Houbing Herbert Song | doi=10.1109/tai.2024.3428519
+E25 ??  0.86 | Efficient Large Language Models: A Survey
+      -> Efficient Large Language Models | 2026 | An Introduction to Large Language Models | P. R. Joe Dhanith,S. Geetha,A. Sheik Abdullah | doi=10.1201/9781003650065-9
+WROTE data/seed_verified.json

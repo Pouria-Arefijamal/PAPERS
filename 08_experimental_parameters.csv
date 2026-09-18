@@ -1,0 +1,162 @@
+paper_id,number_of_users,number_of_ues,number_of_gnbs,number_of_nodes,number_of_paths,bandwidth,packet_size,traffic_rate,arrival_rate,latency_target,throughput_target,simulation_time,number_of_episodes,number_of_rounds,learning_rate,discount_factor,epsilon,batch_size,model,model_parameters,gpu,cpu,ram,simulator,testbed,other_parameters,citation
+F01,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,"Custom simulation; an RF throughput model (11.4% median error, 890 Kbps RMSE) and an LSTM forecast (14.8% median error) are used as inputs",NA,NA,https://doi.org/10.1609/aaai.v32i1.11339
+F02,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA (not verified from the retrieved record),NA,NA,https://doi.org/10.1109/TVT.2019.2922668
+F03,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/JSAC.2020.3005495
+F04,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/TNET.2023.3276363
+F05,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/TNSE.2023.3301879
+F06,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,"A 5G system-level simulator, not named; no traffic model is reported at all",NA,NA,https://doi.org/10.1109/ACCESS.2020.3000893
+F07,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/MCOM.2018.1701319
+F12,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/TVT.2023.3317995
+F13,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.23919/JCC.2021.09.014
+F16,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Custom packet-level / flow-level simulator,NA,NA,https://doi.org/10.1109/INFOCOM.2018.8485853
+F17,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/ACCESS.2022.3143870
+F19,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/NETSOFT.2019.8806679
+F20,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/ACCESS.2016.2646308
+F21,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/ACCESS.2020.3022706
+F29,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/JSAC.2017.2774429
+F30,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/ISCC.2007.4381499
+F31,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/ICCWorkshops53468.2022.9814680
+F32,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1016/j.comnet.2024.110489
+F38,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.2197/ipsjjip.25.772
+O02,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/MNET.2019.1800204
+O03,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1016/j.comnet.2018.12.005
+O04,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/MNET.2024.3420120
+O05,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/MNET.001.1900252
+O06,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/MWC.009.00366
+O08,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/MCOM.2017.1600924
+O09,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/TNSM.2016.2569020
+O10,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/COMST.2018.2884835
+O16,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/JSAC.2023.3336186
+O22,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/COMST.2024.3492168
+O23,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/COMST.2024.3350256
+O24,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/COMST.2025.3548039
+O27,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/MedComNet52149.2021.9501271
+O28,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.64771/jsetms.2025.v02.i04.pp171-177
+M01,NA,NA,NA,NA,One or more subflows per MPTCP connection (standard does not fix a number),NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,N/A (standard),N/A (standard),NA,https://doi.org/10.17487/RFC8684
+M02,NA,NA,NA,NA,Two (typically 3G + Wi-Fi),NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Real multi-homed testbed with 3G and Wi-Fi interfaces (exact hardware NR in the record retrieved),NA,https://doi.org/10.1007/978-3-642-20757-0_21
+M03,NA,NA,NA,NA,Two or more subflows,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Real Linux implementation evaluated over emulated and real networks,NA,https://www.usenix.org/conference/nsdi12/technical-sessions/presentation/wischik
+M04,NA,NA,NA,NA,Two,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Real testbed with emulated asymmetric path characteristics,NA,https://doi.org/10.1145/2630088.2631977
+M05,NA,NA,NA,NA,Multiple subflows,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Linux MPTCP implementation evaluated in emulated and real networks,NA,https://doi.org/10.1109/TNET.2018.2884791
+M06,NA,NA,NA,NA,Multiple paths,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Real implementation (userspace QUIC) evaluated over emulated networks,NA,https://doi.org/10.1145/3143361.3143370
+M07,NA,NA,NA,NA,One (single path); included because MPQUIC scheduling depends on QUIC's connection-level packet numbering,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Large-scale production deployment measurement,NA,https://doi.org/10.1145/3098822.3098842
+M08,NA,NA,NA,NA,NA (abstract does not state),NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Evaluated 'over both emulated and real network conditions' (Linux kernel implementation),NA,https://doi.org/10.1109/INFOCOM.2019.8737649
+M09,NA,NA,NA,NA,Four MPTCP subflows running simultaneously in the evaluation,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,"No simulator - real Linux testbed: sender Dell i7-8700, 32 GB RAM, Ubuntu 16.04, MPTCP v0.93 on Linux 4.9.x; path characteristics limited with tc and ethtool; receiver on a separate desktop via a Gigabit switch; packets captured with tcpdump and analysed with scapy; iPerf3 for load and TRex replaying real traces for background traffic",Single-sender emulated heterogeneous testbed (not real radio),NA,https://doi.org/10.1109/TNSM.2021.3093302
+M10,NA,NA,NA,NA,Multiple subflows,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Linux MPTCP testbed with emulated heterogeneous paths,NA,https://doi.org/10.1109/TWC.2021.3062082
+M11,NA,NA,NA,NA,Multiple subflows,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Linux testbed with emulated heterogeneous paths,NA,https://doi.org/10.1109/TVT.2020.2978265
+M12,NA,NA,NA,NA,Multiple subflows,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Linux MPTCP implementation evaluated in emulated and real heterogeneous networks,NA,https://doi.org/10.1109/IFIPNetworking.2016.7492955
+M13,NA,NA,NA,NA,Multiple subflows,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Linux MPTCP implementation evaluated in emulated heterogeneous networks,NA,https://doi.org/10.1145/3143361.3143379
+M14,NA,NA,NA,NA,Multiple subflows,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Linux MPTCP testbed with emulated dynamic heterogeneous paths,NA,https://doi.org/10.1109/JSAC.2020.3000413
+M21,NA,NA,NA,NA,Multiple,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Simulation and/or emulation of heterogeneous wireless paths,NA,https://doi.org/10.1109/TMC.2012.196
+M22,NA,NA,NA,NA,Multiple,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Emulated heterogeneous wireless networks,NA,https://doi.org/10.1109/TCOMM.2016.2539169
+M23,NA,NA,NA,NA,Multiple,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Measurement study on real MPQUIC implementations,NA,https://doi.org/10.1145/3735358.3735390
+M24,NA,NA,NA,NA,Multiple,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Implementation and emulation,NA,https://doi.org/10.1145/3229543.3229550
+M27,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,N/A,N/A,NA,https://doi.org/10.1109/ACCESS.2021.3118593
+M28,NA,NA,NA,NA,Multiple (3GPP and non-3GPP access),NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Prototype evaluation of MPQUIC-based ATSSS,NA,https://doi.org/10.1109/MCOMSTD.0001.2200069
+M29,NA,NA,NA,NA,Multiple (multi-connectivity legs),NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NR,NA,https://doi.org/10.1109/WCNCW49093.2021.9419978
+M30,NA,NA,NA,NA,Multiple,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Evaluation over network topologies (simulation/emulation),NA,https://doi.org/10.1109/ACCESS.2020.3041819
+M34,NA,NA,NA,NA,Multiple,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Evaluation in heterogeneous wireless settings,NA,https://doi.org/10.1109/MWC.001.2200486
+M38,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Linux MPTCP implementation,NA,https://doi.org/10.1109/icc.2014.6883488
+L01,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Multiple LLMs compared,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1145/3656296
+L02,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/mnet.2024.3435752
+L03,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,LLaMA 2 13B,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/mnet.2024.3421306
+L04,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,General-purpose instruction-tuned LLM (specific checkpoint not reported),NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/tmlcn.2025.3593184
+L05,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,LLM backbone with task-specific lightweight adapters,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1145/3651890.3672268
+L06,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/mcom.001.2400368
+L07,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.14722/futureg.2025.23057
+L08,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.36227/techrxiv.174284755.59863143/v1
+L09,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/globecom52923.2024.10901065
+L10,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/drcn60692.2024.10539172
+L11,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/noms69089.2026.11668163
+L12,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1002/nem.70029
+L14,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1002/nem.70044
+L15,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/mcom.001.2300473
+L17,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/mnet.2025.3576035
+L20,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/netsoft70012.2026.11603505
+L27,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.36227/techrxiv.176704922.27278347/v1
+L29,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/mnet.2025.3579496
+L32,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.36227/techrxiv.176539548.84734375/v1
+L34,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1145/3772356.3772402
+L37,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.2139/ssrn.7438214
+E04,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.52202/075280-0441
+E07,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.18653/v1/2020.findings-emnlp.119
+E15,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/TVT.2024.3402366
+E18,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://ar5iv.labs.arxiv.org/html/2409.05314
+F41,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,O-RAN testbed (per the paper's own evaluation; exact platform not verified),NA,https://doi.org/10.1109/ICC45041.2023.10278981
+F42,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/TWC.2024.3396273
+F43,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/TNSM.2024.3392945
+F44,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Open RAN experimental platform,NA,https://doi.org/10.1109/TMC.2023.3272948
+F45,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/COMST.2018.2869756
+F46,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/COMST.2021.3068696
+O31,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1016/j.comcom.2019.04.008
+O32,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1145/3138808.3138810
+O33,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/MCOM.001.2400526
+O34,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://ieeexplore.ieee.org/document/11318854
+O35,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://ieeexplore.ieee.org/abstract/document/9793722
+O36,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://ieeexplore.ieee.org/document/9983829
+O37,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://ieeexplore.ieee.org/abstract/document/10001219
+O38,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/TNET.2022.3187310
+O39,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://ieeexplore.ieee.org/abstract/document/11573048
+O40,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://ieeexplore.ieee.org/document/11577510
+O41,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://arxiv.org/abs/2603.03667
+M42,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://www.jstage.jst.go.jp/article/transinf/E108.D/8/E108.D_2024EDL8090/_article
+M43,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://ieeexplore.ieee.org/document/10826899
+M44,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://ieeexplore.ieee.org/document/11133925
+M45,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://ieeexplore.ieee.org/document/10152217
+M46,NA,NA,NA,NA,Multiple (terrestrial and satellite paths),NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://www.sciencedirect.com/science/article/abs/pii/S0140366426001131
+M47,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1002/ett.70264
+L47,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,"GPT-OSS, GPT-5, GPT-5-mini (as evaluated)",NA,NA,NA,NA,NA,NA,NA,https://arxiv.org/abs/2512.16381
+L48,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Multiple LLM agents evaluated,NA,NA,NA,NA,NA,NA,NA,https://arxiv.org/abs/2506.03231
+L49,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,"Five models evaluated, best reported as Qwen3.5-35B-A3B",NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/NetSoft70012.2026.11603505
+L51,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Multiple LLMs evaluated,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/JSAC.2025.3641905
+L52,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,LLMs per the paper,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/LCN67947.2026.11660797
+L53,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,GPT-4 class and others,NA,NA,NA,NA,NA,NA,NA,https://ar5iv.labs.arxiv.org/html/2406.01768
+L54,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Open LLMs with retrieval,NA,NA,NA,NA,NA,NA,NA,https://arxiv.org/abs/2404.15939
+L55,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Open LLMs,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1145/3711992.3711996
+L58,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,33 LLMs evaluated (1.1B-70B),NA,NA,NA,NA,NA,NA,NA,https://ar5iv.labs.arxiv.org/html/2507.14398
+L60,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,26 LLMs evaluated,NA,NA,NA,NA,NA,NA,NA,https://arxiv.org/abs/2309.05557
+L61,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Eight state-of-the-art LLMs evaluated,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1145/3770855.3817480
+L62,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,LLM-based multi-agent,NA,NA,NA,NA,NA,NA,NA,https://ieeexplore.ieee.org/document/11047162
+L63,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,LLM-based,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/TNSM.2026.3675409
+L64,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,LLM-based algorithm selector,NA,NA,NA,NA,NA,NA,NA,https://ieeexplore.ieee.org/document/11358365
+L65,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Multimodal LLMs,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/NOMS69089.2026.11668270
+L66,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Small language models with tools,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/MCOM.001.2500402
+E26,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://arxiv.org/abs/2106.09685
+E27,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Crossref record 10.1109/TMLCN.2025.3592658
+E28,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://ar5iv.labs.arxiv.org/html/2411.13004
+E29,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,"https://arxiv.org/html/2501.16734v3 (full text, verified by me)"
+E30,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Crossref record 10.1109/TCE.2026.3657983
+E31,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://ro.ecu.edu.au/ecuworks2022-2026/8058/
+E32,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Crossref record 10.1016/j.comnet.2025.111848
+E33,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://hal.science/hal-05045324v1/file/publi-8009.pdf
+E34,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://arxiv.org/abs/2506.00062
+E35,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/CSCWD61410.2024.10580837
+E36,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://arxiv.org/abs/2412.15891
+E37,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1162/tacl_a_00704
+E38,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://arxiv.org/abs/2305.11627
+E39,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://arxiv.org/abs/2608.21874
+E40,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://arxiv.org/abs/2505.01841
+E41,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://ar5iv.labs.arxiv.org/html/2511.00651
+E42,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://arxiv.org/abs/2607.02523
+E43,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://arxiv.org/abs/2505.16821
+E44,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Crossref record 10.1109/OJCOMS.2026.3695460
+E45,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://bv.fapesp.br/en/publicacao/284975/
+E46,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://arxiv.org/html/2602.14117v2
+E47,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://arxiv.org/abs/2408.03964
+E48,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://arxiv.org/abs/2509.25736
+E49,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://ar5iv.labs.arxiv.org/html/2306.07933
+E50,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Crossref record 10.18653/v1/2023.findings-ijcnlp.3
+E51,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://arxiv.org/abs/2608.26126
+O42,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://ieeexplore.ieee.org/abstract/document/11219256
+F47,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,5G NR system-level simulation,NA,NA,https://doi.org/10.1016/j.comcom.2021.09.034
+F48,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Simulation of an edge-cloud 5G core deployment (per the author accepted manuscript),NA,NA,https://doi.org/10.1109/NFV-SDN61811.2024.10807472
+F49,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://networking.ifip.org
+F50,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/INFOCOM.2019.8737604
+F51,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,O-RAN simulation environment,NA,NA,https://doi.org/10.1109/GCWkshps58843.2023.10464606
+F52,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/VTC2022-Fall57202.2022.10012789
+F53,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://aaltodoc.aalto.fi
+F54,NA,NA,NA,NA,Multiple,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/TCCN.2025.3583193
+F55,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/ACCESS.2024.3524886
+F56,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/ACCESS.2021.3135315
+M48,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+M49,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+M50,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,https://doi.org/10.1109/MWC.013.2100658

@@ -1,0 +1,2057 @@
+{
+  "$comment": "Machine-readable companion to LLM-Compression-Network-Management-Report.md. Every field either came from a source URL that was actually retrieved, or is the literal string 'not reported' / 'not verified'. No value is inferred or invented.",
+  "compiled": "2026-09-18",
+  "field_legend": {
+    "status": [
+      "PEER-REVIEWED",
+      "PREPRINT",
+      "PEER-REVIEWED+ PREPRINT"
+    ],
+    "not_reported": "field absent from the retrieved source",
+    "not_verified": "bibliographic data confirmed via Crossref but experimental detail inaccessible (paywall/outage)"
+  },
+  "papers": [
+    {
+      "id": 1,
+      "group": "i_network_llm_finetuning",
+      "title": "Mobile-LLaMA: Instruction Fine-Tuning Open-Source LLM for Network Analysis in 5G Networks",
+      "authors": [
+        "Khen Bo Kan",
+        "Hyunsu Mun",
+        "Guohong Cao",
+        "Youngseok Lee"
+      ],
+      "year": 2024,
+      "venue": "IEEE Network",
+      "venue_detail": "vol. 38, no. 5, pp. 76-83",
+      "doi": "10.1109/MNET.2024.3421306",
+      "status": "PEER-REVIEWED",
+      "arxiv_id": null,
+      "base_model": "LLaMA 2 13B",
+      "base_model_params": "13B",
+      "method": "Instruction fine-tuning (full SFT) + self-instruct expansion using OpenAI pretrained models",
+      "dataset_name": "Own 5G network-analysis instruction data (collected from publicly available real-world 5G network datasets) + self-instruct expansion",
+      "dataset_size": "15111 instruction sets (packet analysis: 20 manual + 2000 self-instruct; IP routing: 100 manual + 10000 self-instruct; performance analysis: 30 manual + 3000 self-instruct)",
+      "gpu_hardware": "not reported",
+      "training_time": "not reported",
+      "inference_latency": "not reported",
+      "model_size_after_compression": "not applicable",
+      "main_results": "Network analysis code generation score 247/300 vs GPT-3.5 209/300",
+      "baselines": [
+        "GPT-3.5 (209/300)"
+      ],
+      "code_data_url": "https://github.com/DNLab2024/Mobile-LLaMA",
+      "main_limitation": "Single 300-point code-generation rubric; no network KPI or closed-loop performance measured; task is analysis code generation, not online control",
+      "sources_retrieved": [
+        "https://pure.psu.edu/en/publications/mobile-llama-instruction-fine-tuning-open-source-llm-for-network-/",
+        "https://raw.githubusercontent.com/DNLab2024/Mobile-LLaMA/main/README.md"
+      ]
+    },
+    {
+      "id": 2,
+      "group": "i_network_llm_finetuning",
+      "title": "TelecomGPT: A Framework to Build Telecom-Specific Large Language Models",
+      "authors": [
+        "Hang Zou",
+        "Qiyang Zhao",
+        "Yu Tian",
+        "Lina Bariah",
+        "Faouzi Bader",
+        "Thierry Lestable",
+        "Merouane Debbah"
+      ],
+      "year": 2025,
+      "venue": "IEEE Transactions on Machine Learning in Communications and Networking (TMLCN)",
+      "venue_detail": "vol. 3, pp. 948-975",
+      "doi": "10.1109/TMLCN.2025.3593184",
+      "status": "PEER-REVIEWED + PREPRINT",
+      "arxiv_id": "2407.09424",
+      "base_model": "General-purpose instruction-tuned LLM; specific checkpoint NOT named in retrieved text. Paper is deliberately framework-agnostic ('adapt any general purpose LLM')",
+      "base_model_params": "not reported",
+      "method": "Three stages: continual pre-training (causal LM) -> instruction tuning (SFT) -> alignment tuning via DPO",
+      "dataset_name": "OpenTelecom (pre-training), TelecomInstruct (instruction), TelecomAlign (DPO preference)",
+      "dataset_size": "OpenTelecom: 1679.5M training tokens + 16.89M validation tokens (3GPP std 193M, IEEE std 7.5M, arXiv 893M, books 1.9M, patents 253.2M, StackExchange 51.9M, Wikipedia 18.9M, GitHub code 260.1M). Instruction/preference set sizes not reported in samples.",
+      "gpu_hardware": "not reported (paper cites 'our hardware limits' as reason for using RedPajama-1T but names no GPU)",
+      "training_time": "not reported",
+      "inference_latency": "not reported",
+      "model_size_after_compression": "not applicable",
+      "main_results": "Significantly outperforms GPT-4, Llama-3 and Mistral on the Telecom Math Modeling benchmark; comparable performance on TeleQnA, 3GPP technical document classification, telecom code summary/generation/infilling",
+      "baselines": [
+        "GPT-4",
+        "Llama-3",
+        "Mistral"
+      ],
+      "code_data_url": "not confirmed",
+      "main_limitation": "Evaluates knowledge and code tasks (QA, tdoc classification, math modeling, code gen), NOT network management decisions or network KPIs. Performs no compression experiment despite motivating the work with deployment/compression challenges.",
+      "sources_retrieved": [
+        "https://ar5iv.labs.arxiv.org/html/2407.09424",
+        "Crossref record 10.1109/TMLCN.2025.3593184"
+      ]
+    },
+    {
+      "id": 3,
+      "group": "i_network_llm_finetuning",
+      "title": "Tele-LLMs: A Series of Specialized Large Language Models for Telecommunications",
+      "authors": [
+        "Ali Maatouk",
+        "Kenny Chirino Ampudia",
+        "Rex Ying",
+        "Leandros Tassiulas"
+      ],
+      "year": 2026,
+      "venue": "IEEE Access",
+      "venue_detail": "vol. 14, pp. 86424-86441",
+      "doi": "10.1109/ACCESS.2026.3698683",
+      "status": "PEER-REVIEWED + PREPRINT",
+      "arxiv_id": "2409.05314",
+      "base_model": "TinyLlama-1.1B, Phi-1.5B, Gemma-2B, Gemma-2-2B, LLaMA-3.2-1B, LLaMA-3.2-3B, LLaMA-3-8B",
+      "base_model_params": "1B-8B",
+      "method": "Continual pre-training with FULL fine-tuning. PEFT/LoRA tested and REJECTED: LoRA r=64, alpha=32, dropout=0.1 - 'for smaller models LoRA can initially inject telecom knowledge but quickly saturates due to its limited capacity'; on LLaMA-3-8B 'the gradient norm of the LoRA method remained extremely low'. Full FT settings: AdamW, weight decay 0.1, max grad norm 1, cosine schedule to 10% of max LR, 10%-of-epoch linear warmup, batch 4M tokens, seq len 8192, max LR 1e-5 (LLaMA) / 2e-5 (Gemma), mixed precision + sample packing + block attention, 2 epochs, 5% SlimPajama mixed in. Instruction-tuning stage: Q-LoRA, 8-bit init, rank 8, on Q/K/V/O, batch 8, grad-accum 2, LR 2e-4, AdamW, lora_alpha 32, dropout 0.05.",
+      "dataset_name": "Tele-Data (corpus) + Tele-Eval (evaluation)",
+      "dataset_size": "Tele-Data: arXiv 90k papers/4GB/1.08B tokens; 3GPP standards 2.8k docs/334MB/86.45M tokens; Wikipedia 19.5k articles/123MB/26.44M tokens; Web 740k links/6.8GB/1.55B tokens. Tele-Eval: 750k open-ended Q&A pairs (1% retention after filtering).",
+      "gpu_hardware": "8 x NVIDIA A6000",
+      "training_time": "~5000 GPU hours total for the released series",
+      "inference_latency": "Evaluation-side: Mixtral-8x-7B LLM-judge took ~50 ms per question on a single NVIDIA A6000",
+      "model_size_after_compression": "not applicable (no compression performed)",
+      "main_results": "Average relative improvement of 25% on Tele-Eval (LLM-Eval metric). LLM-Eval: Gemma-2B 13.59 -> Gemma-2B-Tele 17.07; Phi-1.5 14.87 -> Phi-1.5-Tele 13.06 (degraded) -> Phi-1.5-Tele-Alpaca 18.84; Gemma-2B-Tele-Alpaca 25.31; Gemma-2B-it 19.84 -> 24.83. Gemma-2B-Standards UNDERPERFORMED base on overall Tele-Eval (11.18 vs 13.59). LLaMA-3-8B-Tele +10% on GSM-8K.",
+      "baselines": [
+        "Original un-adapted models (Gemma-2B, Phi-1.5, LLaMA-3-8B, TinyLlama)",
+        "Gemma-2B-it",
+        "GPT-4o",
+        "MMLU",
+        "HellaSWAG",
+        "GSM8K"
+      ],
+      "code_data_url": "https://github.com/Ali-maatouk/Tele-LLMs",
+      "main_limitation": "Task is telecom knowledge/literature (Q&A, citation prediction and recommendation), NOT network management decisions or network KPIs. No compression experiments. Full FT costs 8xA6000 and 5000 GPU hours.",
+      "sources_retrieved": [
+        "https://ar5iv.labs.arxiv.org/html/2409.05314",
+        "https://arxiv.org/html/2409.05314v3",
+        "Crossref record 10.1109/ACCESS.2026.3698683"
+      ]
+    },
+    {
+      "id": 4,
+      "group": "i_network_llm_finetuning",
+      "title": "TeleQnA: A Benchmark Dataset to Assess Large Language Models Telecommunications Knowledge",
+      "authors": [
+        "Ali Maatouk",
+        "Fadhel Ayed",
+        "Nicola Piovesan",
+        "Antonio De Domenico"
+      ],
+      "year": 2026,
+      "venue": "IEEE Network",
+      "venue_detail": "vol. 40, no. 2, pp. 253-260",
+      "doi": "10.1109/MNET.2025.3576035",
+      "status": "PEER-REVIEWED + PREPRINT",
+      "arxiv_id": "2310.15051",
+      "base_model": "Model-agnostic benchmark; evaluates general-purpose LLMs incl. GPT-4",
+      "base_model_params": "not applicable",
+      "method": "Benchmark dataset (MCQ); no fine-tuning proposed by the paper",
+      "dataset_name": "TeleQnA",
+      "dataset_size": "10000 telecom multiple-choice questions generated from 3GPP standards and research papers, with human validation",
+      "gpu_hardware": "not applicable",
+      "training_time": "not applicable",
+      "inference_latency": "not reported",
+      "model_size_after_compression": "not applicable",
+      "main_results": "GPT-4 fails almost half of the specification-related problems in TeleQnA (as cited by TelecomGPT). The standard telecom-knowledge benchmark across the field.",
+      "baselines": [
+        "GPT-4 and other general LLMs"
+      ],
+      "code_data_url": "Dataset released publicly (widely reused)",
+      "main_limitation": "MCQ-only and subject to LLM selection bias - the Tele-LLMs authors built Tele-Eval as an open-ended alternative for this reason. Measures telecom knowledge, not network operation.",
+      "sources_retrieved": [
+        "Crossref record 10.1109/MNET.2025.3576035",
+        "https://bv.fapesp.br/en/publicacao/284975/"
+      ]
+    },
+    {
+      "id": 5,
+      "group": "i_network_llm_finetuning",
+      "title": "Harnessing the Power of LLMs, Informers and Decision Transformers for Intent-driven RAN Management in 6G",
+      "authors": [
+        "Md Arafat Habib",
+        "Pedro Enrique Iturria-Rivera",
+        "Yigit Ozcan",
+        "Medhat Elsayed",
+        "Majid Bavand",
+        "Raimundas Gaigalas",
+        "Melike Erol-Kantarci"
+      ],
+      "year": 2025,
+      "venue": "arXiv preprint (comments: 'Currently under review')",
+      "venue_detail": "arXiv:2505.01841 [cs.NI]",
+      "doi": "10.48550/arXiv.2505.01841",
+      "status": "PREPRINT",
+      "arxiv_id": "2505.01841",
+      "base_model": "LLaMA (used as the baseline in Fig. 6). EXACT VARIANT AND PARAMETER COUNT NOT REPORTED. The '10-billion parameter model' mentioned is a generic memory illustration, not the actual model.",
+      "base_model_params": "not reported",
+      "method": "QLoRA (all four components: 4-bit NormalFloat quantisation, double quantisation, paged optimisation, LoRA) + RAG module",
+      "dataset_name": "Custom dataset built from network simulations, in three segments: query-response pairs, intent type+magnitude labels, RAG corpus",
+      "dataset_size": "not reported ('hundreds or even thousands of query-response pairs can be generated')",
+      "gpu_hardware": "not reported (motivates QLoRA as enabling fine-tuning on a single GPU and gives a generic 10B-model/160GB -> ~40GB illustration, but names no GPU)",
+      "training_time": "not reported",
+      "inference_latency": "not reported",
+      "model_size_after_compression": "not reported",
+      "main_results": "QLoRA fine-tuned vs base LLaMA: BERTScore 0.92 vs 0.86 (+6%); METEOR 0.89 vs 0.83; semantic similarity +9%. Predictive intent validation (Informer) 88% average accuracy. HDTGA orchestration vs baselines: throughput +19.3% (abstract) / +19.4% (body), delay -48.5%, energy efficiency +54.9%. NOTE: the body text reverses the delay/energy-efficiency percentages relative to the abstract - an internal inconsistency in the paper.",
+      "baselines": [
+        "Base LLaMA (no fine-tuning)",
+        "HRL with intent validation",
+        "HRL without intent validation",
+        "Vanilla Decision Transformer",
+        "LSTM and GPT-2 decoder-only transformer (for forecasting)"
+      ],
+      "code_data_url": "not found",
+      "main_limitation": "No base-model identification, no hardware, no dataset size, no latency - not reproducible as published. Simulation-based, not a live network. Preprint.",
+      "sources_retrieved": [
+        "https://arxiv.org/abs/2505.01841",
+        "https://arxiv.org/html/2505.01841v1"
+      ]
+    },
+    {
+      "id": 6,
+      "group": "i_network_llm_finetuning",
+      "title": "Leveraging Multi-Agent System (MAS) and Fine-Tuned Small Language Models (SLMs) for Automated Telecom Network Troubleshooting",
+      "authors": [
+        "Chenhua Shi",
+        "Bhavika Jalli",
+        "Gregor Macdonald",
+        "John Zou",
+        "Wanlu Lei",
+        "Mridul Jain",
+        "Joji Philip"
+      ],
+      "affiliation": "Ericsson",
+      "year": 2025,
+      "venue": "arXiv preprint",
+      "venue_detail": "arXiv:2511.00651",
+      "doi": "10.48550/arXiv.2511.00651",
+      "status": "PREPRINT",
+      "arxiv_id": "2511.00651",
+      "base_model": "Unsloth/DeepSeek-R1-Qwen-3-8B (8B, reasoning); also Qwen3-4B and Qwen3-1.7B for the size comparison. Orchestration LLM: GPT-4o mini",
+      "base_model_params": "8B, 4B, 1.7B",
+      "method": "Two-stage: SFT (LoRA warm-up on labelled QA pairs) then RFT with LoRA + GRPO, in the TRL library with ZeRO Stage-2 DeepSpeed. Rewards: format rewards (regex/XML tags) + RAGAS-based rewards (completeness, relevancy, groundedness).",
+      "dataset_name": "Proprietary telecom troubleshooting documents (RAN power-system faults; Core PDU-session degradation) indexed into a HippoRAG knowledge graph",
+      "dataset_size": "not given here; the companion paper (arXiv:2509.25736 / arXiv:2607.02523) reports 50 SME-validated seed pairs + 500 synthetically generated RFT pairs",
+      "gpu_hardware": "7 x NVIDIA RTX A6000 (48 GB VRAM each). Allocation: 1 GPU vLLM Qwen3-Embedding-0.6B; 1 GPU vLLM Qwen3-8B (RAGAS judge, thinking disabled); 2 GPUs TRL-vLLM DeepSeek-R1-Qwen-3-8B.",
+      "training_time": "Entire training process completes within 3 days with uniform chunking; ~20 hours to resume from a checkpoint",
+      "inference_latency": "not reported",
+      "model_size_after_compression": "not applicable",
+      "main_results": "Mean troubleshooting time reduced ~6x per node vs human engineers; accuracy improved 10% vs human-driven process. RFT for the 8B model: RAGAS reward 3.44 -> 5.19; Format reward 2.52 -> 5.31; Total reward 5.96 -> 10.51; reward std-dev 2.17 -> 0.38. Size scaling: 8B reaches peak reward ~10; 4B and 1.7B 'show modest improvements but consistently lower rewards'. Fine-tuned 8B judged comparable in quality to GPT-4o-mini, while the base model produces only generic high-level answers.",
+      "baselines": [
+        "Base (un-fine-tuned) DeepSeek-R1-Qwen-3-8B",
+        "GPT-4o-mini",
+        "Qwen3-4B",
+        "Qwen3-1.7B",
+        "human engineers"
+      ],
+      "code_data_url": "not found (proprietary documents; Hypha and HippoRAG are OSS)",
+      "main_limitation": "Proprietary dataset, no public code. Rewards are LLM/RAGAS-judged rather than ground-truth-labelled. The '6x faster / +10% accuracy' is vs human engineers, not vs an automated baseline. Preprint.",
+      "sources_retrieved": [
+        "https://ar5iv.labs.arxiv.org/html/2511.00651"
+      ]
+    },
+    {
+      "id": 7,
+      "group": "i_network_llm_finetuning",
+      "title": "Edge-Deployable LLM Fine-Tuning on a Single GPU for Telecom Network Troubleshooting",
+      "authors": [
+        "Chenhua Shi",
+        "Bhavika Jalli",
+        "John Zou",
+        "Gregor Macdonald",
+        "Wanlu Lei",
+        "Mridul Jain",
+        "Joji Philip"
+      ],
+      "affiliation": "Ericsson",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "venue_detail": "arXiv:2607.02523 [cs.DC]",
+      "doi": "10.48550/arXiv.2607.02523",
+      "status": "PREPRINT",
+      "arxiv_id": "2607.02523",
+      "base_model": "unsloth/Qwen2.5-7B (7.61B params, 28 layers, 28 Q-heads / 4 KV-heads, GQA) and unsloth/DeepSeek-R1-0528-Qwen3-8B-unsloth-bnb-4bit (8.2B params, 36 layers, 32 Q / 8 KV heads). Cross-architecture validation with Llama-3.1-8B-Instruct. All support 131072-token context.",
+      "base_model_params": "7.61B, 8.2B, 8B",
+      "method": "LoRA restricted to q_proj, k_proj, v_proj; two-stage SFT -> RFT (GRPO/TRL); Unsloth framework with 4-bit quantisation, FlashAttention2, XFormers, KV-cache acceleration, torch.compile/inductor. Profiling sweep over max sequence length, GPU-memory utilisation, LoRA rank, generation count.",
+      "dataset_name": "Telecom troubleshooting dataset: QA pairs augmented with top-3 retrieved context documents",
+      "dataset_size": "50 SME-validated seed pairs (SFT) + 500 synthetically generated RFT pairs; average token length of top-3 chunks ~16126 tokens",
+      "gpu_hardware": "1 x NVIDIA RTX A6000, 48 GB VRAM (edge-class); cross-checked against a 4xGH200 cluster",
+      "training_time": "250 steps: 1k input tokens = 116 min; 5k = 173 min; 10k = 229 min; 10k with 4 generations at 0.6 util = 313 min. Llama-3.1-8B: 250 steps at 20k input tokens in ~29 min (~7x faster than Qwen2.5-7B).",
+      "inference_latency": "'7-8B parameter models serve requests in seconds on the RTX A6000' - no millisecond figure reported",
+      "model_size_after_compression": "4-bit Qwen2.5-7B = 3.805 GB model weights",
+      "vram_profile": "At 50k seq-len / 0.7 GPU-util: compile 16.2 GB + KV cache 11.2 GB = 329k KV tokens. Sweep: 1k->438k tokens, 20k->415k, 40k->358k, 50k->329k; 60k and 80k fail with CAIM error; 50k/0.3 fails with Cache Error; 50k/0.8-0.9 -> 411k tokens.",
+      "main_results": "Safe operating envelope on 48 GB: 50k max sequence length at 0.7 GPU utilisation. Sequence length >=60k produced CUDA CannotAccessIllegalMemory errors on Qwen2.5-7B but NOT on Llama-3.1-8B (60k succeeded) - thresholds are not portable across model families. Batch size >=4 OOMs above 20k tokens on both. Input tokens >10k at 0.7 util OOMs at step 155/250. DeepSeek-R1 with hybrid tokenizer strategy achieved substantial gains in factual grounding and response consistency over Qwen2.5-7B.",
+      "baselines": [
+        "Qwen2.5-7B (non-reasoning)",
+        "DeepSeek-R1-0528-Qwen3-8B (reasoning)",
+        "Llama-3.1-8B-Instruct",
+        "configuration sweep as self-baseline"
+      ],
+      "code_data_url": "not found",
+      "main_limitation": "A profiling/characterisation study, not a quality study - reports memory/time envelopes and reward trajectories rather than network-decision accuracy. Preprint, 6 pages.",
+      "sources_retrieved": [
+        "https://arxiv.org/abs/2607.02523",
+        "https://arxiv.org/html/2607.02523v1"
+      ]
+    },
+    {
+      "id": 8,
+      "group": "i_network_llm_finetuning",
+      "title": "LLM-Based Emulation of the Radio Resource Control Layer: Towards AI-Native RAN Protocols",
+      "authors": [
+        "Ziming Liu",
+        "Bryan Liu",
+        "Alvaro Valcarce",
+        "Xiaoli Chu"
+      ],
+      "affiliations": [
+        "University of Sheffield",
+        "Nokia Bell Labs"
+      ],
+      "year": 2026,
+      "venue": "arXiv preprint (submitted to the IEEE)",
+      "venue_detail": "arXiv:2505.16821 [cs.NI]; v1 May 2025, v5 Jan 2026",
+      "doi": "10.48550/arXiv.2505.16821",
+      "status": "PREPRINT",
+      "arxiv_id": "2505.16821",
+      "base_model": "Llama-3 8B, Llama-3.1 8B, Llama-3.2 3B, Llama-3.2 1B",
+      "base_model_params": "8B, 3B, 1B",
+      "method": "SFT + LoRA (adapters on attention projections AND MLP layers, alpha=2r, dropout=0). LoRA ranks r in {4,8,16} benchmarked against full fine-tuning. bf16, AdamW, token-level cross-entropy. LR 2e-5 (full FT) / 3e-4 (LoRA, cosine decay, 100-step warmup). Quantisation: weight-only INT4 (Q4_K_M, GGUF). Prompting: NoSys / RRC / RRC_constrain (schema-bounded).",
+      "dataset_name": "Proprietary multi-vendor 4G/5G RRC traces, formulated as segmentation-safe QA pairs preserving ASN.1 via linearisation before BPE",
+      "dataset_size": "30000 5G request-response pairs + 4800 QA turns from 4G/LTE sessions",
+      "gpu_hardware": "NR dataset: 2 x NVIDIA A100 80 GB (PCIe), 52-core CPU, 512 GB RAM; ~29 GB VRAM per inference thread (GGUF), ~110 GB across two cards for training. LTE dataset: 4 x NVIDIA GH200 nodes (Grace 72-core CPU + H100 96 GB HBM3), cluster of 1320 nodes, HPE Cray Slingshot-11; single-accelerator config = 1 x H100 (96 GB) inside one GH200.",
+      "training_time": "Converged in ~8.4k steps; deliberately truncated to avoid 'unnecessary GPU hours'",
+      "inference_latency": "Median latency to generate one DL RRC message (LTE, RRC_constrain): L-3 8B FP16 + LoRA-r16 = 3544 ms; L-3 8B Q4_K_M + LoRA-r16 = 2556 ms; L-3.1 8B FP16 = 3609 ms; L-3.1 8B Q4_K_M = 2581 ms; L-3.2 3B (full FT) FP16 = 2341 ms / Q4_K_M = 1733 ms; L-3.2 1B (full FT) FP16 = 2093 ms / Q4_K_M = 2025 ms. RRC (unconstrained): L-3 8B FP16 = 3418 ms vs Q4_K_M = 2519 ms. Edge vs datacentre with Llama-3.2-1B/INT4: Apple M2 Max 1.84 s vs 1xGH200(H100) 1.092 s; throughput 0.54 vs 0.92 req/s; energy ~7.7 mWh/message (M2, 15 W cap) vs ~0.200 Wh/message (GH200, 660 W cap).",
+      "model_size_after_compression": "INT4 Q4_K_M GGUF; ~29 GB VRAM per inference thread",
+      "main_results": "Median cosine similarity 0.97 for the 8B model = +61% relative over zero-shot. L-3 8B Q4_K_M RRC_constrain: ASN.1 pass median 1.000, similarity 0.992 median, SMC 0.993. Zero-shot baselines on NR dataset: Gemini 1.5-Flash 0.585, GPT-4o 0.496, Claude 3.5 Sonnet v2 0.768, GPT-o3-mini 0.705, original Llama 3-8B 0.600, RRC-LLM (fine-tuned) 0.970. Quantisation-latency trade-off: INT4 consistently reduces median latency by ~20-30% vs FP16 with small average reductions in ASN.1/SMC pass (a few percentage points, backbone-dependent); largest drops on the smallest backbone (1B). LoRA rank ablation (best validation loss, LTE): on 8B backbones r=16 matches or slightly surpasses full FT; on 3B/1B full FT remains advantageous; best-two gap delta ~6e-4. L-3.2 1B SMC: FP16 0.989 -> Q4_K_M 0.883.",
+      "baselines": [
+        "Zero-shot Gemini 1.5-Flash, GPT-4o, Claude 3.5 Sonnet v2, GPT-o3-mini, original Llama-3-8B",
+        "full FT vs LoRA r=4/8/16",
+        "FP16 vs INT4",
+        "Apple M2 Max vs GH200"
+      ],
+      "code_data_url": "not found (corpus is proprietary multi-vendor operator traces)",
+      "main_limitation": "Proprietary dataset, not reproducible. Latency in the 1-3.6 second range is far above real RRC control-plane budgets; sub-100 ms is explicitly framed as future work. Preprint.",
+      "sources_retrieved": [
+        "https://arxiv.org/abs/2505.16821",
+        "https://arxiv.org/html/2505.16821v5",
+        "https://browse-export.arxiv.org/pdf/2505.16821"
+      ]
+    },
+    {
+      "id": 9,
+      "group": "i_network_llm_finetuning",
+      "title": "Network Self-Configuration Based on Fine-Tuned Small Language Models",
+      "authors": [
+        "Oscar G. Lira",
+        "Oscar M. Caicedo",
+        "Nelson L. S. da Fonseca"
+      ],
+      "year": 2026,
+      "venue": "IEEE Open Journal of the Communications Society (OJ-COMS)",
+      "venue_detail": "vol. 7, pp. 5920-5939",
+      "doi": "10.1109/OJCOMS.2026.3695460",
+      "status": "PEER-REVIEWED",
+      "arxiv_id": null,
+      "base_model": "not verified",
+      "base_model_params": "not verified",
+      "method": "Fine-tuned Small Language Model; architecture named 'SLM_netconfig'",
+      "dataset_name": "not verified",
+      "dataset_size": "not verified",
+      "gpu_hardware": "not verified",
+      "training_time": "not verified",
+      "inference_latency": "not verified",
+      "model_size_after_compression": "not verified",
+      "main_results": "not verified",
+      "baselines": "not verified",
+      "code_data_url": "not verified",
+      "main_limitation": "VERIFICATION GAP - IEEE Xplore returned HTTP 502 throughout the research window. Bibliographic data confirmed via Crossref; all experimental detail unverified. High-relevance candidate: retrieve full text directly.",
+      "sources_retrieved": [
+        "Crossref record 10.1109/OJCOMS.2026.3695460",
+        "https://ieeexplore.ieee.org/abstract/document/11527366 (title/abstract snippet only)"
+      ]
+    },
+    {
+      "id": 10,
+      "group": "i_network_llm_finetuning",
+      "title": "Lightweight LLMs for 3GPP Specifications: Fine-Tuning, Retrieval-Augmented Generation and Quantization",
+      "authors": [
+        "Jose de Arimatea",
+        "Passos Lopes Junior",
+        "Jayr Pereira",
+        "Diedre Santos do Carmo",
+        "Roberto Lotufo",
+        "Christian Esteve Rothenberg"
+      ],
+      "year": 2025,
+      "venue": "2025 IEEE 11th International Conference on Network Softwarization (NetSoft)",
+      "venue_detail": "6 pp.",
+      "doi": "10.1109/NETSOFT64993.2025.11080581",
+      "status": "PEER-REVIEWED",
+      "arxiv_id": null,
+      "base_model": "Llama 3.2 (3B parameters), quantised from 16-bit to 4 bits",
+      "base_model_params": "3B",
+      "method": "Quantisation (16-bit -> 4-bit) + fine-tuning + RAG",
+      "dataset_name": "TeleQnA + TSpec-LLM (repository of processed 3GPP documents)",
+      "dataset_size": "10000 telecom questions (TeleQnA) + TSpec-LLM 3GPP document corpus",
+      "gpu_hardware": "not verified",
+      "training_time": "not verified",
+      "inference_latency": "not verified (abstract claims reduced memory demand enabling deployment on modest hardware / edge devices)",
+      "model_size_after_compression": "4-bit quantised Llama 3.2 3B (exact footprint not verified)",
+      "main_results": "'Improve accuracy without heavy resource reliance' - exact accuracy figures not verified",
+      "baselines": [
+        "prior resource-intensive or proprietary solutions (unspecified at abstract level)"
+      ],
+      "code_data_url": "Yes per the abstract - 'Shared via GitHub repositories [1]' (exact URL not captured)",
+      "main_limitation": "Abstract-level verification only; numeric results and hardware not confirmed. Task is telecom QA (3GPP standards comprehension), not network management decisions. NOTE: this is the only peer-reviewed paper found at a target venue (IEEE NetSoft) combining quantization + fine-tuning + RAG for telecom - full-text retrieval is a priority.",
+      "sources_retrieved": [
+        "https://bv.fapesp.br/en/publicacao/284975/",
+        "DOI record 10.1109/NETSOFT64993.2025.11080581"
+      ]
+    },
+    {
+      "id": 11,
+      "group": "i_network_llm_finetuning",
+      "title": "Toward Autonomous O-RAN: A Multi-Scale Agentic AI Framework for Real-Time Network Control and Management",
+      "authors": [
+        "Hojjat Navidan",
+        "Mohammad Cheraghinia",
+        "Jaron Fontaine",
+        "Mohamed Seif",
+        "Eli De Poorter",
+        "H. Vincent Poor",
+        "Ingrid Moerman",
+        "Adnan Shahid"
+      ],
+      "affiliations": [
+        "Ghent University - imec",
+        "Princeton University"
+      ],
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "venue_detail": "arXiv:2602.14117 [cs.NI], v2 Jun 2026",
+      "doi": "10.48550/arXiv.2602.14117",
+      "status": "PREPRINT",
+      "arxiv_id": "2602.14117",
+      "base_model": "Nvidia Nemotron (LLM rApp, Non-RT); GPT-OSS (SLM xApp, Near-RT); Wireless Physical-layer Foundation Model (WPFM) dApp (RT)",
+      "base_model_params": "not reported",
+      "method": "Deployment-scale separation, NOT compression. Different-sized models assigned to different control loops. LLM translates operator intent to A1 policy via an MCP tool interface; SLM performs PRB allocation via E2SM-RC; WPFM is fine-tuned on demand.",
+      "dataset_name": "Live 5G testbed based on srsRAN with four active slices; E2SM-KPM telemetry (5-second sliding window at Near-RT, 1-minute summaries at Non-RT). Plus two IEEE DataPort IQ datasets: vehicular technology recognition (LTE, 5G NR, Wi-Fi, ITS-G5, C-V2X) and LTE/NR interference.",
+      "dataset_size": "not reported",
+      "gpu_hardware": "LLM: H200 GPU. SLM: RTX 5090 GPU. WPFM: Nvidia Jetson Xavier NX.",
+      "training_time": "WPFM fine-tuning: first epoch ~17 s reaching 58.92% (technology recognition) / 82.28% (interference detection); fully fine-tuned after ~340 s",
+      "inference_latency": "WPFM (RT, Xavier NX): 0.847 +/- 0.04 ms. SLM (Near-RT, RTX 5090): 793 +/- 3 ms. LLM (Non-RT, H200): 9364 +/- 59 ms.",
+      "model_size_after_compression": "not reported",
+      "main_results": "Agentic (SLM+LLM supervision) vs SLM-only: average VIP throughput +6% after promoting slice 4 to VIP, while preserving average 22 ms latency for the latency-sensitive slice; SLM-only alone reaches only 10.5 Mbps VIP throughput and trades away latency protection. Agentic beats static allocation and a heuristic controller on throughput, delay and resource efficiency. Table I explicitly frames the latency/cost ladder (Low/Medium/High) as scaling proportionally with control domain.",
+      "baselines": [
+        "Static equal PRB allocation",
+        "heuristic slice controller",
+        "SLM-only controller with fixed objectives"
+      ],
+      "code_data_url": "not found for this paper; referenced WPFM and datasets are public (IEEE DataPort links given in the paper)",
+      "main_limitation": "Proof-of-concept on one live testbed; no fine-tuning hyperparameters, no model parameter counts, no training hardware for the SLM itself. The RT dApp API and RT RIC are not yet standardised in O-RAN, so the architecture is provisional. Preprint.",
+      "sources_retrieved": [
+        "https://arxiv.org/html/2602.14117v2"
+      ]
+    },
+    {
+      "id": 12,
+      "group": "i_network_llm_finetuning",
+      "title": "NetIntent: Leveraging Large Language Models for End-to-End Intent-Based SDN Automation",
+      "authors": [
+        "Md. Kamrul Hossain",
+        "Walid Aljoby"
+      ],
+      "affiliation": "King Fahd University of Petroleum & Minerals",
+      "year": 2025,
+      "venue": "IEEE Open Journal of the Communications Society (OJ-COMS)",
+      "venue_detail": "vol. 6, pp. 10512-10541",
+      "doi": "10.1109/OJCOMS.2025.3642642",
+      "status": "PEER-REVIEWED + PREPRINT",
+      "arxiv_id": "2507.14398",
+      "base_model": "33 open-source LLMs spanning 1.1B-70B, including TinyLlama:1.1b, Deepseek-coder:1.3b, Phi:2.7b, Starcoder:3b, Llama3.2:3b, Phi3:3.8b, Orca-mini:3b, Qwen:4b, Yi:6b, Codellama:7b, Llama2:7b, Llama3:8b, Llama3.1:8b, Qwen2.5:7b, Mistral:7b, Dolphin-Mistral:7b, Wizardlm2:7b, Codegemma:7b, Zephyr:7b, Qwen2:7b, Mistral-nemo:12b, Codestral:22b, Deepseek-coder-v2:16b, QwQ:32b, Gemma2-27b, Codellama:34b, Command-r:35b, Llama2:70b, Llama3.3:70b, Codellama:70b",
+      "base_model_params": "1.1B to 70B",
+      "method": "NO FINE-TUNING - in-context/few-shot learning with dynamic context-example selection (Max Marginal Relevance); temperature 0.6 / top-p 0.3 (translation) and 0.3 / 0.5 (conflict detection); served via Ollama",
+      "dataset_name": "IBNBench (new): Intent2Flow-ODL, Intent2Flow-ONOS, FlowConflict-ODL, FlowConflict-ONOS. Plus existing: Formal Specification, NFV Configuration.",
+      "dataset_size": "Intent2Flow-ODL 52 pairs; Intent2Flow-ONOS 50 pairs; FlowConflict-ODL 60 pairs (19 conflicting); FlowConflict-ONOS 74 pairs (27 conflicting); Formal Specification 1500 pairs; NFV Configuration 120 pairs. 50/50 context/test split.",
+      "gpu_hardware": "No training. Inference: AMD Ryzen Threadripper PRO 5995WX (64-core), 500 GB RAM, 1 x NVIDIA RTX A6000 (48 GB VRAM)",
+      "training_time": "not applicable",
+      "inference_latency": "Runtime reported per model. Example: Codellama-34b required over 10 seconds per inference, whereas Qwen2.5-7B achieved competitive performance in under 2 seconds. 70B models could not be evaluated at larger context sizes due to hardware memory constraints.",
+      "model_size_after_compression": "not applicable",
+      "main_results": "Formal Specification dataset: QwQ-fusion and Command-r (32-35B) >=99%; Codellama:7b and Mistral:7b up to 95% with lower latency; mid-sized models gained up to 20% accuracy from 0 to 9 context examples (Dolphin-Mistral:7b 0% -> 80%); TinyLlama:1.1b and Deepseek-coder:1.3b significantly lower accuracy. Intent2Flow-ONOS: Llama3.3:70b 88% zero-shot, surpassing Llama2:70b and Codellama:70b; Codestral:22b outperformed Command-r:35b. Conflict detection (FlowConflict-ONOS): QwQ:32b perfect (F1 1.0); Llama3.3:70b 94% accuracy, FPR 0.02, F1 0.78; Llama2:70b perfect recall but 52 false positives. Codellama:7b, Codegemma-7b, Dolphin-Mistral-7b, Deepseek-coder-1.3b exceeded 87% FPR. KEY CLAIM: 'larger model size does not inherently guarantee superior performance'.",
+      "baselines": [
+        "All 33 LLMs serve as mutual baselines",
+        "prior IBN work (NetConfEval, NFV-configuration)"
+      ],
+      "code_data_url": "Yes - datasets and benchmarking results released (GitHub link referenced as [48]); NetIntent framework implementation released",
+      "main_limitation": "No fine-tuning, so it does not test whether a small fine-tuned model could replace a large prompted one. Results are highly prompt- and schema-sensitive, which the authors acknowledge.",
+      "sources_retrieved": [
+        "https://ar5iv.labs.arxiv.org/html/2507.14398",
+        "Crossref record 10.1109/OJCOMS.2025.3642642"
+      ]
+    },
+    {
+      "id": 13,
+      "group": "i_network_llm_finetuning",
+      "title": "Telecom Foundation Models: Applications, Challenges, and Future Trends",
+      "authors": [
+        "Tahar Zanouda",
+        "Meysam Masoudi",
+        "Fitsum Gaim Gebre",
+        "Mischa Dohler"
+      ],
+      "year": 2024,
+      "venue": "arXiv preprint",
+      "venue_detail": "arXiv:2408.03964 [cs.NI]",
+      "doi": "10.48550/arXiv.2408.03964",
+      "status": "PREPRINT",
+      "arxiv_id": "2408.03964",
+      "base_model": "not applicable (conceptual/survey paper)",
+      "base_model_params": "not applicable",
+      "method": "Conceptual process for developing Telecom Foundation Models (TFMs) and orchestrating specialised TFMs for network configuration, operation and maintenance",
+      "dataset_name": "not applicable",
+      "dataset_size": "not applicable",
+      "gpu_hardware": "not reported",
+      "training_time": "not reported",
+      "inference_latency": "not reported",
+      "model_size_after_compression": "not applicable",
+      "main_results": "None (position/survey paper)",
+      "baselines": "not applicable",
+      "code_data_url": "not applicable",
+      "main_limitation": "No experiments. Useful only for motivation/framing and citation-chaining.",
+      "sources_retrieved": [
+        "https://arxiv.org/abs/2408.03964"
+      ]
+    },
+    {
+      "id": 14,
+      "group": "i_network_llm_finetuning",
+      "title": "Think Less, Label Better: Multi-Stage Domain-Grounded Synthetic Data Generation for Fine-Tuning Large Language Models in Telecommunications",
+      "authors": [
+        "Chenhua Shi",
+        "Gregor Macdonald",
+        "Bhavika Jalli",
+        "Wanlu Lei",
+        "John Zou",
+        "Mridul Jain",
+        "Joji Philip"
+      ],
+      "affiliation": "Ericsson",
+      "year": 2026,
+      "venue": "IEEE ICC 2026 (per arXiv comment); arXiv v1 Sep 2025, v2 Jan 2026",
+      "venue_detail": "arXiv:2509.25736 [cs.CL]; 6 pages, 6 figures, 5 tables",
+      "doi": "10.48550/arXiv.2509.25736",
+      "status": "PREPRINT (accepted at ICC 2026 per the comment field; only the arXiv version was verified)",
+      "arxiv_id": "2509.25736",
+      "base_model": "Retriever + base generator + refinement model pipeline (specific checkpoints not verified)",
+      "base_model_params": "not verified",
+      "method": "Fully automated retrieval-augmented synthetic QA generation grounded in a domain knowledge graph; RAGAS-based scoring filters low-quality samples, producing a dataset for reinforcement fine-tuning (RFT)",
+      "dataset_name": "Synthetic RAN troubleshooting QA pairs grounded in structured domain knowledge",
+      "dataset_size": "not verified",
+      "gpu_hardware": "not verified",
+      "training_time": "not verified",
+      "inference_latency": "not reported",
+      "model_size_after_compression": "not applicable",
+      "main_results": "Produces 'complex, context-rich troubleshooting solution plans without human intervention' - quantitative gains not verified",
+      "baselines": "not verified",
+      "code_data_url": "not found",
+      "main_limitation": "A data-generation paper, not a compression or decision-quality paper. Relevant as the dataset provenance for the Ericsson MAS and edge-profiling papers. Verification is abstract-level only.",
+      "sources_retrieved": [
+        "https://arxiv.org/abs/2509.25736"
+      ]
+    },
+    {
+      "id": 15,
+      "group": "i_network_llm_finetuning",
+      "title": "ORION: Intent-Aware Orchestration in Open RAN for SLA-Driven Network Management",
+      "authors": [
+        "Gabriela da Silva Machado",
+        "Gustavo Z. Bruno",
+        "Alexandre Huff",
+        "Jose Marcos Camara Brito",
+        "Cristiano B. Both"
+      ],
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "venue_detail": "arXiv:2603.03667 [cs.NI]",
+      "doi": "10.48550/arXiv.2603.03667",
+      "status": "PREPRINT",
+      "arxiv_id": "2603.03667",
+      "base_model": "GPT-5, Gemini 3 Pro, Claude Opus 4.5, GPT-5 Nano, Gemini 3 Flash, Claude Sonnet 4.5 (proprietary; no open-weight, no small, no fine-tuned models)",
+      "base_model_params": "not reported",
+      "method": "Hierarchical agent architecture over the Model Context Protocol (MCP): MCP-based SMO layer for semantic translation + Non-RT RIC rApp + Near-RT RIC xApp for closed-loop enforcement. No weight modification.",
+      "dataset_name": "101 natural-language intents: eMBB 20 samples, URLLC 20 samples, mMTC 60 samples (mMTC oversampled for IoT heterogeneity)",
+      "dataset_size": "101 intents",
+      "gpu_hardware": "No training. Deployment: Open5GS (Release 16) on Kubernetes, 3 worker nodes x 8 vCPU / 32 GB RAM each",
+      "training_time": "not applicable",
+      "inference_latency": "Reports latency and resource overhead of the MCP orchestration; exact values not extracted",
+      "model_size_after_compression": "not applicable",
+      "main_results": "100% policy-generation success rate for high-capacity models. 3GPP slice-type classification accuracy across 101 intents: Claude Opus 4.5 99%, GPT-5 96%, GPT-5 Nano 90%, Gemini 3 Pro 77%, Gemini 3 Flash 66%, Claude Sonnet 4.5 13%. KEY CLAIM: 'the primary bottleneck for intent-to-policy fidelity lies in the MCP tool orchestration layer rather than in the model's semantic understanding' - among models with >=97% prediction rate, accuracy spans 90-99%.",
+      "baselines": [
+        "Six frontier LLMs compared against each other"
+      ],
+      "code_data_url": "https://github.com/zanattabruno/analysis-orion",
+      "main_limitation": "No open-weight, no small, and no fine-tuned models - says nothing about the compression/size question. The headline 100% figure is a tool-invocation success rate, not an end-to-end autonomy result. Preprint.",
+      "sources_retrieved": [
+        "https://arxiv.org/abs/2603.03667",
+        "https://arxiv.org/html/2603.03667"
+      ]
+    },
+    {
+      "id": 16,
+      "group": "ii_compression_for_networking_llms",
+      "title": "MERLOT: A Distilled LLM-based Mixture-of-Experts Framework for Scalable Encrypted Traffic Classification",
+      "authors": [
+        "Yuxuan Chen",
+        "Rongpeng Li",
+        "Xutong Li",
+        "Zhifeng Zhao",
+        "Honggang Zhang"
+      ],
+      "note": "arXiv v1 (Nov 2024) had 4 authors; the published version adds Xutong Li",
+      "year": 2025,
+      "venue": "2025 IEEE Globecom Workshops (GC Wkshps)",
+      "venue_detail": "pp. 98-103",
+      "doi": "10.1109/GCWkshps68340.2025.11591188",
+      "status": "PEER-REVIEWED + PREPRINT",
+      "arxiv_id": "2411.13004",
+      "base_model": "GPT-2-base (12 layers, hidden dim 768, ~117M parameters)",
+      "base_model_params": "117M (base); MERLOT variants 500M / 660M / 1.25B",
+      "method": "Knowledge distillation (teacher-student, composite loss L = (1-alpha)*CE(student, hard label) + alpha*KL(student || teacher)) PLUS pruning of the MoE gating network ('a distilled, PRUNED GPT-2-base model') PLUS MoE with hard one-hot gating (exactly one expert active) PLUS architectural change (direct classification from the final decoder token instead of generative/prompt-based classification)",
+      "dataset_name": "10 encrypted traffic datasets: APP-53 2023, CSIC 2010, CSTNET 2023, CW-100 2018, DAPT 2020, DoHBrw 2020, ISCX Botnet 2014, ISCX Tor 2016, ISCX VPN 2016, USTC TFC 2016",
+      "dataset_size": "~527600 samples total: APP-53 109.8K/54 labels; CSIC 2010 34.5K/2; CSTNET 2023 97.6K/20; CW-100 2018 7.4K/100; DAPT 2020 10.0K/2; DoHBrw 2020 47.8K/2; ISCX Botnet 2014 25.0K/5; ISCX Tor 2016 40.0K/8; ISCX VPN 2016 64.8K/14; USTC TFC 2016 50.7K/20",
+      "gpu_hardware": "not reported",
+      "training_time": "not reported",
+      "inference_latency": "'Consumes 85-90% less inference time and memory usage' than 7B TrafficLLM - no absolute ms value reported",
+      "model_size_after_compression": "MERLOT 500M / 660M / 1.25B parameters (the MoE aggregates multiple distilled experts, so it is NOT sub-117M)",
+      "main_results": "MERLOT (660M) F1 vs TrafficLLM (7B) vs ET-BERT: ISCX Tor 2016 0.9845/0.9810/0.9368; ISCX VPN 2016 0.9920/0.9970/0.9539; CSTNET 2023 0.9996/0.9599/0.9496; ISCX Botnet 2014 0.9992/0.9992/0.9489; USTC TFC 2016 0.9953/0.9950/0.9587; CIC-DoHBrw 2020 0.9999/0.9939/0.8467; DAPT 2020 0.9635/0.9810/0.9435; CSIC 2010 0.9906/0.9845/0.8995. MERLOT LOSES on APP-53 2023 (0.8601 vs 0.9320) and CW-100 2018 (0.8466 vs 0.9366); the 1.25B variant recovers to 0.8702/0.8892.",
+      "baselines": [
+        "TrafficLLM (7B Llama2-based)",
+        "ET-BERT (110M)",
+        "NetGPT (117M) as context"
+      ],
+      "code_data_url": "not found",
+      "main_limitation": "Loses on 2 of 10 datasets - compression is not uniformly lossless. No training hardware, no absolute latency, no compressed size in MB. Workshop paper, 5 pages.",
+      "sources_retrieved": [
+        "https://ar5iv.labs.arxiv.org/html/2411.13004",
+        "Crossref record 10.1109/GCWkshps68340.2025.11591188"
+      ]
+    },
+    {
+      "id": 18,
+      "group": "ii_compression_for_networking_llms",
+      "title": "Pruned Traffic Trees: Native Semantic Compression with a Protocol-Structured Model Family for Encrypted Traffic Classification",
+      "authors": [
+        "Yuantu Luo",
+        "Jun Tao",
+        "Xiangyu Xu",
+        "Linxiao Yu",
+        "Kangying Li"
+      ],
+      "year": 2026,
+      "venue": "arXiv preprint (comment: 'This paper is submitted to INFOCOM 2027')",
+      "venue_detail": "arXiv:2608.21874",
+      "doi": "10.48550/arXiv.2608.21874",
+      "status": "PREPRINT",
+      "arxiv_id": "2608.21874",
+      "base_model": "Not a pretrained LLM - a protocol-structured model family built on Protocol Tree Graphs (PTGs) with flow-level self-supervised learning. Parameter count reported only as relative reductions.",
+      "base_model_params": "not reported in absolute terms",
+      "method": "Structured pruning at the PROTOCOL level: learned field salience + TopK + k closure selects which protocol fields and structural contexts to retain, producing 'Distilled PTGs' (PTG-Ds). Plus width reduction via structure-aligned transfer, plus flow-level logits distillation. Three levels: PTT-Full -> PTT-Distilled -> PTT-Lite.",
+      "dataset_name": "CSTNET-TLS1.3 and CipherSpectrum, under flow-disjoint and Strong Information (SII)-masked settings",
+      "dataset_size": "not extracted",
+      "gpu_hardware": "not reported (CPU inference speedups reported, implying CPU evaluation)",
+      "training_time": "not reported",
+      "inference_latency": "8.75x / 8.46x CPU inference speedups",
+      "model_size_after_compression": "PTT-Lite: 80.3% fewer parameters (CSTNET-TLS1.3) and 61.3% fewer parameters (CipherSpectrum); 98.85% / 98.78% lower effective GFLOPs",
+      "main_results": "Macro-F1: PTT-Full 0.9519 (CSTNET-TLS1.3) / 0.9416 (CipherSpectrum); PTT-Lite retains 0.9325 / 0.9136. So compression costs ~1.9 and ~2.8 Macro-F1 points for 80.3%/61.3% parameter reduction.",
+      "baselines": [
+        "Existing compression methods that 'operate on weights, channels, hidden representations, or predictions'"
+      ],
+      "code_data_url": "not confirmed",
+      "main_limitation": "Preprint under review (INFOCOM 2027), not peer-reviewed. The compressed model is a purpose-built protocol-structured architecture, NOT an LLM - transferability to LLM compression is an open question.",
+      "sources_retrieved": [
+        "https://arxiv.org/abs/2608.21874"
+      ]
+    },
+    {
+      "id": 19,
+      "group": "ii_compression_for_networking_llms",
+      "title": "SQLLM: A Secure and Quantized Framework for Large Language Models in 5G Private Network Operations",
+      "authors": [
+        "Jian Ma",
+        "Tong Liu",
+        "Yimeng Shang",
+        "Nan Hu",
+        "Lei Xia",
+        "Peizhen Liao",
+        "Yitong Shang"
+      ],
+      "year": 2026,
+      "venue": "IEEE Transactions on Consumer Electronics (TCE)",
+      "venue_detail": "vol. 72, no. 3, pp. 7552-7564; early online 26 Jan 2026",
+      "doi": "10.1109/TCE.2026.3657983",
+      "status": "PEER-REVIEWED",
+      "arxiv_id": null,
+      "base_model": "not verified (paywalled full text)",
+      "base_model_params": "not verified",
+      "method": "LoRA fine-tuning + STATIC quantisation with a dynamic smoothing factor alpha (migrates outlier variance from activations to weights) and hybrid per-tensor / per-token granularity",
+      "dataset_name": "not verified; task = detecting abnormal user query-based network attacks (1 normal + 3 attack question classes) in 5G private network operations",
+      "dataset_size": "not verified",
+      "gpu_hardware": "not verified",
+      "training_time": "not verified",
+      "inference_latency": "Reported as a metric in the abstract (inference time) but exact values not retrievable",
+      "model_size_after_compression": "VRAM consumption is a reported metric but exact values not retrievable",
+      "main_results": "Reports accuracy, VRAM consumption, inference time - exact values not verified",
+      "baselines": "not verified",
+      "code_data_url": "not verified",
+      "main_limitation": "VERIFICATION GAP - abstract-level only (full text paywalled). NOTE: the HKUST Pure portal lists this under 'Department of Civil and Environmental Engineering', likely a portal indexing artifact - do not cite as an affiliation. Task is attack/anomaly classification of queries, not network configuration or closed-loop control.",
+      "sources_retrieved": [
+        "Crossref record 10.1109/TCE.2026.3657983",
+        "https://researchportal.hkust.edu.hk/en/publications/sqllm-a-secure-and-quantized-framework-for-large-language-models-/"
+      ]
+    },
+    {
+      "id": 20,
+      "group": "ii_compression_for_networking_llms",
+      "title": "Toward 6G Edge Intelligence: Lightweight LLMs for Intent-Driven Network Automation",
+      "short_name": "KGLlama-KD",
+      "authors": [
+        "Bing Wu",
+        "Sai Zou",
+        "Minghui Liwang",
+        "Wei Ni",
+        "Xianbin Wang",
+        "Youliang Tian"
+      ],
+      "year": 2026,
+      "venue": "IEEE Transactions on Mobile Computing (TMC)",
+      "venue_detail": "vol. 25, no. 9, pp. 14352-14365",
+      "doi": "10.1109/TMC.2026.3678546",
+      "status": "PEER-REVIEWED",
+      "arxiv_id": null,
+      "base_model": "Llama 3 foundation model (parameter count not reported in the retrieved record)",
+      "base_model_params": "not reported",
+      "method": "Knowledge distillation (KD) combined with a knowledge graph (KG). Two-phase: (1) fine-tune the LLM with KG guidance in the cloud; (2) compress via KD, then deploy the distilled student on resource-constrained edge nodes. The KG formally describes relations among application scenarios, functional primitives, performance requirements within APPIs, and APPIs<->NSR correspondences, producing a structured intent training dataset.",
+      "dataset_name": "KG-derived structured intent training dataset (application intents APPIs -> network service requests NSRs)",
+      "dataset_size": "not reported",
+      "gpu_hardware": "'cloud' fine-tuning then edge deployment - specific GPU type/count not reported in the record retrieved",
+      "training_time": "not reported",
+      "inference_latency": "'The distilled model reduces inference latency by 60% compared to full-scale LLMs, fulfilling the sub-100 ms requirement for 6G latency-sensitive services.'",
+      "model_size_after_compression": "not reported",
+      "main_results": "95% accuracy for APPI understanding, surpassing DeepSeek and Qwen by an average of 8%",
+      "baselines": [
+        "DeepSeek",
+        "Qwen"
+      ],
+      "code_data_url": "not verified",
+      "main_limitation": "Only the institutional-repository abstract was retrievable; full experimental detail (hardware, model size, dataset size, latency distributions) is behind the IEEE paywall. BEST AVAILABLE EVIDENCE for distillation in this corpus (60% latency reduction at 95% accuracy, IEEE TMC).",
+      "sources_retrieved": [
+        "https://ro.ecu.edu.au/ecuworks2022-2026/8058/",
+        "https://ieeexplore.ieee.org/abstract/document/11457733"
+      ]
+    },
+    {
+      "id": 21,
+      "group": "ii_compression_for_networking_llms",
+      "title": "xApp distillation: AI-based conflict mitigation in B5G O-RAN",
+      "authors": [
+        "Hakan Erdol",
+        "Xiaoyang Wang",
+        "Robert Piechocki",
+        "George Oikonomou"
+      ],
+      "affiliation": "University of Bristol",
+      "year": 2026,
+      "venue": "Computer Networks (Elsevier)",
+      "venue_detail": "vol. 274, art. 111848",
+      "doi": "10.1016/j.comnet.2025.111848",
+      "preprint_doi": "10.2139/ssrn.5278781",
+      "status": "PEER-REVIEWED + PREPRINT (SSRN)",
+      "arxiv_id": null,
+      "base_model": "not verified (paywalled) - this is xApp policy distillation, not LLM compression",
+      "base_model_params": "not verified",
+      "method": "Knowledge distillation of xApp control policies; the distillation loss choice is examined explicitly ('When distilling policy from a teacher network, choosing distillation loss plays a crucial role in the process')",
+      "dataset_name": "mobile-env based simulation for AI-based conflict mitigation in B5G O-RAN",
+      "dataset_size": "not verified",
+      "gpu_hardware": "not verified",
+      "training_time": "not verified",
+      "inference_latency": "not verified",
+      "model_size_after_compression": "not verified",
+      "main_results": "Authors acknowledge limitations of the mobile-env-based simulation; exact numbers not verified",
+      "baselines": "not verified",
+      "code_data_url": "not verified",
+      "main_limitation": "VERIFICATION GAP - bibliographic data confirmed but not the numbers. Distils xApp CONTROL POLICIES, not LLMs - relevant as evidence that distillation is used for RAN control, but it is not LLM compression.",
+      "sources_retrieved": [
+        "Crossref record 10.1016/j.comnet.2025.111848",
+        "https://www.sciencedirect.com/science/article/pii/S138912862500814X"
+      ]
+    },
+    {
+      "id": 22,
+      "group": "ii_compression_for_networking_llms",
+      "title": "HFL-FlowLLM: Large Language Models for Network Traffic Flow Classification in Heterogeneous Federated Learning",
+      "authors": [
+        "Jiazhuo Tian",
+        "Yachao Yuan"
+      ],
+      "year": 2025,
+      "venue": "arXiv preprint",
+      "venue_detail": "arXiv:2511.14199",
+      "doi": "10.48550/arXiv.2511.14199",
+      "status": "PREPRINT",
+      "arxiv_id": "2511.14199",
+      "base_model": "LLM-based (specific checkpoint not verified)",
+      "base_model_params": "not verified",
+      "method": "Heterogeneous federated learning (efficiency framing: reducing training cost). NO pruning, quantisation or distillation claimed in the abstract.",
+      "dataset_name": "Network traffic flow classification datasets in heterogeneous federated settings (names/sizes not verified)",
+      "dataset_size": "not verified",
+      "gpu_hardware": "not verified",
+      "training_time": "not verified",
+      "inference_latency": "not reported",
+      "model_size_after_compression": "not applicable",
+      "main_results": "Average F1 +~13% vs SOTA heterogeneous FL methods for network traffic flow classification; up to +5% average F1 vs existing LLM-FL frameworks as clients per round increase, while reducing training costs by ~87%",
+      "baselines": [
+        "State-of-the-art heterogeneous federated learning methods",
+        "existing LLM federated learning frameworks"
+      ],
+      "code_data_url": "not verified",
+      "main_limitation": "Federated TRAINING-cost efficiency, not model compression - include only as adjacent evidence. Preprint.",
+      "sources_retrieved": [
+        "https://arxiv.org/abs/2511.14199"
+      ]
+    },
+    {
+      "id": 23,
+      "group": "ii_compression_for_networking_llms",
+      "title": "Cost-Efficient Knowledge Distillation-enabled Student Models Placement in Edge Networks",
+      "authors": [
+        "Weiqing Zeng",
+        "Danyang Zheng",
+        "Huanlai Xing",
+        "Wenting Wei",
+        "Chao Wang",
+        "Xiaojun Cao"
+      ],
+      "year": 2025,
+      "venue": "IEEE GLOBECOM 2025 - 2025 IEEE Global Communications Conference",
+      "venue_detail": "8 Dec 2025",
+      "doi": "10.1109/GLOBECOM59602.2025.11431653",
+      "status": "PEER-REVIEWED",
+      "arxiv_id": null,
+      "base_model": "not verified",
+      "base_model_params": "not verified",
+      "method": "KD-enabled student-model PLACEMENT optimisation in edge networks",
+      "dataset_name": "not verified",
+      "dataset_size": "not verified",
+      "gpu_hardware": "not verified",
+      "training_time": "not verified",
+      "inference_latency": "not verified",
+      "model_size_after_compression": "not verified",
+      "main_results": "not verified",
+      "baselines": "not verified",
+      "code_data_url": "not verified",
+      "main_limitation": "SCOPE CAVEAT - this is a network-optimisation problem ABOUT placing distilled student models, not a paper that distils an LLM and measures its networking accuracy. Include with that framing only. IEEE Xplore was returning HTTP 502, so the DOI could not be re-verified against the publisher page.",
+      "sources_retrieved": [
+        "bibliographic data supplied by the compression deep-dive subagent"
+      ]
+    },
+    {
+      "id": 24,
+      "group": "ii_compression_for_networking_llms",
+      "title": "Poster: MTNTD-SLM: A Small Language Model for Malicious Traffic Detection Based on Multi-Teacher Debate-Distillation",
+      "authors": [
+        "Shaolei Liu",
+        "Shanshan Wang",
+        "Zhenxiang Chen",
+        "Wenhui Zhang",
+        "Runing Li",
+        "Jian Chen"
+      ],
+      "year": 2026,
+      "venue": "2026 22nd Annual IEEE International Conference on Sensing, Communication, and Networking (SECON)",
+      "venue_detail": "Poster track, 3 Jun 2026",
+      "doi": "10.1109/SECON68281.2026.11579221",
+      "status": "PEER-REVIEWED (poster track)",
+      "arxiv_id": null,
+      "base_model": "not verified",
+      "base_model_params": "not verified",
+      "method": "Multi-teacher debate-distillation into a Small Language Model",
+      "dataset_name": "not verified (malicious traffic detection)",
+      "dataset_size": "not verified",
+      "gpu_hardware": "not verified",
+      "training_time": "not verified",
+      "inference_latency": "not verified",
+      "model_size_after_compression": "not verified",
+      "main_results": "not verified",
+      "baselines": "not verified",
+      "code_data_url": "not verified",
+      "main_limitation": "VERIFICATION GAP - IEEE Xplore fetch blocked. Poster format implies limited detail. Retrieval is a priority.",
+      "sources_retrieved": [
+        "https://ieeexplore.ieee.org/document/11579221"
+      ]
+    },
+    {
+      "id": 25,
+      "group": "ii_compression_for_networking_llms",
+      "title": "Lightweight Adaptation of Foundation Models for Optical Network Failure Management",
+      "authors": "not verified",
+      "year": 2026,
+      "venue": "IEEE journal (specific title/volume not verified)",
+      "venue_detail": "IEEE document ID 11430566",
+      "doi": "not verified",
+      "status": "Presumed PEER-REVIEWED (IEEE Journals & Magazine) - UNVERIFIED",
+      "arxiv_id": null,
+      "base_model": "not verified",
+      "base_model_params": "not verified",
+      "method": "not verified",
+      "dataset_name": "not verified",
+      "dataset_size": "not verified",
+      "gpu_hardware": "not verified",
+      "training_time": "not verified",
+      "inference_latency": "not verified",
+      "model_size_after_compression": "not verified",
+      "main_results": "not verified",
+      "baselines": "not verified",
+      "code_data_url": "not verified",
+      "main_limitation": "VERIFICATION GAP - only the title and IEEE document ID were retrievable (purchase wall). Title strongly suggests lightweight/adapter-based adaptation of foundation models for optical network failure management - adjacent domain (optical, not RAN) but directly on-topic.",
+      "sources_retrieved": [
+        "https://ieeexplore.ieee.org/abstract/document/11430566 (title only)"
+      ]
+    },
+    {
+      "id": 26,
+      "group": "ii_compression_for_networking_llms",
+      "title": "Graph-Symbolic Policy Enforcement and Control (G-SPEC): A Neuro-Symbolic Framework for Safe Agentic AI in 5G Autonomous Networks",
+      "authors": [
+        "Divya Vijay",
+        "Vignesh Ethiraj"
+      ],
+      "affiliation": "NetoAI Solutions Ltd",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "venue_detail": "arXiv:2512.20275; dated 10 Aug 2026",
+      "doi": "10.48550/arXiv.2512.20275",
+      "status": "PREPRINT",
+      "arxiv_id": "2512.20275",
+      "base_model": "TSLAM-4B - 'a 4-billion parameter model optimized for telecom reasoning', described as publicly available",
+      "base_model_params": "4B",
+      "method": "QUANTISATION: the model is 'run in 4-bit quantization to simulate edge-deployment constraints'. No pruning or distillation, and no FP16-vs-4-bit ablation. Used as-is (no fine-tuning by these authors).",
+      "dataset_name": "5G Core on Open5GS with a 450-node topology; 500-scenario benchmark; synthetic 10K-100K node topologies for scalability",
+      "dataset_size": "500 scenarios",
+      "gpu_hardware": "not reported",
+      "training_time": "not applicable (no fine-tuning)",
+      "inference_latency": "G-SPEC validation adds a marginal 142 ms overhead; validation latency scales as O(k^1.2) in subgraph size k. Suitable for SMO-layer operations (~5 s budgets), NOT real-time schedulers.",
+      "model_size_after_compression": "TSLAM-4B quantised to 4-bit; absolute footprint not reported",
+      "main_results": "Zero observed safety violations against the ontology in the test set; 94.1% successful remediation vs 82.4% baseline; 0.2% hallucination-detection rate. Ablation: NKG validation contributes 68% of safety gains, SHACL policies 24%, TSLAM fine-tuning 8%. Cites prior work finding general-purpose LLMs hallucinate in 14.6% of network operations.",
+      "baselines": [
+        "Baseline without graph validation (82.4% remediation)",
+        "ablations removing NKG / SHACL / TSLAM fine-tuning"
+      ],
+      "code_data_url": "not found",
+      "main_limitation": "Preprint. The compact 4B model is a fixed component - the paper's own ablation says model fine-tuning contributes only 8% of the safety benefit, weakening any claim that better LLM fine-tuning is the lever. No hardware or model-footprint reporting.",
+      "sources_retrieved": [
+        "https://ar5iv.labs.arxiv.org/html/2512.20275"
+      ]
+    },
+    {
+      "id": 27,
+      "group": "i_network_llm_finetuning",
+      "title": "5G INSTRUCT Forge: An Advanced Data Engineering Pipeline for Making LLMs Learn 5G",
+      "authors": [
+        "Azzedine Idir Ait Said",
+        "Abdelkader Mekrache",
+        "Karim Boutiba",
+        "Kostas Ramantas",
+        "Adlen Ksentini",
+        "Moufida Rahmani"
+      ],
+      "year": 2025,
+      "venue": "IEEE Transactions on Cognitive Communications and Networking (TCCN)",
+      "venue_detail": "vol. 11, no. 2, pp. 974-986",
+      "doi": "10.1109/TCCN.2024.3516055",
+      "status": "PEER-REVIEWED",
+      "arxiv_id": null,
+      "base_model": "Llama3-8B (16 GB), Solar-10.7B (21 GB), Mistral-7B (14 GB)",
+      "base_model_params": "8B, 10.7B, 7B",
+      "method": "Freeze-tuning (partial-parameter freezing) in LLaMA Factory - LoRA EXPLICITLY REJECTED ('we opted not to use LoRA due to the significant domain shift'). Trainable params: Llama3 9%, Solar 12%, Mistral 11%; 4 epochs; lr 4e-5; per-device batch 4.",
+      "dataset_name": "OAI Instruct, generated from 22 3GPP Technical Specifications used to develop OpenAirInterface (OAI)",
+      "dataset_size": "~80 MB; evaluation >9000 Q&A pairs + 5G exam of ~200 questions (4 options each)",
+      "gpu_hardware": "Training NOT REPORTED. Deployment/inference: 1 x NVIDIA A100 80 GB, temperature 0.7",
+      "training_time": "not reported",
+      "inference_latency": "not reported",
+      "model_size_after_compression": "not reported (base sizes in GB reported; no compressed size)",
+      "main_results": "5G-aware fine-tuned LLMs outperform GPT-4 on 5G-specific tasks. ROUGE-L F1 0.55/0.58 vs GPT-4 0.35; BERTScore F1 close. Trainable-parameter ablation for Mistral (MMLU / 5G exam): 6% -> 21.99/164.0; 9% -> 22.45/160.0; 11% -> 19.84/101.0; 17% -> MMLU collapses to 14.74. Paper selects 11%.",
+      "baselines": [
+        "GPT-4 (gpt-4-0125-preview)",
+        "Llama3-8B, Solar-10.7B, Mistral-7B in default vs 5G-aware versions"
+      ],
+      "code_data_url": "NOT REPORTED in the retrieved full text",
+      "main_limitation": "The MMLU trade-off is severe and implicit: pushing trainable parameters beyond ~11% causes catastrophic forgetting (MMLU 14.74 at 17%). Hyperparameters tuned per model. No latency, no compression.",
+      "sources_retrieved": [
+        "https://hal.science/hal-05045324v1/file/publi-8009.pdf",
+        "Crossref record 10.1109/TCCN.2024.3516055"
+      ]
+    },
+    {
+      "id": 28,
+      "group": "i_network_llm_finetuning",
+      "title": "Understanding Telecom Language Through Large Language Models",
+      "authors": [
+        "Lina Bariah",
+        "Hang Zou",
+        "Qiyang Zhao",
+        "Belkacem Mouhouche",
+        "Faouzi Bader",
+        "Merouane Debbah"
+      ],
+      "year": 2023,
+      "venue": "IEEE GLOBECOM 2023 (2023 IEEE Global Communications Conference)",
+      "venue_detail": "pp. 6542-6547",
+      "doi": "10.1109/GLOBECOM54140.2023.10437725",
+      "status": "PEER-REVIEWED + PREPRINT",
+      "arxiv_id": "2306.07933",
+      "base_model": "BERT-Base (uncased) 110M; DistilBERT 66M; RoBERTa 125M; GPT-2 smallest 124M",
+      "base_model_params": "66M-125M",
+      "method": "Full single-task single-label fine-tuning with added linear + SoftMax classification head; cross-entropy; batch 32; lr 2e-5; L2 0.01",
+      "dataset_name": "3GPP technical documents (tdocs), working groups RAN1-5, SA1-6, CT1/3/4/6",
+      "dataset_size": "Train = tdocs 2009/2010-2019; Test = tdocs 2020-April 2023; text segmented at 200 words",
+      "gpu_hardware": "not reported",
+      "training_time": "not reported",
+      "inference_latency": "not reported",
+      "model_size_after_compression": "not applicable (DistilBERT 66M used as an external comparison point, not produced by the authors)",
+      "main_results": "BERT and RoBERTa 84.6% accuracy; GPT-2 83%; DistilBERT approximately equal with ~50% fewer parameters. Per-combination BERT: RAN1/SA1/CT1 98.05%; RAN1,2,3 only 88.90%; RAN1,2,3+SA1+CT1 88.26%; full 15-WG 84.35%.",
+      "baselines": [
+        "BERT vs DistilBERT vs RoBERTa vs GPT-2 cross-model comparison",
+        "prior BERT-like telecom QA model on 347 documents / 2021 Q&A pairs"
+      ],
+      "code_data_url": "NOT REPORTED",
+      "main_limitation": "Identified constraint: accuracy depends strongly on working-group combination and on text-segment length. DistilBERT is a comparison point, not a compression result produced by the authors. Earliest telecom LLM fine-tuning recipe found (2023).",
+      "sources_retrieved": [
+        "https://ar5iv.labs.arxiv.org/html/2306.07933",
+        "Crossref record 10.1109/GLOBECOM54140.2023.10437725"
+      ]
+    },
+    {
+      "id": 29,
+      "group": "i_network_llm_finetuning",
+      "title": "TSpec-LLM: An Open-source Dataset for LLM Understanding of 3GPP Specifications",
+      "authors": [
+        "Rasoul Nikbakht",
+        "Mohamed Benzaghta",
+        "Giovanni Geraci"
+      ],
+      "year": 2024,
+      "venue": "2024 IEEE Globecom Workshops (GC Wkshps)",
+      "venue_detail": "pp. 1-6",
+      "doi": "10.1109/GCWkshp64532.2024.11101012",
+      "status": "PEER-REVIEWED + PREPRINT",
+      "arxiv_id": "2406.01768",
+      "base_model": "Not trained by the authors. Evaluates GPT-3.5, GPT-4, Gemini 1.0 Pro with naive-RAG.",
+      "base_model_params": "not applicable",
+      "method": "Dataset + naive-RAG benchmark. NO fine-tuning and NO compression.",
+      "dataset_name": "TSpec-LLM",
+      "dataset_size": "30137 documents, 13.5 GB, 535 million words; all 3GPP documents Release 8 -> Release 19 (1999-2023), tables/formulas retained, released as Markdown",
+      "gpu_hardware": "not applicable",
+      "training_time": "not applicable",
+      "inference_latency": "not reported",
+      "model_size_after_compression": "not applicable",
+      "main_results": "Naive-RAG over TSpec-LLM: GPT-3.5 44% -> 71%; Gemini 1.0 Pro 46% -> 75%; GPT-4 51% -> 72%. Without RAG: GPT-4 51%, Gemini 46%, GPT-3.5 44%.",
+      "baselines": [
+        "GPT-3.5, GPT-4, Gemini 1.0 Pro, each with and without RAG"
+      ],
+      "code_data_url": "Open-source dataset, questionnaire and prompts released (download3gpp 0.7.0 tooling); specific URLs not verified",
+      "main_limitation": "RAG retrieval, not model adaptation - improves accuracy without changing model size, making it a direct ALTERNATIVE to compression for edge deployment. Used as the retrieval corpus by the NetSoft 2025 paper (#10).",
+      "sources_retrieved": [
+        "https://ar5iv.labs.arxiv.org/html/2406.01768",
+        "Crossref record 10.1109/GCWkshp64532.2024.11101012"
+      ]
+    },
+    {
+      "id": 30,
+      "group": "i_network_llm_finetuning",
+      "title": "SPEC5G: A Dataset for 5G Cellular Network Protocol Analysis",
+      "authors": [
+        "Imtiaz Karim",
+        "Kazi Samin Mubasshir",
+        "Mirza Masfiqur Rahman",
+        "Elisa Bertino"
+      ],
+      "year": 2023,
+      "venue": "Findings of the Association for Computational Linguistics: IJCNLP-AACL 2023 (Findings)",
+      "venue_detail": "pp. 20-38",
+      "doi": "10.18653/v1/2023.findings-ijcnlp.3",
+      "status": "PEER-REVIEWED",
+      "arxiv_id": null,
+      "base_model": "NOT VERIFIED",
+      "base_model_params": "NOT VERIFIED",
+      "method": "NOT VERIFIED",
+      "dataset_name": "SPEC5G - 3GPP specification-derived dataset filtered to remove tables/symbols, for 5G protocol analysis",
+      "dataset_size": "NOT VERIFIED",
+      "gpu_hardware": "NOT VERIFIED",
+      "training_time": "NOT VERIFIED",
+      "inference_latency": "NOT VERIFIED",
+      "model_size_after_compression": "NOT VERIFIED",
+      "main_results": "NOT VERIFIED",
+      "baselines": "NOT VERIFIED",
+      "code_data_url": "NOT VERIFIED",
+      "main_limitation": "VERIFICATION GAP - only the Crossref record was retrieved. Include as a dataset citation only.",
+      "sources_retrieved": [
+        "Crossref record 10.18653/v1/2023.findings-ijcnlp.3"
+      ]
+    },
+    {
+      "id": 31,
+      "group": "i_network_llm_finetuning",
+      "title": "Telco-RAG: Navigating the Challenges of Retrieval Augmented Language Models for Telecommunications",
+      "authors": [
+        "Andrei-Laurentiu Bornea",
+        "Fadhel Ayed",
+        "Antonio De Domenico",
+        "Nicola Piovesan",
+        "Ali Maatouk"
+      ],
+      "year": 2024,
+      "venue": "IEEE GLOBECOM 2024 (2024 IEEE Global Communications Conference)",
+      "venue_detail": "pp. 2359-2364",
+      "doi": "10.1109/GLOBECOM52923.2024.10901158",
+      "status": "PEER-REVIEWED + PREPRINT",
+      "arxiv_id": "2404.15939",
+      "base_model": "not applicable - RAG pipeline, not a trained model",
+      "base_model_params": "not applicable",
+      "method": "RAG pipeline: dual-stage query enhancement + retrieval, a neural-network router that reduces RAM usage, and hyperparameter optimisation (chunk size, context length, embedding model) over 3GPP documents. NO fine-tuning.",
+      "dataset_name": "3GPP technical documents",
+      "dataset_size": "not reported",
+      "gpu_hardware": "not reported",
+      "training_time": "not applicable",
+      "inference_latency": "not reported",
+      "model_size_after_compression": "not applicable (but the neural router reduces RAM usage)",
+      "main_results": "not verified in detail",
+      "baselines": "not verified",
+      "code_data_url": "https://github.com/netop-team/Telco-RAG",
+      "main_limitation": "No fine-tuning and no compression. The RAM-reducing neural router is adjacent evidence for deployment efficiency. WARNING: there is a DISTINCT paper called TelecomRAG (Yilma et al., ACM SIGCOMM CCR 54(3):18-23, 2024, DOI 10.1145/3711992.3711996) - do not conflate.",
+      "sources_retrieved": [
+        "https://arxiv.org/abs/2404.15939",
+        "https://raw.githubusercontent.com/netop-team/Telco-RAG/main/README.md",
+        "Crossref record 10.1109/GLOBECOM52923.2024.10901158"
+      ]
+    },
+    {
+      "id": 32,
+      "group": "i_network_llm_finetuning",
+      "title": "ORANSight-2.0: Foundational LLMs for O-RAN",
+      "authors": [
+        "Pranshav Gajjar",
+        "Vijay K. Shah"
+      ],
+      "year": 2025,
+      "venue": "IEEE Transactions on Machine Learning in Communications and Networking (TMLCN)",
+      "venue_detail": "vol. 3, pp. 903-920",
+      "doi": "10.1109/TMLCN.2025.3592658",
+      "status": "PEER-REVIEWED",
+      "arxiv_id": null,
+      "base_model": "18 open LLMs spanning 1B-70B",
+      "base_model_params": "1B-70B",
+      "method": "QLoRA 4-bit fine-tuning, rank/alpha <= 256, 1 epoch",
+      "dataset_name": "RANSTRUCT",
+      "dataset_size": "151500 instruction-answer pairs (58.6% srsRAN code, 41.4% O-RAN specifications)",
+      "gpu_hardware": "A SINGLE NVIDIA RTX 4090, 24 GB VRAM",
+      "training_time": "1 epoch (wall-clock not reported)",
+      "inference_latency": "not reported",
+      "model_size_after_compression": "not reported",
+      "main_results": "+5.421% over ChatGPT-4o and Gemini on ORANBench; +18.465% on srsRANBench",
+      "baselines": [
+        "ChatGPT-4o",
+        "Gemini",
+        "17 other open LLMs 1B-70B"
+      ],
+      "code_data_url": "https://github.com/prnshv/ORAN-Bench-13K ; Hugging Face org NextGLab",
+      "main_limitation": "Benchmarks are domain QA/code benchmarks, NOT network KPIs or closed-loop RAN control. 'Foundational LLMs' means domain-adapted general LLMs. IMPORTANT: bibliographic data confirmed via Crossref; the technical figures (RTX 4090, RANSTRUCT size, accuracy deltas) came from a parallel full-text verification pass and should be treated as single-source until the PDF is checked directly.",
+      "sources_retrieved": [
+        "Crossref record 10.1109/TMLCN.2025.3592658"
+      ]
+    },
+    {
+      "id": 33,
+      "group": "i_network_llm_finetuning",
+      "title": "SafeCOMM: A Study on Safety Degradation in Fine-Tuned Telecom Large Language Models",
+      "authors": [
+        "Aladin Djuhera",
+        "Swanand Ravindra Kadhe",
+        "Farhan Ahmed",
+        "Syed Zawad",
+        "Fernando Koch",
+        "Walid Saad",
+        "Holger Boche"
+      ],
+      "year": 2026,
+      "venue": "2026 IEEE Wireless Communications and Networking Conference (WCNC)",
+      "venue_detail": "pp. 1-6",
+      "doi": "10.1109/WCNC65185.2026.11555432",
+      "status": "PEER-REVIEWED + PREPRINT",
+      "arxiv_id": "2506.00062",
+      "base_model": "General-purpose LLMs fine-tuned on telecom data; plus the publicly released Tele-LLMs",
+      "base_model_params": "not verified",
+      "method": "SFT on three telecom datasets, followed by three realignment defenses: SafeInstruct, SafeLoRA, SafeMERGE",
+      "dataset_name": "TeleQnA (8k), TeleData (600k), TSpecLLM (80); new TeleHarm red-teaming benchmark; DirectHarm and HexPhi",
+      "dataset_size": "8000 + 600000 + 80 samples (as reported)",
+      "gpu_hardware": "not verified",
+      "training_time": "not verified",
+      "inference_latency": "not reported",
+      "model_size_after_compression": "not applicable",
+      "main_results": "Safety degrades even for light telecom domain adaptation. Continually-pretrained Tele-LLMs reach ~90% harmfulness, primarily due to omission of safety-focused instruction tuning. SafeInstruct/SafeLoRA/SafeMERGE restore safety without hurting task utility.",
+      "baselines": [
+        "Pre-fine-tuning (aligned) models",
+        "DirectHarm",
+        "HexPhi"
+      ],
+      "code_data_url": "TeleHarm benchmark introduced; release URL not verified",
+      "main_limitation": "A safety paper, not a compression paper - but highly citable for a limitations/risk section, and it directly implicates the Tele-LLMs recipe as unsafe.",
+      "sources_retrieved": [
+        "https://arxiv.org/abs/2506.00062",
+        "Crossref record 10.1109/WCNC65185.2026.11555432"
+      ]
+    },
+    {
+      "id": 34,
+      "group": "i_network_llm_finetuning",
+      "title": "TelcoLM: collecting data, adapting, and benchmarking language models for the telecommunication domain",
+      "authors": [
+        "Camille Barboule",
+        "Viet-Phi Huynh",
+        "Adrien Bufort",
+        "Yoan Chabot",
+        "Geraldine Damnati",
+        "Gwenole Lecorve"
+      ],
+      "affiliation": "Orange",
+      "year": 2024,
+      "venue": "arXiv preprint (30 pages: 13 main + 17 appendices, 22 tables)",
+      "venue_detail": "arXiv:2412.15891 (achieved March 2024, released December 2024)",
+      "doi": "10.48550/arXiv.2412.15891",
+      "status": "PREPRINT",
+      "arxiv_id": "2412.15891",
+      "base_model": "Llama-2-7b",
+      "base_model_params": "7B",
+      "method": "DAPT (domain-adaptive pre-training / continual pretraining) + IAPT (instruction-adaptive pre-training). KEY FINDING: adaptation can be restricted to a single instruction-tuning step, discarding the need for fine-tuning on raw texts beforehand; IAPT alone is approximately equal to DAPT+IAPT. Blended domain + general instructions works best.",
+      "dataset_name": "Domain-specific telco corpus + instruction set",
+      "dataset_size": "800M tokens + 80000 instructions",
+      "gpu_hardware": "2 x A100-80GB (DAPT) and 2 x A100-40GB (IAPT)",
+      "training_time": "not reported",
+      "inference_latency": "not reported",
+      "model_size_after_compression": "not applicable",
+      "main_results": "Domain-adapted models can challenge the large generalist models on downstream tasks requiring extensive telecom knowledge",
+      "baselines": [
+        "Larger generalist models"
+      ],
+      "code_data_url": "not verified",
+      "main_limitation": "Preprint and exact result tables not verified. The actionable claim (DAPT is unnecessary if IAPT is done well) directly contradicts the TelecomGPT three-stage recipe and deserves explicit comparison.",
+      "sources_retrieved": [
+        "https://arxiv.org/abs/2412.15891"
+      ]
+    },
+    {
+      "id": 35,
+      "group": "i_network_llm_finetuning",
+      "title": "TelecomGPT-R1: A Unified Open-Source Reasoner for the Telecom Stack",
+      "authors": [
+        "Bohao Wang",
+        "Chenwei Wu",
+        "Haoyu Li",
+        "Hang Zou",
+        "Yu Tian",
+        "Lina Bariah",
+        "Li Wei",
+        "Chongwen Huang",
+        "Yongliang Shen",
+        "Zhaoyang Zhang",
+        "Merouane Debbah"
+      ],
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "venue_detail": "arXiv:2608.26126",
+      "doi": "10.48550/arXiv.2608.26126",
+      "status": "PREPRINT",
+      "arxiv_id": "2608.26126",
+      "base_model": "Qwen3.5-9B",
+      "base_model_params": "9B",
+      "method": "Two-stage: LoRA-SFT (r=128) then GRPO/DAPO reinforcement post-training",
+      "dataset_name": "67,427-example SFT corpus on four reasoning axes (protocol, knowledge, modeling, fault), from axis-matched public web sources + axis-specific chain-of-thought generation + prefix-continuation self-validation",
+      "dataset_size": "67427 examples",
+      "gpu_hardware": "8 x H200",
+      "training_time": "not reported",
+      "inference_latency": "not reported",
+      "model_size_after_compression": "not applicable",
+      "main_results": "TelecomGPT-R1-9B ranks top-performing on the GSMA open telco leaderboard; 82.1% GSMA seven-axis mean",
+      "baselines": [
+        "GSMA open telco leaderboard entries"
+      ],
+      "code_data_url": "release implied; URL not verified",
+      "main_limitation": "Preprint. Direct follow-up to TelecomGPT by an overlapping author group, moving from QLoRA-SFT to RL post-training. Evaluated on the GSMA leaderboard (knowledge/reasoning), NOT on network KPIs.",
+      "sources_retrieved": [
+        "https://arxiv.org/abs/2608.26126"
+      ]
+    },
+    {
+      "id": 17,
+      "group": "ii_compression_for_networking_llms",
+      "title": "Distilling Large Language Models for Network Active Queue Management",
+      "short_name": "AQM-LLM",
+      "authors": [
+        "Shiva Raj Pokhrel",
+        "Deol Satish",
+        "Jonathan Kua",
+        "Anwar Walid"
+      ],
+      "year": 2026,
+      "venue": "IEEE Transactions on Networking (TON)",
+      "venue_detail": "vol. 34, pp. 5501-5513",
+      "doi": "10.1109/TON.2026.3690076",
+      "status": "PEER-REVIEWED + PREPRINT",
+      "arxiv_id": "2501.16734",
+      "arxiv_note": "v1 Jan 2025; v2 (Mar 2025) was WITHDRAWN; v3 Sep 2025 is the valid version",
+      "COMPRESSION_MECHANISM_CORRECTION": "DOES NOT PERFORM KNOWLEDGE DISTILLATION. Verified by me in the full text: there is no teacher-student KD anywhere in the paper. The mechanism is LoRA (rank r=128) + a data-driven offline reinforcement-learning adaptation pipeline. 'Distillation' is used loosely to mean transferring knowledge from existing AQM algorithms into an LLM. The '99% parameter reduction' is a reduction in TRAINABLE parameters (7B -> 70M) and does NOT reduce inference cost - the 7B weights remain at serving time. The authors themselves state in the conclusion that 'further refinement via pruning, quantization, and distillation toward small-language-model-based AQM can enhance scalability and resource efficiency' - i.e. real compression is FUTURE WORK. DO NOT CITE AS COMPRESSION OR KD EVIDENCE.",
+      "base_model": "Llama2-7B (primary), OPT-1.3B, GPT-2 (125M), T5-LLM (220M)",
+      "base_model_params": "7B, 1.3B, 125M, 220M",
+      "method": "LoRA rank r=128 + data-driven reinforcement learning; improved state encoder mapping network metrics to token embeddings (4096-dim for Llama2); extended LLM head giving single-inference congestion decisions (enqueue/drop/ECN-mark). NO KD, NO pruning, NO quantization.",
+      "dataset_name": "L4S (RFC 9330) active queue management with ECN marking (RFC 9331) + periodic packet dropping; FreeBSD-14 open-source implementation; DCTCP and UDP Prague",
+      "dataset_size": "pre-collected traces from existing AQM algorithms; size NOT REPORTED",
+      "gpu_hardware": "2 x NVIDIA A40 (48 GB). VRAM: Llama2 23.91 GB, OPT 7 GB, GPT-2 3.6 GB, T5-LLM 2.32 GB.",
+      "training_time": ">20 hours for Llama2-7B vs sub-hour for OPT/GPT-2/T5",
+      "inference_latency": "Un-adapted Llama2-7B 0.200 s per answer; LoRA-adapted: Llama2 0.0391 s, OPT 0.0395 s, GPT-2 0.0414 s, T5-LLM 0.0411 s. ~80% inference-time reduction, ~5x speedup. LoRA gives -64% GPU memory and -15.1% training time.",
+      "model_size_after_compression": "UNCHANGED (7B). '99% reduction' refers to trainable parameters only.",
+      "main_results": "Llama2-7B 97.56% accuracy vs 82-83% plateau for OPT, GPT-2 and T5-LLM. LoRA reduces trainable params 7B -> ~70M (1%) while maintaining accuracy. Reduced delay variability and enhanced bandwidth utilisation across DCTCP and UDP Prague.",
+      "baselines": [
+        "OPT-1.3B",
+        "GPT-2",
+        "T5-LLM",
+        "classical AQM: RED, CoDel, PIE, CAKE"
+      ],
+      "code_data_url": "https://github.com/MPTCP-FreeBSD/L4S-LLM",
+      "main_limitation": "NO COMPRESSION PERFORMED. 39 ms latency far above packet-processing budgets (sub-millisecond is future work). >20 h training for a marginal accuracy gain over much smaller models (97.56% vs 82-83%) is a poor cost/benefit trade the paper does not analyse.",
+      "sources_retrieved": [
+        "https://arxiv.org/html/2501.16734v3 (full text, verified by me)",
+        "Crossref record 10.1109/TON.2026.3690076"
+      ]
+    },
+    {
+      "id": 49,
+      "group": "ii_compression_for_networking_llms",
+      "title": "OB-IDS: Optimized BERT-based Intrusion Detection System",
+      "authors": "Mamikonian & Mamamniashvili (per parallel verification pass; NOT independently re-verified by me)",
+      "year": 2025,
+      "venue": "Georgian Scientists",
+      "venue_detail": "vol. 7, no. 4",
+      "doi": "10.52340/gs.2025.07.04.49",
+      "doi_verified": false,
+      "status": "PEER-REVIEWED (small regional venue - flagged)",
+      "base_model": "BERT-base, 110M params / 438 MB",
+      "method": "FULL FOUR-STAGE PIPELINE (unique in this corpus): (1) INT8 quantization QAT+PTQ; (2) global magnitude structured pruning of attention heads AND FFN at 40% -> 60% -> 75% sparsity; (3) knowledge distillation T=4, alpha=0.7; (4) iterative self-distillation",
+      "resulting_model": "38M parameters / 32 MB",
+      "dataset_name": "UNSW-NB15 and CIC-IDS2017",
+      "inference_latency": "Raspberry Pi 4: 214.6 ms -> 27.4 ms (-87.3%); memory 1840 MB -> 280 MB",
+      "main_results": "UNSW-NB15 98.44%, CIC-IDS2017 98.19%",
+      "main_limitation": "WARNING: there is a SECOND, DISTINCT OB-IDS paper - Ates, Celebi, Semerci, Capkan, Yildirim, 2025 IEEE BlackSeaCom pp.1-4, DOI 10.1109/BlackSeaCom65655.2025.11193891 - different authors/venue, same quantize+prune+distill recipe, but ZERO numbers retrievable. DO NOT MERGE. This entry's authors/DOI verified only by the parallel pass."
+    },
+    {
+      "id": 50,
+      "group": "ii_compression_for_networking_llms",
+      "title": "NetKD: Towards Resource-Efficient Encrypted Traffic Classification Using Knowledge Distillation",
+      "authors": [
+        "Jiaji Ma",
+        "Xiangge Li",
+        "Hong Luo"
+      ],
+      "year": 2024,
+      "venue": "2024 27th International Conference on Computer Supported Cooperative Work in Design (CSCWD)",
+      "venue_detail": "pp. 3011-3016",
+      "doi": "10.1109/CSCWD61410.2024.10580837",
+      "doi_verified": true,
+      "status": "PEER-REVIEWED",
+      "base_model": "BERT (teacher) -> NetKD-BERT (student)",
+      "method": "Knowledge distillation via Multi-Head Self-Attention Relation Alignment + Masked BURST Model + Same-origin BURST Prediction",
+      "inference_latency": "0.93 ms/packet; 14.3x faster; 7.33% of baseline memory",
+      "main_results": "4.61% of baseline parameters, 99.10% of baseline F1",
+      "main_limitation": "All figures RELATIVE - no absolute F1, no absolute parameter count, dataset not named in retrievable material. Nonetheless the STRONGEST compression-to-quality ratio in the corpus (21.7x parameter reduction for a 0.9% F1 loss)."
+    },
+    {
+      "id": 51,
+      "group": "ii_compression_for_networking_llms",
+      "title": "Multi-Modal Beamforming with Model Compression and Modality Generation",
+      "authors": [
+        "Chen Shang",
+        "Dinh Thai Hoang",
+        "Jiadong Yu"
+      ],
+      "year": 2026,
+      "venue": "IEEE Transactions on Mobile Computing (TMC)",
+      "venue_detail": "pp. 1-15",
+      "doi": "10.1109/TMC.2026.3712170",
+      "doi_verified": true,
+      "status": "PEER-REVIEWED",
+      "base_model": "Hierarchical transformer for 6G V2X beamforming (parameter count not verified)",
+      "method": "MODULE-AWARE SPLITTING PRUNING. Explicitly REJECTS a single global pruning ratio and deliberately PRESERVES whole attention heads; prunes FFN neurons with per-module ratios",
+      "hardware": "GTX 1080 / RTX 4070 Ti / NVIDIA L20",
+      "inference_latency": ">80% latency reduction at remaining-parameter ratio 0.4, across all three GPUs",
+      "main_results": "DBA-Score 85.95% at remaining-parameter ratio 0.7",
+      "main_limitation": "TITLE DISCREPANCY: the parallel pass called this 'BeamTransFuser'; Crossref registers DOI 10.1109/TMC.2026.3712170 as 'Multi-Modal Beamforming with Model Compression and Modality Generation'. Resolve before citing. Best-designed pruning methodology in the corpus."
+    },
+    {
+      "id": 52,
+      "group": "ii_compression_for_networking_llms",
+      "title": "Efficient Federated Intrusion Detection in 5G Ecosystem Using Optimized BERT",
+      "authors": [
+        "Frederic Adjewa",
+        "Moez Esseghir",
+        "Leila Merghem-Boulahia"
+      ],
+      "year": 2024,
+      "venue": "2024 20th International Conference on Wireless and Mobile Computing, Networking and Communications (WiMob)",
+      "venue_detail": "pp. 62-67",
+      "doi": "10.1109/WiMob61911.2024.10770340",
+      "arxiv_id": "2409.19390",
+      "doi_verified": true,
+      "status": "PEER-REVIEWED + PREPRINT",
+      "base_model": "BERT-base 110M / 420 MB, truncated to 4 layers / 256 hidden / 4 heads = 11,174,415 params / 42.63 MB",
+      "method": "Architectural truncation + per-channel linear post-training quantization (PTQ)",
+      "dataset_name": "Edge-IIoTset - 2,219,201 data points, 30% used, 15 classes",
+      "gpu_hardware": "Quadro RTX 6000 (22.5 GB) + Xeon Gold 6128",
+      "inference_latency": "35.23 ms (Xeon) / 2.63 ms (GPU); federated 95% -> 97% over 10 epochs; total size reduction -92.76%",
+      "main_results": "Centralized accuracy 96.60% -> 97.79% (baseline 98.2%)",
+      "main_limitation": "Reports TWO CONFLICTING compression figures: 28.74% quantization-only vs 92.76% total. Most reduction comes from LAYER TRUNCATION, not quantization. Best-documented quantization+architecture result for a 5G IDS transformer."
+    },
+    {
+      "id": 53,
+      "group": "ii_compression_for_networking_llms",
+      "title": "Optimizing Transformer-Based Intrusion Detection Through Binarization and Knowledge Distillation",
+      "authors": [
+        "Voon Tao Tan",
+        "Wan Tze Vong",
+        "Colin Choon Lin Tan"
+      ],
+      "year": 2025,
+      "venue": "2025 5th International Conference on Robotics, Automation and Artificial Intelligence (RAAI)",
+      "venue_detail": "pp. 350-357",
+      "doi": "10.1109/RAAI67517.2025.11423225",
+      "doi_verified": true,
+      "status": "PEER-REVIEWED",
+      "base_model": "25M-parameter transformer network IDS",
+      "method": "1-bit weight binarization (W1A8 and W1A1) + knowledge distillation",
+      "dataset_name": "CSE-CIC-IDS2018; also CICIoT2023",
+      "model_size_after_compression": "96.26 MB -> 3.25 MB (~30x reduction)",
+      "main_results": "W1A8: 98.51% accuracy / 98.12% weighted F1 on CSE-CIC-IDS2018, matching FP32. W1A1 degrades on CICIoT2023 minority attacks.",
+      "main_limitation": "Extreme quantization is class-imbalance-sensitive: 1-bit weights hold at W1A8 but not W1A1."
+    },
+    {
+      "id": 54,
+      "group": "ii_compression_for_networking_llms",
+      "title": "SPARTA: Sparse Parallel Architecture for Real-Time Threat Analysis",
+      "authors": [
+        "Shi Li",
+        "Xiyun Mi",
+        "Lin Zhang"
+      ],
+      "year": 2026,
+      "venue": "Future Internet (MDPI)",
+      "venue_detail": "vol. 18, art. 88",
+      "doi": "10.3390/fi18020088",
+      "doi_verified": true,
+      "status": "PEER-REVIEWED",
+      "base_model": "LLaMA 7B / 13B / 30B / 65B",
+      "method": "Unstructured (Wanda) + 2:4 semi-structured pruning",
+      "evaluation_dataset": "WIKITEXT2 - NOT NETWORK TRAFFIC. The link to threat analysis is an explicit ANALOGY.",
+      "hardware": "Simulation only (Accel-Sim; RTX 3070)",
+      "main_results": "2.35x average / 5.05x peak speedup over Flash-LLM",
+      "main_limitation": "THE SINGLE MOST IMPORTANT CAVEAT IN THE PRUNING LITERATURE FOR THIS SURVEY: the only work pruning true multi-billion-parameter LLMs and calling itself a networking paper evaluates perplexity on Wikitext2. It provides ZERO evidence about pruning's effect on network-task accuracy. Citing it as such would be a misrepresentation."
+    },
+    {
+      "id": 55,
+      "group": "ii_compression_for_networking_llms",
+      "title": "HiPELog: Hierarchical and Parameter-Efficient Transformer for Log Anomaly Detection",
+      "authors": [
+        "M. Anjana Devi",
+        "Sountharrajan S"
+      ],
+      "year": 2026,
+      "venue": "2026 IEEE International Conference on AI Engineering (AIEI)",
+      "venue_detail": "pp. 1-6",
+      "doi": "10.1109/AIEI69164.2026.11496714",
+      "doi_verified": true,
+      "status": "PEER-REVIEWED",
+      "base_model": "63.47M-parameter transformer",
+      "method": "LoRA - 8,192 trainable parameters of 63.47M (99.99% reduction in TRAINABLE parameters). LoRA is PEFT, NOT compression - serving cost unchanged.",
+      "dataset_name": "BGL (Blue Gene/L log dataset)",
+      "main_results": "99.87% BGL accuracy",
+      "main_limitation": "Full text inaccessible. Same terminology-drift issue as AQM-LLM: the '99.99% reduction' is a trainable-parameter figure, not a serving-cost reduction."
+    },
+    {
+      "id": 56,
+      "group": "ii_compression_for_networking_llms",
+      "title": "Hardware-Aware Neural Architecture Search for Encrypted Traffic Classification",
+      "authors": [
+        "Adel Chehade",
+        "Edoardo Ragusa",
+        "Paolo Gastaldo"
+      ],
+      "year": 2026,
+      "venue": "IEEE Transactions on Network and Service Management (TNSM)",
+      "venue_detail": "vol. 23, pp. 2982-2995",
+      "doi": "10.1109/TNSM.2026.3666676",
+      "arxiv_id": "2506.11319",
+      "doi_verified": true,
+      "status": "PEER-REVIEWED + PREPRINT",
+      "method": "Hardware-aware NAS producing INT8 1D-CNN models for STM32 microcontrollers",
+      "dataset_name": "ISCX VPN-nonVPN",
+      "main_results": "Up to 444x parameter reduction; 96.60% accuracy",
+      "main_limitation": "CNN, not a transformer or LLM - include as edge-deployment context. IMPORTANT: this IS an IEEE TNSM paper on compression for networking, correcting the earlier 'nothing at TNSM' finding."
+    },
+    {
+      "id": 57,
+      "group": "ii_compression_for_networking_llms",
+      "title": "Integer-Only INT8 TinyML CNN for Encrypted Traffic",
+      "venue": "IEEE ISCC 2025",
+      "arxiv_id": "2506.10851",
+      "doi_verified": false,
+      "method": "Integer-only INT8 TinyML CNN",
+      "main_results": "96.59% accuracy; ENERGY PER INFERENCE 7.86 mJ (STM32F746G-DISCO, 31.43 ms) and 29.10 mJ (Nucleo-F401RE, 115.40 ms)",
+      "main_limitation": "The ONLY entry in the entire corpus reporting energy per inference. CNN rather than LLM. DOI not independently verified."
+    }
+  ],
+  "generic_efficient_llm_methods": [
+    {
+      "id": "G1",
+      "title": "LoRA: Low-Rank Adaptation of Large Language Models",
+      "authors": [
+        "Edward J. Hu",
+        "Yelong Shen",
+        "Phillip Wallis"
+      ],
+      "year": 2022,
+      "venue": "ICLR 2022",
+      "ids": [
+        "OpenReview nZeVKeeFYf9",
+        "arXiv:2106.09685"
+      ],
+      "status": "PEER-REVIEWED",
+      "note": "GENERIC ML - not a networking paper. Method used by refs 5,6,7,8,10,19."
+    },
+    {
+      "id": "G2",
+      "title": "QLoRA: Efficient Finetuning of Quantized LLMs",
+      "authors": [
+        "Tim Dettmers",
+        "Artid Pagnoni",
+        "Ari Holtzman",
+        "Luke Zettlemoyer"
+      ],
+      "year": 2023,
+      "venue": "NeurIPS 2023",
+      "ids": [
+        "arXiv:2305.14314"
+      ],
+      "status": "PEER-REVIEWED",
+      "note": "GENERIC ML - not a networking paper. Toolkit cited by refs 3 and 5."
+    },
+    {
+      "id": "G3",
+      "title": "Survey on Efficient Large Language Models: Principles, Algorithms, Applications, and Open Issues",
+      "authors": [
+        "Jian Cheng",
+        "Haidong Kang",
+        "Yuxin Shao"
+      ],
+      "year": 2026,
+      "venue": "IEEE Transactions on Neural Networks and Learning Systems (TNNLS)",
+      "venue_detail": "vol. 37, pp. 2025-2045",
+      "doi": "10.1109/TNNLS.2025.3628671",
+      "status": "PEER-REVIEWED",
+      "note": "GENERIC ML - not a networking paper."
+    },
+    {
+      "id": "G4",
+      "title": "Survey on Knowledge Distillation for Large Language Models: Methods, Evaluation, and Application",
+      "authors": "see ACM DL record",
+      "year": "2024/2025",
+      "venue": "ACM Transactions on Intelligent Systems and Technology (TIST)",
+      "doi": "10.1145/3699518",
+      "status": "PEER-REVIEWED",
+      "note": "GENERIC ML - not a networking paper."
+    },
+    {
+      "id": "G5",
+      "title": "A Survey on Symbolic Knowledge Distillation of Large Language Models",
+      "authors": [
+        "Kamal Acharya",
+        "Alvaro Velasquez",
+        "Houbing Herbert Song"
+      ],
+      "year": 2024,
+      "venue": "IEEE Transactions on Artificial Intelligence",
+      "venue_detail": "vol. 5, pp. 5928-5948",
+      "doi": "10.1109/TAI.2024.3428519",
+      "status": "PEER-REVIEWED",
+      "note": "GENERIC ML - not a networking paper."
+    },
+    {
+      "id": "G6",
+      "title": "The Landscape of Pruning for Large Language Models: A Systematic Review and Unified Taxonomy",
+      "authors": "see Elsevier record",
+      "year": 2026,
+      "venue": "Neural Networks (Elsevier)",
+      "doi": "not verified (ScienceDirect record S0893608026007276)",
+      "status": "PEER-REVIEWED",
+      "note": "GENERIC ML - not a networking paper. DOI NOT VERIFIED."
+    },
+    {
+      "id": "G7",
+      "title": "Evolution of Meta's LLaMA Models and Parameter-Efficient Fine-Tuning of Large Language Models: A Survey",
+      "authors": "see arXiv record",
+      "year": 2025,
+      "venue": "arXiv preprint",
+      "ids": [
+        "arXiv:2510.12178"
+      ],
+      "status": "PREPRINT",
+      "note": "GENERIC ML - not a networking paper."
+    },
+    {
+      "id": "G8",
+      "title": "Efficient Memory Management for Large Language Model Serving with PagedAttention (vLLM)",
+      "authors": [
+        "Woosuk Kwon",
+        "Zhuohan Li",
+        "Siyuan Zhuang"
+      ],
+      "year": 2023,
+      "venue": "SOSP 2023",
+      "ids": [
+        "arXiv:2309.06180"
+      ],
+      "status": "PEER-REVIEWED",
+      "note": "GENERIC SYSTEMS - not a networking paper. Cited by refs 6 and 7."
+    },
+    {
+      "id": "G9",
+      "title": "ZeRO: Memory Optimizations Toward Training Trillion Parameter Models",
+      "authors": [
+        "Samyam Rajbhandari",
+        "Jeff Rasley",
+        "Olatunji Ruwase",
+        "Yuxiong He"
+      ],
+      "year": "2019/2020",
+      "venue": "SC20",
+      "ids": [
+        "arXiv:1910.02054"
+      ],
+      "status": "PEER-REVIEWED",
+      "note": "GENERIC SYSTEMS - not a networking paper. Cited by ref 6 (ZeRO Stage-2)."
+    },
+    {
+      "id": "G10",
+      "title": "DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models (source of GRPO)",
+      "authors": [
+        "Zhihong Shao",
+        "Peiyi Wang",
+        "Qihao Zhu"
+      ],
+      "year": 2024,
+      "venue": "arXiv preprint",
+      "ids": [
+        "arXiv:2402.03300"
+      ],
+      "status": "PREPRINT",
+      "note": "GENERIC ML - not a networking paper. GRPO used by refs 6 and 7."
+    }
+  ],
+  "networking_surveys": [
+    {
+      "id": "S1",
+      "title": "Large Language Models for computer networking operations and management: A survey on applications, key techniques, and opportunities",
+      "authors": [
+        "Fan Liu",
+        "Behrooz Farkiani",
+        "Patrick Crowley"
+      ],
+      "year": 2025,
+      "venue": "Computer Networks (Elsevier)",
+      "venue_detail": "vol. 271, art. 111614",
+      "doi": "10.1016/j.comnet.2025.111614",
+      "status": "PEER-REVIEWED"
+    },
+    {
+      "id": "S2",
+      "title": "A Comprehensive Survey on LLM-Based Network Management and Operations",
+      "authors": [
+        "Jibum Hong",
+        "Nguyen Van Tu",
+        "James Won-Ki Hong"
+      ],
+      "year": 2025,
+      "venue": "International Journal of Network Management (Wiley)",
+      "venue_detail": "vol. 35",
+      "doi": "10.1002/nem.70029",
+      "status": "PEER-REVIEWED"
+    },
+    {
+      "id": "S3",
+      "title": "Towards fully autonomous network management: A survey on LLM-based Multi-Agent Systems",
+      "authors": [
+        "Ki-Hyeon Kim",
+        "Cheoneum Park",
+        "Hyeonjeong Lee"
+      ],
+      "year": 2026,
+      "venue": "ICT Express",
+      "venue_detail": "vol. 12, pp. 1015-1034",
+      "doi": "10.1016/j.icte.2026.07.003",
+      "status": "PEER-REVIEWED"
+    },
+    {
+      "id": "S4",
+      "title": "How Helpful Is LLM Assistance in Network Operations? A Case Study at a Large Demonstration Network",
+      "authors": [
+        "Ryo Nakamura",
+        "Koshi Eguchi"
+      ],
+      "year": 2026,
+      "venue": "NOMS 2026 - IEEE Network Operations and Management Symposium",
+      "venue_detail": "pp. 1-10",
+      "doi": "10.1109/NOMS69089.2026.11668182",
+      "status": "PEER-REVIEWED"
+    }
+  ],
+  "excluded": [
+    {
+      "title": "ET-BERT",
+      "reason": "Applies NO compression - recommended exclusion from a compression-focused survey.",
+      "doi": "10.1145/3485447.3512217",
+      "venue": "ACM Web Conference 2022"
+    },
+    {
+      "title": "YaTC",
+      "reason": "Applies NO compression."
+    },
+    {
+      "title": "NetGPT",
+      "reason": "No compression found."
+    },
+    {
+      "title": "TMF921-Grounded Intent-to-Network-Configuration Dataset for 5G/6G: A Multi-Layer, Multi-Specification Benchmark",
+      "reason": "Appeared only as a Hugging Face dataset card referencing arXiv:2603.03667, but that arXiv ID resolves to a DIFFERENT paper (ORION). Title/authorship unverified, so excluded rather than mis-attributed."
+    }
+  ],
+  "key_gaps_identified": [
+    "STRUCTURAL EVIDENCE GAP: no paper retrieved reports a billion-parameter LLM teacher compressed into a network-domain SLM with full, reproducible compression hyperparameters. Well-documented compressions (MERLOT, Pruned Traffic Trees, OB-IDS, NetKD) all operate on GPT-2-base / BERT-base / GAT models at <=120M parameters. Papers that DO compress genuine LLMs (KGLlama-KD #20, MTNTD-SLM #24, SPARTA #54) each withhold a critical piece - temperature/alpha, teacher/student parameter counts, training hardware, or network-task evaluation. This is the single most promising gap for a PhD contribution.",
+    "No paper found that plots network-decision quality against model size or compression ratio. All size/compression trade-offs use NLP proxy metrics.",
+    "No paper found applying weight/neuron/layer/attention-head pruning to a fully-reported LLM for network management with a pruning ablation on a network task. SPARTA is the only billion-param pruning but validates on Wikitext2.",
+    "Inference latency is the field's biggest reporting gap, and the most-cited telecom-LLM latency number (300-500 ms) comes from a NON-PEER-REVIEWED vendor blog (TSLAM-8B).",
+    "The field has benchmarks for what telecom LLMs KNOW (TeleQnA, Tele-Eval, TelBench, TeleMath, GSMA leaderboard) but almost none for what they DO to a network.",
+    "'Telco-LLM', 'TelecomLLM' and 'LLaMA-Telecom' do not exist as papers - verified independently twice via Crossref and arXiv."
+  ],
+  "additional_verified_via_crossref": [
+    {
+      "id": 36,
+      "title": "TeleCom-Bench",
+      "authors": "Xiao, Lin, Qiu et al. (13 authors)",
+      "year": 2026,
+      "venue": "KDD '26",
+      "venue_detail": "pp. 10056-10067",
+      "doi": "10.1145/3770855.3817480",
+      "doi_verified": false,
+      "note": "Crossref lookup returned no record for this DOI - TREAT AS UNVERIFIED. 22678 samples; documents an 'Execution Wall': >90% on intent recognition/entity extraction but ~30% on solution generation."
+    },
+    {
+      "id": 37,
+      "title": "AI2MMUM: AI-AI Oriented Multi-Modal Universal Model Leveraging Telecom Domain Large Model",
+      "authors": [
+        "Tianyu Jiao",
+        "Yin Xu",
+        "Zhuoran Xiao",
+        "Yihang Huang"
+      ],
+      "year": 2025,
+      "venue": "IEEE Wireless Communications Letters",
+      "venue_detail": "vol. 14, no. 8, pp. 2651-2655",
+      "doi": "10.1109/LWC.2025.3578370",
+      "doi_verified": true,
+      "note": "Telecom LLM backbone + LoRA + frozen radio encoders; SOTA on five physical-layer tasks. Backbone identity and compression details NOT verified."
+    },
+    {
+      "id": 38,
+      "title": "TelecomRAG: Taming Telecom Standards with Retrieval Augmented Generation and LLMs",
+      "authors": [
+        "Girma M. Yilma",
+        "Jose A. Ayala-Romero",
+        "Andres Garcia-Saavedra",
+        "Xavier Costa-Perez"
+      ],
+      "affiliation": "NEC Labs Europe",
+      "year": 2024,
+      "venue": "ACM SIGCOMM Computer Communication Review (CCR)",
+      "venue_detail": "vol. 54, no. 3, pp. 18-23",
+      "doi": "10.1145/3711992.3711996",
+      "doi_verified": true,
+      "note": "DISTINCT from Telco-RAG (Bornea et al.) - two unrelated papers with similar names."
+    },
+    {
+      "id": 39,
+      "title": "TelBench: A Benchmark for Evaluating Telco-Specific Large Language Models",
+      "authors": [
+        "Sunwoo Lee",
+        "Dhammiko Arya",
+        "Seung-Mo Cho",
+        "Gyoung-eun Han"
+      ],
+      "affiliation": "SK Telecom",
+      "year": 2024,
+      "venue": "EMNLP 2024 Industry Track",
+      "venue_detail": "pp. 609-626",
+      "doi": "10.18653/v1/2024.emnlp-industry.45",
+      "doi_verified": true
+    },
+    {
+      "id": 40,
+      "title": "ORAN-Bench-13K",
+      "year": 2025,
+      "venue": "IEEE CCNC 2025",
+      "venue_detail": "pp. 1-4",
+      "doi": "10.1109/CCNC54725.2025.10975994",
+      "doi_verified": null,
+      "note": "13952 MCQs from 116 O-RAN specifications"
+    },
+    {
+      "id": 41,
+      "title": "TelcoAI",
+      "year": 2025,
+      "venue": "Findings of IJCNLP-AACL 2025",
+      "venue_detail": "pp. 1305-1317",
+      "doi": "10.18653/v1/2025.findings-ijcnlp.80",
+      "doi_verified": null,
+      "note": "Reported 87% recall / 92% faithfulness (not independently verified)"
+    },
+    {
+      "id": 42,
+      "title": "Chat3GPP",
+      "year": 2025,
+      "venue": "IEEE ICC Workshops 2025",
+      "venue_detail": "pp. 492-497",
+      "doi": "10.1109/ICCWorkshops67674.2025.11162262",
+      "doi_verified": null
+    },
+    {
+      "id": 43,
+      "title": "NextG-GPT",
+      "year": 2025,
+      "venue": "IEEE ICCCN 2025",
+      "venue_detail": "pp. 1-9",
+      "doi": "10.1109/ICCCN65249.2025.11133874",
+      "doi_verified": null,
+      "note": "LLaMA-3.1-70B: 86.2% correctness, 90.6% answer relevancy"
+    },
+    {
+      "id": 44,
+      "title": "TeleMath",
+      "year": 2026,
+      "venue": "IEEE Network (early access)",
+      "doi": "10.1109/MNET.2026.3658826",
+      "doi_verified": null
+    },
+    {
+      "id": 45,
+      "title": "TSLAM-Mini",
+      "year": 2025,
+      "venue": "arXiv preprint",
+      "arxiv_id": "2505.07877",
+      "venue_detail": "Phi-4-Mini-Instruct 4B; QLoRA NF4 4-bit, r=16, alpha=32; 100000 samples / 20 telecom use cases; mean token accuracy 0.9679",
+      "doi_verified": null
+    },
+    {
+      "id": 46,
+      "title": "OTel (Open Telco)",
+      "authors": [
+        "Tavakkoli",
+        "Paulk",
+        "Terrazas"
+      ],
+      "affiliation": "AT&T / GSMA",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "arxiv_id": "2608.15436",
+      "venue_detail": "30 full-parameter post-trained baselines; ~1.1M raw -> 326767 cleaned examples; AMD MI300X/MI325X/MI355X + NVIDIA A100/H100; LM correctness 88.2%",
+      "doi_verified": null
+    },
+    {
+      "id": 47,
+      "title": "TSLAM-8B",
+      "affiliation": "NetoAI",
+      "year": 2025,
+      "venue": "GREY LITERATURE - vendor AWS engineering blog, NOT peer-reviewed",
+      "doi": "no DOI",
+      "doi_verified": false,
+      "note": "Llama-3.1-8B + LoRA on AWS Trainium trn1.32xlarge. THE ONLY SOURCE IN THE ENTIRE SEARCH REPORTING AN INFERENCE LATENCY FOR A TELECOM LLM: 300-500 ms on AWS Inferentia2. Also 86.2 vs Llama-3.1-8B's 63.1. Cite with the non-peer-reviewed caveat."
+    },
+    {
+      "id": 48,
+      "title": "Solving AI Foundational Model Latency with Telco Infrastructure",
+      "authors": [
+        "Barros"
+      ],
+      "year": 2025,
+      "venue": "arXiv preprint",
+      "arxiv_id": "2504.03708",
+      "doi_verified": null,
+      "note": "Best dedicated lead for the latency question; detail not verified."
+    }
+  ],
+  "compression_papers_from_parallel_verification": [
+    {
+      "title": "NetKD",
+      "venue": "IEEE CSCWD 2024",
+      "doi": "10.1109/CSCWD61410.2024.10580837",
+      "method": "BERT -> NetKD-BERT knowledge distillation, encrypted traffic",
+      "result": "4.61% of baseline parameters, 99.10% of baseline F1, 0.93 ms/packet, 7.33% of baseline memory, 14.3x faster",
+      "note": "STRONGEST quantitative compression result in the entire corpus. From a parallel verification pass; not independently re-verified."
+    },
+    {
+      "title": "HierFedKD-Traffic",
+      "venue": "IFIP Networking 2026",
+      "doi": "10.23919/IFIPNetworking70592.2026.11579006",
+      "method": "Hierarchical federated KD for wireless traffic prediction",
+      "data": "Telecom Italia CDR data",
+      "result": "RMSE -2.3 to -3.1% vs FedAvg/FedProx/HierFL"
+    },
+    {
+      "title": "MERLOT verified hyperparameters",
+      "method": "KD teacher-student",
+      "result": "alpha = 0.5, temperature = 2.0 (ablation alpha in {0.4,0.5,0.6}, T in {1.0,2.0,3.0}; best F1 0.9953 on USTC TFC 2016). Teacher GPT-2-base 12 layers/117M; each student expert = 3 transformer layers, hidden 768, ~85M params; MoE = 10 experts + gating network. Hardware = NVIDIA A800 (count not reported). 5 epochs, 95:5 split.",
+      "warning": "CONFIRMED INTERNAL INCONSISTENCY: the paper says '600-million-parameter MERLOT' AND '0.66-billion' AND 'the gating network has 935-million parameters' (10x85M + 935M != 660M). Report the inconsistency; do not silently pick one."
+    },
+    {
+      "title": "xApp distillation",
+      "venue": "Computer Networks vol. 274 art. 111848",
+      "doi": "10.1016/j.comnet.2025.111848",
+      "arxiv_id": "2407.03068",
+      "method": "O-RAN RIC multi-teacher POLICY distillation",
+      "result": "83.3% outage reduction at 10 Mbps",
+      "warning": "NOT transformer/LLM (DQN MLPs, temperature 20) - cite as an O-RAN policy-distillation anchor, not as LLM compression."
+    },
+    {
+      "title": "SD-MKD",
+      "venue": "IJCNN 2025",
+      "doi": "10.1109/IJCNN64981.2025.11227284",
+      "method": "Multi-teacher Stacking KD + Sinkhorn distance",
+      "data": "ISCXVPN2016 / ISCXTor2016 / USTC-TFC2016",
+      "note": "Abstract is purely qualitative - no numbers."
+    },
+    {
+      "title": "BERT-LightRFFI",
+      "venue": "IEEE WCNC 2025",
+      "doi": "10.1109/WCNC61545.2025.10978469",
+      "method": "BERT teacher -> BERT-Light student, LoRa RFFI",
+      "result": "97.52% accuracy",
+      "note": "PHY-layer, adjacent."
+    },
+    {
+      "title": "5G-V2X Intra-Slice IDS",
+      "venue": "IEEE ICC 2023",
+      "doi": "10.1109/ICC45041.2023.10279212",
+      "method": "cloud-teacher -> CAV-student KD",
+      "result": ">50% computation and memory reduction"
+    },
+    {
+      "title": "LENS-XAI",
+      "venue": "PREPRINT arXiv:2501.00790",
+      "method": "KD + VAE IDS; T=2, alpha=0.5",
+      "hardware": "RTX 4080 Super",
+      "result": "teacher 13065 -> student 4489 params; 44% peak compute reduction; accuracies 95.34% (Edge-IIoTset), 99.92% (UKM-IDS20), 98%+ (CTU-13)",
+      "warning": "NOT transformer (tiny dense nets)"
+    },
+    {
+      "title": "Lightweight LLMs for Network Attack Detection in IoT Networks",
+      "venue": "PREPRINT arXiv:2601.15269 (accepted ComComAp 2025, Madrid, Dec 2025)",
+      "method": "QLoRA 4-bit NF4 + double quantization, LoRA r=16 alpha=32 dropout 0.1",
+      "base_models": [
+        "GPT-2 (356.40M)",
+        "LLaMA-3.2-1B (1238.17M)",
+        "Mistral-v0.3-7B (7257.46M)",
+        "LLaMA-3.1-8B (8039.70M)"
+      ],
+      "data": "CICIoT2023 (500/class train, 100/class test, 24 classes; RAG 1000/class, 10 classes)",
+      "hardware": "RTX 4080 16GiB (GPT-2, LLaMA-3.2-1B) and RTX 4090 32GiB (Mistral-7B, LLaMA-3.1-8B)",
+      "result": "LLaMA-3.2-1B best F1 0.7124 vs RF 0.7159; runtime 235.16 s; RAG zero-shot 42.63% acc, Top-3 recall 63.27%"
+    },
+    {
+      "title": "Lightweight Fine-Tuning of LLMs for Explainable Intrusion Detection in SDN",
+      "venue": "IEEE WiMob 2025",
+      "doi": "10.1109/WiMob66857.2025.11257572",
+      "method": "QLoRA (4-bit) on GPT_NEO + Phi-2 + Llama2-7b",
+      "result": "1.00 accuracy for Phi-2/GPT_NEO; lowest CO2 0.173",
+      "source": "https://norma.ncirl.ie/9170/"
+    },
+    {
+      "title": "LLM-QFL",
+      "venue": "IEEE TNSM 2026",
+      "doi": "10.1109/TNSM.2026.3712394",
+      "arxiv_id": "2505.18656",
+      "method": "Federated fine-tuning + distillation of an LLM inside quantum FL; PEFT (LoRA/QLoRA)",
+      "note": "Borderline networking relevance."
+    },
+    {
+      "title": "Transformer-based knowledge distillation for explainable intrusion detection system",
+      "authors": [
+        "AL-Nomasy",
+        "Alamri",
+        "Aljuhani",
+        "Kumar"
+      ],
+      "venue": "Computers & Security vol. 154 art. 104417",
+      "year": 2025,
+      "doi": "10.1016/j.cose.2025.104417",
+      "note": "CANNOT VERIFY: existence/venue/DOI/authors verified via Crossref + Semantic Scholar, but ScienceDirect returns 403 and NO abstract exists anywhere reachable -> zero content fields."
+    },
+    {
+      "title": "VQ-Transformer",
+      "venue": "Ain Shams Engineering Journal 2026",
+      "doi": "10.1016/j.asej.2026.104105",
+      "note": "METADATA ONLY, full text 403-blocked."
+    }
+  ],
+  "trafficllm_disambiguation": {
+    "warning": "There are THREE distinct things called TrafficLLM - do not conflate them.",
+    "variants": [
+      {
+        "a": "The one MERLOT benchmarks against (7B Llama2) is NOT a paper - MERLOT's reference [8] is the GitHub repo https://github.com/ZGC-LLM-Safety/TrafficLLM (no venue, no DOI)."
+      },
+      {
+        "b": "That repo's actual paper: Tianyu Cui, Xinjie Lin, Sijia Li, et al., 'TrafficLLM: Enhancing Large Language Models for Network Traffic Analysis with Generic Traffic Representation,' PREPRINT arXiv:2504.04222 (v1 5 Apr 2025). 10 scenarios / 229 traffic types, F1 0.9875 (detection) / 0.9483 (generation). Compression: NO pruning/quantization/distillation - uses EA-PEFT + traffic-domain tokenization. No peer-reviewed venue DOI found."
+      },
+      {
+        "c": "A different paper: Ginige, Silva, Dahanayaka, Seneviratne, 'TrafficLLM: LLMs for improved open-set encrypted traffic analysis,' Computer Networks 2026, DOI 10.1016/j.comnet.2025.111847 - open-set encrypted traffic, no compression found."
+      },
+      {
+        "d": "Also: Chengming Hu et al., 'Self-Refined Generative Foundation Models for Wireless Traffic Prediction' (the other 'TrafficLLM'), IEEE TVT, DOI 10.1109/TVT.2025.3637245 - wireless traffic PREDICTION, no compression."
+      }
+    ]
+  },
+  "name_collisions_to_avoid": [
+    "Telco-RAG (Bornea et al., GLOBECOM 2024, 10.1109/GLOBECOM52923.2024.10901158) vs TelecomRAG (Yilma et al., ACM SIGCOMM CCR 54(3):18-23, 2024, 10.1145/3711992.3711996) - unrelated papers.",
+    "Three distinct 'TrafficLLM' items (see trafficllm_disambiguation)."
+  ],
+  "verified_negative_findings": [
+    "ET-BERT (ACM WWW 2022, DOI 10.1145/3485447.3512217) applies NO compression - exclude from a compression-focused survey.",
+    "YaTC applies NO compression.",
+    "NetGPT: no compression found.",
+    "'Leveraging MAS and Fine-Tuned SLMs for Automated Telecom Network Troubleshooting' (arXiv:2511.00651 / ICC Workshops 2026, DOI 10.1109/ICCWorkshops63917.2026.11586230) uses LoRA+RFT on DeepSeek-R1-Qwen-3-8B with 7x RTX A6000 but NO distillation - keep as related work, not compression.",
+    "ORION (arXiv:2603.03667) and NetIntent (10.1109/OJCOMS.2025.3642642) do not fine-tune at all."
+  ],
+  "corrections_to_task_premise": [
+    "TelecomGPT is NOT in IEEE TNSM - it is in IEEE TMLCN, vol. 3, pp. 948-975, 2025, DOI 10.1109/TMLCN.2025.3593184.",
+    "Tele-LLMs is NOT in IEEE TMLCN - it is in IEEE Access, vol. 14, pp. 86424-86441, 2026, DOI 10.1109/ACCESS.2026.3698683.",
+    "TeleQnA is now published - IEEE Network, vol. 40, no. 2, pp. 253-260, 2026, DOI 10.1109/MNET.2025.3576035 (arXiv 2310.15051, 2023). Exact title: 'TeleQnA: A Benchmark Dataset to Assess Large Language Models Telecommunications Knowledge'.",
+    "Mobile-LLaMA DOI 10.1109/MNET.2024.3421306 is correct - IEEE Network 38(5):76-83, 2024; no arXiv preprint exists."
+  ],
+  "venue_correction": "RETRACTED FINDING: an earlier draft claimed no compression+networking paper exists at IEEE TNSM. That was WRONG. Four IEEE TNSM papers verified at metadata level: HW-NAS (#56, 10.1109/TNSM.2026.3666676), LLM-QFL (10.1109/TNSM.2026.3712394), KD-PFL (10.1109/TNSM.2025.3629241), HKD-Net (10.1109/TNSM.2026.3668812). IEEE TNSM DOES publish here. Conversely NO compression+networking paper was found at IEEE JSAC, NOMS, CNSM, NetSoft, ACM CoNEXT/IMC/SIGCOMM; NetLLM (ACM SIGCOMM 2024) was fetched and grepped - quantization appears only in related work, so it is excluded. The earlier absence claim was an artifact of the IEEE Xplore outage.",
+  "terminology_drift_warning": "Count mechanisms, not titles. Two papers whose titles/framing imply knowledge distillation contain NO classical teacher-student KD: AQM-LLM (#17) is LoRA r=128 + offline RL (its '99% reduction' is TRAINABLE parameters, 7B->70M, which does not reduce serving cost), and Cost-Efficient KD Student Placement (#23) is a placement optimisation problem. HiPELog (#55) has the same LoRA framing issue. A title-keyword survey will substantially over-count compression evidence."
+}

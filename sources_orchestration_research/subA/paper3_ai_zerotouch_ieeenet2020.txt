@@ -1,0 +1,858 @@
+                                     This is an electronic reprint of the original article.
+                                     This reprint may differ from the original in pagination and typographic detail.
+
+
+
+                                   Benzaid, Chafika; Taleb, Tarik
+                                   AI-driven Zero Touch Network and Service Management in 5G and Beyond: Challenges and
+                                   Research Directions
+
+                                   Published in:
+                                   IEEE NETWORK
+
+
+                                   DOI:
+                                   10.1109/MNET.001.1900252
+
+
+                                   Published: 01/01/2020
+
+
+
+                                   Document Version
+                                   Peer reviewed version
+
+
+                                   Please cite the original version:
+                                   Benzaid, C., & Taleb, T. (2020). AI-driven Zero Touch Network and Service Management in 5G and Beyond:
+                                   Challenges and Research Directions. IEEE NETWORK, 34(2), 186 - 194.
+                                   https://doi.org/10.1109/MNET.001.1900252
+
+
+
+
+                                   This material is protected by copyright and other intellectual property rights, and duplication or sale of all or
+                                   part of any of the repository collections is not permitted, except that material may be duplicated by you for
+                                   your research use or educational purposes in electronic or print form. You must obtain permission for any
+                                   other use. Electronic or print copies may not be offered, whether for sale or otherwise to anyone who is not
+                                   an authorised user.
+
+
+
+
+Powered by TCPDF (www.tcpdf.org)
+IEEE NETWORK MAGAZINE                                                                                                              1
+
+
+
+
+     AI-driven Zero Touch Network and Service
+    Management in 5G and Beyond: Challenges and
+                Research Directions
+                                             Chafika Benzaı̈d⇤ and Tarik Taleb†
+                                             ⇤† Aalto University, Espoo, Finland
+                                             † University of Oulu, Oulu, Finland
+                                          † Sejong University, Seoul, South Korea
+
+                                   Email: ⇤ chafika.benzaid@aalto.fi, † tarik.taleb@aalto.fi
+
+
+
+   Abstract—The foreseen complexity in operating and managing       end, emerging technologies and concepts such as Software
+5G and beyond networks has propelled the trend toward closed-       Defined Networking (SDN), Network Function Virtualization
+loop automation of network and service management operations.
+                                                                    (NFV), Multi-access Edge Computing (MEC) and Network
+To this end, the ETSI Zero-touch network and Service Man-
+agement (ZSM) framework is envisaged as a next-generation           Slicing are identified to play a key role in the design of 5G
+management system that aims to have all operational processes       network architecture. The use of these technologies will unlock
+and tasks executed automatically, ideally with 100% automation.     new business models, including multi-domain, multi-service,
+Artificial Intelligence (AI) is envisioned as a key enabler of      multi-tenancy models, to support new markets. Meanwhile,
+self-managing capabilities, resulting in lower operational costs,
+                                                                    the increase in performance, flexibility and cost efficiency,
+accelerated time-to-value and reduced risk of human error.
+Nevertheless, the growing enthusiasm for leveraging AI in a ZSM     coupled with the imposed agility and cooperation across
+system should not overlook the potential limitations and risks of   domains, are expected to result in unprecedented complexity
+using AI techniques. The current paper aims to introduce the        in operating and managing 5G networks. Thus, traditional
+ZSM concept and point out the AI-based limitations and risks        service and network management solutions may not be suf-
+that need to be addressed in order to make ZSM a reality.
+                                                                    ficient, making closed-loop automation of management oper-
+  Index Terms—5G, ZSM, Artificial Intelligence, Machine             ations an inevitability. The shift to management automation
+Learning, and Network Management.                                   will boost the flexibility and efficiency of service delivery
+                                                                    and reduce the OPerating EXpenses (OPEX) through self-
+                      I. I NTRODUCTION                              managing capabilities (e.g., self-configuration, self-healing,
+
+T     HE fifth generation of mobile communication networks
+      (5G) comes as an answer to the foreseen demands
+of high traffic volume, massive number of connected de-
+                                                                    self-optimization, and self-protecting). Being aware of the
+                                                                    importance of management automation in 5G, the topic has
+                                                                    gained much attention from both research community and
+vices with diverse service requirements, better quality of          Standards Developing Organizations (SDOs). However, most
+user experience (QoE) and better affordability by further           efforts have revolved around enabling automation in a single
+reducing costs. Compared to 4G LTE, it is envisioned that           domain. To meet the challenging performance requirements of
+the upcoming 5G networks will bring near-to-zero round-             the various 5G usage scenarios, an End-to-End (E2E) service
+trip latency, 10 times higher data rate, “five 9s” availability,    and network management automation across multiple domains
+almost 100% coverage, up to 90% reduction in energy usage           is needed. To this aim, ETSI established the Zero Touch net-
+and 10 100 more connected devices [1]. Thanks to its key            work and Service Management Industry Specification Group
+network capabilities, 5G networks will be a pivotal enabler of      (ZSM ISG) in 2017. A primary goal of the ETSI ZSM ISG
+emerging usage scenarios and applications. Indeed, three usage      is to specify an end-to-end network and service management
+scenarios are envisaged by ITU IMT-2020, namely enhanced            reference architecture enabling agile, efficient and qualitative
+mobile broadband (eMBB), addressing the human-centric use           management and automation of emerging and future net-
+cases for access to multimedia content, services and data;          works and services. The ZSM framework is envisaged as
+ultra-reliable and low-latency communications (URLLC) with          a next-generation management system that aims to have all
+stringent requirements in terms of latency and reliability; and     operational processes and tasks (e.g., planning and design,
+massive machine type communications (mMTC) for a very               delivery, deployment, provisioning, monitoring and optimiza-
+large number of connected devices typically transmitting a          tion) executed automatically, ideally with 100% automation
+relatively low volume of non-delay sensitive data.                  and without human intervention. Artificial Intelligence (AI),
+   To leverage the promising 5G capabilities in order to fulfill    supported by Machine Learning (ML) and Big Data analytics
+the very disparate and challenging requirements of those future     techniques, is envisioned as a key enabler of fully autonomous
+use cases, 5G networks are being conceived as extremely             networks. Tractica foresees that the spending on AI-driven
+flexible, highly programmable and holistically-managed in-          network management software will increase from $23 million
+frastructures that are service- and context-aware [1]. To this      in 2018 to more than $1.9 billion in 2021, with annual spend
+IEEE NETWORK MAGAZINE                                                                                                              2
+
+
+
+to reach $7.4 billion by 2025. AI plays an important role in       SLA requirements. The ML engine comprises three modules,
+empowering self-managing functionalities, resulting in lower       namely: (i) a supervised classifier module, based on K-Means
+operational costs, accelerated time-to-value and reduced risk      algorithm, to profile network traffic and notify an SLA breach
+of human error. Nevertheless, the growing enthusiasm for           situation to the optimizer module; (ii) a Regressor module
+leveraging AI in a ZSM system should not overlook the              which is queried by the optimizer module to predict KPIs of
+potential limitations and risks of using AI techniques.            a candidate network topology; and (iii) an optimizer module
+   The current article aims to introduce the ZSM concept and       which uses the Simulated Annealing algorithm to identify the
+point out the AI-based limitations that need to be addressed       best network topology to comply with the agreed SLA.
+in order to make ZSM a reality. We first present research             Calabrese et al. [5] leveraged ML techniques to design
+contributions and SDOs initiatives that could be leveraged         a general-purpose learning framework, having the ability to
+by ZSM. Then, we describe the ZSM reference architecture.          autonomously generate algorithms specialized for Radio Re-
+Following that, we discuss the limitations and security risks      source Management (RRM) functionalities in 5G RANs. The
+related to the use of AI techniques in ZSM. This leads us          framework is based on Reinforcement Learning (RL) approach
+to highlight some future research directions to tackle the         with a decoupling of learning and acting roles of an RL agent.
+identified issues. Finally, we conclude the article.               Indeed, the framework architecture consists of one centralized
+                                                                   learner and a set of distributed actors. The learner uses
+II. R ESEARCH AND S TANDARDIZATION W ORK R ELEVANT                 experiences sent from actors to learn RRM algorithms, while
+                      TO ZSM                                       actors run the RRM algorithms supplied by the learner and
+                                                                   repeatedly generate experiences. The separation of learning
+   In this section, we discuss the existing research contribu-     and acting roles has the advantage of allowing scalability with-
+tions and standardization initiatives that adopt AI techniques     out sacrificing training stability, providing fault-tolerance and
+to enable intelligent and automated service and network man-       enabling transfer learning. To cope with the large dimension
+agement in next-generation networks.                               of RRM problems, Q-learning via functional approximation of
+                                                                   the Q-function is adopted. The ANNs are used as functional
+A. Academic Research Work                                          approximator owing to their generalization capabilities and the
+                                                                   existence of computationally efficient training algorithms. To
+   Over the past few decades, AI/ML techniques have been
+                                                                   train ANN, Neural-Fitted Q-iteration (NFQ) is used. Transfer
+leveraged to intelligently perform a variety of networking
+                                                                   learning, in terms of parameter transfer and instance transfer,
+operations in future networks, ranging from management to
+                                                                   is also enabled among actors in the network.
+maintenance and protection. Fadlullah et al. [2] surveyed
+                                                                      Authors in [6] proposed an anomaly detection and diagnosis
+the works on Deep Learning (DL) applications for various
+                                                                   solution for holistic RANs self-healing in 5G networks. The
+traffic control aspects, such as network traffic classification,
+                                                                   anomaly detection is carried out in two steps. First, the profil-
+network flow prediction, mobility prediction, Cognitive Radio
+                                                                   ing of normal system states is performed per cell for work days
+Networks (CRNs), and Self-Organized Networks (SONs). The
+                                                                   and weekends. Subsequently, the identification of anomaly
+authors demonstrated the effectiveness of a deep-learning
+                                                                   patterns is conducted by measuring the deviation from the
+routing approach compared to a conventional routing strategy
+                                                                   established baseline profiles. The anomaly diagnosis aims to
+in a wireless mesh backbone network.
+                                                                   determine the potential root causes of a detected anomaly.
+   Authors in [3] proposed a closed-loop solution for network
+                                                                   The diagnosis process relies on Case-Based Reasoning (CBR),
+slicing where traffic forecasting information is ingested by an
+                                                                   transfer learning and active learning techniques to allow for au-
+admission control engine to maximize the number of granted
+                                                                   tonomous self-healing actions. The holism property, required
+network slice requests while meeting the slice Service Level
+                                                                   to build efficient resilient systems, is achieved through cross-
+Agreements (SLAs) guarantees. A slice scheduling module
+                                                                   domain collaboration. However, a holistic healing cannot be
+is in charge of provisioning physical resources to admitted
+                                                                   achieved without standardization of management functions
+slice requests and reporting SLA violations to the forecasting
+                                                                   and development of mechanisms and KPIs to communicate
+module in order to correct the foreseen traffic load. The
+                                                                   decisions and actions between management domains.
+per-slice traffic prediction is based on past traffic and user
+                                                                      Qin et al. [7] investigated the self-healing problem in SON-
+mobility using the Holt-Winters time-series forecasting model.
+                                                                   based ultra-dense cell networks. ML-based self-healing frame-
+The admission control problem is formulated as a geometric
+                                                                   work is devised, which provides both outage detection and
+knapsack problem and is solved with a simulated annealing-
+                                                                   compensation, even in the presence of partial KPI statistics.
+based heuristic.
+                                                                   The outage detection algorithm applies Support Vector Data
+   Martin et al. [4] developed a network resource allocator
+                                                                   Description (SVDD) approach; a ML technique inspired by
+system that fosters self-configuration, self-optimization and
+                                                                   Support Vector Machine (SVM). The outage compensation
+self-healing capabilities by means of ML, SDN and NFV tech-
+                                                                   is fulfilled through load-balanced allocation of neighboring
+nologies. The system enables QoE-aware autonomous network
+                                                                   small-cell resources, guaranteeing coverage and user’s QoS
+management which dynamically and proactively provisions a
+                                                                   requirements.
+network topology to adapt to changing demands of media
+                                                                      The work in [8] proposed a reactive mechanism for an adap-
+services. To this end, a ML engine is integrated into SDN
+                                                                   tive and accurate NFV scaling decisions. The scaling mecha-
+controller to forecast traffic load and corresponding KPIs,
+                                                                   nism combines Q-learning and Gaussian process models. As
+and foresee the network topology to be setup in line with
+IEEE NETWORK MAGAZINE                                                                                                                           3
+
+
+
+a reactive solution, it suffers from latency to react to dynamic    and ZSM are mainly guided by the same principles, such as
+changes and delay to have new Virtualized Network Function          dynamic and open APIs, closed-loop end-to-end management,
+(VNF) instance ready for use. To avoid this weakness, Alawe         near real-time and zero-touch.
+et al. [9] proposed a proactive mechanism based on traffic             MEF 3.0 5 is a transformational framework for defining,
+prediction to enable dynamic scaling of 5G Core Network             delivering, and certifying agile, assured, and orchestrated com-
+(CN) resources, particularly Access and Mobility Management         munication services across a global ecosystem of automated
+(AMF) resources. The forecast of upcoming traffic load and          networks. MEF 3.0 services will be delivered over automated,
+the needed number of AMFs is leaned on two neural network           virtualized, and interconneceted networks powered by Life-
+techniques, namely Deep Neural Network (DNN) and Long               cycle Services Orchestration (LSO), SDN, and NFV. LSO
+Short-Term Memory Recurrent Networks (LSTM).                        provides open and interoperable automation of management
+                                                                    operations for connectivity services. This includes fulfillement,
+B. Relevant Research Projects                                       performance, control, assurance, usage, analytics, security,
+                                                                    and policy capabilities. MEF is partnering with The Linux
+   SELFNET 1 is a 5G-PPP phase I project that aims to design        Foundation to advance its LSO analytics capabilities using
+and implement an intelligent management framework for 5G            Platform for Network Data Analytics (PNDA) 6 .
+networks. The project focuses on the intelligent autonomic             ETSI ENI (Experiential Network Intelligence) ISG (Industry
+management of NFV functions in NFV/SDN-enabled 5G                   Specification Group) 7 is defining a Cognitive Network Man-
+networks. Different use cases have been defined targeting the       agement architecture using closed-loop AI mechanisms based
+following capabilities: (i) self-protection against distributed     on context-aware and metadata-driven policies to improve the
+cyber-attacks; (ii) self-healing against network failures; and      operator experience. The architecture is based on the “observe-
+(iii) self-optimization to dynamically improve the network’s        orient-decide-act” control loop model. The project defines
+performance and the user’s QoE. The project defined also            different use cases that cover infrastructure management,
+a set of Health of Network (HoN) metrics that serve as              network operations, service orchestration and management,
+its KPIs to measure the stability and performance of the            and assurance. Among ENI use cases that are relevant to
+network. CogNet 2 is a 5G-PPP phase I project that uses             ZSM, we find: (i) Intelligent network slicing management; (ii)
+ML to enable self-administration and self-management of 5G          Network fault identification and prediction; and (iii) Assurance
+networks. The project identified six use cases and eleven           of Tight service requirements. The cognition requirements
+scenarios based on the challenges of the future 5G network          are identified for different scenarios of service provision and
+management, such as network resource utilization, network           network operation, as well as enabling dynamic autonomous
+performance degradation, and energy efficiency. Just-in-Time        behavior and adaptive policy-driven operation in a changing
+services and SLA enforcement are among the identified use           context. Unlike ETSI ISG ZSM which focuses on automation
+cases. SLICENET 3 is a 5G-PPP phase II project that aims            techniques, end-to-end service management and full automa-
+to design and implement an E2E cognitive vertical-oriented          tion, ETSI ENI ISG concentrates on AI techniques, policy
+5G network slicing framework. The project focuses on cogni-         management and closed-loop mechanisms. The capabilities
+tive network management, control and orchestration of slices        offered by ENI such as the AI/ML algorithms, intent policies,
+across multiple management domains. Cognition (intelligence)        SLA management can be leveraged by ZSM’s analytics and
+is used to learn the best actions to be taken in order to           intelligence services to improve the automation of network and
+maintain the desired QoS/QoE of the verticals. Three use            service management.
+cases representing three vertical industries are defined, namely:      TM Forum Smart BPM 8 (Business Process Management)
+(i) 5G Smart Grid self-healing; (ii) 5G e-Health connected          is investigating the embodying of AI-based decision modeling
+ambulance; and (iii) 5G smart city smart lighting. The project      in telecom business processes such as resource provisioning,
+defines the cognition requirements for the aforementioned use       fault management, assurance, and customer management. The
+cases.                                                              resulting best practices, tools and methodologies can be appli-
+                                                                    cable to ZSM.
+C. Relevant Standards                                                  FG-ML5G 9 is an ITU-T Focus Group on Machine Learning
+   Along side research contributions, Standards Developing          for Future Networks that was established in Nov. 2017. The
+Organisations (SDOs) are progressing standards initiatives          group focuses on defining uses cases and specifying network
+looking at autonomous and automated network and service             architectures, interfaces and data formats for enabling machine
+management.                                                         learning mechanisms in future networks, including 5G. The
+   TMF’s Zero-touch Orchestration, Operations and Manage-           outputs of FG-ML5G can be exploited by ZSM to enhance
+ment (ZOOM) project 4 intends to define a new management            the framework intelligence.
+architecture of virtualized networks and services, based on
+smooth interaction between physical and virtual components
+to dynamically assemble into personalized services. ZOOM              5 http://www.mef.net/mef30/overview
+                                                                      6 http://pnda.io
+  1 https://selfnet-5g.eu                                             7 https://www.etsi.org/technologies-clusters/technologies/experiential-
+  2 http://www.cognet.5g-ppp.eu                                     networked-intelligence
+  3 https://slicenet.eu                                               8 https://www.tmforum.org/catalysts/smart-bpm/
+  4 https://www.tmforum.org/collaboration/zoom-project/               9 https://www.itu.int/en/ITU-T/focusgroups/ml5g/Pages/default.aspx
+IEEE NETWORK MAGAZINE                                                                                                                                                                                                                                          4
+
+
+
+                            III. ZSM A RCHITECTURE                                                          The common data services allow to separate data storage
+   The ZSM framework reference architecture [10] is designed                                             and data processing, facilitating access to data and cross-
+to support full automated network and service management                                                 domain data exposure. Data in Common Data Services can
+in multi-domain environments that includes operation across                                              be exploited by domain and E2E service intelligence services
+legal operational boundaries. To meet this goal, the design                                              to drive domain-level and cross-domain AI-based closed-
+of the ZSM architecture is guided by a set of architectural                                              loop automation, respectively. The automated decision-making
+design principles. The architecture is modular (made up of                                               mechanisms are controlled by rules and policies. Note that a
+self-contained and loosely-coupled services), extensible (al-                                            MD may contain domain data services that allow data sharing
+lowing to add new services and service capabilities), scalable                                           between functional components inside the MD.
+(enabling independent deployment and scaling of components                                                  Each MD, including the E2E service MD, comprises several
+to accommodate the management load) and resilient to failures                                            management functions grouped into logical groups (e.g., do-
+(where services are designed in a way to cope with the                                                   main collection services, domain analytics services, domain in-
+degradation of the infrastructure and/or other services). It                                             telligence services, domain orchestration services and domain
+is worth noting that modularity is a keystone for achieving                                              control services) and provides a set of management services
+the architecture extensibility, scalability and resiliency. The                                          via service interfaces. Some services are only provided and
+modular characteristic is paired with the use of intent-based                                            consumed locally inside the domain using the intra-domain
+interfaces, closed-loop operation and AI/ML techniques to                                                integration fabric. Meanwhile, the service exposure cross-
+empower full-automation of the management operations. As                                                 domain is enabled through inter-domain integration fabric. The
+depicted in Fig. 1, the framework architecture is composed of                                            management services are exposed and consumed following
+a set of architectural building blocks, namely, management                                               either the request-response or the publish-subscribe patterns.
+domains (MDs) including E2E service MD, management                                                       Fig. 2 illustrates the high-level architecture of a MD with
+services, integration fabric and common data services.                                                   the main interactions between the different logical groups of
+                                                                                                         management services.
+                                         Digital Storefront
+                            (Automated Customer & Business Management)                                                                   Control the state of managed entities
+
+                                                                                                                                                                                                       Control the state of
+                                  E2E Management Domain                                                      Domain                                  Domain                                             managed entities      Domain
+                                                                                                           Orchestration       Preconfigured or    Intelligence                                                               Control
+                                       Management Service Implementations                                                         dynamically
+                                                                                            Data                               created workflow
+
+
+
+                                                                                                                                                              detection
+                                                                                                                                                              Anomaly
+                                                                                           Services
+
+                                               Intra-Domain Integration Fabric                                         Actions or changes to                                                              Actions or changes to
+
+
+
+
+                                                                                                                                                                                                                                        Change configuration
+                                                                                                                       the managed entities         Domain                                                the managed entities
+                                E2E           E2E        E2E          E2E            E2E                                                            Analytics
+                            Orchestration Intelligence Analytics Data Collection Data Services
+
+                                                                                                                                       Store
+                                   Inter-Domain Integration Fabric                                               Domain             Data/Events      Domain
+                                                                                                               Data Services                      Data Collection
+    Domain    Domain        Domain Domain           Domain         Domain                                  Management Domain
+    Control Orchestration Intelligence Analytics Data Collection Data Services
+                                                                                                                                                                    Anomaly Events
+
+                                                                                                                                                                                     Security Events
+                                                                                                                                                   Measurements
+                                                                                                                                                    Performance
+
+
+
+
+                       Intra-Domain Integration Fabric
+
+
+                Management Service Implementations                                      Data
+                                                                     Data              Services                                 Infrastructure resources / Consumed services
+                                                                    Services         Common Data
+           Management Domain
+                                                                                       Services
+                                                                                          ZSM Scope        Fig. 2: Management Domain’s High-Level Architecture.
+                 Domain Managed Infrastructure Resources                                Legend
+                                                                                           Interface
+                 Physical                Virtual                  XaaS                     Closed-loop       IV. L IMITATIONS AND R ISKS OF AI- DRIVEN ZSM
+                                                                                                            AI plays a pivotal role in empowering self-managing func-
+               Fig. 1: ZSM Reference Architecture [10].
+                                                                                                         tionalities in ZSM, leading to improved service delivery and
+   The ZSM architecture is split into MDs to support the                                                 reduced OPEX. However, leveraging AI techniques in a ZSM
+separation of management concerns. Each MD is responsible                                                system is constrained by several limitations and risks, high-
+for intelligent automation of orchestration, control and assur-                                          lighted in what follows.
+ance of resources and services within its scope. The managed
+resources can be physical resources (e.g., physical network                                              A. Limited Automation due to Limited AI
+functions (PNFs)), virtual resources (e.g., VNFs) and/or cloud                                              AI/ML mechanisms are tremendous for embodying cogni-
+resources (e.g., “X-as-a-service” resources). The E2E service                                            tive processing to ZSM systems and allowing full automation
+MD is a special MD that manages end-to-end, customer-facing                                              of management operations. However, this goal can not be
+services that span multiple domains provided by different                                                met without addressing limitations associated with AI/ML
+administrative entities. The E2E service coordinates between                                             techniques to fulfill performance and legal requirements. In
+domains using orchestration. The decoupling of MDs from                                                  fact, network operators call for high level of reliability and
+the E2E service MD escapes monolithic systems, reduces                                                   service availability to avoid financial losses due to network
+the overall system’s complexity, and enables independent                                                 outages and SLA violations. Moreover, transparency and ac-
+evolution of domains and end-to-end management operations.                                               countability of AI-enabled systems are of utmost importance
+IEEE NETWORK MAGAZINE                                                                                                                 5
+
+
+
+to build trust in their decisions as well as legal compliance.          3) Training Time and Inference Accuracy: To support the
+For instance, the General Data Protection Regulation (GDPR)          promised very-low latency and ultra-low reliability of next-
+law entitles individuals the right to obtain an explanation          generation networks, a ZSM system should enable real-time
+of how the decision is reached by an automated system. In            or near real-time management operations with accurate deci-
+what follows, we will discuss different limitations of AI/ML         sion making. Emerging AI/ML techniques, such as ensemble
+models that can hamper the fulfillment of the aforementioned         and deep learning, have proved their capability in solving
+requirements.                                                        complex real-world problems with high accuracy. Therefore,
+   1) Lack of Datasets and Labeling: The validation and              those techniques are likely to be a key enabler in a ZSM
+accuracy of ML models heavily depend on the availability of          system to deliver accurate decisions. However, the lengthy
+high-quality datasets. Thus, 5G-specific datasets are crucial for    training time required to achieve such improved accuracy
+building up efficient and accurate learning models in a ZSM          may jeopardize their practicality for real-time usage. This
+system. Unfortunately, such datasets are actually scarce since       issue becomes even more critical in a highly dynamic and
+the roll-out of 5G networks is planned for 2020. Moreover,           non-stationary environment, such as 5G networks. In such
+the existing operators’ data are not accessible due to privacy       environment, the data patterns may change over time, calling
+issues. Even some recent initiatives (e.g., 5GMdata 10 and           for AI/ML model retraining to accommodate the new changes
+5GTN 11 ) are raising to create 5G-specific datasets, the gener-     in data distribution and consequently achieve higher prediction
+ated samples are synthetic and/or lack completeness. Besides         (or inference) accuracy. While model retraining prevents drop
+data availability, the quality of collected data is another issue.   in AI/ML model performance, it entails a considerable increase
+Indeed, high-quality data; i.e., accurate, suitable, complete and    in training time. Thus, shortening the training time without
+timely, is necessary for delivering useful insights and deci-        loss of inference accuracy is essential for emerging AI/ML
+sions. Another challenge lies in the volume of data needed to        techniques to make their way into a ZSM system.
+reach high accuracy. For instance, the deep learning accuracy           4) Computation Complexity: Emerging AI/ML techniques,
+scales with the amount of available data; the higher the volume      such as deep learning and reinforcement learning, have gained
+of trained data, the higher the accuracy will be. The supervised     a surge of interests thanks to their noticeable accuracy im-
+and semi-supervised learning adds another layer of complexity        provements. However, this accuracy enhancement comes at
+as labeled data is required to train algorithms. Annotated data      the cost of high demand of computation, memory and energy
+may be scarce or expensive, and a fully annotated dataset may        resources. Thus, leveraging such techniques by a ZSM system
+not be feasible.                                                     is challenged by the near-to-zero latency and lower energy
+   2) AI Model Interpretability: The adoption of AI/ML tech-         usage promises of 5G networks. To fully benefit from those
+niques to enable full automation in ZSM will potentially de-         models, efficient solutions to optimize and accelerate them are
+pend on how well AI/ML models are interpretable. The AI/ML           crucial.
+model interpretability is the ability to establish the cause-and-
+effect relationship between decisions made and input data that       B. Security
+caused such decisions. It is the process of explaining what,
+                                                                        As shown in the aforementioned projects and contributions,
+how and why decisions are taken based on training data.
+                                                                     AI/ML techniques play an important role in empowering
+The AI/ML model interpretation will ensure accountability,
+                                                                     functionalities such as self-planning, self-optimization, self-
+reliability and transparency, fostering trustworthiness in AI-
+                                                                     healing, and self-protecting. However, the growing enthusiasm
+enabled systems. Unfortunately, the interpretation of an AI/ML
+                                                                     for AI/ML adoption in managing next-generation networks
+model is a challenging task that can not be achieved without
+                                                                     could be waned if security concerns related to the use of
+sacrificing the model accuracy. Indeed, simple models like
+                                                                     AI/ML techniques are not addressed. Indeed, the use of AI/ML
+linear and tree-based models are easily interpretable but suffer
+                                                                     and other data analytic technologies is a source for new
+from low accuracy. For instance, the response function (i.e.,
+                                                                     attack vectors in a ZSM system [11]. It has been proven
+predicted output) produced by a linear model is expressed as
+                                                                     that ML techniques are vulnerable to several attacks [12]
+a weighted sum of its input data (i.e., features), which makes
+                                                                     targeting both training phase (i.e., poisoning attacks) and
+the model interpretability a straightforward process. However,
+                                                                     test phase (i.e., evasion attacks). The attacks aim to cause
+linear models fail to capture complex non-linear patterns in the
+                                                                     either integrity, availability or privacy violation by introducing
+data, leading to drop in accuracy. Meanwhile, more complex
+                                                                     carefully crafted perturbations to training and test samples.
+models such as ensemble and DL models often yield higher
+                                                                     Such perturbations are called adversarial examples.
+accuracy, thanks to their ability to learn complex non-linear
+                                                                        The ZSM’s E2E service intelligence services drive the
+relationships between inputs and outputs. Neverthless, those
+                                                                     closed loops in the E2E service management domain. It
+models are reputed to be black-box models as the logic behind
+                                                                     covers both service-specific predictions / recommendations
+their decisions is extremely difficult to explain. Taking the
+                                                                     (e.g., predict service demand) and making decisions and
+example of DL models, it is quite hard to understand the role
+                                                                     triggering their execution (e.g., decisions to optimize the E2E
+played by individual neurons and the correlation between input
+                                                                     service) [10]. The decision-making is based on information
+features and model decisions. Therefore, a tradeoff between
+                                                                     obtained from domain data collection services and common
+interpretability and accuracy should be established.
+                                                                     data services. Thus, an attacker can craft inputs to drive the
+  10 https://github.com/lasseufpa/5gm-data/wiki/5GMdata-Home         ML model used by the E2E service intelligence services to
+  11 https://5gtn.fi                                                 make erroneous prediction and decision-making, potentially
+IEEE NETWORK MAGAZINE                                                                                                                                   6
+
+
+
+causing performance degradation and financial harm, as well                             and normalizing the values of features using the Min-Max
+as endangering SLA fulfillment and security guarantees. For                             scaling technique. The resulting dataset contains a total of
+instance, an adversary can inject crafted samples that let the                          961641 flows, where each flow is defined by a feature vector
+E2E service intelligence services wrongly forecast the future                           containing 79 features in addition to a label identifying the
+resource requirements of an E2E service, or to trigger an                               flow’s class (i.e., benign or malicious). The dataset is split
+inappropriate management policy (e.g., reconfiguration, scale-                          into separate training and test sets with a ratio of 0.7/0.3,
+in, scale-out) of E2E service. Note that domain intelligence                            respectively. The DL model is built on the training set while its
+services are prone to the same attacks. Fig. 3 illustrates a                            prediction accuracy is evaluated on the unseen test dataset. To
+VNF auto-scaling scenario where the ML model, used by                                   investigate the effect of the type and architecture of the chosen
+the E2E service intelligence or domain intelligence, generates                          DL algorithm, four model variants are considered: (1) Small
+scaling decisions (i.e., scale-in, scale-out) based on service                          MLP (MultiLayer Perceptron), involving 1 input layer and 2
+requirements and VNF load. As shown in the figure, if metric                            hidden layers with 64 neurons each; (2) Big MLP, consisting
+data are not manipulated, the ML model will decide to perform                           of 1 input layer and 4 hidden layers with 1024 neurons each;
+a scale-in operation to reduce costs. However, if an attacker                           (3) Small LSTM, comprised of 2 hidden LSTM layers with
+is able to manipulate the metric data, he/she could fool the                            120 cells each; and (4) Big LSTM, composed of 4 hidden
+ML model into taking the scale-out decision, which will result                          LSTM layers with 384 cells each. The four variants used a
+in adding new VNF instances. To make things worse, the                                  two-class softmax output layer. The models are implemented
+attacker may leverage the closed-loop feature to generate and                           using the Python’s DL libraries Pytorch and Keras running on
+inject adversarial inputs automatically and repeatedly into the                         a TensorFlow backend. They are trained for 10 epochs, with
+system, which may result in Denial of Service (DoS) due to                              different batch sizes (128, 256, and 512). The experiments
+resource exhaustion and/or increased OPEX.                                              are carried out on two platforms, namely: (1) a VM with 16-
+                     Modified Metric Data                          Infrastructure       cores Intel’s Skylake 2.4GHz CPU and 64GB RAM, and (2)
+    Attacker         (Adversarial Inputs)   ML Model                 Resources
+                                                       Scale-out (Physical, Virtual)    a NVIDIA Jetson TX2 GPU with 256 CUDA cores, 8GB
+                                                       Decision                         RAM and JetPack 4.2.1 SDK.
+                                                                          VNF
+                                                                                           Figures 4a and 4b depict the comparative results on training
+                                                                     VM VM VM
+                                                                                        speed and inference accuracy, respectively. The analysis of the
+     Infrastructure
+       Resources                            ML Model
+                                                                    Infrastructure
+                                                                      Resources
+                                                                                        obtained results has revealed the following key insights: (1)
+                                                       Scale-in
+   (Physical, Virtual)
+                                                       Decision
+                                                                  (Physical, Virtual)   The training time can be shortened by reducing the model
+          VNF
+                           Metric
+                                                                          VNF           size and increasing the batch size; (2) CPU outperforms GPU
+     VM VM                 Data                                      VM                 in speeding-up the training time of small-sized models. This
+                                                                                        stems from the fact that with small models, the CPU-GPU
+        Fig. 3: Adversarial Attack Illustrative Example.                                data transfer overhead exceeds the computation acceleration
+                                                                                        benefit; (3) LSTM-based models exhibit long training time
+                                                                                        compared to MLP-based models; (4) Pytorch performs well, in
+   V. I MPACT OF H ARDWARE /S OFTWARE FACTORS ON                                        terms of training speed, for big-sized models as well as when
+    T RAINING T IME AND I NFERENCE ACCURACY: A                                          running on GPU. Indeed, Pytorch-based big models trained
+                 B ENCHMARK S TUDY                                                      on GPU could achieve up to 7.5⇥ (LSTM) and 4.3⇥ (MLP)
+                                                                                        speedup compared to their Keras-based counterparts executed
+   Many factors may contribute to speeding up the training                              on CPU. However, up to 3.4% loss of accuracy is observed
+time, including the dataset size, the development platform                              with Pytorch-based MLP models. The effect of varying the
+(e.g., Tensorflow, Pytorch, Keras, Caffe, MXNet), the hard-                             training set size on the training speed and prediction accuracy
+ware platform (e.g., CPU, GPU, TPU) and the AI/ML model’s                               is also assessed. Figure 5 shows the results for a Big MLP
+hyper-parameters (e.g., the number of hidden layers, the                                model using a batch size of 512 and running on GPU for
+number of neurons in each layer, the learning rate, the batch                           different training set sizes ranging from 10000 to 670744.
+size, the number of epochs). In this section, a benchmark                               Typically, the availability of more training data leads to
+study is conducted to explore how some of the aforementioned                            improved accuracy, but at the expense of increased training
+factors influence the training time and inference accuracy                              time. A key observation is that, unlike Keras, Pytorch-based
+of a DL-based DoS detection model. The recent intrusion                                 implementation delivers faster training speed and its accuracy
+detection evaluation dataset, CICIDS2017 [13] 12 , is used.                             is less sensitive to the amount of training data.
+CICIDS2017 dataset comprises benign traffic and the most                                   In the light of this study, it is clear that finding the ideal
+up-to-date common attacks. For the purpose of this study, we                            combination of the diverse software/hardware factors is an
+consider a subset of CICIDS2017 dataset, where only network                             essential, yet a challenging, task to achieve the required ac-
+flows corresponding to normal traffic and DoS/Distributed                               curacy at fast training speed. Considering further performance
+DoS (DDoS) attacks are kept. The dataset is prepared to                                 metrics, such as inference time or energy consumption, makes
+fit for DL models by performing different data processing                               this task even more difficult.
+operations, namely: removing records that are redundant or
+have missing/infinity values, encoding non-numerical features,
+ 12 https://www.unb.ca/cic/datasets/ids-2017.html
+IEEE NETWORK MAGAZINE                                                                                                                                                                                                                                                                               7
+
+
+
+                                                                                                                                                                                                            K(C/S)          K(C/B)     P(C/S)       P(C/B)
+                                                                                                                                                                                                            K(G/S)          K(G/B)     P(G/S)       P(G/B)
+
+                                                                                                                                                           99.8
+
+                                                                                                                                                                                                                                     99.5
+                                                                                                                                                           99.6
+                                                                                                                                                                                                                                      99
+
+                     5000                                                                                                                                  99.4
+                                                                                                                                                                                                                                     98.5
+
+
+
+
+                                                                                                                                            Accuracy (%)
+                     4500
+ Training time (s)
+
+
+
+
+                     4000
+                     3500                                                                                                                                  99.2                                                                       98
+                     3000
+                     2500
+                     2000                                                                                                                                    99                                                                      97.5
+                     1500                                                                                                       K(
+                     1000                                                                                                          C/
+                                                                                                                             P(       B)
+                                                                                                                               C/
+                      500                                                                                                K(       B)                                                                                                  97
+                        0                                                                                                   G/                             98.8
+                                                                                                                     P(        B)
+                                                                                                                        G/
+                                             (1 L P
+
+
+
+
+                                                                                                                 K(        B)
+                                                  )
+
+
+
+
+                                                                                                                    G/
+                                               28
+
+
+                                                      (2 L P
+
+
+
+
+                                                                                                                                                                                                                                     96.5
+                                              M
+
+
+
+
+                                                                                                            P(         S)
+                                                           )
+                                                        56
+
+
+
+
+                                                                                                               G/
+                                                               (5 L P
+
+
+
+
+                                                                                                                                                                                                       Small-sized models                                                     Big-sized models
+                                                       M
+
+
+
+
+                                                                    )
+
+
+
+
+                                                                                                        P(        S)                                       98.6
+                                                                 12
+
+
+                                                                        (1 TM
+
+
+
+
+                                                                                                           C/
+                                                                M
+
+
+
+
+                                                                             )
+
+
+
+
+                                                                                                    K(        S)
+                                                                                 (2 TM
+                                                                          28
+                                                                         LS
+
+
+
+
+                                                                                                       C/
+                                                                                      )
+
+                                                                                          (5 TM
+                                                                                   56
+
+
+
+
+                                                                                                          S)
+                                                                                  LS
+
+
+
+
+                                                                                               )
+                                                                                            12
+
+
+
+
+                                                                                                                                                                           MLP     MLP     MLP     LSTM    LSTM       LSTM                  MLP       MLP     MLP     LSTM       LSTM       LSTM
+                                                                                           LS
+
+
+
+
+                                                                                                                                                                           (128)   (256)   (512)   (128)   (256)      (512)                 (128)     (256)   (512)   (128)      (256)      (512)
+
+
+                                                                                   (a)                                                                                                                                        (b)
+
+Fig. 4: Comparative results on training speed and inference accuracy of a DL-based DoS detection model (P=Pytorch, K=Keras,
+C=CPU, G=GPU, S=Small and B=Big).
+
+
+                                                                                                                                           100
+                                                                                                                                                                                    crucial to ensure their integrity and their provenance from
+                                                                                                                                                                                    trusted sources. Thus, solutions to automatically collect trusted
+                                             600                                                                                                                                    immutable datasets from distributed sources are necessary.
+                      Training time (Sec.)
+
+
+
+
+                                                                                                                                           90
+                                                                                                                                                                                    Blockchain can play a pivotal role in developing such solutions
+                                                                                                                                                            Accuracy (%)
+
+
+
+
+                                                                                                                                           80
+                                                                                                                                                                                    thanks to its immutability and distributed nature.
+                                             400
+                                                                                                                                                                                       The trust in AI models is related to which extent domain
+                                                                                                                                                                                    experts can trust the decisions taken by those models. As
+                                                                                                                                           70
+                                             200                                                   Train time (Pytorch)
+                                                                                                                                                                                    mentioned before, the model interpreatbility is a key enabler to
+                                                                                                   Train time (Keras)                                                               foster trust in AI-enabled systems. However, the complexity of
+                                                                                                                                           60
+                                                                                                   Acc. (Pytorch)
+                                                                                                                                                                                    emerging ML techniques, such as deep learning and reinforce-
+                                               0                                                   Acc. (Keras)
+                                                                                                                                                                                    ment learning, is a serious impediment to their interpretability.
+                                                        0                    2          4                              6            ·105                                            They are considered black-boxes since it is hard to explain how
+                                                                           Training dataset size                                                                                    they work and how their outcomes are made. To fully benefit
+                                                                                                                                                                                    from the high accuracy brought by black-box models in a
+Fig. 5: Speed/Accuracy vs. training set size of Big MLP model
+                                                                                                                                                                                    ZSM system, it is necessary to design efficient interpretation
+with a batch size of 512 on GPU.
+                                                                                                                                                                                    approaches that improve explanation of black-box models
+                                                                                                                                                                                    without sacrificing their accuracy. It is desirable to be able
+                                                   VI. F UTURE R ESEARCH D IRECTIONS                                                                                                to generate interpretations automatically.
+A. Safe Shared Learning
+   Collaboration and data sharing between multiple mobile                                                                                                                           C. Computation Complexity Optimization
+operators (i.e., different MDs) are vital to improve accuracy                                                                                                                          As already mentioned, the emerging ML techniques are
+and speed up the learning process of ML models used by the                                                                                                                          characterized by increased accuracy but at the cost of high
+different MDs. Meanwhile, empowering shared learning gives                                                                                                                          demand of computation resources. To make their adoption
+rise to privacy and trust issues. It is necessary to ensure that                                                                                                                    possible in a ZSM system, solutions to optimize and accel-
+the model can learn from shared data without compromising                                                                                                                           erate their execution are necessary. Thus, new optimization
+the privacy of collaborative entities. To deal with the trust                                                                                                                       techniques should be designed to reduce the complexity of
+issue, mechanisms to ensure that collaborative entities are not                                                                                                                     those models without loss of accuracy. A possible optimization
+malicious need to be developed.                                                                                                                                                     consists in reducing the number of operations required by the
+                                                                                                                                                                                    model. Hardware-based methods (e.g., FPGA-based accelera-
+B. Trust in Data and Models                                                                                                                                                         tion and GPU processing) to accelerate complex ML models
+                                                                                                                                                                                    is another alternative to explore.
+   Trust is a cornerstone for adopting AI-based automated
+systems. Two dimensions of trust are necessary to stimulate
+confidence in AI-based systems, namely trust in datasets and                                                                                                                        D. Training Speed – Accuracy Balance
+trust in AI models.                                                                                                                                                                    To empower ZSM’s analytics and intelligence services that
+   The efficiency of predictions and decisions made by ZSM’s                                                                                                                        can take advantage of emerging AI/ML techniques while
+intelligence services will depend on data gathered from a                                                                                                                           meeting both (near) real-time and accurate prediction/decision
+variety of sources (e.g., users, services, network) across mul-                                                                                                                     making requirements, a balance should be established between
+tiple domains. Since data is the fuel for AI algorithms, it is                                                                                                                      the training time and the accuracy of the integrated AI/ML
+IEEE NETWORK MAGAZINE                                                                                                                            8
+
+
+
+models. Along with optimizing the computation complexity             adversarial examples. In other words, how can we make
+as discussed above, a potential paradigm that has recently           learning more robust/secure so that the system can take the
+surfaced as a promising solution to tackle the slow training         right decision even in the presence of adversaries?
+issue is transfer learning.
+   Transfer learning consists in leveraging the knowledge                                      VII. C ONCLUSION
+acquired from one task to solve a new but related task.
+                                                                        This paper introduced the emerging concept of Zero-touch
+For instance, the experience gathered by an AI/ML model
+                                                                     network and Service Management (ZSM). We showed that
+trained to detect DoS attacks in CN can be shared with a
+                                                                     AI techniques play a pivotal role in making ZSM a reality.
+newly deployed AI/ML model aiming to detect DoS attacks
+                                                                     Meanwhile, we spotlighted the limitations and security risks
+in RAN. Using a pre-trained AI/ML model to predict new
+                                                                     that may hamper the integration of AI techniques in ZSM. In
+data patterns (e.g., new classes of attacks) is yet another
+                                                                     light of the identified issues, we pointed out potential research
+possible application of transfer learning. The capability of
+                                                                     topics. A special attention should be paid to devise computa-
+transferring previous knowledge leads to fast training process
+                                                                     tionally efficient and trustable AI-driven network management
+and improved accuracy of the new model. However, a major
+                                                                     operations.
+challenge for applying transfer learning paradigm is to identify
+what, how and when to transfer knowledge in order to avoid
+a negative effect on the performance of the new model. Thus,                                  ACKNOWLEDGMENT
+more research efforts in this direction are required to fulfill        This work was supported in part by the Academy of Finland
+the potential of transfer learning in a ZSM system.                  Project 6Genesis Flagship (Grant No. 318927), CSN (Grant
+                                                                     No. 311654) and the European Union’s Horizon 2020 research
+                                                                     and innovation programme under the INSPIRE-5Gplus project
+E. Adversarial ML for ZSM
+                                                                     (Grant No. 871808).
+   To make ML techniques resilient to adversarial attacks, a
+new research discipline has emerged, called Adversarial Ma-                                        R EFERENCES
+chine Learning (AML) [14]. It aims at assessing the security
+robustness of ML algorithms against attacks and designing             [1] 5G-PPP Architecture WG, “View on 5G Architecture (Version 2.0),”
+                                                                          July 2017.
+appropriate countermeasures. While AML has attracted much             [2] Z. M. Fadlullah, F. Tang, B. Mao, N. Kato, O. Akashi, T. Inoue,
+interest in vision field, only very few contributions (e.g., [15],        and K. Mizutani, “State-of-the-Art Deep Learning: Evolving Machine
+[16]) have addressed ML security in the context of service                Intelligence Toward Tomorrow’s Intelligent Network Traffic Control
+                                                                          Systems,” IEEE Communications Surveys & Tutorials, vol. 19, no. 4,
+and network management. Usama et al. [15] highlight the im-               pp. 2432 – 2455, 4Q 2017.
+portance of tackling adversarial attacks against cognitive self-      [3] V. Sciancalepore, K. Samdanis, X. Costa-Perez, D. Bega, M. Gramaglia,
+organizing networks. As a proof of concept, white-box evasion             and A. Banchs, “Mobile Traffic Forecasting for Maximizing 5G Network
+                                                                          Slicing Resource Utilization,” in INFOCOM. IEEE, 2017, pp. 1–9.
+attacks against Convolutional Neural Network have been de-            [4] A. Martin, J. Egaña, J. Flórez, J. Montalbán, I. G. Olaizola, M. Quar-
+signed to show how a malware classifier can be evaded. Han                tulli, R. Viola, and M. Zorrilla, “Network Resource Allocation System
+et al. [16] investigated the reaction of Reinforcement Learning           for QoE-Aware Delivery of Media Services in 5G Networks,” IEEE
+                                                                          Transactions on Broadcasting, vol. 64, no. 2, pp. 561 – 574, June 2018.
+(RL) agent toward different forms of causative attacks in             [5] F. D. Calabrese, L. Wang, E. Ghadimi, G. Peters, L. Hanzo, and
+the context of autonomous cyber-defense in Software Defined               P. Soldati, “Learning Radio Resource Management in RANs: Frame-
+Networks (SDNs). Guaranteeing the security of ML models                   work, Opportunities, and Challenges,” IEEE Communications Magazine,
+                                                                          vol. 56, no. 9, pp. 138 – 145, Sept. 2018.
+is a mandatory condition for their integration in a service and       [6] J. Ali-Tolppa, S. Kocsis, B. Schultz, L. Bodrog, and M. Kajo, “Self-
+network management platform for next-generation networks.                 healing and Resilience in Future 5G Cognitive Autonomous Networks,”
+Thus, more research efforts in AML need to be devoted to this             in 10th ITU Academic Conf., Machine Learning for a 5G Future, Nov.
+                                                                          2018, pp. 35 – 42.
+area. Indeed, we need to master how adversarial attacks can           [7] M. Qin, Q. Yang, N. Cheng, H. Zhou, R. R. Rao, and X. Shen, “Machine
+be launched in networking environment. While the generation               Learning Aided Context-Aware Self-Healing Management for Ultra
+of adversarial examples is now relatively clear in vision area,           Dense Networks with QoS Provisions,” IEEE Transactions on Vehicular
+                                                                          Technology, vol. 67, no. 12, pp. 12 339 – 12 351, Dec. 2018.
+there are no clues on how they could be crafted and introduced        [8] C. H. T. Arteaga, F. Rissoi, and O. M. C. Rendon, “An Adaptive Scaling
+in a network traffic. Research work should focus on devising              Mechanism for Managing Performance Variations in Network Functions
+algorithms that automatically generate adversarial examples               Virtualization: A Case Study in an NFV-Based EPC,” in Proc. of the
+                                                                          IEEE 13th Int. Conf. on Network and Service Management, 2017, pp. 1
+for network traffic. Moreover, suitable countermeasures should            – 7.
+be designed to cope with those attacks and ensure the safety          [9] I. Alawe, A. Ksentini, Y. Jadjadj-Aoul, and P. Bertin, “Improving
+of ML models integrated in a ZSM system. Another research                 traffic forecasting for 5g core network scalability: A machine learning
+                                                                          approach,” IEEE Network Magazine, pp. 1 – 10, 2018.
+direction is to propose a certification framework to assess the      [10] ETSI GS ZSM 002, “Zero-touch Network and Service Management
+security properties of ML techniques.                                     (ZSM); Reference Architecture,” Aug. 2019.
+                                                                     [11] C. Benzaid, and T. Taleb, “ZSM Security: Threat Surface and Best
+                                                                          Practices,” IEEE Network Magazine, to appear.
+F. Learning Correctly in the Presence of Adversaries                 [12] M. Barreno, B. Nelson, R. Sears, A. D. Joseph, and J. Tygar, “Can
+                                                                          Machine Learning Be Secure?” in Proc. of ASIACCS’06, 2006, pp. 16
+   Expecting that we will be able to get rid of all possible              – 25.
+adversarial attacks against ML models by elaborating strong          [13] I. Sharafaldin, A. H. Lashkari, and A. A. Ghorbani, “Toward Generating
+                                                                          a New Intrusion Detection Dataset and Intrusion Traffic Characteriza-
+countermeasures is unrealistic. Hence, an important question              tion,” in In Proc. of the 4th International Conference on Information
+arises on how we can learn correctly in the presence of                   Systems Security and Privacy (ICISSP), Jan. 2018.
+IEEE NETWORK MAGAZINE                                                          9
+
+
+[14] L. Haung, A. D. Joseph, B. Nelson, B. I. Rubinstrein, and J. D. Tygar,
+     “Adversarial Machine Leaning,” in In Proc. of 4th ACM Workshop on
+     Artificial Intelligence and Security,, Oct. 2011, pp. 43 – 58.
+[15] M. Usama, J. Qadir, and A. Al-Fuqaha, “Adversarial attacks on cognitive
+     self-organizing networks: The challenge and the way forward,” CoRR,
+     vol. abs/1810.07242, 2018.
+[16] Y. Han, B. I. Rubinstein, T. Abraham, T. Alpcan, O. De Vel, S. Erfani,
+     D. Hubczenko, C. Leckie, and P. Montague, “Reinforcement Learning
+     for Autonomous Defence in Software-Defined Networking,” in In Proc.
+     of the 9th Int. Conf. on Decision and Game Theory for Security
+     (GameSec), Aug. 2018, pp. 145 – 165.
+
+                        Chafika Benzaı̈d is currently a PostDoc researcher
+                        at MOSA!C Lab, Aalto University. She is an as-
+                        sociate professor and research fellow in Computer
+                        Science Department at University of Sciences and
+                        Technology Houari Boumediene (USTHB). She ob-
+                        tained her PhD degree in Computer Sciences from
+                        USTHB in 2009. Her current research interests in-
+                        clude AI-driven network security and AI security.
+                        She serves/served as a TPC member for several inter-
+                        national conferences and as a reviewer for multiple
+                        international journals.
+
+                        Tarik Taleb is Professor at Aalto University and
+                        University of Oulu. He is the founder and director
+                        of the MOSA!C Lab (www.mosaic-lab.org). Prior
+                        to that, he was a senior researcher and 3GPP stan-
+                        dards expert at NEC Europe Ltd., Germany. He also
+                        worked as assistant professor at Tohoku University,
+                        Japan. He received his B.E. degree in information
+                        engineering, and his M.Sc. and Ph.D. degrees in in-
+                        formation sciences from Tohoku University in 2001,
+                        2003, and 2005, respectively.
+

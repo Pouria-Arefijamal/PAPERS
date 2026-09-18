@@ -1,0 +1,6031 @@
+Received XX Month, XXXX; revised XX Month, XXXX; accepted XX Month, XXXX; Date of publication XX Month, XXXX; date of
+current version 11 January, 2024.
+Digital Object Identifier 10.1109/OJCOMS.2024.011100
+
+NetIntent: Leveraging Large Language
+Models for End-to-End Intent-Based
+SDN Automation
+Md. Kamrul Hossain1 , Walid Aljoby1
+1
+
+Information and Computer Science Department, King Fahd University of Petroleum & Minerals (KFUPM), Dhahran, Saudi Arabia
+
+arXiv:2507.14398v1 [cs.NI] 18 Jul 2025
+
+CORRESPONDING AUTHOR: Walid Aljoby (e-mail: waleed.gobi@kfupm.edu.sa).
+
+ABSTRACT Intent-Based Networking (IBN) often leverages the programmability of Software-Defined
+Networking (SDN) to simplify network management. However, significant challenges remain in automating
+the entire pipeline, from user-specified high-level intents to device-specific low-level configurations.
+Existing solutions often rely on rigid, rule-based translators and fixed APIs, limiting extensibility and
+adaptability. By contrast, recent advances in large language models (LLMs) offer a promising pathway
+that leverages natural language understanding and flexible reasoning. However, it is unclear to what extent
+LLMs can perform IBN tasks. To address this, we introduce IBNBench, a first-of-its-kind benchmarking
+suite comprising four novel datasets: Intent2Flow-ODL, Intent2Flow-ONOS, FlowConflict-ODL, and
+FlowConflict-ONOS. These datasets are specifically designed for evaluating LLMs performance in intent
+translation and conflict detection tasks within the industry-grade SDN controllers ODL and ONOS. Our
+results provide the first comprehensive comparison of 33 open-source LLMs on IBNBench and related
+datasets, revealing a wide range of performance outcomes. However, while these results demonstrate
+the potential of LLMs for isolated IBN tasks, integrating LLMs into a fully autonomous IBN pipeline
+remains unexplored. Thus, our second contribution is NetIntent, a unified and adaptable framework that
+leverages LLMs to automate the full IBN lifecycle, including translation, activation, and assurance within
+SDN systems. NetIntent orchestrates both LLM and non-LLM agents, supporting dynamic re-prompting
+and contextual feedback to robustly execute user-defined intents with minimal human intervention. Our
+implementation of NetIntent across both ODL and ONOS SDN controllers achieves a consistent and
+adaptive end-to-end IBN realization.
+INDEX TERMS Intent-Based Networking, Software-Defined Network, Large Language Models
+
+I. INTRODUCTION
+
+Software-Defined Networking (SDN) was emerged as a revolutionary paradigm to address the challenges of traditional
+networks [1], [2]. SDN decouples the network’s control
+functions from its data forwarding functions and enables
+centralized control and programmability, which are instrumental in simplifying and automating network operations.
+SDN has become a cornerstone for building agile, efficient
+networks that can adapt to future needs. Several SDN deployments, such as Google’s B4 [3] and Microsoft’s SWAN [4],
+demonstrate real-world scalability. However, SDN’s promise
+of automation is not without limitations. Although it reduces the need for manual configuration at the device level,
+human intervention is still required to translate business
+goals or high-level policies into instructions for the SDN
+controller to realize them on the data plane. OpenDaylight
+
+(ODL) [5] and Open Network Operating System (ONOS) [6]
+are two commonly used industry-grade SDN controllers.
+Organizations like AT&T and Orange extensively use both
+ODL and ONOS [7]–[9]. ODL uses DLUX and ONOS uses
+web GUI to enable users to configure policies through a
+user-friendly interface [10]. However, this process remains
+time-consuming and prone to human error, especially during
+initial setup and for complex network configurations.
+Intent-Based Networking (IBN) emerges as a natural
+evolution of SDN, with the aim of simplifying network
+management by bridging the gap between high-level policy objectives and low-level network configurations [11]–
+[13]. Industry leaders such as Cisco and Nokia have been
+instrumental in developing and popularizing IBN in their
+data centers [14], [15]. IBN enables operators to define what
+the network should achieve using high-level, human-readable
+
+This work is licensed under a Creative Commons Attribution 4.0 License. For more information, see https://creativecommons.org/licenses/by/4.0/
+VOLUME ,
+
+1
+
+Author et al.: Preparation of Papers for IEEE OPEN JOURNALS
+
+intents, rather than specifying how the network should be
+configured. Formally, intent is defined as a set of operational
+goals that a network is supposed to meet and outcomes that
+a network is supposed to deliver, expressed declaratively
+without specifying how to implement them [13]. Intents such
+as prioritizing video traffic over other types of traffic in
+an ISP network, or ensuring latency below 5 ms with a
+minimum bandwidth allocation of 50 Mbps for the URLLC
+slice in a 5G core network, express desired outcomes without
+specifying implementation details. This declarative approach
+enables greater automation and dynamic optimization across
+different types of networks. Thus, IBN elevates SDN from
+being a merely programming platform to an autonomous
+goal-driven architecture.
+While IBN significantly reduces the complexity of network management, current implementations still often require operators to express these intents in structured formats like NSD, JSON, XML, or YAML [12]. Translating
+natural-language intents into these machine-readable formats
+imposes a technical barrier, as it demands familiarity with
+underlying data models (e.g., YANG [16]) and their associated syntax and semantics. For instance, installing flow rules
+via an ODL controller requires the operator to craft a JSON
+message aligned with a specific YANG schema, which is an
+error-prone task that increases operational overhead and risk
+of misconfiguration.
+This gap between high-level intent expression and lowlevel implementation limits the full potential of IBN. To
+truly realize the vision of intent-driven networking in which
+users can express goals in natural language and delegate
+implementation to the system, there is a need for intelligent
+mechanisms that can parse, interpret, and compile intents
+with minimal human intervention. To unlock the full potential of IBN, the network system must support three critical
+functions: intent translation, intent activation, and intent
+assurance, to ensure seamless validation and automation
+of user-defined intents. These functions, when described
+sequentially, are known as intent lifecycle [12].
+Recent research efforts used large language models
+(LLMs) [17]–[19] to enhance network management through
+IBN. These studies mainly focused on intent translation
+and did not adequately address the challenges of conflicting
+intents as well as intent assurance. Further, autonomous
+end-to-end orchestration of intent lifecycle is still underaddressed. For example, previous work [20]–[26] did not
+systematically evaluate the performance of LLMs throughout
+the entire intent management lifecycle, particularly in critical
+aspects such as conflict detection and intent assurance. In
+addition, these works do not cater to SDN controllers like
+ODL and ONOS without a major modification to their
+proposed system. Moreover, existing research often relies
+on closed-source models like ChatGPT, which limit the
+applicability and transparency of the real world.
+To systematically assess the capabilities of LLMs in automating end-to-end IBN tasks, we introduce IBNBench to
+
+2
+
+perform a comprehensive benchmarking study that includes
+intent translation and conflict detection. Existing efforts
+in this domain typically evaluate few LLMs and focus
+on limited datasets. In contrast, we benchmark 33 opensource LLMs spanning a diverse range of model sizes and
+architectures on six datasets, including two existing ones and
+four newly proposed benchmarks by us. These include the
+Intent2Flow-ODL and Intent2Flow-ONOS datasets, which,
+to the best of our knowledge, are the first to represent
+natural language intents paired with controller-specific flow
+rule configurations for both ODL and ONOS. In addition, our
+FlowConflict-ODL and FlowConflict-ONOS datasets provide
+the first curated examples of annotated flow rule pairs for
+benchmarking LLMs on conflict detection. These datasets
+enable structured and reproducible comparisons across models and serve as practical testbeds for real-world SDN scenarios. By releasing these datasets and benchmarking results,
+we provide the research community with essential tools and
+baselines to further advance LLM-driven IBN systems. To
+the best of our knowledge, no prior work has conducted such
+an extensive benchmarking effort across this combination of
+tasks, models, and datasets.
+While IBNBench reveals the capabilities and limitations of
+current LLMs in handling core IBN tasks such as translation
+and conflict detection, the broader question of how LLMs
+can be harnessed for end-to-end IBN realization remains
+unexplored. Previous studies predominantly addressed intent
+translation, often overlooking critical challenges such as
+conflict detection, closed-loop assurance, and controllerspecific adaptability. To address these gaps, we develop
+NetIntent, an end-to-end intent lifecycle architecture that
+encompasses intent translation, activation, and assurance,
+specifically targeting real-world applications for industrygrade SDN controllers, ODL, and ONOS.
+Although modern networks encompass a vast and evolving
+landscape of thousands of operational intents and configuration tasks, in this paper, we focus specifically on three
+foundational categories of network intents: Forwarding (e.g.,
+routing traffic to specific ports or interfaces), Security (e.g.,
+blocking or dropping traffic), and QoS (Quality of service)
+(e.g., prioritizing specific traffic using queues). Our objective
+is to demonstrate how LLMs can be effectively integrated
+within an IBN system to enable intent translation, activation,
+and assurance in a structured and explainable manner. By
+focusing on a representative subset of fundamental intents,
+we provide a practical and reproducible system that serves
+as a proof-of-concept. This example can act as a template for
+future research aimed at extending LLM-based IBN systems
+to support broader and more intents in a complex operational
+environments.
+In Fig. 1, we present a comparative overview of NetIntent
+and traditional IBN systems throughout the entire intent
+processing workflow. On the left side of Fig. 1, conventional
+IBN systems rely on structured or semi-structured user
+interfaces to capture operator intent. These systems typically
+
+VOLUME ,
+
+TABLE 1: Comparison of NetIntent with relevant works on IBN
+Category
+
+[27]
+
+[28]
+
+[29]
+
+[30]
+
+[31]
+
+[32]
+
+[33]
+
+[21]
+
+[22]
+
+[23]
+
+[24]
+
+[25]
+
+[20]
+
+[26]
+
+[34]
+
+NetIntent
+
+Methodology
+LLM-based
+Non-LLM
+
+Aspect
+
+–
+✓
+
+–
+✓
+
+–
+✓
+
+–
+✓
+
+–
+✓
+
+–
+✓
+
+–
+✓
+
+✓
+–
+
+✓
+–
+
+✓
+–
+
+✓
+–
+
+✓
+–
+
+✓
+–
+
+✓
+–
+
+✓
+–
+
+✓
+–
+
+Implementation
+Automated
+
+✓
+
+✓
+
+–
+
+–
+
+–
+
+✓
+
+✓
+
+✓
+
+✓
+
+–
+
+–
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+Input Method
+Natural Language Input
+
+✓
+
+–
+
+–
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+✓
+
+IBN Lifecycle Functions
+Intent Translation
+Conflict Detection
+Activation/Deployment
+Intent Assurance
+
+✓
+✓
+✓
+–
+
+–
+–
+✓
+✓
+
+✓
+–
+–
+–
+
+✓
+–
+–
+–
+
+✓
+–
+✓
+–
+
+✓
+–
+✓
+✓
+
+✓
+–
+✓
+–
+
+✓
+–
+✓
+✓
+
+✓
+–
+–
+–
+
+✓
+✓
+✓
+–
+
+✓
+–
+✓
+–
+
+✓
+–
+–
+–
+
+✓
+–
+–
+–
+
+✓
+–
+✓
+–
+
+✓
+–
+✓
+✓
+
+✓
+✓
+✓
+✓
+
+LLM Application
+# LLMs Evaluated
+LLM Type
+
+–
+–
+
+–
+–
+
+–
+–
+
+–
+–
+
+–
+–
+
+–
+–
+
+–
+–
+
+1
+open-src
+
+3
+open-src
+
+at least 7
+mixed
+
+8
+mixed
+
+7
+mixed
+
+3
+open-src
+
+at least 3
+mixed
+
+at least 1
+closed-src
+
+at least 33
+open-src
+
+Traditional IBN Systems
+
+Structured or
+semi-structured
+interfaces
+
+Natural language
+input
+NetIntent Framework
+User Intent
+
+Adaptability: Limited context awareness
+
+Intent
+Translation
+
+Adaptability: Context-aware and adaptive
+
+User Intent
+
+Rule-based or MLassisted translators
+
+Conflict
+Detection
+
+Basic or absent
+
+Intent
+Installation
+
+Limited to specific
+SDN controllers
+
+Closed-loop
+Intent
+Assurance
+
+Periodic checks,
+not continuous
+
+Conflict
+Detection
+
+LLM-guided
+conflict detection
+
+Intent
+Installation
+
+Supports multiple
+SDN controllers
+(e.g., ODL & ONOS)
+
+Closed-loop
+Intent
+Assurance
+
+Continuous closedloop assurance
+
+Host 3
+
+Switch 2
+
+Host 1
+
+Switch 1
+
+LLM-based
+translators
+
+Faster, Conflict Free Deployment
+
+Slower Deployment
+
+Host 2
+
+Intent
+Translation
+
+Data Plane
+
+Switch 4
+Host 4
+
+Switch 3
+
+FIGURE 1: Illustration of NetIntent framework; comparison
+with prior IBN systems in terms of intent life-cycle.
+
+execute a linear and static sequence that includes intent translation, conflict detection, flow rule installation, and optional
+closed-loop assurance. However, their adaptability is limited,
+as they often lack contextual reasoning and dynamic reactivity, resulting in slower deployments and increased likelihood
+of misconfigurations. In contrast, NetIntent, depicted on
+the right side of Fig. 1, enables users to express intents
+directly in natural language. It employs LLMs in a contextaware and adaptive manner which enables it to dynamically
+update LLM-prompts based on feedback and failed assurance
+checks. This design enables NetIntent to achieve faster and
+conflict-free intent deployment by proactively identifying
+issues, minimizing the need for manual intervention.
+Table 1 presents a comparative overview of the most
+relevant work on IBN, categorized by key attributes of the
+system. The methodology category distinguishes between
+LLM-based approaches, where at least one LLM is emVOLUME ,
+
+ployed at any stage of the system pipeline (e.g., intent
+parsing, translation, deployment) as seen in works [20]–[26],
+[34]—and Non-LLM systems [27]–[33] that rely on traditional programmatic logic or conventional machine learning.
+The Implementation category indicates whether the system
+is fully automated (no human input required beyond initial
+intent, except in rare exceptions), which applies to works
+like [20]–[22], [25], [27], [32], [33], or semi-automated
+(requiring human assistance for prompting or execution), as
+in [23], [24], [29]–[31]. Natural language input highlights
+whether the system can parse unstructured user intents, and
+IBN Lifecycle Functions include capabilities such as intent
+translation, conflict detection, deployment, and assurance.
+Finally, the LLM Application category reflects the extent and
+type of LLM usage, where applicable. While these works
+demonstrate early promise in automating various IBN tasks,
+our understanding of how open-source LLM-based systems
+can autonomously manage the full IBN lifecycle—from natural language input to assured deployment—remains limited.
+In the following points, we summarize our contributions.
+• We perform a benchmarking of 33 open-source LLMs
+using new and existing datasets comprising natural
+language intents and their corresponding JSON configurations. This evaluation assesses LLM performance in
+both intent translation and conflict detection, offering
+insights into their suitability for IBN tasks.
+• We introduce IBNBench, a suit of four new datasets,
+Intent2Flow-ODL, Intent2Flow-ONOS, FlowConflictODL, and FlowConflict-ONOS, make them open source
+to support reproducible research. Intent2Flow datasets
+consist of natural language configuration intents paired
+with structured flow rules, while the FlowConflict
+datasets contain flow rule pairs annotated for conflict
+detection. These resources serve as practical benchmarks for evaluating LLM-driven IBN systems.
+• We propose NetIntent, a novel end-to-end architecture
+for intent-based networking that leverages LLMs to
+3
+
+Author et al.: Preparation of Papers for IEEE OPEN JOURNALS
+
+automate the full intent lifecycle, including translation,
+activation, and assurance.
+• To demonstrate the generalizability and practical applicability of our approach, we implement and evaluate
+NetIntent on two widely-used SDN controllers: ODL
+and ONOS.
+II. BACKGROUND AND RELATED WORKS
+
+The lifecycle of an intent in IBN encompasses distinct
+phases, namely Intent Translation, Intent Activation, and
+Intent Assurance. Each phase involves specific tasks and
+challenges essential to effectively operationalize high-level
+network objectives.
+A. INTENT TRANSLATION
+
+Intent translation is the process of converting user-defined
+high-level goals into precise, low-level network configurations that can be executed by controllers. This step is fundamental to IBN and its success determines how accurately
+the network enforces operator intentions. Key challenges
+in this phase include managing the inherent ambiguity of
+natural language, refining hierarchical or multi-layered intents, resolving multiple valid configurations, and supporting
+controller- or vendor-specific implementations. Traditional
+NLP techniques, while useful for rule-based intent parsing [27], [29]–[33], [35], often fall short due to the linguistic
+variability and context dependence of human input in natural
+language [36].
+Recent works [20]–[26], [34] have leveraged LLMs to
+improve intent translation accuracy. For example, NetConfEval [23] evaluates ChatGPT and Codellama on translating formal network specifications—such as reachability,
+waypoints, and load balancing—into structured JSON rules.
+Their dataset includes intents like “Traffic originating from
+Istanbul can reach the subnet 100.0.9.0/24 via Rotterdam,
+using two paths”. The work in [25] introduces another
+benchmark focused on NFV (Network Function Virtualization) configuration, covering service function chaining and
+resource allocation. Both studies use in-context learning [37],
+where example input-output pairs are embedded in the LLM
+prompt to guide translation. The NFV configuration work
+also explores a continuous learning setup, where previous
+corrections are reused to improve future translations.
+Despite these advances, several limitations persist. First,
+many existing approaches rely on closed-source models such
+as ChatGPT [23], [24], which limit reproducibility due to
+closed-source nature, raise privacy concerns due to lack of
+transparency, and hinder real-world deployment due to the
+cost. Second, while previous work benchmarks LLMs for
+translation, they typically evaluate only a handful of models,
+for example, 3 in [22], 6 in [25], or 7 in [23]—and restrict
+evaluation to one or two datasets. Third, these studies focus
+only on abstract configuration goals (e.g., formal policies
+or NFV rules), overlooking practical translation targets like
+SDN controller-specific formats. Finally, there remains a
+critical gap in understanding how LLMs perform across a
+4
+
+wider range of IBN tasks, particularly when the target output
+must conform to real-world SDN controller schemas like
+ODL or ONOS.
+B. INTENT ACTIVATION
+
+Intent activation refers to the deployment of translated intents
+onto the network infrastructure. This phase encompasses
+two critical tasks: detecting and resolving conflicts between
+new and existing configurations, and correctly installing the
+validated configuration on the appropriate network devices.
+Conflicts can arise from multiple overlapping intents that
+often issued by different users or systems and target the same
+network scope with contradictory goals. These conflicts may
+stem from policy misalignment, intent ambiguity, or resource
+contention.
+Existing works [38], [39] described six types of conflicts
+in SDN environments and developed methods to identify
+them. In Table 2, we present 9 flow rules. This table is
+adapted from [38] to demonstrate different types of conflicts.
+A redundancy conflict occurs when a specific rule (Rule 2) is
+fully covered by a more general one (Rule 1) with the same
+action. Shadowing conflict is observed when a more general
+rule (Rule 4) with higher priority overrides a more specific
+rule (Rule 1) with a different action. Generalization conflict
+happens when a specific rule (Rule 5) with higher priority
+conflicts in action with a broader rule (Rule 1). Correlation
+conflict is identified between Rule 6 and Rule 1, where their
+match spaces partially overlap without a subset relationship
+and their actions differ. Overlap conflict, as seen between
+Rule 6 and Rule 7, involves intersecting address spaces
+with the same action. Lastly, Rule 4 and Rule 8 illustrate
+imbrication conflict, where rules overlap on one protocol
+layer (e.g., MAC) but not on another (e.g., IP), causing crosslayer ambiguity.
+Traditional conflict resolution techniques—such as logical
+policy evaluation, verification against the network state, or
+graph-based mapping [11], [12], [40], [41]. For example,
+VeriFlow [42] and NetPlumber [43] enable real-time conflict
+detection in SDN by analyzing flow updates for violations
+such as loops or black holes, with support for basic automated resolution like blocking or flagging rules. However,
+they lack support for complex or non-flow-based intent conflicts. In contrast, Batfish [44] performs offline static analysis
+to detect configuration errors with detailed provenance but
+does not support real-time detection or automated resolution, making it less suitable for dynamic IBN scenarios.
+Furthermore, current approaches largely lack mechanism to
+explain why a conflict occurred, limiting their ability to
+clearly indicate underlying causes of conflicts or recommend
+actionable resolution strategies, thus highlighting the need
+for enhanced intent resolution methods. While some recent
+works have begun to explore conflict handling using LLMs,
+their scope remains narrow. For example, NetConfEval [23]
+demonstrates basic conflict detection using LLMs by identifying mutually exclusive reachability goals. However, to
+VOLUME ,
+
+TABLE 2: Flow rule table
+Rule #
+1
+2
+3
+4
+5
+6
+7
+8
+9
+
+Priority
+
+Source MAC
+
+Dest MAC
+
+Source IP
+
+Dest IP
+
+Protocol
+
+Source Port
+
+Dest Port
+
+Action
+
+61
+60
+62
+63
+64
+61
+65
+67
+68
+
+*
+*
+*
+*
+*
+*
+*
+aa:bb:cc:dd:ee:01
+*
+
+*
+*
+*
+*
+*
+*
+*
+ff:ee:dd:cc:bb:aa
+*
+
+192.168.10.0/24
+192.168.10.25
+192.168.10.25
+192.168.10.0/24
+192.168.10.25
+192.168.0.0/16
+192.168.10.25
+*
+*
+
+172.16.1.100
+172.16.1.100
+172.16.1.0/24
+172.16.1.100
+172.16.1.100
+172.16.1.100
+172.16.1.0/24
+*
+*
+
+tcp
+tcp
+tcp
+tcp
+tcp
+tcp
+tcp
+*
+tcp
+
+*
+*
+*
+*
+*
+*
+*
+*
+*
+
+*
+443
+*
+*
+*
+*
+4000–4010
+*
+443
+
+forward
+forward
+forward
+drop
+drop
+drop
+drop
+forward
+drop
+
+extent to which LLM can do conflict detection for SDN
+environments remains underexplored.
+C. INTENT ASSURANCE
+
+Intent assurance represents the final and most iterative phase
+of the IBN lifecycle, responsible for continuously verifying
+that the operational network state aligns with the originally
+expressed user intents [45]. This involves not only validating
+the correctness of intent translation and deployment but also
+ensuring ongoing enforcement through real-time monitoring,
+predictive analytics, and intelligent feedback mechanisms. A
+critical challenge in this phase is managing intent drift [13],
+a condition where network behavior gradually deviates from
+the intended objectives due to dynamic changes in traffic
+patterns, topology, or device states. Effective intent assurance
+must detect such drift and trigger corrective actions to restore
+compliance and maintain intent fidelity over time.
+Traditional approaches to intent assurance typically fall
+into static and dynamic categories [12]. Static methods verify
+if the intended configurations exist on the correct device and
+match the expected structure. For instance, in ODL, there
+are configurational data store and operational data store.
+Configurational data store reflects all installed flow rules
+(active or passive) while the operational data store reflects
+the active flow rules. For static assurance, the operational
+data store can be used to determine the status of flow
+rules. For example, the operational data store in ODL is
+queried to inspect whether the packet-count field in
+the flow-statistics section of a flow rule contains
+a non-zero value. A non-zero count indicates that the rule
+has matched traffic, suggesting packet drops if the rule is
+intended to drop packets, or forwarding if it is meant to
+forward them. However, static assurance often fails to detect
+runtime violations.
+In contrast, dynamic assurance mechanisms rely on continuous monitoring of key performance indicators (KPIs)
+such as delay, throughput, packet loss, and queue utilization
+to ensure that the deployed flows exhibit the desired behavior. For example, VeriFlow [42] and NetPlumber [43] provide
+real-time flow rule assurance in SDN by incrementally
+checking rule compliance with network invariants or policies
+during updates, offering fast but limited verification focused
+on flow-level behavior. Batfish [44], on the other hand,
+performs static assurance by analyzing configurations predeployment using constraint solving, which enables thorough
+VOLUME ,
+
+checks but lacks the real-time responsiveness needed for
+dynamic IBN scenarios.
+LLM-based approaches have only recently begun to touch
+on intent assurance. Although the work in [20] is implemented on a 5G testbed and introduces a modular LLMcentric framework to cover the full intent lifecycle, there
+is no evidence on how and to what extent intent assurance
+can be realized. Other works such as [46] explore fault
+localization using LLMs but do not provide a generalized
+assurance framework. While most existing LLM-based IBN
+systems [20], [22]–[26] do not implement assurance in a
+closed-loop or controller-aware manner, the work in [34]
+is among the earliest to propose an LLM-driven assurance
+system capable of detecting intent performance drift and
+triggering corrective actions. However, its reliance on the
+closed-source LLM ChatGPT may limit transparency, reproducibility, and broader adoption.
+III. IBNBench: LLM-BASED IBN EVALUATION
+BENCHMARK
+A. SELECTION OF LLMs
+
+To ensure a focused yet practical evaluation, we selected 33
+open-source LLMs, as in Table 3, based on a combination of
+resource feasibility, task relevance, and community adoption.
+Due to computational and time constraints, we limited the
+scope to a representative subset of models that are wellsuited for intent translation and conflict detection—excluding
+models designed for unrelated domains. Additionally, we
+prioritized LLMs that are popular within the research community, frequently cited, and actively maintained. All selected models are readily deployable, making them suitable
+candidates for reproducible benchmarking and real-world
+integration in IBN systems. These LLMs vary in the number of parameters, which directly influence their language
+processing and generation capabilities. Larger models with
+more parameters generally exhibit better understanding and
+nuanced responses but at the cost of increased memory
+requirements, higher energy consumption and slower processing speeds.
+B. SELECTION OF DATASETS
+
+We benchmarked the LLMs using six datasets—four newly
+proposed by us and two existing ones [23], [25]. The creation
+process of the proposed datasets is detailed in Sec. IV, and
+a summary of all datasets is provided in Table 4.
+5
+
+Author et al.: Preparation of Papers for IEEE OPEN JOURNALS
+
+TABLE 3: List of LLMs used for benchmarking (grouped
+by parameter size in billions)
+Parameter
+Models
+Size
+1–3B
+Starcoder:3b, Llama3.2:3b, Phi3:3.8b, Orca-mini:3b,
+Starcoder2:3b, TinyLlama:1.1b, Deepseek-coder:1.3b, Phi:2.7b
+4–6B
+Qwen:4b, Yi:6b
+7–9B
+Codellama:7b, Llama2:7b, Llama3:8b, Llama3.1:8b, Qwen2.5:7b,
+Openchat:7b, Marco-o1:7b, Mistral:7b, Dolphin-Mistral:7b,
+Wizardlm2:7b, Codegemma:7b, Zephyr:7b, Llava-Llama3:8b,
+Qwen2:7b
+10–20B Mistral-nemo:12b, Deepseek-coder-v2:16b
+20–30B Gemma2:27b, Codestral:22b
+30B+
+QwQ-abliterated:32b, QwQ-fusion:32b, QwQ:32b,
+Codellama:34b, Command-r:35b
+
+FlowConflict-ODL and FlowConflict-ONOS datasets include
+60 and 74 pairs of samples receptively.
+For intent translation, each dataset was split, with 50%
+used as the source of context examples and the remaining
+50% as the source of test cases. A context example (context
+example) in the LLM context is an input-output pair provided
+in a prompt to guide the model’s behavior in tasks like
+few-shot learning, demonstrating the desired format and
+content for the output. For conflict detection, 62 pairs of flow
+rules were selected from the FlowConflict-ONOS dataset,
+including 10 pairs with conflicts. From the FlowConflictODL dataset, 50 pairs were selected, of which 4 contained
+conflicts.
+
+TABLE 4: Summary of datasets used for LLM benchmarking; four newly proposed by us and two existing ones
+Dataset
+Intent2Flow-ODL
+Intent2Flow-ONOS
+Formal Spec. [23]
+NFV Config. [25]
+FlowConflict-ODL
+FlowConflict-ONOS
+
+Proposed
+
+Task
+
+Samples
+
+Conflict Pairs
+
+Evaluation Metric
+
+Yes
+Yes
+No
+No
+Yes
+Yes
+
+Translation
+Translation
+Translation
+Translation
+Conflict Detection
+Conflict Detection
+
+52
+50
+1500
+120
+50
+62
+
+–
+–
+–
+–
+4
+10
+
+Semantic Accuracy, Runtime
+Semantic Accuracy, Runtime
+Field Presence Accuracy, Runtime
+Exact Structural Match, Runtime
+TP, TN, FP, FN, Runtime
+TP, TN, FP, FN, Runtime
+
+The LLMs are benchmarked for two different IBN tasks:
+intent translation (from natural language intent to JSON
+structured flow rules) and conflict detection. The benchmarking for intent translation is done using four different
+datasets. Among them, two belong to the proposed IBNBenh
+(Intent2Flow-ODL and Intent2Flow-ONOS) mentioned in
+Sec. IV, the third one is the Formal specification dataset
+[23] and the fourth one is the NFV configuration dataset
+[25]. The reason to choose the datasets [23] and [25] is
+that they contain natural language intent and corresponding
+JSON formatted translation. The Formal specification dataset
+translates natural language intents into JSON structure for
+specifically three type of requirements: reachability, waypoints and load balancing, while the NFV configuration
+dataset include natural language intent and corresponding
+JSON formatted NFV configuration. However, these datasets
+are different from our proposed datasets. Our datasets specifically target ODL and ONOS SDN controllers and contains
+actual flow rules that were tested and verified. Hence, they
+can be readily used to benchmark any LLM for ODL or
+ONOS SDN controller application.
+As for the benchmarking the LLMs for conflict detection
+task, we use our proposed IBNBench’s FlowConflict-ODL
+and FlowConflict-ONOS datasets. We do not include the
+Formal specification JSON and NFV configuration JSON.
+The reasons is that we detect conflict based on JSON structured configuration and all the datasets use JSON formatted
+configuration. Hence, it is sufficient to evaluate the LLMs
+on the ODL and ONOS flow rules as they represent well
+structured JSON configuration found in other datasets.
+As for the sample size of the datasets, the NFV configuration dataset contains 120 pairs of samples, the Formal specification dataset comprises 1500 sample pairs. Our
+proposed datasets Intent2Flow-ODL and Intent2Flow-ONOS
+include 52 and 50 pairs of samples receptively, while the
+6
+
+C. BENCHMARK METRICS
+
+For evaluating the performance of LLMs in the intent translation task, we use accuracy as the primary metric. Besides
+we report the running time. The running time includes the
+time from the submission of the query to the LLM until the
+LLM produces the output, including the time for dynamic
+selection of context examples.
+The method of computing accuracy varies across the four
+datasets, depending on the nature of their expected outputs. For the proposed Intent2Flow-ODL and Intent2FlowONOS datasets, a translation is considered correct if the
+generated JSON is semantically equivalent to the expected
+JSON—allowing for differences in field ordering, formatting, or numeric representation. In contrast, the Formal
+Specification dataset uses a more relaxed comparison: it
+considers a translation correct if key expected intent fields
+(e.g., reachability, waypoint, load balancing) are present in
+the result, without requiring full structural matching. For the
+NFV Configuration dataset, a stricter approach is adopted
+where accuracy is computed by checking for exact structural
+equality after recursively sorting dictionary keys and list
+elements.
+As for evaluating the performance of LLMs in conflict
+detection task, we set one conflict as defined in Sec. II-B for
+the flow rule pairs given to an LLM. We record true positive,
+true negative, false positive, false negative for each LLM
+by comparing against the ground truth. Besides, we report
+the time duration from the submission of the prompt to the
+LLM until the LLM produces an output. In the benchmarking
+process, we ask LLMs to identifying potential conflicts between flow rules which requires examining whether multiple
+rules overlap in their matching criteria while prescribing
+different output actions. For example, two rules that match
+the same type of traffic, such as TCP packets on a specific
+port from the same input port, and apply different output
+ports or actions like drop versus forward, are considered
+conflicting. This is evident when two flow entries match
+the same traffic conditions but direct it differently, creating
+ambiguity in packet handling. Conflict detection, therefore,
+involves comparing match fields and examining whether
+their actions diverge for overlapping traffic.
+VOLUME ,
+
+D. LIMITATIONS
+
+The evaluation focuses on three categories of intent: forwarding, security, and QoS. Broader categories of network
+intents, such as service function chaining or dynamic path
+optimization, are not currently evaluated. However, the
+benchmarking framework is designed to be extensible. New
+intent categories and flow rule patterns can be integrated
+in IBNBench, and we plan to expand it over time while enabling community contributions to promote broader coverage
+and reproducibility.
+IV. DEVELOPING IBNBench
+
+To address the gap in evaluating LLM-based systems on
+intent translation and detection of conflicting flow rules, we
+designed IBNBench, a set of four datasets, two for intent
+translation and two for conflict detection. The datasets for
+translating natural langugae intents into JSON formatted
+flow rules are named Intent2Flow-ODL and Intent2FlowONOS, based on the target SDN controller. As for the
+datasets developed for conflict detection, they are named
+FlowConflict-ODL and FlowConflict-ONOS according to the
+target SDN controller.
+A. Intent2Flow-ODL AND Intent2Flow-ONOS DATASETS
+
+Each of the datasets, Intent2Flow-ODL, Intent2Flow-ONOS,
+consist of 50 pairs of real-world-inspired network intents in
+natural language and their JOSN formatted translation. Each
+intent specifies high-level operational goals such as routing,
+blocking, or prioritizing traffic within a programmable network environment. We consider that the user intents belong
+to three primary categories: Forwarding, Security, and QoS
+based on the semantics of their described action. Intents
+that included explicit blocking, dropping, or denying of
+traffic are under Security, while intents specifying packet
+forwarding without prioritization are under Forwarding. Intents specifying queue assignments, traffic prioritization, or
+latency/bandwidth guarantees are QoS intents. The datasets
+contain 22 forwarding intents, 10 security intents and 18 QoS
+intents.
+To construct the datasets, we adopted both manual and
+LLM-generated content. A diamond topology was created
+using Mininet [47] for both ODL and ONOS, consisting of
+four OpenFlow switches and four hosts, as shown in Fig.
+4. Based on this network, we crafted intents and produced
+their corresponding ODL/ONOS flow rules in JSON format.
+LLMs were leveraged to generate supplementary intents with
+variation in linguistic expression as well as corresponding
+JSON flow rules. Before inclusion in the datasets, these
+LLM-generated flow rules were manually corrected and
+deployed in switches to verify their effectiveness. We provide
+the full datasets on GitHub [48]. In Table 5, some examples
+of intents are shown.
+ODL Flow Rules: flow rule is a structured configuration
+that defines how network traffic is managed within an SDN
+environment. In ODL, these rules are determined by predefined YANG model [49] and typically represented in
+VOLUME ,
+
+TABLE 5: Example intents from IBNBench
+Intent
+Type
+
+Example Intent
+
+Forwarding
+
+• Forward traffic entering on port 1 of switch 2 to port 2.
+• In switch 1, forward all TCP traffic not matching higher-priority
+rules through port 1.
+• In switch 4, block all IPv4 traffic from 10.0.0.1 to 10.0.0.4 with
+a high priority, ensuring the switch operates as a firewall.
+• Drop all packets with a source IP of 10.0.0.1 and destination IP
+of 10.0.0.4 using node 4.
+• Forward TCP traffic on port 80 destined for 10.0.0.3 via interface
+2 of switch 1, assigning it to queue 0 for prioritized handling.
+• Route HTTP traffic originating from 192.168.1.2 on port 1 of
+switch 4 and destined for 10.0.0.5/32 through port 2, ensuring
+packets are assigned to queue 0 for low-latency and apply VLAN
+tag 100.
+
+Security
+
+QoS
+
+JSON format. It includes fields such as flow IDs, table
+IDs, priority, match conditions (e.g., source/destination IP,
+protocol type), and actions (e.g., forwarding, dropping, or
+modifying packets). This structured approach allows ODL to
+efficiently describe and implement complex networking policies, making it suitable for configuring large-scale networks,
+traffic engineering, and advanced use cases like network
+slicing or QoS enforcement. In Appendix A, an example
+intent and its corresponding ODL flow rule representation
+is included. More details on ODL flow rules can be found
+in [49].
+ONOS Flow Rules: In ONOS, flow rules serve the same purpose as in ODL, defining how packets should be processed
+based on structured match conditions and corresponding actions. These rules are expressed in JSON format and include
+key components such as device identifiers, match criteria,
+priority levels, and treatments. The match field specifies the
+conditions under which the rule applies, such as Ethernet
+type, IP protocol, and source or destination IP addresses. The
+action field, referred to as the treatment, outlines how packets
+should be handled when a match occurs—for example,
+forwarding to a specific port, dropping, or assigning traffic
+to a QoS queue. In Appendix A, an example intent and its
+corresponding ONOS flow rule representation is included.
+More details on ONOS flow rules can be found in [50].
+B. FlowConflict-ODL AND FlowConflict-ONOS DATASETS
+
+We used JSON formatted flow rules to create two new
+datasets to benchmark the LLMs on conflict detection
+task. They are FlowConflict-ODL and FlowConflict-ONOS
+datasets. FlowConflict-ODL contains 60 pairs of JSON formatted flow rules designed for ODL SDN controller and
+FlowConflict-ONOS contains 74 pairs of JSON formatted
+flow rules designed for ONOS SDN controller. As for the
+number of conflicting rule pairs, FlowConflict-ODL has 19
+pairs of conflicting rules and FlowConflict-ONOS has 27
+pairs of conflicting rules. These conflicting rules belong to
+six conflict category discussed in Sec. II-B. We provide the
+full datasets on GitHub [48].
+V. NetIntent DESIGN
+A. PROBLEM MODELING
+
+Automating the full lifecycle of IBN from high-level natural
+language intent expression to low-level SDN configuration
+7
+
+Author et al.: Preparation of Papers for IEEE OPEN JOURNALS
+
+and validation requires a principled formulation of the underlying decision process. We model this IBN orchestration as a
+mapping from user intents and network context to controllerexecutable configurations into the network devices.
+Let I denote the space of user-defined natural language
+intents (e.g., QoS policies, security rules, routing goals), and
+let N represent the network context, including topology,
+installed configurations, and performance metrics. The goal
+is to synthesize a configuration c ∈ C , where C is the space
+of target configurations that can be applied to the SDN
+controller, such that:
+Π:I ×N →C
+
+(2)
+
+This process must support diverse intent types including
+forwarding, security, and QoS, across heterogeneous SDN
+controllers (e.g., ODL, ONOS). The mapping is further
+constrained by the compliance with the controller-specific
+schema.
+To ensure safe deployment, the generated configuration
+must be valid and non-conflicting with respect to the current
+configuration state Ccurr (e.g., overlapping match fields with
+contradictory actions). This requires satisfying two constraints: (1) schema validity, expressed as Valid(c) = 1, and
+(2) absence of rule-level conflict with existing flow entries,
+defined as Conflict(c, Ccurr ) = 0.
+If a conflict is detected, the system resolves it using a
+deterministic policy function:
+ρ:C×C →C
+
+(3)
+
+Here, the first argument to ρ represents the newly generated candidate configuration, and the second argument
+represents an existing configuration already deployed in the
+network. Although both inputs are elements of the same
+configuration space C , their roles are distinct in the resolution
+process. The function ρ selects which configuration to prioritize, either retaining the new rule or preserving the existing
+one, based on factors such as intent type (e.g., security
+over QoS or forwarding), match specificity, and contextual
+metadata.
+After successful installation, the system must verify
+whether the deployed configuration produces the intended
+behavior in the live network. This process, known as intent
+assurance, compares the actual operational state Nobs , including real-time telemetry such as packet counters, queue
+lengths, and latency metrics, associated with the deployed
+rule c, against the behavioral expectations implied by the
+original intent i. An assurance function is defined as:
+8
+
+LLM
+
+Intent
+Activation
+
+Intent
+Assurance
+
+Conflict
+Detection
+
+Validate,
+Send Feedback
+Non-LLM Agent
+
+Conflict
+Resolution
+
+LLM
+
+Test Traffic
+Generator
+
+Intent Deploy
+
+Non-LLM Agent
+
+Measure Intent
+Deviation
+
+Non-LLM Agent
+
+Find Corrective
+Actions
+
+Execute Actions
+
+LLM
+
+Non-LLM Agent
+
+FIGURE 2: NetIntent overview.
+
+(1)
+
+This configuration must accurately implement the operator’s intent under the current network state. We define a
+semantic alignment function SemMatch(i, c), which returns
+1 if the configuration c satisfies the operational goals embedded in the intent i, and 0 otherwise:
+SemMatch(i, c) = 1
+
+Intent
+Translate
+Translation
+
+(
+
+1,
+0,
+
+if behavior aligns with intent
+otherwise
+(4)
+The ultimate objective is to maximize the number of intents that are semantically realized, safely activated, and successfully assured. Given a batch of intents {i1 , i2 , . . . , in },
+the autonomous orchestration of the intent-based SDN system becomes:
+Assure(i, c, Nobs ) =
+
+max
+Π
+
+n h
+X
+
+SemMatch(ij , cj ) · Valid(cj )·
+
+j=1
+
+i
+¬Conflict(cj , Ccurr ) · Assure(ij , cj , Nobs )
+
+(5)
+
+This formulation abstracts the IBN pipeline as a composite
+optimization problem, where the orchestration function Π
+performs a sequence of reasoning and verification steps.
+Each step is assisted by LLMs through prompt engineering,
+conflict resolution, fallback mechanisms, and closed-loop
+assurance. In the next section, we present our proposed
+NetIntent system, which operationalizes this formulation to
+autonomously solve the orchestration problem across the full
+intent lifecycle.
+B. NetIntent OVERVIEW
+
+In Fig. 2, we illustrate an overview of NetIntent, the proposed end-to-end IBN system. This architecture leverages
+LLMs and non-LLM agents to automate the processes of
+intent translation, activation, and assurance. In the translation
+stage, user-defined natural language intents are fed into
+the system. An LLM translates the user’s intent into a
+JSON-formatted configuration for the target SDN controller.
+This stage is supported by non-LLM agents, including a
+JSON validator that checks the syntactic and structural
+correctness of the LLM output, and a feedback module
+that prompts the LLM to refine or correct its output based
+on validation results. The next stage is intent activation
+which does conflict detection, conflict resolution, and intent
+deployment. Here, an LLM checks the newly translated
+configuration for conflicts against existing configurations. If
+VOLUME ,
+
+LLM for
+Translation
+
+Validation
+
+3
+
+no
+
+Existing Flow
+Rules
+9
+
+yes
+
+7
+
+5
+
+Intent
+Store 16
+
+metadata
+
+aciton info
+Subroutine
+Execution
+
+20
+
+yes
+yes
+
+Conflict
+Exists?
+
+Metadata
+Extraction
+Flow Rule
+JSON
+
+Assurance
+Prompt
+
+Flow Rule's Operational
+State
+
+flow rule
+
+14
+
+Valid
+JSON
+Flow Rule?
+no
+
+Correction
+Prompt
+
+6
+
+4
+
+no
+
+yes
+LLM for
+Conflict
+Detection
+
+Conflict
+Detection
+Prompt 13
+
+Validation Feedback
+
+Conflict
+Resolution
+
+Install Flow
+Rule
+yes
+
+10
+
+Conflict
+Resolution
+15
+Policy
+
+12
+
+Conflict
+Resolved?
+11 no
+
+Operator
+
+1
+
+JSON
+Schema,
+8
+Required
+Tags
+Final
+Translate
+Prompt 2
+
+Set of Ranked
+LLMs
+
+Context Example
+Set
+
+replace
+
+Initial
+Translate
+Prompt
+
+increase
+
+Natural
+Language
+Intent
+
+Flow Rules
+Operational?
+yes
+
+Set of
+Action
+Subroutine
+
+TestTrafficSpec
+18
+
+no
+
+LLM to
+Find
+Corrective
+Actions
+
+17
+
+Assurance
+Fulfilled?
+
+19
+Set of
+Ranked
+Corrective
+Actions
+
+no
+
+yes
+
+FIGURE 3: NetIntent architecture; end-to-end intent-based automation.
+
+a conflict is found, a resolver tries to resolve it. Once this is
+done, the new configuration is deployed on the target SDN
+controller. If this succeeds, the third stage begins, that is,
+intent assurance. Here, non-LLM agents provide the LLM
+information on intent drift and current state of the device.
+LLM then generates corrective actions which are executed
+by code modules. This is continued in a closed-loop fashion
+to provide intent assurance. In Fig. 3, we illustrate the
+full architecture of NetIntent. In the following sections, we
+describe the architecture in details.
+C. NetIntent WORKFLOW and DETAILS
+1) INTENT TRANSLATION
+
+NetIntent asks the network operator for intent, expressed
+in natural language. Supported by context examples and
+prompt, LLM starts translating the intent. The carefully designed prompt guides the LLM to translate intent into JSON
+structured configuration. The output is then fed to a validator
+to check for any syntax error or missing tags necessary for
+the target SDN controller. If the configuration is not valid,
+a feedback is sent back to the LLM automatically. Several
+data is given to the LLM to fix the error which includes the
+flow rule configuration, the validation feedback, and a new
+guiding prompt. This prompt instructs the LLM to fix the
+error and regenerate the corrected configuration. This process
+is repeated until a valid configuration is obtained. Once a
+valid configuration is found, it serves as the SDN-controllerreadable representation of the user’s intent, prepared to
+be sent to the intent activation stage. In Algorithm 1, we
+formally describe the intent translation process.
+Next, we describe the related components such as context
+examples, set of LLMs, and validator, which play very
+important roles in intent translation.
+a: CONTEXT EXAMPLE SELECTION
+
+The set of context examples ( 1 in Fig. 3) is a dataset
+consisting of input and expected output pairs for the intent
+translation task. For few-shot learning of LLM, these inputoutput pairs are used as context examples which tell LLM
+how the output should look like for the corresponding input.
+Studies [51], [52] have shown that adding more examples
+in the LLM prompt helps produce better output. Moreover,
+VOLUME ,
+
+Algorithm 1 Intent Translation using Ranked LLMs
+Input: User intent U , context examples C , ranked LLMs
+M = {M1 , M2 , . . . , Mk }, initial context count x0 ,
+maximum context examples Y
+Output: Valid JSON configuration Φ or validation feedback ϵ
+1: for each LLM Mi ∈ M do
+2:
+x ← x0
+3:
+while x ≤ Y do
+4:
+Construct prompt using U and relevant-x examples from C
+5:
+Generate output Φ = Mi (prompt)
+6:
+Validate Φ against SDN controller specification
+7:
+if Φ is valid then
+8:
+return Φ
+9:
+else
+10:
+Extract validation error information ϵ
+11:
+Update the correction prompt with ϵ and Φ
+12:
+x←x+1
+13:
+end if
+14:
+end while
+15: end for
+16: return Report with validation feedback ϵ to operator for
+manual resolution
+
+the more relevant the examples are to the target task, the
+more accurate result can be found from LLM. As outlined
+in Sec. V-C-1-b, the context examples are incorporated in the
+prompt ( 2 ). We update the number of context examples fed
+to the LLM prompt when necessary which is indicated by
+dotted line ( 3 ). For instance, when LLM fails to generate a
+valid configuration with a given set of context examples, the
+number of context examples is increased. In Algorithm 1, we
+formally described it. However, there should be a trade-off
+between LLM output accuracy and its response time since
+adding more context examples to the LLM prompt increases
+the output generation latency. As for the selection of context
+examples for the target task, we use the strategy called Max
+Marginal Relevance example selector [51]. It ensures that
+9
+
+Author et al.: Preparation of Papers for IEEE OPEN JOURNALS
+
+the chosen examples are not only highly similar to the input
+query, but also maximally diverse from each other, preventing redundancy and improving the overall quality and coverage of the provided context. The reason we leverage dynamic
+context example selection for intent translation is that the
+input intents can be linguistically diverse and network can
+have thousands of different configurations. Fixed examples
+in prompt work well for a small number of use cases but
+become impractical with larger use cases due to LLM context
+length limitations and increased processing time. In order
+to provide context examples for intent translation, we use
+Intent2Flow-ODL and Intent2Flow-ONOS datasets.
+b: LLM PROMPT FOR INTENT TRANSLATION
+
+Here, we describe how the prompt is designed to guide
+the LLM for intent translation task. A prompt is the input
+instruction in text form given to the LLM to elicit a desired
+output. The prompt we design guides the LLM to generate a
+JSON formatted configuration for the target SDN controller’s
+device. We chose JSON format due to several advantages.
+JSON templates are widely used in configuration tools which
+allows for smooth integration into deployment workflows.
+Additionally, LLMs, trained on vast amounts of data, are
+already familiar with JSON examples which enhances their
+accuracy in generation of JSON outputs.
+The prompt we designed for intent translation consists
+of four parts: general instructions, the output template,
+examples, and user intent. The prompt begins by defining
+the task of converting natural language network intents into
+JSON-formatted flow rules for the target SDN controller.
+It explicitly states that the response must contain only valid
+JSON, with no natural language. Controller-specific nuances,
+such as omitting the treatment field in ONOS to drop traffic,
+are clearly explained. The prompt includes a detailed JSON
+template that reflects the expected data model of the target
+controller. Mandatory and optional fields are carefully annotated. Usage rules are specified—for example, assigning high
+priority to queue-based flows or including VLAN fields only
+when explicitly required. Higher priority is also assigned
+for security related flows such as blocking a certain prefix.
+While not embedded in the prompt body, context examples
+are dynamically inserted at runtime after the JSON template
+part. The last part of the prompt contains the actual operatorprovided intent. Additionally, a specialized slicing prompt
+is used to detect and extract slice-related metadata such as
+switch id, queue id, and port id, etc. The slicing prompt
+follows the same design structure. In Table 6, the structure
+of the prompt is described. We provide the full prompt details
+on GitHub [48].
+c: MULTI-LLM COORDINATION
+
+We use more than one LLM in NetIntent ( 4 ) so that the
+repeated failure of one LLM does not put the system in
+an infinite loop with no progress. If there are N LLMs
+in the system, there will be a ranking of the LLMs based
+on their performance. Starting from the top-ranked model,
+10
+
+TABLE 6: Structured LLM prompt input
+Item
+
+Description / Source
+
+Intent
+
+User-provided natural language description of desired network behavior or policy
+Determines whether the intent relates to queuing/slicing (QoS) or
+not, using a rule-based or LLM-driven slicing prompt
+Few-shot in-context examples drawn from the same dataset to aid
+translation performance
+Identifier indicating the SDN controller (e.g., ODL or ONOS), used
+to guide schema selection
+JSON policy format that matches the controller’s northbound API
+specification (e.g., ODL-style flow entries or ONOS-style flow rules)
+Derived from the intent (e.g., source/destination IPs, transport ports,
+IP protocol, in-port) to define traffic selectors
+Derived from the intent (e.g., output port, drop, queue ID, VLAN
+tag) to define actions taken on matched traffic
+Fields such as flow ID, priority, timeout, and flow name—either set
+to defaults or policy-specific values
+Logic to ensure optional fields (e.g., queue, VLAN, port) are only
+included if explicitly mentioned in the intent
+Structural and semantic checks to ensure JSON output conforms to
+the controller’s schema and is conflict-free
+If the intent cannot be reliably translated into a policy, the LLM
+should return an empty JSON object
+
+Intent Type Classifier
+Context
+Examples
+Controller Type
+Schema
+Template
+Match Fields
+Treatment Fields
+Flow Metadata
+Optional Fields
+Filter
+Validation Rules
+Fallback Behavior
+
+NetIntent incrementally augments the prompt with additional
+context examples and validation feedback ( 5 ) until a valid
+output, i.e., correct JSON formatted flow rule, is produced or
+the maximum context example limit is reached. In no valid
+output is generated and context example limit is exceeded,
+then the current LLM is replaced ( 6 ). However, if no
+LLM generates a valid configuration, a validation report
+is returned for manual intervention ( 7 ). In Sec. VI, we
+benchmarked several LLMs which can be used to rank them.
+In Algorithm 1, we describe how the NetIntent updates the
+context example and LLM dynamically.
+d: LLM OUTPUT VALIDATOR
+
+After an LLM generates a configuration in JSON format,
+it is sent through a validator to check for syntax error
+as well as conformity with the required tags and values
+for the target SDN controller. Although, LLM itself can
+check this, adding a separate validator further ensures that
+only the correct configuration is sent to the SDN controller
+device. NetIntent loads 8 controller-specific syntax rules and
+required tags, checks for structural and controller-specific
+syntax violations, and verifies the presence of all necessary
+tags. The tags needed depend on the intent type, which we
+describe in Sec. V-C-2-c. If no errors are found, the valid
+configuration is returned; otherwise, a validation feedback
+detailing the errors and their locations is produced.
+2) INTENT ACTIVATION
+
+In the intent activation stage, the generated configuration
+is checked for conflicts with the configurations already
+installed in the target SDN controller device. If the new
+configuration has no conflict with existing configurations,
+then it is installed on the target SDN controller device.
+a: CONFLICT DETECTION
+
+We leverage LLM to find conflicts between pairs of JSON
+formatted configurations, also called flow rules. They are
+usually saved in the intent Configuration data store [5] in
+ODL SDN controller and in FlowRuleStore [53] in ONOS
+VOLUME ,
+
+SDN controller. In Fig. 3, the conflict detection module retrieves existing configurations from the target SDN controller
+(shown in 9 ) and compare against the new flow rule using
+LLM. For accurate conflict detection, writing an appropriate
+prompt is necessary. The prompt describes how to handle
+the JSON flow rules and what constitutes a conflict. Unlike
+intent translation, we use single LLM in the conflict detection
+system. This is based on our evaluation of LLMs on conflict
+detection task where we found that a well-prompted LLM
+can detect almost every conflict. However, if multiple LLMs
+are used for conflict detection, it is recommended to use
+them in a voting fashion where LLM’s decision on conflict
+existence will be treated as a vote and the final decision will
+be based on majority votes. In Algorithm 2, we show how
+conflict detection is done through LLM. If any conflict if
+found, the system tries to resolve the conflict ( 10 in Fig. 3) as
+described in Sec. V-C-2-c. If it cannot be resolved, NetIntent
+sends the detail of the conflict to the operator ( 11 ) and does
+not attempt to install the new flow rule. In case there are
+no conflicts, NetIntent attempts to install the flow rule in
+the target SDN controller device ( 12 ), as described in Sec.
+V-C-2-d.
+b: LLM PROMPT FOR CONFLICT DETECTION
+
+To detect conflicts between flow rules, we designed
+controller-specific prompts ( 13 in Fig. 3) that guide an
+LLM to perform strict, field-by-field comparisons of flow
+configurations in JSON format. The prompt logic is customized for each SDN controller—ODL and ONOS—based
+on their schema and semantics. A conflict is identified
+only when two conditions are simultaneously satisfied: the
+match criteria of both rules overlap, and their actions are
+contradictory. Overlap requires both flows to specify identical or overlapping values for key fields such as source
+and destination IP addresses, transport protocols, and port
+numbers. For IP fields, CIDR prefix matching is used to
+assess overlap; however, if any critical field is missing in
+either flow, the match for that field is considered nonoverlapping. Once overlapping criteria are established, the
+prompt checks whether the actions differ in a meaningful
+way. For ODL, this includes mismatches in output ports,
+presence of a drop-action in one rule versus an output-action
+in another, or conflicting queue IDs in set-queue-actions. For
+ONOS, action differences are determined by inspecting the
+treatment field; examples of conflict include differing output
+ports, presence of a queue instruction with different queueId,
+or cases where one rule uses NOACTION (interpreted as
+drop) while the other forwards packets. Importantly, priority
+is disregarded in this stage; priority determines which rule
+takes effect in deployment but not whether a conflict exists.
+Since a priority value may be set incorrectly by LLM during
+translation, reporting conflict based on that may produce
+false positives. However, we don’t overlook the priority,
+rather we resolve priority if LLM reports a conflicts. The
+resolved priority takes effect in real network operation where
+packets are matched by the network device based on rule
+VOLUME ,
+
+TABLE 7: Structured LLM prompt input for conflict detection
+Item
+Flow 1 (JSON)
+Flow 2 (JSON)
+Match Fields
+Wildcard Handling
+Conflict Conditions
+Exceptions
+Priority Handling
+Action Comparison
+Conflict Output
+
+Description
+First flow rule in controller-specific JSON format (ODL or ONOS)
+Second flow rule to be compared with Flow 1
+Literal comparison of fields: IP source/destination, protocol, ports,
+in-port, and Ethernet type
+Missing fields are treated as general (apply to all); mismatched
+fields imply no overlap
+Triggered only when match fields overlap and actions contradict
+(e.g., drop vs. forward, different output ports or queues)
+Additional match fields in one rule that are absent in the other
+prevent conflict declaration
+Ignored during conflict detection
+Drop vs. forward, differing queues or ports are considered
+conflicting if matches align
+JSON object with conflict_status (0/1) and
+conflict_explanation string
+
+priority. The LLM is instructed to return a structured JSON
+response with a conflict status field and an explanation field.
+In Table 7, the structure of the prompt is described. We
+provide the full prompt on GitHub [48].
+c: CONFLICT RESOLUTION
+
+To determine which flow rule should take precedence in
+the event of a detected conflict, we propose a resolution
+policy denoted as P . This policy defines a structured set of
+decision rules used to evaluate and prioritize conflicting flow
+configurations based on their semantic intent, specificity, and
+contextual metadata. This is shown in Fig. 3 in 15 . To
+use P , we first classify the flow rules. Next, we describe
+classification approach.
+Flow Rule Classification: During the conflict detection
+stage, each flow rule is annotated with metadata ( 14 in
+Fig. 3) to support downstream reasoning and resolution. This
+metadata includes the rule’s type (e.g., security, forwarding,
+or QoS) and a numerical measure of specificity, which
+reflects how narrowly scoped the rule is. To extract this
+metadata, we parse the flow rule translated by LLM. The
+metadata fields are inferred as follows:
+• Type: It is determined from the rule’s action structure. For ODL, this includes fields within applyactions.action such as drop-action, set-queue-action,
+or output-action. For ONOS, this is inferred from
+the treatment.instructions field, e.g., type: NOACTION
+implies security, QUEUE implies qos, and OUTPUT implies forwarding. Also, the absence of treatment.instructions field implies security.
+• Specificity: It is computed as the number of explicit
+match fields in the rule. For ODL, these are found under
+the match field; for ONOS, under selector.criteria. If
+the rule includes IP-based fields with CIDR notation
+(e.g., 10.0.0.1/32), the prefix length is normalized (e.g.,
+/32 → 1.0) and added to the specificity score to reflect
+its precision.
+
+Conflict Resolution Policy: The resolution policy P is
+a deterministic rule-based mechanism designed to evaluate
+conflicting flow rules based on a predefined set of priorities.
+Using the flow rule classification data, the logic first checks
+whether either rule represents a security intent or not. If so,
+11
+
+Author et al.: Preparation of Papers for IEEE OPEN JOURNALS
+
+Algorithm 2 Intent Activation using LLM
+Input: Flow rules ϕ1 , ϕ2 , SDN controller S , LLM M ,
+resolution policy P
+Output: Conflict status, explanation, and resolution decision
+1: Construct prompt for S
+2: Provide ϕ1 , ϕ2 as input to M
+3: Query M and parse response (conflict status, conflict explanation)
+4: if conflict status = 1 then
+5:
+Use Metadata inference algorithm to infer metadata
+for ϕ1 , ϕ2
+6:
+goto Conflict Resolution
+7: end if
+8: return (conflict status = 0, conflict explanation = “”)
+Conflict Resolution:
+9: Evaluate ϕ1 , ϕ2 using policy P with inferred metadata
+10: if resolution decision cannot be made (e.g., policy P
+yields no clear priority) then
+11:
+Generate detailed conflict report including ϕ1 , ϕ2 ,
+and conflict explanation
+12:
+Send report to network operator for manual resolution
+13:
+return (conflict status=1, conflict explanation, priority rule=None)
+14: else
+15:
+Determine priority rule Φ∗ based on rule type, specificity, and priority
+16:
+Deploy Φ∗ to controller S
+17:
+Log the non-priority rule for audit or operator review
+18:
+Optionally notify assurance module or user of conflict resolution outcome
+19:
+return (conflict status = 1, conflict explanation, priority rule = Φ∗ )
+20: end if
+the security-related rule is favored, reflecting the importance
+of enforcing access control and traffic blocking over general
+forwarding or performance behaviors. If both rules are of the
+same type, the policy then compares their specificity. The
+more specific rule that typically targets a narrower traffic
+subset is preferred to ensure precise enforcement. If both
+rules are of equal type and specificity, the policy falls back
+to comparing their assigned priority values, selecting the
+one with the higher priority. This approach ensures that
+critical intents are not inadvertently overridden by broader
+or lower-priority rules. While this default logic aligns with
+common security and operational goals, it can be extended
+or customized to reflect domain-specific resolution strategies
+or business policies. In Algorithm 2, we formally describe
+the steps of conflict detection and resolution approach.
+d: FLOW RULE INSTALLATION
+
+If no conflicts are found or an identified conflict is resolved,
+the JSON flow rule is pushed to the target device of the target
+12
+
+SDN controller ( 12 in Fig. 3). For ODL, it is installed in
+ODL’s Configuration data store via the RESTCONF API.
+For ONOS, it is installed in FlowRuleStore via REST API.
+To install the flow rule, first we infer the device ID of the
+target SDN controller where the rule will be installed from
+the input intent. Then we use POST method for ONOS and
+PUT method for ODL to install the flow rule to the target
+device. If the installation succeeds without any error, we
+verify if the rule is reflected on the target device. For ODL,
+we check if it is present in ODL’s Operational data store
+while for ONOS, we check if it is present in FlowRuleStore.
+We keep a copy of the installed intent, its JSON flow rule,
+metadata, along with the target device information in our
+system. We save it in a file called “IntentStore” for future
+reference. The IntentStore is updated with the insertion and
+deletion of flow rules in the system.
+3) INTENT ASSURANCE
+
+Intent assurance is the mechanism by which an IBN system
+continuously validates and enforces that the network state
+and behavior align with the user-defined intents. To implement it, the intent assurance module of NetIntent does the
+following tasks: 1) Verify that the flow rules generated from
+user intents are correctly applied on all relevant devices by
+utilizing real-time traffic. 2) Trigger corrective actions if any
+intent is not being fulfilled.
+These tasks are repeated in a closed-loop fashion for continuous monitoring of the system. Below, we describe them
+in details. In Algorithm 3, we formally describe the closedloop assurance module of NetIntent. Next, we describe each
+step in details.
+a: TEST TRAFFIC GENERATION
+
+The TestTrafficSpec module is responsible for generating
+synthetic traffic tailored to the intent under verification. In
+Fig. 3, it is shown near 18 . It provides a structured interface
+for specifying the traffic profile required to exercise an
+installed flow rule and serves as the foundation for capturing
+expected packet and byte-level behavior in the data plane.
+Operating in coordination with the assurance engine, the
+module produces traffic that aligns with the flow rule’s
+match criteria, directionality, and semantic purpose (e.g.,
+forwarding, blocking, or QoS enforcement).
+Forwarding Intents: For intents involving basic packet
+forwarding, simple ICMP ping is sufficient. The number of
+packets transmitted is explicitly specified in the TestTrafficSpec, enabling direct comparison with the observed packetcount delta (∆S.packet-count) for the flow rule.
+Security (drop) Intents: These are verified similarly using
+ICMP ping to ensure that packets match the drop rule
+and are not forwarded. This lightweight approach provides
+deterministic control over packet generation with minimal
+overhead.
+QoS (queue) Intents: For intents involving queue assignment or traffic prioritization, ping is insufficient. The module
+uses TCP-based synthetic traffic (e.g., generated via tools
+VOLUME ,
+
+Algorithm 3 Closed-Loop Intent Assurance using LLM
+
+like iperf ) to verify both byte volume and data rate. The
+traffic is generated with a predefined size (Bt ) and duration,
+and the observed throughput (Rmeasured ) is compared to the
+expected rate (Rt ) as part of assurance.
+To support controller-agnostic deployment, the TestTrafficSpec includes source/destination resolution, traffic characteristics (e.g., volume, duration, protocol), and expected
+performance metrics.
+
+Input: Intent, IntentMetadata, NodeID, TableID,
+FlowID, [QueueID], TestTrafficSpec, ControllerInfo,
+MaxAttempts
+Output: Verified Intent or User Alert
+1: for attempt = 1 to MaxAttempts do
+2:
+Retrieve FlowRuleJSON, IntentType from IntentStore
+3:
+Retrieve installed flow rule using NodeID, TableID,
+FlowID
+b: IDENTIFYING INTENT DRIFT
+4:
+if rule missing or mismatched then
+NetIntent identifies intent drift by dealing with the dual
+5:
+Reinstall rule from IntentStore
+challenge of verifying that (i) high-level intents have been
+6:
+continue
+correctly translated and deployed as low-level flow rules,
+7:
+end if
+and (ii) these flow rules are actively enforcing the intended
+8:
+Retrieve Sinitial (packet, byte, and queue stats if behavior in the data plane.
+applicable)
+These challenges becomes more nuanced across diverse
+9:
+Transmit test traffic; record Tstart , Tend
+intent types, such as forwarding, security, and QoS, each
+10:
+Retrieve Sfinal and compute ∆S = Sfinal − Sinitial
+of which requires distinct criteria and metrics for effective
+11:
+if IntentType = “Forwarding” then
+verification. To address this, we maintain a storage called
+12:
+if ∆S.packet-count <ExpectedPacketCount then IntentStore that retains the original natural language intent,
+13:
+goto LLM-Remediation
+its translated JSON flow rule, and relevant metadata (e.g.,
+14:
+else
+intent type, specificity, and expected traffic characteristics).
+15:
+Log: “Forwarding verified”; return Verified It is shown in Fig. 3 16 . During the assurance stage,
+16:
+end if
+we iterate over each intent and retrieve the corresponding
+17:
+else if IntentType = “Security” then
+flow rule using its unique identifiers: NodeID, TableID, and
+18:
+if rule has forwarding behavior (ODL: output- FlowID from the target SDN controller. We verify that the
+action, ONOS: not NOACTION) then
+deployed rule is present and structurally consistent with its
+19:
+goto LLM-Remediation
+stored specification. If not, a corrective action is sought
+20:
+else if ∆S.packet-count <ExpectedBlockedPackets immediately using LLM ( 17 ). In Sec. V-C-2-c, we describe
+then
+how corrective actions is taken.
+21:
+goto LLM-Remediation
+Upon confirming rule presence, we collect its initial oper22:
+else
+ational statistics, including packet-count (or packets), byte23:
+Log: “Security verified”; return Verified
+count (or bytes), and where applicable, queue-level coun24:
+end if
+ters retrieved from the data plane via standard switch-level
+25:
+else if IntentType = “QoS” then
+interfaces (e.g., Open Virtual Switch (OVS)). We denote
+26:
+Let Bt , Rt = expected byte count, rate; ∆B = the statistics collected prior to traffic generation as Sinitial
+change in tx bytes[QueueID]
+and those collected afterward as Sfinal . Their difference,
+27:
+Rmeasured = (∆B × 8)/(Tend − Tstart )
+∆S = Sfinal − Sinitial , reflects the observed activity of the
+28:
+if (∆B < αBt ) or (|Rmeasured − Rt | > ϵ) then
+rule over the assurance window.
+29:
+goto LLM-Remediation
+To exercise the rule, we generate synthetic test traffic via
+30:
+else
+our TestTrafficSpec module, as described in Sec. V-C-3-a,
+31:
+Log: “QoS verified”; return Verified
+which produces packets matched to the flow rule’s criteria
+32:
+end if
+and includes an expected byte volume Bt , expected packet
+33:
+end if
+count Pt , and expected transmission rate Rt . After the traffic
+34:
+LLM-Remediation:
+completes, we analyze ∆S in conjunction with Bt , Pt ,
+35:
+Compile current context: FlowRule, Deviation- and Rt to determine whether the intent has been correctly
+Metrics, TestTrafficSpec, ControllerInfo
+enforced. The evaluation criteria depend on the type of intent
+36:
+Query LLM with context for ranked root causes and under test, as described next.
+recommended actions
+Forwarding Intents: For forwarding intents, we validate
+37:
+for each action a in ranked action list do
+whether the installed flow rule actively forwards match38:
+Map a to corresponding subroutine
+ing packets. Let Sinitial and Sfinal denote the flow’s oper39:
+Execute subroutine
+ational statistics before and after test traffic, respectively.
+40:
+break (to retry assurance in next iteration)
+We define the packet-count delta as ∆S.packet-count =
+41:
+end for
+Sfinal .packet-count − Sinitial .packet-count. We expect this to
+42: end for
+align with the expected test packet count, denoted Pt =
+43: Escalate to operator.
+ExpectedPacketCount, derived from the test specification. A
+VOLUME ,
+
+13
+
+Author et al.: Preparation of Papers for IEEE OPEN JOURNALS
+
+value of ∆S.packet-count < Pt may indicate forwarding
+misbehavior due to rule shadowing, incorrect match fields,
+or silent drops.
+Security Intents: For drop or block intents, assurance
+requires confirming that packets match the rule but are
+not forwarded. We verify that ∆S.packet-count increases,
+indicating that traffic was matched. Drop behavior is determined by rule semantics: in ODL, a drop rule explicitly
+includes drop-action:{} in the apply-actions part; in ONOS,
+it is indicated by the presence of only NOACTION in
+the treatment.instructions list. A rule is considered verified
+for a security intent if it satisfies these controller-specific
+drop semantics and ∆S.packet-count ≥ Bp , where Bp =
+ExpectedBlockedPackets is the expected number of dropped
+packets.
+QoS Intents: To validate QoS intents, we ensure that
+traffic matching the flow rule is correctly classified into the
+assigned queue and forwarded with expected volume and
+rate. Let Bbefore and Bafter be the queue’s tx bytes counter
+before and after test traffic. The byte-count delta is defined
+as ∆B = Bafter − Bbefore . The test specification defines
+Bt = ExpectedByteCount and Rt = ExpectedRate as the
+expected volume and rate. We record the start and end
+timestamps Tstart and Tend to calculate the observed data rate
+as Rmeasured = (∆B × 8)/(Tend − Tstart ). A QoS intent is
+considered successfully enforced if both the volume and rate
+satisfy:∆B ≥ α × Bt and |Rmeasured − Rt | ≤ ϵ, where α
+is a volume margin factor (e.g., 0.98) and ϵ is a tolerance
+for rate deviation.
+This validation framework supports both ODL and ONOS
+while it can be extended to other controllers. It enables
+dynamic intent assurance across SDN platforms. In Algorithm 3, we formally describe the intent assurance stage of
+NetIntent. This assurance mechanism enables the system to
+automatically identify stale, misbehaving, or misconfigured
+intents by correlating observed network behavior with expected outcomes defined in the test traffic specification. Upon
+detection of inconsistency between control plane configuration and data plane behavior, corrective actions are triggered
+to restore alignment.
+c: TRIGGERING CORRECTIVE ACTIONS
+
+If an intended rule does not exists in the target device,
+then the rule will be reinstalled using the information of
+IntentStore. However, if the rule exists and found to be
+identical to the originally installed one but it fails to meet its
+expected behavior during assurance, it becomes necessary to
+identify the root cause and apply corrective actions. While
+deterministic mappings from intent types to static fixes can
+handle known failure modes, they fall short when facing
+ambiguous behaviors or misconfigurations in underlying
+infrastructure such as queue bindings or port mappings. To
+overcome this, we integrate LLM as an intelligent diagnostic
+component that can reason over structured context and
+recommend ranked corrective actions.
+14
+
+TABLE 8: Structured LLM prompt input for generating
+corrective actions
+Item
+Intent
+Flow Rule
+TestTrafficSpec
+Deviation
+Installed Rules
+Queue Stats
+Controller
+Optional Feedback
+
+Description
+Natural language description and metadata from IntentStore
+JSON-encoded rule deployed for the intent
+Expected traffic behavior (packet count, byte volume, rate,
+source/destination)
+Summary of assurance failure metrics from ∆S
+JSON list of all flow rules installed on the device (from controller
+API)
+Switch-level QoS configuration (via ovs-vsctl list qos/queue)
+Controller type identifier (e.g., ODL or ONOS)
+Previous corrective actions and whether they succeeded
+
+TABLE 9: Common action types and descriptions
+Action Type
+check match fields
+increase priority
+verify queue mapping
+retranslate intent
+remove output action
+
+Description
+Re-evaluate the accuracy of source/destination, ports, and protocol
+in the flow rule
+Raise flow rule priority to avoid shadowing
+Check if the flow’s queue-id is valid and mapped to the correct port
+Use the LLM to regenerate a refined version of the flow rule
+For security intents, remove unintended forwarding behavior
+
+Prompting Strategy: To enable contextual reasoning, the
+LLM is provided with a prompt that includes relevant data
+as shown in Table 8. The LLM is instructed to:
+• Analyze the given context to identify potential root
+causes of the observed deviation.
+• Rank the causes by likelihood and severity.
+• Propose corrective actions for each cause.
+• Output in structured format (e.g., JSON or numbered
+list) to support automated parsing.
+
+Corrective Action Execution Engine: The LLM’s output
+is parsed and mapped to a library of predefined actionable
+routines ( 19 on Fig. 3). These routines correspond to common remediation procedures mentioned in Table 9.
+The actions are executed in the order ranked by the LLM.
+After each action (or set of actions), the assurance process is
+rerun to measure whether the deviation is resolved ( 20 ). If
+not, the failed result is appended to the prompt for the next
+round, enabling a feedback loop where the LLM can refine
+its hypothesis and suggest deeper diagnostics.
+Closing Loop: The corrective framework described above
+is realized as a closed-loop control process, summarized in
+Algorithm 3. The loop continues and the network operator
+is informed of the intent assurance updates. This ensures
+adaptive and context-aware remediation based on real-time
+deviation analysis and feedback from prior attempts.
+4) NetIntent’s EXTENSIBILITY TO OTHER SDN
+CONTROLLERS
+
+NetIntent is designed with modularity and controlleragnostic principles, making it extensible to a wide range of
+SDN controllers beyond ODL and ONOS. Its architecture
+separates controller-specific logic from core functionalities
+like intent translation, conflict detection, and assurance. To
+adapt NetIntent to another SDN controller, one would need to
+develop a controller-specific schema template that defines the
+required JSON structure for flow rules, compatible with the
+new controller’s northbound API. Additionally, the validator
+VOLUME ,
+
+port: 1 Switch 2
+
+s
+s
+
+port: 1
+
+IP: 10.0.0.1
+
+port: 1 Switch 3
+
+port: 3
+Switch 4
+port: 2
+
+port: 4
+
+M
+
+bp
+s
+
+bp
+
+M
+
+Host 2
+
+IP: 10.0.0.3
+bp
+
+bp
+
+M
+
+10
+
+Switch 1
+port: 2
+port: 4
+
+1
+
+M
+
+port: 3
+
+port: 1
+
+1
+
+s
+
+IP: 10.0.0.1
+
+Host 3
+
+port: 2
+
+10
+
+Host 1
+
+port: 2
+
+Host 4
+IP: 10.0.0.4
+
+FIGURE 4: Topology used for flow rule installation
+
+component should be updated to incorporate the syntax rules
+and required tags specific to the new controller. By leveraging the existing modular components and updating only
+the controller-specific modules, NetIntent can be effectively
+extended to support other SDN environments.
+VI. EXPERIMENTAL RESULTS AND ANALYSIS
+A. HARDWARE SETUP
+
+To evaluate the open-source LLMs, we utilized an AMD
+Ryzen Threadripper PRO 5995WX 64-core processor, 500
+GB of RAM, and an NVIDIA RTX A6000 GPU with 48
+GB of VRAM.
+B. SOFTWARE USED FOR IMPLEMENTATION
+
+We implemented NetIntent using Python programming language. The LangChain [54] library was used to manage all
+LLM operations. For ODL installation, Karaf-0.8.4 was used
+and for ONOS, version 2.0.0 was used. We used Mininet [47]
+to define a diamond-shaped network topology shown in Fig.
+4. The topology comprises four switches (s1–s4) and four
+hosts (h1–h4), where h1 and h2 are connected to s1, and
+h3 and h4 are connected to s4. The topology provides two
+distinct paths between s1 and s4: one via s2 with lower
+bandwidth links (1 Mbps), and another via s3 with higher
+bandwidth links (10 Mbps). To simulate QoS behavior, we
+created traffic queues on s3 using Mininet, assigning 6 Mbps
+(Queue 0) and 4 Mbps (Queue 1) to two different forwarding
+paths. This topology was implemented separately for both
+ODL and ONOS SDN controllers, and used throughout our
+experiments to evaluate intent translation, conflict detection,
+QoS policy enforcement and assurance.
+C. LLM HYPERPARAMETER
+
+The LLMs were downloaded from OLlama [55] for experiments. For intent translation tasks, the temperature of LLM
+was set to 0.6 and top-p was set to 0.3, while for conflict
+detection tasks, the temperature was set to 0.3 and top-p
+to 0.5. These settings were chosen to balance accuracy and
+variability, but they remain flexible and adjustable for future
+experimentation or deployment needs.
+D. LLM BENCHMARKING RESULTS FOR INTENT
+TRANSLATION
+
+Here we present the result of natural language intent translation using the LLMs listed in Table 3. First we report the
+accuracy of translation for a dataset, then we sort out the
+best performing LLMs based on accuracy.
+VOLUME ,
+
+Formal Specification Dataset: We start with the Formal
+specification dataset. We mentioned earlier that this is a
+dataset of natural language intent and JSON formatted translation pair for intent covering three different requirements:
+reachability, waypoints and loadbalancing. To check accuracy of translation we used the verification tool provided
+by [25] to validate that the LLMs output JSON structure
+conforms to the testset data structure. Here the expected
+JSON is compared against the LLM-generated output JSON.
+The comparison is performed field by field and value by
+value. Each mismatch or absence of a field or value in the
+output is considered one mistake. The overall accuracy is
+calculated across all test cases, taking into account the total
+number of expected fields and values. Table 10 shows the
+accuracy and average run time of 32 LLM. We did the test
+for all 33 LLMs but the LLM Deepseek-coder-v2:16b failed
+to produce meaningful result as it does not support “K-shift”
+which is required for precessing long prompts.
+Highlights: Large models like QwQ-fusion and
+Command-r achieve high accuracy (≥ 99%) on the
+Formal specification dataset, while mid-sized models
+such as Codellama:7b and Mistral:7b perform strongly
+(up to 95%) with lower latency, especially when supported by in-context examples. The dataset’s structured,
+schema-driven format and tightly scoped prompt favor
+models trained for code or structured output; smaller
+models often fail to maintain JSON correctness or field
+alignment.
+Table 10 showcases trends in runtime, accuracy, and
+the impact of context examples. Larger models, such as
+QwQ (32b), QwQ-abliterated (32b), and Command-r (35b),
+consistently achieve the highest accuracy, exceeding 99%
+in some cases, due to their extensive parameter capacity,
+enabling them to better generalize and handle complex patterns in the dataset. However, these models also demonstrate
+higher runtime, highlighting a trade-off between accuracy
+and computational efficiency. Smaller models, like TinyLlama (1.1b) and Deepseek-coder (1.3b), show significantly
+lower accuracy, especially with fewer context examples, due
+to limited capacity for nuanced understanding. The inclusion of context examples plays a pivotal role in improving
+accuracy across all models, with gains most pronounced
+in mid-sized models such as Codellama:7b and Mistral:7b,
+where accuracy increases by up to 20% from zero to nine
+context examples. This indicates that semantically relevant
+and diverse examples help LLMs refine predictions and minimize errors for intent translation task. Interestingly, some
+models, like Llama3.1 (8b), exhibit a sharp improvement
+with context examples, suggesting better optimization for
+in-context learning. However, the diminishing returns in
+accuracy observed for larger models like QwQ at higher
+context sizes may reflect saturation in learning capacity or
+increased task complexity due to larger input contexts. This
+15
+
+Author et al.: Preparation of Papers for IEEE OPEN JOURNALS
+
+TABLE 10: Benchmarking of LLMs for intent translation for Formal specification dataset (Ctx n denotes n context examples)
+Sl.
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+
+LLM
+
+Codegemma:7b
+Codellama:7b
+Codellama:34b
+Codestral:22b
+Command-r:35b
+Deepseek-coder:1.3b
+Dolphin-Mistral:7b
+Gemma2:27b
+Llama2:7b
+Llama3:8b
+Llama3.1:8b
+Llama3.2:3b
+Llava-Llama3:8b
+Marco-o1:7b
+Mistral:7b
+Mistral-nemo:12b
+Openchat:7b
+Orca-mini:3b
+Phi:7b
+Phi3:8b
+Qwen:4b
+Qwen2:7b
+Qwen2.5:7b
+QwQ:32b
+QwQ-abliterated:32b
+QwQ-fusion:32b
+Starcoder:3b
+Starcoder2:3b
+TinyLlama:1.1b
+Wizardlm2:7b
+Yi:6b
+Zephyr:7b
+
+Ctx 0
+
+Ctx 1
+
+LLM
+
+Ctx 9
+
+Time
+
+Acc.
+
+Time
+
+Acc.
+
+Time
+
+Acc.
+
+Time
+
+Acc.
+
+Time
+
+71.00
+75.22
+89.80
+87.14
+96.84
+1.67
+83.93
+98.01
+24.33
+54.2
+56.59
+84.29
+22.47
+91.66
+80.05
+91.06
+71.09
+21.73
+34.92
+65.42
+0.86
+87.43
+88.46
+99.43
+99.65
+99.58
+0
+0
+3.11
+88.55
+55.8
+52.11
+
+1.60
+1.40
+5.60
+3.7
+4.7
+0.4
+1.2
+4.9
+3.6
+1.2
+1.4
+1
+1.3
+1.3
+1.3
+1.8
+1
+1.1
+0.8
+1.1
+6.7
+1.2
+1.2
+5.4
+5.4
+4.9
+1.3
+1
+0.8
+1.5
+1.7
+1.2
+
+75.33
+81.27
+88.21
+98.52
+96.97
+26.43
+92.64
+97.42
+23.46
+88.96
+90.57
+88.41
+66.46
+95.27
+93.61
+93.89
+91.82
+47.32
+50.96
+67.78
+21.79
+93.33
+94.78
+99.25
+98.98
+98.42
+0
+0
+28.24
+92.91
+83.4
+85.07
+
+2.20
+1.30
+5.30
+4.3
+4.2
+0.5
+1.3
+4.8
+1.9
+1.7
+1.8
+0.9
+1.4
+1.5
+1.4
+2.5
+1.4
+0.8
+0.9
+1
+1.5
+1.3
+1.4
+4.8
+4.8
+4.8
+1.3
+1.1
+0.6
+1.5
+1.6
+1.4
+
+78.70
+83.63
+91.72
+99.23
+98.13
+39.36
+93.51
+98.28
+38.63
+90.4
+95.65
+90.43
+78.22
+96.87
+94.05
+95.99
+93.68
+56.83
+54.2
+70.88
+22.29
+94.5
+95.97
+99.38
+99
+99.43
+0
+0
+35.8
+94.3
+86.89
+87.59
+
+2.50
+1.50
+5.80
+4
+5.3
+0.6
+1.5
+4.4
+1.9
+1.5
+1.6
+0.9
+1.5
+1.7
+1.6
+2.3
+1.6
+1.1
+0.9
+1.1
+2.3
+1.5
+1.6
+5.4
+5.5
+5.5
+1.2
+1
+0.7
+1.7
+1.7
+1.8
+
+76.29
+82.34
+91.87
+98.81
+97.52
+40.89
+92.24
+98.33
+41.91
+94.13
+95.78
+88.81
+82.62
+96.87
+93.78
+95.6
+93.53
+52.68
+60.36
+20.11
+10.92
+94.83
+95.97
+98.03
+98.48
+98.93
+0
+0
+42.88
+93.99
+79.91
+89.76
+
+3.50
+2
+7.20
+5.1
+6.5
+0.8
+1.9
+5.3
+2.1
+1.8
+1.9
+1.1
+1.9
+2
+2
+2.8
+1.9
+1.7
+0.9
+1.2
+3.4
+1.8
+1.9
+6.5
+6.5
+6.6
+1.3
+1.2
+1.1
+2
+2
+2.2
+
+68.91
+81.57
+92.69
+95.02
+97.17
+42.5
+91.89
+98.23
+53.92
+94.88
+95.47
+89.2
+81.65
+96.72
+94.15
+94.55
+93.08
+41.89
+36.68
+35.38
+7.44
+91.24
+96.94
+98.76
+99.05
+99.13
+0
+0
+41.6
+92.86
+58.88
+90.08
+
+4.30
+2.30
+8
+5.9
+7.4
+1
+2.2
+6.1
+3
+2
+2.1
+1.2
+2.1
+2.2
+2.3
+3.2
+2.2
+1.5
+1.3
+1.3
+3.4
+2
+2.2
+7.5
+7.5
+7.5
+1.3
+1
+1.7
+2.3
+2.3
+2.5
+
+Accuracy (%)
+
+Avg. Time (s)
+
+0
+
+QwQ-abliterated:32b
+QwQ-fusion:32b
+QwQ:32b
+
+99.65
+99.58
+99.43
+
+5.4
+4.9
+5.4
+
+1
+
+QwQ:32b
+QwQ-abliterated:32b
+Codestral:22b
+
+99.25
+98.98
+98.52
+
+4.8
+4.8
+4.3
+
+3
+
+QwQ-fusion:32b
+QwQ:32b
+Codestral:22b
+
+99.43
+99.38
+99.23
+
+5.5
+5.4
+4.0
+
+6
+
+QwQ-fusion:32b
+Codestral:22b
+QwQ-abliterated:32b
+
+98.93
+98.81
+98.48
+
+6.6
+5.1
+6.5
+
+9
+
+QwQ-fusion:32b
+QwQ-abliterated:32b
+QwQ:32b
+
+99.13
+99.05
+98.76
+
+7.5
+7.5
+7.5
+
+result underscores the importance of balancing model size,
+runtime, and the careful selection of context examples to
+optimize both accuracy and efficiency in practical scenarios.
+Larger models excel in complex tasks, but the improvement
+in smaller models with in-context learning highlights the
+potential for tailored optimizations in resource-constrained
+settings. In Table 11 we present the best LLMs in terms
+of accuracy for Formal specification Dataset with respect to
+different context examples.
+NFV Configuration Dataset: Now we report the result of
+running the LLMs on NFV configuration dataset.
+16
+
+Ctx 6
+
+Acc.
+
+TABLE 11: Best LLMs for intent translation for Formal
+specification dataset
+Context
+
+Ctx 3
+
+Highlights: In the NFV configuration translation task,
+context examples notably boost accuracy, and several
+smaller and mid-sized models (e.g., Qwen2:7b, Codellama:7b) reach very high accuracy with low latency.
+This shows that the rigid, narrowly scoped NFV intents
+allow efficient models to compete, underscoring the
+roles of task simplicity, prompt design, and in-context
+learning.
+
+The dataset has 120 natural language intent and JSON
+structured translation pairs. As before, half of it was chosen
+for providing context examples and other half was used for
+testing. Table 12 shows the accuracy and average run time
+of 33 LLMs. The accuracy was determined the same as was
+used for formal specification dataset. The table indicate that
+larger models, such as Command-r:35b and Codellama:34b,
+demonstrate high accuracy (up to 100%) with increased
+context examples, leveraging their greater parameter capacity
+to handle the complexity of NFV configurations. However,
+their higher accuracy comes at the cost of increased runtime,
+reflecting the trade-off between model sophistication and
+computational efficiency. Conversely, smaller models like
+TinyLlama:1.1b and Orca-mini:3b struggle with accuracy
+across all contexts, indicating limited generalization capabilities due to their lower parameter sizes.
+The inclusion of context examples significantly boosts
+performance for mid-range models like Codellama:7b and
+Dolphin-Mistral:7b, where accuracy improves up to 30%
+VOLUME ,
+
+TABLE 12: Benchmarking of LLMs for intent translation for NFV configuration dataset (Ctx n denotes n context examples)
+Sl.
+
+LLM
+
+Ctx 0
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+
+Codegemma:7b
+Codellama:34b
+Codellama:7b
+Codestral:22b
+Command-r:35b
+Deepseek-coder-v2:16b
+Deepseek-coder:1.3b
+Dolphin-Mistral:7b
+Gemma2:27b
+Llama2:7b
+Llama3:8b
+Llama3.1:8b
+Llama3.2:3b
+Llava-Llama3:8b
+Marco-o1:7b
+Mistral-nemo:12b
+Mistral:7b
+Openchat:7b
+Orca-mini:3b
+Phi:7b
+Phi3:8b
+Qwen:4b
+Qwen2:7b
+Qwen2.5:7b
+QwQ-abliterated:32b
+QwQ-fusion:32b
+QwQ:32b
+Starcoder:3b
+Starcoder2:3b
+TinyLlama:1.1b
+Wizardlm2:7b
+Yi:6b
+Zephyr:7b
+
+Ctx 1
+
+0
+1
+3
+6
+9
+
+LLM
+Codegemma:7b
+Command-r:35b
+Command-r:35b
+Command-r:35b
+Command-r:35b
+Qwen2:7b
+
+Ctx 9
+
+Acc.
+
+Time
+
+Acc.
+
+Time
+
+Acc.
+
+Time
+
+Acc.
+
+Time
+
+Acc.
+
+Time
+
+1.30
+3.40
+1.00
+2.80
+3.20
+1.30
+1.00
+1.30
+3.20
+2.20
+1.00
+1.10
+1.50
+1.60
+1.00
+1.30
+1.30
+1.30
+1.70
+0.90
+1.40
+1.40
+1.00
+0.90
+3.10
+3.00
+3.10
+1.50
+0.40
+0.70
+1.50
+1.20
+1.40
+
+77.50
+82.50
+67.50
+72.50
+90.00
+85.00
+13.51
+75.00
+72.50
+62.50
+75.00
+77.50
+50.00
+38.46
+75.00
+57.50
+57.50
+65.00
+27.50
+10.26
+29.73
+17.50
+77.50
+70.00
+75.00
+75.00
+75.00
+0.00
+0.00
+17.95
+70.00
+60.00
+65.00
+
+1.20
+3.30
+1.00
+2.20
+3.20
+1.00
+0.60
+1.00
+2.30
+0.90
+0.90
+1.00
+0.70
+1.00
+1.00
+1.10
+0.80
+0.80
+1.10
+0.60
+0.90
+0.90
+0.80
+0.90
+3.00
+3.00
+3.10
+1.50
+0.40
+0.60
+0.90
+1.00
+1.00
+
+75.00
+85.00
+70.00
+82.50
+87.50
+80.00
+47.06
+62.50
+75.00
+58.97
+85.00
+75.00
+70.00
+52.78
+77.50
+67.50
+55.00
+67.50
+15.38
+27.50
+43.24
+23.68
+75.00
+77.50
+82.50
+77.50
+82.50
+0.00
+0.00
+15.00
+70.00
+60.00
+65.00
+
+1.10
+3.50
+1.00
+2.30
+3.50
+1.10
+0.60
+1.00
+2.20
+1.00
+0.90
+0.90
+0.70
+0.90
+0.90
+1.10
+0.80
+0.80
+0.90
+0.70
+0.80
+1.00
+0.80
+0.90
+2.90
+2.90
+3.10
+1.70
+0.40
+0.40
+0.90
+1.10
+1.00
+
+90.00
+82.50
+80.00
+87.50
+97.50
+92.50
+37.14
+92.50
+82.50
+63.89
+95.00
+92.50
+72.50
+51.28
+92.50
+90.00
+70.00
+82.50
+14.71
+43.59
+47.37
+12.82
+92.50
+90.00
+82.50
+87.50
+85.00
+0.00
+0.00
+20.51
+75.00
+68.42
+77.50
+
+1.20
+4.00
+1.00
+2.60
+3.70
+1.30
+0.60
+1.00
+2.60
+1.10
+1.00
+1.10
+0.60
+1.10
+1.00
+1.40
+0.90
+1.00
+0.90
+0.80
+0.80
+1.00
+0.90
+1.00
+3.00
+3.10
+3.10
+1.40
+0.50
+0.50
+1.00
+1.00
+1.00
+
+90.00
+87.50
+95.00
+95.00
+100.00
+95.00
+36.84
+92.50
+92.50
+60.00
+97.50
+97.50
+75.00
+47.37
+90.00
+97.50
+77.50
+85.00
+0.00
+37.50
+52.63
+7.89
+100.00
+95.00
+90.00
+90.00
+87.50
+0.00
+0.00
+17.50
+85.00
+66.67
+87.18
+
+1.20
+4.20
+1.10
+2.90
+4.00
+1.40
+0.50
+1.10
+2.90
+1.40
+1.10
+1.20
+0.70
+1.20
+1.00
+1.50
+1.10
+1.00
+1.00
+0.70
+0.90
+1.30
+1.00
+1.10
+3.40
+3.40
+3.40
+1.10
+0.40
+0.50
+1.10
+1.10
+1.10
+
+Accuracy (%)
+
+Avg. Time (s)
+
+75.0
+90.0
+87.5
+97.5
+100.0
+100.0
+
+1.3
+3.2
+3.5
+3.7
+4.0
+1.0
+
+as context increases from 0 to 9 examples. This trend
+highlights the importance of providing relevant examples
+to guide LLMs in understanding intent-specific nuances,
+especially for models optimized for in-context learning.
+However, some models, such as QwQ-fusion:32b, exhibit
+diminishing accuracy gains beyond a certain number of examples, suggesting a saturation point in leveraging additional
+context. Notably, specialized models like Deepseek-coderv2:16b perform competitively, achieving 95% accuracy with
+relatively low runtimes, showcasing the impact of domainspecific optimization. On the other hand, general-purpose
+models like Llama3.2:3b show steady but limited improvements, indicating a need for fine-tuning to handle domainspecific tasks effectively. In table 13 we present the best
+LLMs for NFV configuration translation with respect to
+different context example.
+Intent2Flow-ODL Dataset: Now we present the outcome of benchmarking using the proposed Intent2Flow-ODL
+dataset. This dataset evaluates ODL flow rule translation. For
+VOLUME ,
+
+Ctx 6
+
+75.00
+17.50
+45.00
+72.50
+65.00
+60.00
+0.00
+40.00
+65.00
+5.00
+57.50
+47.50
+15.00
+0.00
+12.50
+50.00
+55.00
+15.38
+0.00
+2.63
+0.00
+0.00
+70.00
+22.50
+62.50
+57.50
+60.00
+0.00
+0.00
+0.00
+42.11
+17.50
+37.50
+
+TABLE 13: Best LLMs for intent translation for NFV
+configuration dataset
+Context
+
+Ctx 3
+
+testing the LLMs translation capability, we used different
+natural language intents that use different network configuration tasks such as port based forwarding, firewall, flowspace
+slicing, IP based forwarding etc. Same as before, half of the
+dataset samples were used to give relevant examples to the
+LLM and the other half was used as test cases. We used three
+different values of context examples: 0, 1 and 3. Notably, on
+this dataset, we were able to get readable output from 30
+LLMs out of targeted 33. Some LLMs failed to produce
+meaningful JSONs such as tinyLlama:1.1b, Orca-mini:3b
+and Deepseek-coder-v2:16b. The problem with Deepseekcoder-v2:16b was same as with Formal specification dataset,
+’K-shift’ not supported. As for tinyLlama:1.1b and Orcamini:3b, the length of the designed prompt might cause the
+issue due to their context length limitation. We present the
+experimental results in Table 14.
+The result is consistent with previous results from the
+Formal specification and NFV configuration datasets, larger
+models like QwQ-abliterated (32b) and QwQ-fusion (32b)
+achieve the highest accuracy (100% with three context
+examples) due to their ability to generalize complex patterns
+in the dataset. These models, however, exhibit significantly
+higher runtimes (over 6 seconds on average), reflecting the
+computational demands of their large parameter size. Models
+such as Command-r (35b) and Gemma2 (27b) also perform
+well, demonstrating accuracy improvements of up to 70%
+when transitioning from zero to three context examples,
+highlighting the importance of providing relevant examples
+to enhance in-context learning.
+
+17
+
+Author et al.: Preparation of Papers for IEEE OPEN JOURNALS
+
+TABLE 14: Benchmarking of LLMs for intent translation
+for Intent2Flow-ODL dataset (Ctx n denotes n context
+examples)
+Sl.
+
+LLM
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+
+Codegemma:7b
+Codellama:34b
+Codellama:7b
+Codestral:22b
+Command-r:35b
+Deepseek-coder:1.3b
+Dolphin-Mistral:7b
+Gemma2:27b
+Llama2:7b
+Llama3:8b
+Llama3.1:8b
+Llama3.2:3b
+llava-Llama3:8b
+Marco-o1:7b
+Mistral-nemo:12b
+Mistral:7b
+Openchat:7b
+Phi:7b
+Phi3:8b
+Qwen:4b
+Qwen2:7b
+Qwen2.5:7b
+QwQ-abliterated:32b
+QwQ-fusion:32b
+QwQ:32b
+Starcoder:3b
+Starcoder2:3b
+Wizardlm2:7b
+Yi:6b
+Zephyr:7b
+
+Ctx 0
+Acc. Time
+0.00
+2.42
+38.89 7.88
+27.78 2.39
+66.67 7.43
+27.78 6.99
+0.00
+0.80
+0.00
+2.67
+50.00 6.04
+0.00
+2.80
+33.33 2.54
+22.22 2.81
+0.00
+1.51
+0.00
+1.85
+33.33 2.29
+50.00 3.11
+0.00
+2.84
+0.00
+2.12
+0.00
+0.98
+0.00
+1.54
+0.00
+0.81
+38.89 2.25
+44.44 2.23
+83.33 8.29
+72.22 8.33
+83.33 8.26
+0.00
+0.34
+0.00
+0.35
+0.00
+2.67
+11.11 2.49
+0.00
+2.37
+
+Ctx 1
+Acc. Time
+88.89 3.11
+77.78 7.99
+77.78 2.23
+88.89 6.14
+88.89 7.20
+0.00
+1.30
+55.56 2.53
+88.89 6.01
+38.89 2.76
+94.44 2.18
+55.56 2.95
+50.00 1.17
+11.11 2.06
+72.22 2.55
+55.56 2.08
+66.67 2.01
+72.22 1.82
+0.00
+1.59
+5.56
+2.10
+0.00
+1.30
+61.11 1.76
+83.33 2.11
+94.44 6.51
+94.44 6.97
+94.44 6.98
+0.00
+0.44
+0.00
+0.43
+61.11 1.87
+61.11 2.48
+50.00 2.75
+
+Ctx 3
+Acc.
+Time
+77.78
+3.20
+77.78
+8.64
+83.33
+2.40
+94.44
+6.72
+100.00 7.50
+0.00
+1.03
+77.78
+2.24
+100.00 5.66
+22.22
+3.12
+83.33
+1.98
+88.89
+2.17
+72.22
+1.30
+33.33
+1.99
+61.11
+2.77
+77.78
+2.42
+72.22
+2.05
+83.33
+1.96
+0.00
+0.51
+0.00
+1.98
+0.00
+3.15
+83.33
+1.90
+72.22
+2.73
+100.00 6.31
+100.00 6.60
+100.00 6.25
+0.00
+0.44
+0.00
+0.47
+77.78
+2.09
+61.11
+2.66
+55.56
+2.93
+
+TABLE 15: Best LLMs for intent translation for
+Intent2Flow-ODL dataset
+Context
+
+LLM
+
+Accuracy (%)
+
+Avg. Time (s)
+
+0
+
+QwQ-abliterated:32b
+QwQ:32b
+
+83.33
+
+8.29
+8.26
+
+1
+
+Llama3:8b
+QwQ-abliterated:32b
+QwQ-fusion:32b
+QwQ:32b
+
+94.44
+
+2.18
+6.51
+6.97
+6.98
+
+3
+
+Command-r:35b
+Gemma2:27b
+QwQ-abliterated:32b
+QwQ-fusion:32b
+QwQ:32b
+
+100.00
+
+7.50
+5.66
+6.31
+6.60
+6.25
+
+Mid-range models like Codegemma:7b and Codellama:7b
+show moderate improvements with added context but generally struggle to match the precision of larger models.
+Interestingly, Codellama:34b, despite its large size, exhibits
+less pronounced gains compared to QwQ-family models,
+suggesting that model specialization, in addition to parameter
+size, plays a critical role in handling domain-specific tasks
+like ODL flow rules. Consistent with observations from
+previous datasets, larger models are well-suited for complex
+intent translation tasks, but their high runtime makes them
+resource-intensive. The role of context examples is pivotal
+across all datasets, with significant accuracy improvements
+observed as examples increase, particularly for mid-sized
+models. In table 15 we present the best LLMs for ODL flow
+rule translation with respect to different context example.
+18
+
+Highlights: On the Intent2Flow-ODL dataset, models like QwQ-abliterated and Command-r achieve very
+high accuracy with just three examples. Notably, the
+structured, rule-based format—enhanced by prompt decomposition (especially for QoS intents)—allows even
+mid-sized models like Codellama:7b and Llama3:8b to
+make substantial gains. This demonstrates that modular,
+intent-specific prompts can enable accurate SDN rule
+synthesis.
+Intent2Flow-ONOS Dataset: Now we present the outcome
+of benchmarking using the proposed Intent2Flow-ONOS
+dataset. We developed this dataset to evaluate LLMs on
+ONOS flow rule translation task. For testing the LLMs translation capability, we used diverse natural language intents
+that use different network configuration tasks such as port/IP
+based forwarding, blocking, flowspace slicing for QoS etc.
+Half of the dataset samples were used to give relevant
+examples to the LLM and the other half was used as test
+cases. We used five different values of context examples: 0,
+1, 3, 6 and 9. Similar to Intent2Flow-ODL dataset, we were
+able to get readable output from 30 LLMs out of targeted 33.
+TinyLlama:1.1b, Orca-mini:3b and Deepseek-coder-v2:16b
+failed to produce meaningful JSON structures. We present
+the experimental results in Table 16.
+Table 16 reveals some clear trends. Several models,
+notably Codestral:22b, Command-r:35b, and various QwQ
+models (32b), achieved high accuracy, often exceeding 90%
+and even reaching 100% on some contexts. This suggests
+that for this specific task, certain architectures and training regimens are more effective. Interestingly, parameter
+size doesn’t seem to be the sole determinant of success.
+While some larger models like Command-r:35b performed
+reasonably well, they were outperformed by smaller models
+like Codestral:22b. This indicates that models specializing
+in code generation and structured output translation, like
+those found in the “code” prefixed models (Codegemma,
+Codellama, Codestral), play a crucial role. The trade-off
+between accuracy and inference time was also evident, with
+larger models taking significantly longer—Codellama-34b,
+for instance, required over 10 seconds per inference, whereas
+Qwen2.5-7B achieved competitive performance in under
+2 seconds. Conversely, models like Deepseek-coder, Phi,
+Qwen, and Starcoder variants struggled, often achieving 0%
+accuracy, suggesting they might not be suitable for this type
+of translation task, perhaps being geared towards different
+NLP applications. The Llama family shows varied results,
+with some larger variants performing better than smaller
+ones, but still not reaching the top performers’ level. This
+highlights the importance of not just scale, but also the data
+and training methodology. Furthermore, context sensitivity
+is also important as most models improved with more added
+examples. For instance, Dolphin-Mistral:7b jumped from 0%
+to 80%. Using 6–9 context examples is beneficial, as most
+models reach peak performance within this range.
+VOLUME ,
+
+TABLE 16: Benchmarking of LLMs for intent translation for Intent2Flow-ONOS dataset (Ctx n denotes n context examples)
+Sl.
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+
+LLM
+
+Codegemma:7b
+Codellama:34b
+Codellama:7b
+Codestral:22b
+Command-r:35b
+Deepseek-coder:1.3b
+Dolphin-Mistral:7b
+Gemma2:27b
+Llama2:7b
+Llama3.1:8b
+Llama3.2:3b
+Llama3:8b
+llava-Llama3:8b
+Marco-o1:7b
+Mistral:7b
+Mistral-nemo:12b
+Openchat:7b
+Phi:7b
+Phi3:8b
+Qwen:4b
+Qwen2.5
+Qwen2:7b
+QwQ:32b
+QwQ-abliterated:32b
+QwQ-fusion:32b
+Starcoder:3b
+Starcoder2:3b
+Wizardlm2:7b
+Yi:6b
+Zephyr:7b
+
+Ctx 0
+
+Ctx 1
+
+Ctx 3
+
+Ctx 6
+
+Ctx 9
+
+Acc.
+
+Time
+
+Acc.
+
+Time
+
+Acc.
+
+Time
+
+Acc.
+
+Time
+
+Acc.
+
+Time
+
+36
+48
+40
+96
+92
+0
+0
+88
+4
+0
+24
+56
+16
+68
+44
+80
+24
+0
+0
+0
+68
+40
+88
+80
+80
+0
+0
+36
+36
+20
+
+2.25
+6.92
+1.95
+5.93
+5.77
+1.25
+2.36
+6.06
+2.51
+2.06
+1.24
+2.06
+2.02
+1.80
+2.34
+2.65
+2.02
+0.89
+1.69
+1.72
+1.86
+1.66
+6.80
+6.82
+6.61
+0.64
+0.45
+2.48
+2.20
+2.13
+
+84
+72
+68
+96
+92
+0
+40
+92
+32
+64
+40
+60
+48
+88
+20
+88
+72
+20
+4
+8
+88
+64
+80
+88
+84
+0
+0
+44
+40
+60
+
+2.71
+7.03
+1.59
+3.59
+6.39
+1.46
+2.48
+3.95
+2.45
+2.10
+0.94
+1.77
+1.49
+2.09
+1.57
+2.60
+2.76
+1.19
+1.61
+1.97
+1.80
+1.60
+7.04
+5.79
+6.51
+1.19
+0.45
+2.49
+2.00
+2.30
+
+92
+72
+80
+100
+96
+0
+60
+88
+20
+72
+52
+76
+56
+92
+44
+92
+72
+16
+4
+0
+84
+80
+92
+96
+80
+0
+0
+52
+52
+44
+
+2.74
+8.09
+1.68
+4.15
+6.68
+1.84
+2.98
+4.08
+2.88
+2.11
+1.14
+1.33
+1.41
+2.20
+1.60
+2.59
+3.40
+1.10
+1.86
+1.39
+1.56
+1.33
+5.92
+4.84
+5.32
+0.90
+0.65
+2.23
+1.87
+2.52
+
+92
+72
+80
+100
+100
+0
+68
+92
+8
+88
+60
+80
+64
+84
+72
+96
+80
+12
+16
+0
+84
+88
+96
+100
+96
+0
+0
+52
+48
+56
+
+2.56
+9.26
+1.99
+4.57
+7.13
+1.66
+3.17
+4.49
+3.20
+1.73
+0.95
+1.51
+2.01
+1.84
+1.82
+2.74
+2.11
+2.69
+1.79
+2.90
+1.59
+1.46
+5.74
+5.21
+5.61
+1.24
+0.70
+2.77
+2.08
+2.83
+
+88
+64
+88
+100
+96
+0
+80
+92
+4
+84
+64
+80
+60
+80
+68
+92
+68
+0
+20
+0
+88
+88
+96
+96
+96
+0
+0
+60
+64
+60
+
+2.66
+10.26
+2.22
+5.14
+7.68
+1.89
+2.82
+5.00
+3.40
+2.01
+1.05
+1.54
+1.75
+1.98
+1.93
+3.32
+1.91
+2.06
+1.93
+4.51
+1.68
+1.60
+6.06
+5.77
+6.12
+0.67
+0.63
+3.22
+2.46
+3.10
+
+Highlights: In the ONOS flow rule translation task,
+structured prompts matching the ONOS JSON schema
+separated queue/VLAN intents from forwarding/blocking rules. Combined with rigid SDN-specific intents,
+this enabled Codestral:22b to achieve very high accuracy with low latency, outperforming larger LLMs.
+Specialized prompts, task regularity, and 6–9 in-context
+examples boosted performance, especially for mid-sized
+models like Qwen2.5:7b.
+
+TABLE 17: Best LLMs for intent translation for
+Intent2Flow-ONOS dataset
+
+Given these findings, for ONOS intent translation, models
+like Codestral:22b, Command-r:35b, and the QwQ family
+appear to be the most promising. For other SDN controllers,
+the lessons learned should be similar: prioritize models
+specialized in code generation or translation and don’t solely
+rely on parameter count. Benchmarking with representative
+intent examples is crucial for selecting the right LLM.
+Further investigation into the training data and architecture of
+high-performing models would be beneficial for developing
+even more effective solutions for intent translation in SDN
+controllers. Moreover, fine-tuning mid-sized model (e.g.,
+Mistral-Nemo-12b or Qwen2.5-7b) could be a more practical
+choice, offering a trade off between speed and accuracy. In
+table 17 we present the best LLMs for ONOS flow rule
+translation with respect to different context example.
+Evaluation of 70 Billion Parameter LLMs: Our main
+benchmarking focused on small to mid-sized LLMs, leaving
+out models at the extreme end of the parameter scale. To
+understand how very large models perform on the same task,
+
+we evaluated three representative 70-billion-parameter LLMs
+on the Intent2Flow-ONOS dataset. Their results, shown in
+Table 18, provide insight into the capabilities and limitations
+of scaling up model size for SDN intent translation.
+The evaluation reveals that larger model size does not
+inherently guarantee superior performance in translating
+high-level network intents into ONOS-compatible flow rules.
+Notably, Llama3.3:70b achieved an 88% accuracy with
+zero-shot prompts, surpassing both Llama2:70b and Codellama:70b. We could not collect results for larger context
+examples for Llama 3.3 due to hardware memory constraints.
+Codellama:70b and Llama2:70b showed only modest accuracy gains despite increasing context, and their overall
+performance lagged behind smaller, code-specialized models
+like Codestral:22b. This limited improvement may stem from
+a mismatch between the Intent2Flow-ONOS dataset (which
+is structurally rigid and highly schema-driven) and the
+broader training objectives of general-purpose 70b models.
+Additionally, the multi-prompt strategy used in our bench-
+
+VOLUME ,
+
+Context
+
+Accuracy (%)
+
+Avg. Time (s)
+
+0
+1
+3
+
+LLM
+Codestral:22b
+Codestral:22b
+Codestral:22b
+
+96
+96
+100
+
+5.93
+3.59
+4.15
+
+6
+
+Codestral:22b
+Command-r:35b
+QwQ-abliterated:32b
+
+100
+
+4.57
+7.13
+5.21
+
+9
+
+Codestral:22b
+
+100
+
+5.14
+
+19
+
+Author et al.: Preparation of Papers for IEEE OPEN JOURNALS
+
+TABLE 18: Benchmarking of 70 billion parameter LLMs for intent translation for Intent2Flow-ONOS dataset (Ctx n
+denotes n context examples)
+Sl.
+
+1
+2
+3
+
+LLM
+
+Codellama:70b
+Llama2:70b
+Llama3.3:70b
+
+Ctx 0
+
+Ctx 1
+
+Ctx 3
+
+Ctx 9
+
+Acc.
+
+Time
+
+Acc.
+
+Time
+
+Acc.
+
+Time
+
+Acc.
+
+Time
+
+Acc.
+
+Time
+
+60
+8
+88
+
+14.73
+16.26
+10.43
+
+48
+64
+
+10.45
+14.08
+
+60
+72
+
+11.89
+14.89
+
+72
+76
+
+12.37
+15.77
+
+68
+76
+
+15.50
+17.18
+
+marking was tuned toward compact, code-oriented models;
+larger models not specifically fine-tuned for structured translation tasks may struggle to align with such narrow formats.
+These discrepancies suggest that the effectiveness of large
+models is heavily influenced by prompt design and the nature
+of the dataset.
+Highlights: Despite their size, 70B models like Codellama and Llama2 delivered limited gains on the
+Intent2Flow-ONOS task, likely due to a mismatch between their general-purpose training and the dataset’s
+rigid, schema-driven structure—emphasizing that effective intent translation depends more on prompt-task
+alignment than on model scale alone.
+Moreover, this underscores the importance of tailoring
+prompts to the specific capabilities of the model and the
+characteristics of the dataset. In contrast, smaller models
+have demonstrated more consistent and reliable performance
+which highlights that model size should be considered alongside other factors such as prompt engineering and dataset
+alignment when evaluating LLMs for IBN tasks.
+Summary of Benchmarking for Intent Translation:
+The benchmarking of LLMs across four datasets—Formal
+Specification, NFV Configuration, Intent2Flow-ODL, and
+Intent2Flow-ONOS—reveals key trends in performance, efficiency, and generalization. Larger models such as the QwQ
+family (32b) and Command-r (35b) consistently achieved the
+highest accuracy (often ≥ 99%), particularly for structurally
+rigid tasks, though at the cost of higher runtimes. Mid-sized
+models like Codellama:7b and Dolphin-Mistral:7b showed
+substantial accuracy gains (up to 30%) with more context
+examples, highlighting the strong impact of in-context learning when paired with well-designed prompts. Smaller models
+(e.g., TinyLlama:1.1b, Orca-mini:3b) struggled to generalize,
+often failing to produce syntactically valid outputs due to
+parameter and context limitations. Interestingly, the evaluation of 70B parameter LLMs (e.g., Llama2, Llama3.3,
+and Codellama:70b) showed that size alone does not ensure
+superiority: Codellama and Llama2 offered only marginal
+improvements over mid-sized models, and at significantly
+higher computational cost. Llama3.3:70b performed better in
+zero-shot settings, but further results were limited by hardware constraints. These findings suggest that beyond scale,
+alignment between the model’s training, prompt structure,
+20
+
+Ctx 6
+
+and the schema-specific nature of intent translation tasks
+is critical for reliable performance. Moreover, diminishing
+gains for some large models (e.g., QwQ-fusion) with more
+context imply a saturation effect, reinforcing the importance
+of task-specialized tuning over raw parameter count.
+Notably, benchmarking results show that LLMs generally
+perform better on ONOS than on ODL in zero-shot (Ctx
+0) scenarios, with most models achieving higher accuracy
+without context examples. However, as more context is
+provided (Ctx 1 and Ctx 3), this advantage shifts, and
+a greater number of models achieve higher accuracy on
+ODL. This is likely because ONOS’s schema is simpler and
+more closely aligned with common pretraining data, enabling
+better zero-shot performance, while in-context examples help
+LLMs adapt to ODL’s more complex structure and narrow
+the performance gap.
+E. LLM BENCHMARKING RESULTS FOR CONFLICT
+DETECTION
+
+To find how LLMs perform on conflict detection task related
+to network configuration, we benchmarked them on the proposed FlowConflict-ODL and FlowConflict-ONOS datasets.
+Conflict Detection using FlowConflict-ODL Datasets: We
+now present the results of benchmarking the LLMs for the
+conflict detection task using the FlowConflict-ODL dataset.
+In Sec. IV-B, we mentioned how the dataset is prepared. In
+total, each LLM evaluated 50 pairs of flow rules. Among
+these, 46 rule pairs were non-conflicting, while 4 were
+conflicting. Therefore, the ideal outcomes are 4 true positives
+(TP) and 46 true negatives (TN). Table 19 presents the TP,
+TN, false positives (FP), and false negatives (FN) for 28
+LLMs. We excluded 5 models (“Phi”, “Orca-mini”, “Qwen”,
+“tinyLlama”, “Deepseek-coder-V2”) from the results due to
+their inability to generate meaningful responses.
+The results reveal significant variations in accuracy, precision, and error handling across models. Models such as
+QwQ-abliterated:32b, QwQ-fusion:32b demonstrated exemplary performance, achieving near-perfect results (TP = 4,
+FP around 7, TN around 39) with minimal FP or FN. QwQ
+fell slightly behind by achieving TP = 3. These results
+are consistent with the earlier findings, where the QwQfamily models consistently excelled in both natural language
+and JSON-based conflict detection tasks, indicating their
+strong generalization and task-specific capabilities. Anomalies arise with models like Mistral:7b, Wizardlm2:7b, and
+Yi:6b, which produced perfect True Positives (TP = 4) but
+VOLUME ,
+
+TABLE 19: Benchmarking of LLMs for conflict detection using FlowConflict-ODL dataset
+Sl.
+
+Model
+
+TP
+
+FP
+
+FN
+
+TN
+
+Accuracy
+
+Precision
+
+Recall
+
+F1-Score
+
+FPR
+
+Avg. Time
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+
+Marco-o1:7b
+Mistral:7b
+Mistral-nemo:12b
+Deepseek-coder:1.3b
+Starcoder:3b
+Codegemma:7b
+Starcoder2:3b
+Openchat:7b
+Phi3:8b
+Dolphin-Mistral:7b
+Wizardlm2:7b
+Yi:6b
+Zephyr:7b
+Command-r:35b
+llava-Llama3:8b
+Codestral:22b
+Codellama:34b
+Codellama:7b
+Llama2:7b
+Llama3:8b
+Llama3.1:8b
+Llama3.2:3b
+Qwen2:7b
+Qwen2.5:7b
+Gemma2:27b
+QwQ-abliterated:32b
+QwQ-fusion:32b
+QwQ:32b
+
+1
+4
+4
+3
+0
+4
+0
+3
+2
+2
+4
+4
+2
+2
+1
+2
+3
+4
+2
+4
+2
+2
+2
+0
+2
+4
+4
+3
+
+12
+46
+39
+43
+0
+22
+0
+21
+25
+19
+46
+46
+26
+11
+16
+8
+29
+45
+30
+36
+22
+26
+17
+3
+7
+4
+7
+4
+
+3
+0
+0
+1
+4
+0
+4
+1
+2
+2
+0
+0
+2
+2
+3
+2
+1
+0
+2
+0
+2
+2
+2
+4
+2
+0
+0
+1
+
+34
+0
+7
+3
+46
+24
+46
+25
+21
+27
+0
+0
+20
+35
+30
+38
+17
+1
+16
+10
+24
+20
+29
+43
+39
+42
+39
+42
+
+0.70
+0.08
+0.22
+0.12
+0.92
+0.56
+0.92
+0.56
+0.46
+0.58
+0.08
+0.08
+0.44
+0.74
+0.62
+0.80
+0.40
+0.10
+0.36
+0.28
+0.52
+0.44
+0.62
+0.86
+0.82
+0.92
+0.86
+0.90
+
+0.08
+0.08
+0.09
+0.07
+0.00
+0.15
+0.00
+0.12
+0.07
+0.10
+0.08
+0.08
+0.07
+0.15
+0.06
+0.20
+0.09
+0.08
+0.06
+0.10
+0.08
+0.07
+0.11
+0.00
+0.22
+0.50
+0.36
+0.43
+
+0.25
+1.00
+1.00
+0.75
+0.00
+1.00
+0.00
+0.75
+0.50
+0.50
+1.00
+1.00
+0.50
+0.50
+0.25
+0.50
+0.75
+1.00
+0.50
+1.00
+0.50
+0.50
+0.50
+0.00
+0.50
+1.00
+1.00
+0.75
+
+0.12
+0.15
+0.17
+0.12
+0.00
+0.27
+0.00
+0.21
+0.13
+0.16
+0.15
+0.15
+0.12
+0.24
+0.10
+0.29
+0.17
+0.15
+0.11
+0.18
+0.14
+0.12
+0.17
+0.00
+0.31
+0.67
+0.53
+0.55
+
+0.26
+1.00
+0.85
+0.93
+0.00
+0.48
+0.00
+0.46
+0.54
+0.41
+1.00
+1.00
+0.57
+0.24
+0.35
+0.17
+0.63
+0.98
+0.65
+0.78
+0.48
+0.57
+0.37
+0.07
+0.15
+0.09
+0.15
+0.09
+
+4.19
+4.05
+5.61
+2.58
+3.85
+4.09
+3.18
+3.48
+2.63
+3.39
+4.09
+3.61
+3.70
+9.08
+4.71
+7.14
+3.87
+3.87
+3.69
+4.27
+4.25
+3.27
+3.52
+3.59
+7.72
+9.23
+9.59
+9.42
+
+had excessively high false positives (FP = 46), suggesting
+that these models lacked the ability to correctly differentiate conflicting from non-conflicting cases. This pattern
+is inconsistent with earlier evaluations, where Mistral:7b
+and Wizardlm2:7b performed moderately well, indicating
+sensitivity to the input format (natural language vs. JSON).
+Conversely, models such as Starcoder:3b and Starcoder2:3b
+failed entirely (TP = 0, FN = 4), reflecting their inability to
+interpret the conflict detection task in the structured JSON
+format, consistent with their poor performance in earlier
+JSON-related evaluations. Larger models like Codestral:22b
+and Gemma2:27b displayed mixed results, with moderate
+TPs (2) but noticeable FPs (7–8). This suggests that while
+they can identify conflicts to some extent, they are prone to
+over-flagging non-conflicting cases. These results align with
+prior observations, where these models showed decent, but
+not exceptional, performance in JSON-based tasks.
+The performance of Codellama:34b is notably underwhelming, especially given its large parameter size and
+computational demands. With a True Positive (TP) count
+of 3, False Positives (FP) of 29, and a True Negative (TN)
+of only 17, it performed worse than similar and mid-sized
+models like Codestral:22b, Codegemma:7b and Commandr:35b. This discrepancy indicates that Codellama:34b, despite
+its size and potential for handling complex tasks, struggles
+to balance sensitivity and precision in JSON-based conflict
+detection. A likely reason for this underperformance is the
+model’s inability to effectively handle structured data, as
+seen in earlier results where it also lagged behind in JSONbased tasks. This could stem from inadequate pretraining or
+fine-tuning on tasks involving structured formats like JSON.
+Furthermore, its high FP count suggests that it frequently
+over-flagged non-conflicting cases as conflicts, reflecting
+poor understanding of the nuanced prompt instructions.
+VOLUME ,
+
+Highlights: In the FlowConflict-ODL conflict detection
+task, a strict field-by-field comparison prompt led to
+varied LLM performance. Only QwQ-abliterated and
+Gemma2:27b accurately detected direct conflicts with
+minimal false positives, while others over-predicted
+due to partial match misinterpretation or missing-field
+semantics errors. Reliable detection requires precise
+structural reasoning aligned with literal matching rules,
+achieved by few code-aligned or structurally sensitive
+models.
+
+Conflict Detection using FlowConflict-ONOS Datasets.:
+We now present the results of benchmarking the LLMs for
+the conflict detection task using the FlowConflict-ONOS
+dataset. In Sec. IV-B, we mentioned how the dataset is
+prepared. In total, each LLM evaluated 62 pairs of flow
+rules. Among these, 52 rules were non-conflicting, while
+10 were conflicting. Therefore, the ideal outcomes are 10
+true positives (TP) and 52 true negatives (TN). Table 20
+presents the TP, TN, FP, and FN for 30 LLMs. We excluded
+3 models (“Orca-mini”, “tinyLlama”, “Deepseek-coder-V2”)
+from the results due to their inability to generate meaningful
+responses.
+The evaluation reveals significant performance variations
+among LLMs in detecting conflicting ONOS flow rules.
+QwQ-32b stands out as the only model achieving perfect
+accuracy (100%), with zero false positives or false negatives, making it the gold standard for this task. Close
+behind, QwQ-fusion-32b (98%) and QwQ-abliterated-32b
+(94%) also demonstrate exceptional performance, suggesting
+that the QwQ family is particularly well-suited for structured
+data conflict identification.
+21
+
+Author et al.: Preparation of Papers for IEEE OPEN JOURNALS
+
+TABLE 20: Benchmarking of LLMs for conflict detection using FlowConflict-ONOS dataset
+Sl.
+
+Model
+
+TP
+
+FP
+
+TN
+
+FN
+
+Accuracy
+
+Precision
+
+Recall
+
+F1-Score
+
+FPR
+
+Avg. Time
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+
+Codegemma:7b
+Codellama:34b
+Codellama:7b
+Codestral:22b
+Command-r:35b
+Deepseek-coder:1.3b
+Dolphin-Mistral:7b
+Gemma2:27b
+Llama2:7b
+Llama3.1:8b
+Llama3.2:3b
+Llama3:8b
+llava-Llama3:8b
+Marco-o1:7b
+Mistral:7b
+Mistral-nemo:12b
+Openchat:7b
+Phi:7b
+Phi3:8b
+Qwen:4b
+Qwen2.5:7b
+Qwen2:7b
+QwQ:32b
+QwQ-abliterated:32b
+QwQ-fusion:32b
+Starcoder:3b
+Starcoder2:3b
+Wizardlm2:7b
+Yi:6b
+Zephyr:7b
+
+5
+9
+10
+9
+8
+9
+9
+8
+10
+3
+5
+6
+4
+6
+8
+10
+9
+7
+9
+1
+3
+5
+10
+9
+10
+0
+0
+8
+8
+9
+
+43
+47
+52
+30
+15
+49
+45
+3
+52
+22
+26
+36
+30
+10
+51
+38
+49
+43
+48
+1
+1
+8
+0
+3
+1
+0
+0
+51
+45
+35
+
+9
+5
+0
+22
+37
+3
+7
+49
+0
+30
+26
+16
+22
+42
+1
+14
+3
+9
+4
+51
+51
+44
+52
+49
+51
+52
+52
+1
+7
+17
+
+5
+1
+0
+1
+2
+1
+1
+2
+0
+7
+5
+4
+6
+4
+2
+0
+1
+3
+1
+9
+7
+5
+0
+1
+0
+10
+10
+2
+2
+1
+
+0.23
+0.23
+0.16
+0.50
+0.73
+0.19
+0.26
+0.92
+0.16
+0.53
+0.50
+0.35
+0.42
+0.77
+0.15
+0.39
+0.19
+0.26
+0.21
+0.84
+0.87
+0.79
+1.00
+0.94
+0.98
+0.84
+0.84
+0.15
+0.24
+0.42
+
+0.10
+0.16
+0.16
+0.23
+0.35
+0.16
+0.17
+0.73
+0.16
+0.12
+0.16
+0.14
+0.12
+0.38
+0.14
+0.21
+0.16
+0.14
+0.16
+0.50
+0.75
+0.38
+1.00
+0.75
+0.91
+–
+–
+0.14
+0.15
+0.20
+
+0.50
+0.90
+1.00
+0.90
+0.80
+0.90
+0.90
+0.80
+1.00
+0.30
+0.50
+0.60
+0.40
+0.60
+0.80
+1.00
+0.90
+0.70
+0.90
+0.10
+0.30
+0.50
+1.00
+0.90
+1.00
+0.00
+0.00
+0.80
+0.80
+0.90
+
+0.17
+0.27
+0.28
+0.37
+0.49
+0.27
+0.29
+0.76
+0.28
+0.17
+0.24
+0.23
+0.18
+0.47
+0.24
+0.35
+0.27
+0.23
+0.27
+0.17
+0.43
+0.43
+1.00
+0.82
+0.95
+–
+–
+0.24
+0.25
+0.33
+
+0.83
+0.90
+1.00
+0.58
+0.29
+0.94
+0.87
+0.06
+1.00
+0.42
+0.50
+0.69
+0.58
+0.19
+0.98
+0.73
+0.94
+0.83
+0.92
+0.02
+0.02
+0.15
+0.00
+0.06
+0.02
+0.00
+0.00
+0.98
+0.87
+0.67
+
+21.67
+52.27
+18.83
+37.31
+46.75
+10.57
+16.55
+38.19
+17.72
+20.38
+16.50
+20.95
+23.96
+21.42
+17.12
+27.19
+17.76
+11.87
+13.25
+8.01
+19.10
+19.42
+47.43
+47.73
+47.53
+15.30
+12.93
+20.16
+16.31
+18.45
+
+Highlights: In the FlowConflict-ONOS conflict detection task, QwQ:32b uniquely achieved very high
+accuracy with no false positives. The strict, schemabased prompt required exact field-by-field flow rule
+comparison, revealing weaknesses in models using generalization or fuzzy matching. Precise conflict detection demands structural alignment between the LLM’s
+behavior and the dataset’s deterministic logic, which
+only highly structured-output models like QwQ:32b
+consistently achieved.
+Llama3.3-70b (94%) and Gemma2-27b (92%) also perform well, but at significantly higher computational costs.
+Many models, especially some of the smaller ones or
+those not specifically designed for code-related tasks, struggled significantly. For instance, several models, including
+Llama2:70b and Llama2:7b, had a high recall (correctly
+identifying most actual conflicts) but also an extremely
+high FPR, meaning they flagged many non-conflicts as
+conflicts, rendering them practically unfit. Similarly, many
+models struggle with false positives, with Codellama:7b,
+Codegemma-7b, Dolphin-Mistral-7b, and Deepseek-coder1.3b exceeding 87% false positive rate (FPR), making them
+unsuitable for practical use indicating limited contextual
+understanding of JSON flow rules. However, the Starcoder
+models, despite being code-focused, had very low recall.
+The same conclusion can be drawn here as was in intent
+translation- parameter size alone doesn’t guarantee good
+performance, as some larger models performed poorly. The
+table reveals a clear speed-performance trade-off. While
+QwQ:32b delivers perfect performance, it’s not the fastest
+model. Some smaller models, like those from the Phi family,
+22
+
+are quicker but have much lower accuracy. Given these
+findings, for conflict detection in ONOS flow rules, the
+QwQ family is the clear recommendation balancing accuracy
+and efficiency. Prioritizing models with high precision (to
+minimize false alarms) and balanced F1-scores is critical,
+though deployment should consider inference time as well.
+As for SDN controllers in general, the key lesson is to prioritize models that have demonstrated strong performance on
+similar rule-based tasks or code analysis. Careful evaluation
+with representative flow rules and consideration of the speedperformance trade-off are essential. A model with high recall
+but also a very high false positive rate is not practical.
+F. EVALUATION OF 70 BILLION PARAMETER LLMS FOR
+CONFLICT DETECTION
+
+To evaluate how very large language models perform in
+structural reasoning tasks, we benchmarked three representative 70-billion-parameter LLMs on the FlowConflictONOS dataset for conflict detection. As shown in Table 21,
+the results reveal a wide variance in effectiveness despite
+comparable scale. While Llama3.3:70b demonstrated strong
+overall performance—with 94% accuracy, low false positive rate (0.02), and the highest F1-score (0.78) among
+the three—Codellama:70b and Llama2:70b underperformed
+significantly. Llama2:70b, despite perfect recall, produced
+52 false positives, suggesting it over-predicted conflicts and
+failed to adhere to the prompt’s strict field-level comparison
+criteria. Codellama:70b performed more moderately but still
+struggled with both recall and precision. Several factors contribute to the underperformance of large LLMs in this context. Large LLMs, trained on extensive and diverse datasets,
+tend to rely on semantic reasoning and pattern recognition.
+This predisposition can lead to overgeneralization, causing
+the models to infer conflicts where none exist, thereby
+VOLUME ,
+
+TABLE 21: Benchmarking of 70 billion parameter LLMs for conflict detection using FlowConflict-ONOS dataset
+Sl.
+
+Model
+
+TP
+
+FP
+
+TN
+
+FN
+
+Accuracy
+
+Precision
+
+Recall
+
+F1-Score
+
+FPR
+
+Avg. Time
+
+1
+2
+3
+
+Codellama:70b
+Llama2:70b
+Llama3.3:70b
+
+6
+10
+7
+
+21
+52
+1
+
+31
+0
+51
+
+4
+0
+3
+
+0.60
+0.16
+0.94
+
+0.22
+0.16
+0.88
+
+0.60
+1.00
+0.70
+
+0.32
+0.28
+0.78
+
+0.40
+1.00
+0.02
+
+97.37
+104.05
+82.63
+
+increasing false positives. The training objectives of generalpurpose large LLMs often do not align with the requirements of structured data interpretation. Without specific finetuning on tasks involving strict schema adherence and rulebased logic, these models struggle to accurately process and
+evaluate structured inputs like ONOS flow rules. However,
+the substantial computational resources required to run 70B
+parameter models can limit their practicality, especially when
+smaller models achieve comparable or superior performance
+with significantly lower resource consumption.
+G. END-TO-END IBN REALIZATION USING NetIntent
+
+In this section, we show the implementation result of
+NetIntent. First we mention what LLM use choose for
+intent translation and conflict detection based on our LLM
+benchmark outcome. Then we report end-to-end delay of
+NetIntent for intent translation and intent activation on ODL
+and ONOS SDN controller.
+1) SELECTED LLM FOR INTENT TRANSLATION AND
+CONFLICT DETECTION
+
+Based on the results of Table 14 and 19, we choose QwQ:32b
+model for ODL for both intent translation and conflict
+detection tasks. As for ONOS, based on the results of
+Table 14 and 20, we choose Codestral:22b model for intent
+translation and QwQ:32b model for conflict detection tasks.
+The context example was set to 3 for intent translation for
+both the controllers.
+2) IMPLEMENTATION OUTCOME IN ODL AND ONOS SDN
+CONTROLLERS
+
+In Sec. VI-B, we described the experimental topology used
+to evaluate our IBN framework. Using this setup, NetIntent
+accepts high-level natural language intents from the user.
+For simulation, we provided various intents such as “Deny
+packets originating from 10.0.0.1 destined for 10.0.0.4 using
+switch 1” and “Do slicing at node 3 and ensure TCP packets
+destined for port 80, addressed to 10.0.0.3, are forwarded via
+port 2 using queue 0” to test the end-to-end IBN workflow.
+NetIntent first applies Algorithm 1 to translate the input
+intent into a structured JSON flow rule (based on target
+SDN controller, ODL or ONOS). This translated rule is
+then checked for potential conflicts against existing flow
+entries using Algorithm 2. If a conflict is detected, NetIntent
+attempts to resolve it; if resolution is not possible, the intent
+is not activated, and the user is notified. If no conflict is
+found, the system proceeds to install the rule via the southbound API—RESTCONF for ODL or FlowRuleService for
+VOLUME ,
+
+ONOS. Once installed, NetIntent verifies whether the flow
+is effective by inspecting its operational stats to confirm
+successful activation. The entire pipeline is fully automated,
+with the user interacting only at the intent level. Tables 22
+and 23 present the measured durations from the start of
+intent translation to confirmed rule activation for both ODL
+and ONOS deployments. These timings include translation,
+conflict detection, installation, and operational verification
+phases. While intent assurance was not included in the timing
+results (as it operates continuously in a closed-loop fashion),
+it was active in the background following Algorithm 3 to
+ensure persistent verification of intent conformance.
+VII. LIMITATIONS AND FUTURE WORK
+
+Our benchmarks focus on representative natural language
+intents but do not encompass all possible configuration types
+or complex multi-intent scenarios. We also evaluated LLMs
+in their pretrained state, without task-specific fine-tuning,
+which may limit performance compared to customized models. Moreover, while NetIntent detects performance drift
+of intents, it does not address semantic drift [28] which
+is the presence of intents that are not specified by the
+user but are present in the network. Future research should
+explore fine-tuned models, as smaller, task-optimized models
+may perform well and be better suited for deployment in
+resource-constrained environments. Additionally, lightweight
+optimizations such as quantization, pruning, and knowledge
+distillation could further enhance the applicability of compact models. Beyond fine-tuning, customizing pretraining
+datasets and training strategies may improve model adaptability for IBN tasks and help reduce end-to-end latency.
+Investigating more efficient prompt designs could minimize
+translation errors and reduce false positives and negatives
+in conflict detection, thereby improving model reliability.
+Further efforts should examine LLMs’ reasoning capabilities
+to generate comprehensive explanations for decisions and
+output actions in IBN.
+VIII. CONCLUSION
+
+We benchmarked 33 open-source LLMs using our proposed
+IBNBench and found that their performance on isolated IBN
+tasks varies significantly. Crucially, task accuracy depends
+on prompt design, schema alignment, and in-context learning
+than on model size alone. Notably, models such as Gemma227B, QwQ-32B, QwQ-Fusion-32B, QwQ-Abliterated-32B,
+and Codestral-22B deliver consistent and high performance
+when guided by specialized prompting strategies. To enable
+LLM integration into a fully autonomous IBN pipeline, we
+introduced NetIntent, a unified, LLM-driven framework that
+23
+
+Author et al.: Preparation of Papers for IEEE OPEN JOURNALS
+
+TABLE 22: End-to-end duration of NetIntent in ODL
+Sl.
+1
+1
+2
+4
+5
+6
+7
+8
+9
+10
+
+Intent
+In switch 4, install a firewall to block traffic from 10.0.0.2 to 10.0.0.4.
+Drop all traffic from 10.0.0.9 on switch 2 while forwarding all other traffic normally.
+Using openflow switch 1, forward UDP traffic on port 80 to 10.0.0.3 via interface 2, queue 0.
+If incoming traffic on interface 3 of node 3 is UDP to port 80, send via port 2, queue 1.
+If port 2 on switch 3 receives TCP to port 80, send via interface 3, queue 0.
+If port 2 on switch 3 receives UDP to port 80, pass via port 1, queue 0.
+In node 1, traffic to 10.0.0.2 should use port 3.
+In switch 2, traffic from port 1 should pass through port 3.
+Port 2 of switch 2 to 10.0.0.1 should use interface 4.
+In switch 4, traffic from 10.0.0.1 to 10.0.0.4 should use output interface 4.
+
+Sl.
+1
+1
+2
+4
+5
+6
+7
+8
+9
+10
+
+Intent
+In switch 4, install a firewall to block traffic from 10.0.0.2 to 10.0.0.4.
+Drop all traffic from 10.0.0.9 on switch 2 while forwarding all other traffic normally.
+Using openflow switch 1, forward UDP traffic on port 80 to 10.0.0.3 via interface 2, queue 0.
+If interface 3 on node 3 receives UDP to port 80, pass via port 2, queue 1.
+If switch 3 receives TCP on port 2 to port 80, pass via interface 3, queue 0.
+If switch 3 receives UDP on port 2 to port 80, pass via port 1, queue 0.
+In node 1, traffic destined for 10.0.0.2 should use port 3.
+In switch 2, traffic from port 1 should pass through port 3.
+Traffic from port 2 of switch 2 to 10.0.0.1 should use interface 4.
+In switch 4, traffic from 10.0.0.1 to 10.0.0.4 should use output interface 4.
+
+Intent Type
+Security
+Security
+QoS
+QoS
+QoS
+QoS
+Forwarding
+Forwarding
+Forwarding
+Forwarding
+
+Existing Rule
+9
+2
+8
+4
+4
+4
+8
+2
+2
+9
+
+Conflicting Rule
+1
+1
+1
+0
+2
+2
+1
+1
+0
+1
+
+Translating LLM
+QwQ:32b
+QwQ:32b
+QwQ:32b
+QwQ:32b
+QwQ:32b
+QwQ:32b
+QwQ:32b
+QwQ:32b
+QwQ:32b
+QwQ:32b
+
+Context
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+
+Detection LLM
+QwQ:32b
+QwQ:32b
+QwQ:32b
+QwQ:32b
+QwQ:32b
+QwQ:32b
+QwQ:32b
+QwQ:32b
+QwQ:32b
+QwQ:32b
+
+E2E Time (s)
+31.34
+29.75
+24.02
+25.47
+23.07
+35.10
+33.70
+20.10
+26.50
+33.60
+
+Context
+3
+3
+3
+3
+3
+3
+3
+3
+3
+3
+
+Detection LLM
+QwQ:32b
+QwQ:32b
+QwQ:32b
+QwQ:32b
+QwQ:32b
+QwQ:32b
+QwQ:32b
+QwQ:32b
+QwQ:32b
+QwQ:32b
+
+E2E Time (s)
+30.34
+25.13
+21.02
+28.56
+22.07
+19.58
+31.50
+17.90
+23.21
+29.20
+
+TABLE 23: End-to-end duration of NetIntent in ONOS
+Intent Type
+Security
+Security
+QoS
+QoS
+QoS
+QoS
+Forwarding
+Forwarding
+Forwarding
+Forwarding
+
+automates the entire IBN lifecycle, including intent translation, policy activation, and assurance, across both ODL
+and ONOS SDN controllers. NetIntent coordinates LLM and
+non-LLM agents, enabling robust, natural language-driven
+intent realization with dynamic feedback and minimal human
+intervention. By releasing our open datasets, benchmarking results, and a practical NetIntent implementation, we
+establish a reproducible foundation for research on LLMpowered IBN. Our results demonstrate the feasibility of
+extensible, adaptive SDN automation, paving the way for
+future advances in intent-driven networking and LLM-native
+next-generation networking systems.
+REFERENCES
+[1] D. Kreutz, F. M. V. Ramos, P. Verı́ssimo et al., “Software defined
+networking: A comprehensive survey,” Proceedings of the IEEE, vol.
+103, no. 1, pp. 14–76, 2015.
+[2] K. Park, S. Sung, H. Kim, and J.-i. Jung, “Technology trends and challenges in sdn and service assurance for end-to-end network slicing,”
+Computer Networks, p. 109908, 2023.
+[3] C.-Y. Hong, S. Mandal, M. Al-Fares, M. Zhu, R. Alimi, K. N.
+B, C. Bhagat, S. Jain, J. Kaimal, S. Liang et al., “B4 and after:
+managing hierarchy, partitioning, and asymmetry for availability and
+scale in google’s software-defined wan,” in Proceedings of the ACM
+SIGCOMM Conference, 2018, pp. 74–87.
+[4] C.-Y. Hong, S. Kandula, R. Mahajan, M. Zhang, V. Gill, M. Nanduri,
+and R. Wattenhofer, “Achieving high utilization with software-driven
+wan,” in Proceedings of the ACM SIGCOMM Conference, 2013, pp.
+15–26.
+[5] O. Project, “Opendaylight: A linux foundation collaborative project,”
+2015, accessed: 2025-01-15. [Online]. Available: https://www.
+opendaylight.org/
+[6] Jul 2024. [Online]. Available: https://opennetworking.org/onos/
+[7] M. Wheatley. (2015) At&t is using opendaylight big time, says exec.
+Accessed: 2025-06-17. [Online]. Available: https://siliconangle.com/
+2015/08/07/att-using-odl-big-time-odsummit/
+[8] (2024) Sdn archives - orange open source. Accessed: 2025-06-17.
+[Online]. Available: https://opensource.orange.com/en/category/news/
+sdn/
+[9] O. A. A. Johari Abdul Rahim, Rosdiadee Nordin, “Open-source
+software defined networking controllers: State-of-the-art, challenges
+and solutions for future network providers,” Computers, Materials
+& Continua, vol. 80, no. 1, pp. 747–800, 2024. [Online]. Available:
+http://www.techscience.com/cmc/v80n1/57354
+[10] OpenDaylight Project, “Opendaylight dlux web ui,” 2025, accessed:
+2025-01-15. [Online]. Available: https://test-odl-docs.readthedocs.io/
+en/latest/getting-started-guide/common-features/dlux.html
+
+24
+
+Existing Rule
+9
+2
+8
+6
+6
+6
+8
+2
+2
+9
+
+Conflicting Rule
+1
+1
+1
+0
+2
+2
+1
+1
+0
+1
+
+Translating LLM
+Codestral:22b
+Codestral:22b
+Codestral:22b
+Codestral:22b
+Codestral:22b
+Codestral:22b
+Codestral:22b
+Codestral:22b
+Codestral:22b
+Codestral:22b
+
+[11] E. Zeydan and Y. Turk, “Recent advances in intent-based networking:
+A survey,” in 2020 IEEE 91st Vehicular Technology Conference
+(VTC2020-Spring). IEEE, 2020, pp. 1–5.
+[12] A. Leivadeas and M. Falkner, “A survey on intent-based networking,”
+IEEE Communications Surveys & Tutorials, vol. 25, no. 1, pp. 625–
+655, 2022.
+[13] A. Clemm, L. Ciavaglia, L. Z. Granville, and J. Tantsura, “IntentBased Networking - Concepts and Definitions,” RFC 9315, Oct.
+2022. [Online]. Available: https://www.rfc-editor.org/info/rfc9315
+[14] T. Szigeti, D. Zacks, M. Falkner, and S. Arena, Cisco digital network
+architecture: intent-based networking for the enterprise. Cisco Press,
+2018.
+[15] Nokia, “Digital operations center,” Nokia, Tech. Rep., 2024, accessed:
+2025-07-10. [Online]. Available: https://www.nokia.com/blog/
+harmonizing-the-use-of-intents-across-network-and-service-management/
+[16] O. Project, “Openflowplugin developer documentation,” 2025,
+accessed: 2025-01-15. [Online]. Available: https://docs.opendaylight.
+org/projects/openflowplugin/en/latest/devs/plugin.html
+[17] C. Liu, X. Xie, X. Zhang, and Y. Cui, “Large language models
+for networking: Workflow, advances and challenges,” IEEE Network,
+2024.
+[18] S. Long, J. Tan, B. Mao, F. Tang, Y. Li, M. Zhao, and N. Kato, “A
+survey on intelligent network operations and performance optimization
+based on large language models,” IEEE Communications Surveys and
+Tutorials, pp. 1–1, 2025.
+[19] H. Zhao, H. Chen, F. Yang, N. Liu, H. Deng, H. Cai, S. Wang, D. Yin,
+and M. Du, “Explainability for large language models: A survey,” ACM
+Transactions on Intelligent Systems and Technology, vol. 15, no. 2, pp.
+1–38, 2024.
+[20] A. Mekrache, A. Ksentini, and C. Verikoukis, “Intent-based management of next-generation networks: an llm-centric approach,” IEEE
+Network, vol. 38, no. 5, pp. 29–36, 2024.
+[21] R. Han, J. Wang, H. Sun, Z. Jiang, Q. Qi, Z. Zhuang, Y. Zhang,
+and J. Liao, “Network copilot: Intent-driven network configuration
+updating for service guarantee,” in IEEE INFOCOM 2025-IEEE
+Conference on Computer Communications. IEEE, 2025, pp. 1–10.
+[22] A. Mekrache and A. Ksentini, “Llm-enabled intent-driven service
+configuration for next generation networks,” in 2024 IEEE 10th
+International Conference on Network Softwarization (NetSoft). IEEE,
+2024, pp. 253–257.
+[23] C. Wang, M. Scazzariello, A. Farshin, S. Ferlin, D. Kostić, and
+M. Chiesa, “Netconfeval: Can llms facilitate network configuration?”
+Proceedings of the ACM on Networking, vol. 2, no. CoNEXT2, pp.
+1–25, 2024.
+[24] A. Fuad, A. H. Ahmed, M. A. Riegler, and T. Čičić, “An intent-based
+networks framework based on large language models,” in 2024 IEEE
+10th International Conference on Network Softwarization (NetSoft).
+IEEE, 2024, pp. 7–12.
+[25] N. Tu, S. Nam, and J. W.-K. Hong, “Intent-based network configuration using large language models,” International Journal of Network
+Management, vol. 35, no. 1, p. e2313, 2025.
+
+VOLUME ,
+
+[26] F. Li, H. Lang, J. Zhang, J. Shen, and X. Wang, “Preconfig: A pretrained model for automating network configuration,” arXiv preprint
+arXiv:2403.09369, 2024.
+[27] A. S. Jacobs, R. J. Pfitscher, R. H. Ribeiro, R. A. Ferreira, L. Z.
+Granville, and S. G. Rao, “Deploying natural language intents with
+lumi,” in Proceedings of the ACM SIGCOMM Conference Posters and
+Demos, 2019, pp. 82–84.
+[28] S. Kou, C. Yang, and M. Gurusamy, “Safla: Semantic-aware full
+lifecycle assurance for intent-driven networks,” IEEE Transactions on
+Cognitive Communications and Networking, pp. 1–1, 2025.
+[29] Z. Guo, F. Li, J. Shen, T. Xie, S. Jiang, and X. Wang, “Configreco:
+Network configuration recommendation with graph neural networks,”
+IEEE Network, vol. 38, no. 1, pp. 7–14, 2023.
+[30] A. Alsudais and E. Keller, “Hey network, can you understand me?”
+in 2017 IEEE Conference on Computer Communications Workshops
+(INFOCOM WKSHPS). IEEE, 2017, pp. 193–198.
+[31] H. Mahtout, M. Kiran, A. Mercian, and B. Mohammed, “Using
+machine learning for intent-based provisioning in high-speed science
+networks,” in Proceedings of the 3rd international workshop on
+systems and network telemetry and analytics, 2020, pp. 27–30.
+[32] H. Yang, K. Zhan, Q. Yao, X. Zhao, J. Zhang, and Y. Lee, “Intent
+defined optical network with artificial intelligence-based automated
+operation and maintenance,” Science China Information Sciences,
+vol. 63, pp. 1–12, 2020.
+[33] M. Kiran, E. Pouyoul, A. Mercian, B. Tierney, C. Guok, and I. Monga,
+“Enabling intent to configure scientific networks for high performance
+demands,” Future Generation Computer Systems, vol. 79, pp. 205–214,
+2018.
+[34] K. Dzeparoska, A. Tizghadam, and A. Leon-Garcia, “Intent assurance
+using llms guided by intent drift,” in NOMS 2024-2024 IEEE Network
+Operations and Management Symposium. IEEE, 2024, pp. 1–7.
+[35] R. Caldelli, P. Castoldi, M. Gharbaoui, B. Martini, M. Matarazzo, and
+F. Sciarrone, “On helping users in writing network slice intents through
+nlp and user profiling,” in 2023 IEEE 9th International Conference on
+Network Softwarization (NetSoft), 2023, pp. 545–550.
+[36] C. Creanga and L. P. Dinu, “Designing NLP systems that adapt
+to diverse worldviews,” in Proceedings of the 3rd Workshop
+on Perspectivist Approaches to NLP (NLPerspectives) @ LRECCOLING 2024, G. Abercrombie, V. Basile, D. Bernadi, S. Dudy,
+S. Frenda, L. Havens, and S. Tonelli, Eds. Torino, Italia:
+ELRA and ICCL, May 2024, pp. 95–99. [Online]. Available:
+https://aclanthology.org/2024.nlperspectives-1.10/
+[37] Q. Dong, L. Li, D. Dai, C. Zheng, J. Ma, R. Li, H. Xia, J. Xu, Z. Wu,
+B. Chang et al., “A survey on in-context learning,” in Proceedings
+of the 2024 Conference on Empirical Methods in Natural Language
+Processing, 2024, pp. 1107–1128.
+[38] S. Pisharody, J. Natarajan, A. Chowdhary, A. Alshalan, and D. Huang,
+“Brew: A security policy analysis framework for distributed sdn-based
+cloud environments,” IEEE transactions on dependable and secure
+computing, vol. 16, no. 6, pp. 1011–1025, 2017.
+[39] M. H. H. Khairi, S. H. S. Ariffin, N. M. A. Latiff, K. M. Yusof,
+M. K. Hassan, F. T. Al-Dhief, M. Hamdan, S. Khan, and M. Hamzah,
+“Detection and classification of conflict flows in sdn using machine
+learning algorithms,” IEEE Access, vol. 9, pp. 76 024–76 037, 2021.
+[40] J. Zhang, J. Guo, C. Yang, X. Mi, L. Jiao, X. Zhu, L. Cao, and
+R. Li, “A conflict resolution scheme in intent-driven network,” in 2021
+IEEE/CIC International Conference on Communications in China
+(ICCC). IEEE, 2021, pp. 23–28.
+[41] J. Cui, S. Zhou, H. Zhong, Y. Xu, and K. Sha, “Transaction-based
+flow rule conflict detection and resolution in sdn,” in 2018 27th
+International Conference on Computer Communication and Networks
+(ICCCN). IEEE, 2018, pp. 1–9.
+[42] A. Khurshid, W. Zhou, M. Caesar, and P. B. Godfrey, “Veriflow:
+Verifying network-wide invariants in real time,” in Proceedings of the
+first workshop on Hot topics in software defined networks, 2012, pp.
+49–54.
+[43] P. Kazemian, M. Chang, H. Zeng, G. Varghese, N. McKeown, and
+S. Whyte, “Real time network policy checking using header space
+analysis,” in 10th USENIX Symposium on Networked Systems Design
+and Implementation (NSDI 13), 2013, pp. 99–111.
+[44] A. Fogel, S. Fung, L. Pedrosa, M. Walraed-Sullivan, R. Govindan,
+R. Mahajan, and T. Millstein, “A general approach to network configuration analysis,” in 12th USENIX Symposium on Networked Systems
+Design and Implementation (NSDI 15), 2015, pp. 469–483.
+
+VOLUME ,
+
+[45] A. Leivadeas and M. Falkner, “Autonomous network assurance in
+intent based networking: Vision and challenges,” in 2023 32nd International Conference on Computer Communications and Networks
+(ICCCN), 2023, pp. 1–10.
+[46] J. Wang, L. Zhang, Y. Yang, Z. Zhuang, Q. Qi, H. Sun, L. Lu, J. Feng,
+and J. Liao, “Network meets chatgpt: Intent autonomous management,
+control and operation,” Journal of Communications and Information
+Networks, vol. 8, no. 3, pp. 239–255, 2023.
+[47] D. Dholakiya, T. Kshirsagar, and A. Nayak, “Survey of mininet
+challenges, opportunities, and application in software-defined network
+(sdn),” Information and Communication Technology for Intelligent
+Systems: Proceedings of ICTIS 2020, Volume 2, pp. 213–221, 2021.
+[48] “NetIntent,”
+https://github.com/Muhammadkamrul/NetIntent,
+[Accessed 17-07-2025].
+[49] “Open flow documentation,” https://docs.opendaylight.org/projects/
+openflowplugin/en/latest/users/operation.html, [Accessed 27-06-2025].
+[50] “Flow Rules - ONOS - Wiki — wiki.onosproject.org,” https://wiki.
+onosproject.org/display/ONOS/Flow+Rules, [Accessed 13-07-2025].
+[51] X. Ye, S. Iyer, A. Celikyilmaz, V. Stoyanov, G. Durrett, and
+R. Pasunuru, “Complementary explanations for effective in-context
+learning,” in Findings of the Association for Computational
+Linguistics: ACL 2023, A. Rogers, J. Boyd-Graber, and N. Okazaki,
+Eds. Toronto, Canada: Association for Computational Linguistics,
+Jul. 2023, pp. 4469–4484. [Online]. Available: https://aclanthology.
+org/2023.findings-acl.273/
+[52] C. Si, D. Friedman, N. Joshi, S. Feng, D. Chen, and H. He,
+“Measuring inductive biases of in-context learning with underspecified
+demonstrations,” in Proceedings of the 61st Annual Meeting of the
+Association for Computational Linguistics (Volume 1: Long Papers),
+A. Rogers, J. Boyd-Graber, and N. Okazaki, Eds. Toronto, Canada:
+Association for Computational Linguistics, Jul. 2023, pp. 11 289–
+11 310. [Online]. Available: https://aclanthology.org/2023.acl-long.
+632/
+[53] “FlowRuleStore (ONOS Java API (2.5.0)) — api.onosproject.org,”
+https://api.onosproject.org/2.5.0/apidocs/org/onosproject/net/flow/
+FlowRuleStore.html, [Accessed 15-02-2025].
+[54] O. Topsakal and T. C. Akinci, “Creating large language model
+applications utilizing langchain: A primer on developing llm apps
+fast,” in International Conference on Applied Engineering and Natural
+Sciences, vol. 1, no. 1, 2023, pp. 1050–1056.
+[55] “Ollama llm models,” https://ollama.com, accessed: 2025-01-15.
+
+Appendix A
+EXAMPLE OF INTENT TRANSLATION
+
+Intent: Forward TCP traffic on port 80 destined for 10.0.0.3
+via interface 2, assigning it to queue 0 to prioritize.
+ODL Flow Rule: {
+"flow-node-inventory:flow": [{
+"id": "1", "priority": 200, "table_id": 0,
+"flow-name": "tcp_port80_queue0_to_h3",
+"instructions": { "instruction": [{
+"order": 0, "apply-actions": {
+"action": [
+{"order": 0, "set-queue-action": {"queue-id": 0}},
+{"order": 1, "output-action": {"output-nodeconnector": "2"}}
+]
+}
+}]},
+"match": {
+"ethernet-match": {"ethernet-type": {"type": 2048}},
+"ip-match": {"ip-protocol": 6},
+"ipv4-destination": "10.0.0.3/32",
+"tcp-destination-port": 80
+}
+}]
+}
+ONOS Flow Rule: {
+"flows": [{
+"priority": 200, "timeout": 0, "isPermanent": "true",
+"deviceId": "of:0000000000000001",
+"treatment": { "instructions": [
+{"type": "QUEUE", "queueId": 0},
+{"type": "OUTPUT", "port": "2"}
+]},
+"selector": { "criteria": [
+{"type": "ETH_TYPE", "ethType": "0x800"},
+{"type": "IP_PROTO", "protocol": 6},
+{"type": "IPV4_DST", "ip": "10.0.0.3/32"},
+{"type": "TCP_DST", "tcpPort": 80}
+]}
+}]
+}
+
+25
+
+

@@ -1,0 +1,8 @@
+Tele-LLMs A Series of Specialized Large Language Models for Telecommunications
+ORAN-Bench-13K An Open Source Benchmark for Assessing LLMs in Open Radio Access Networks
+ConfAgent Towards Intelligent Network Configuration Via LLM Agent
+ComNetLLM Empowering LLMs for Reliable Communication Network Planning
+ITBench Evaluating AI Agents across Diverse Real-World IT Automation Tasks
+AIOpsLab Enabling Holistic Evaluation of AIOps agents
+RCAEval A Benchmark for Root Cause Analysis
+AgentPN Loop Benchmarking AI Agents for Private 5G 6G Network Management

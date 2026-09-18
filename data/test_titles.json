@@ -1,0 +1,17 @@
+[
+ {"key":"t1","title":"Low-Latency Scheduling in MPTCP"},
+ {"key":"t2","title":"Experimental evaluation of multipath TCP schedulers"},
+ {"key":"t3","title":"Multipath QUIC: Design and Evaluation"},
+ {"key":"t4","title":"The QUIC Transport Protocol: Design and Internet-Scale Deployment"},
+ {"key":"t5","title":"ReLeS: A Neural Adaptive Multipath Scheduler based on Deep Reinforcement Learning"},
+ {"key":"t6","title":"DeepCC: Multi-Agent Deep Reinforcement Learning Congestion Control for Multi-Path TCP Based on Self-Attention"},
+ {"key":"t7","title":"Deep Reinforcement Learning for Dynamic Uplink/Downlink Resource Allocation in High Mobility 5G HetNet"},
+ {"key":"t8","title":"Traffic Steering in Multi-Domain Networks"},
+ {"key":"t9","title":"ColO-RAN: Developing Machine Learning-Based xApps for Open RAN Closed-Loop Control on Programmable Experimental Platforms"},
+ {"key":"t10","title":"NetConfEval: Can LLMs Facilitate Network Configuration?"},
+ {"key":"t11","title":"TelecomGPT: A Framework to Build Telecom-Specific Large Language Models"},
+ {"key":"t12","title":"Large Language Models for Networking: Applications, Enabling Techniques, and Challenges"},
+ {"key":"t13","title":"Intent-Based Management of Next-Generation Networks: an LLM-Centric Approach"},
+ {"key":"t14","title":"RouteNet: Leveraging Graph Neural Networks for Network Modeling and Optimization in SDN"},
+ {"key":"t15","title":"Scaling UPF Instances in 5G/6G Core With Deep Reinforcement Learning"}
+]
